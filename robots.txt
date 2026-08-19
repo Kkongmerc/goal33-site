@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://goal33systems.com/sitemap.xml

@@ -1,0 +1,4 @@
+Contact: mailto:support@goal33systems.com
+Expires: 2027-08-19T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://goal33systems.com/.well-known/security.txt
