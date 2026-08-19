@@ -3,54 +3,585 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Goal33 Systems — coming soon</title>
-<meta name="description" content="Goal33 Systems — automated 24-hour futures trading systems: statistically validated session strategies, cloud-parallel backtesting, and AI-orchestrated execution.">
-<style>
-  :root { color-scheme: dark; }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #0b0e14;
-    color: #e6e9ef;
-    font-family: ui-sans-serif, system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    padding: 2rem;
-  }
-  main { max-width: 40rem; text-align: center; }
-  .mark {
-    font-size: .8rem;
-    letter-spacing: .35em;
-    text-transform: uppercase;
-    color: #5ac8a8;
-    margin-bottom: 1.25rem;
-  }
-  h1 {
-    font-size: clamp(2rem, 6vw, 3.25rem);
-    font-weight: 650;
-    letter-spacing: -.02em;
-    margin-bottom: 1rem;
-  }
-  h1 .accent { color: #5ac8a8; }
-  .status { font-size: 1.15rem; color: #9aa3b2; margin-bottom: 2rem; }
-  p.desc { color: #6d7686; line-height: 1.6; font-size: .95rem; margin-bottom: 2.5rem; }
-  .rule { width: 3rem; height: 2px; background: #232a36; margin: 0 auto 2.5rem; }
-  footer { font-size: .8rem; color: #3d4452; }
-</style>
+
+<!-- Security: strict CSP — no scripts, no forms; the only cross-origin fetch permitted is Google Fonts.
+     Note: frame-ancestors cannot be set via <meta> and GitHub Pages cannot send headers — accepted limitation. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<title>Goal33 Systems — Quantified Futures Strategies</title>
+<meta name="description" content="Statistically validated session strategies for 24-hour futures markets. Delivered as invite-only TradingView scripts, with checkout and access handled by Whop.">
+<meta name="theme-color" content="#051014">
+<meta property="og:title" content="Goal33 Systems">
+<meta property="og:site_name" content="Goal33 Systems">
+<meta property="og:description" content="Quantified session strategies for 24-hour futures. Invite-only TradingView scripts, access via Whop.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://goal33systems.com/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/main.css">
 </head>
 <body>
-<main>
-  <div class="mark">Systematic &middot; 24H &middot; Futures</div>
-  <h1>Goal<span class="accent">33</span> Systems</h1>
-  <div class="status">is coming soon.</div>
-  <div class="rule"></div>
-  <p class="desc">
-    Automated 24-hour futures trading systems &mdash; statistically validated session
-    strategies, cloud-parallel backtesting, and AI-orchestrated execution.
-  </p>
-  <footer>&copy; 2026 Goal33 Systems</footer>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- system-status ticker: static release/validation facts only, no market quotes.
+     Pure-CSS pause control (WCAG 2.2.2): checkbox before the track; content duplicated once for a seamless loop. -->
+<div class="tickerbar">
+  <input type="checkbox" id="ticker-pause" class="ticker-check">
+  <label class="ticker-pauselab" for="ticker-pause">
+    <span class="tp tp-pause"><svg class="ic-pp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="9" y1="6" x2="9" y2="18" vector-effect="non-scaling-stroke"/><line x1="15" y1="6" x2="15" y2="18" vector-effect="non-scaling-stroke"/></svg>Pause</span>
+    <span class="tp tp-play"><svg class="ic-pp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5.5 18 12 8 18.5z" vector-effect="non-scaling-stroke"/></svg>Play</span>
+  </label>
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>SESSION: ASIA · LONDON · NEW YORK</span><span>WALK-FORWARD 12/12 PASS</span><span>MONTE-CARLO 10,000 RUNS</span><span>UPTIME 24H/5</span><span>ASIA-ORB v2.4.1</span><span>LDN-REVERT v2.1.3</span><span>NY-DRIFT v3.0.2</span><span>CL-ROTATION v1.8.0</span><span>GC-OVERNIGHT v1.5.4</span><span>VOL-GATE: VALIDATION IN PROGRESS</span><span>SESSION: ASIA · LONDON · NEW YORK</span><span>WALK-FORWARD 12/12 PASS</span><span>MONTE-CARLO 10,000 RUNS</span><span>UPTIME 24H/5</span><span>ASIA-ORB v2.4.1</span><span>LDN-REVERT v2.1.3</span><span>NY-DRIFT v3.0.2</span><span>CL-ROTATION v1.8.0</span><span>GC-OVERNIGHT v1.5.4</span><span>VOL-GATE: VALIDATION IN PROGRESS</span>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="./">GOAL<span class="n33">33</span><small>SYSTEMS</small></a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#strategies">Strategies</a>
+      <a href="#packages">Packages</a>
+      <a href="#how">How access works</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <!-- WHOP: replace # with your Whop storefront URL when live -->
+    <a class="btn btn-sm btn-solid" href="#packages">Get access</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ── hero ─────────────────────────────────────────────── -->
+  <section class="hero" aria-label="Introduction">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="microlabel">Systematic · 24H Futures · TradingView</div>
+        <h1>Strategies engineered to be <span class="hl">measured</span>, not believed.</h1>
+        <p class="lede">
+          Goal33 builds session-based trading systems for 24-hour futures markets:
+          walk-forward tested, Monte-Carlo stressed, and shipped as invite-only
+          TradingView scripts. Checkout and access run entirely through Whop.
+        </p>
+        <div class="hero-ctas">
+          <a class="btn btn-solid" href="#strategies">Browse strategies</a>
+          <a class="btn" href="#how">How access works</a>
+        </div>
+      </div>
+
+      <div class="term" aria-hidden="true">
+        <div class="term-bar"><span>g33 · release-pipeline</span><span>bash — 80×24</span></div>
+        <div class="term-body">
+          <div class="cmd">g33 backtest asia-orb --sym NQ --tf 5m --from 2019</div>
+          <div class="out">bars loaded ............ <span class="num">2,741,320</span></div>
+          <div class="out">walk-forward folds ..... <span class="ok">12/12 pass</span></div>
+          <div class="out">profit factor .......... <span class="num">1.74</span></div>
+          <div class="out">max drawdown ........... <span class="num">-7.9%</span></div>
+          <div class="cmd">g33 validate --monte-carlo 10000</div>
+          <div class="out">edge persistence ....... <span class="num">ok</span></div>
+          <div class="out">param stability ........ <span class="num">0.91</span></div>
+          <div class="cmd">g33 publish --tv --access invite-only</div>
+          <div class="out">script pushed .......... <span class="num">v2.4.1</span></div>
+          <div class="out">whop sync .............. <span class="ok">linked</span></div>
+          <div class="cmd"><span class="cursor"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── stats strip (placeholder figures) ────────────────── -->
+  <ul class="stats wrap">
+    <li><b>5</b><span>Systems live</span></li>
+    <li><b>4</b><span>Markets covered</span></li>
+    <li><b>10,000</b><span>Monte-Carlo runs / release</span></li>
+    <li><b>24/5</b><span>Session coverage</span></li>
+  </ul>
+
+  <!-- ── strategies ───────────────────────────────────────── -->
+  <section id="strategies">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="idx">01 /</span>
+        <h2>Strategies</h2>
+        <span class="note">invite-only tradingview scripts · access via whop</span>
+      </div>
+
+      <p class="sec-caption">All figures below are hypothetical backtest results, shown for illustration — see the risk disclosure at the bottom of this page. Final published metrics pending.</p>
+
+      <!-- ── featured bundle ───────────────────────────────── -->
+      <article class="bundle">
+        <div class="bundle-head">
+          <span class="rank-no">#1</span>
+          <h3 class="bundle-name">ASIA-ORB + NY-DRIFT</h3>
+          <span class="pill-deal">2 FOR 1</span>
+        </div>
+        <p class="bundle-sub">Two systems, one purchase — the Asia open and the New York session, covered by a single subscription.</p>
+
+        <div class="bundle-minis">
+          <div class="mini">
+            <div class="mini-head"><h4>ASIA-ORB</h4><span class="mini-meta">NQ · ASIA</span></div>
+            <div class="mgrid">
+              <div class="mbox"><b>$118,240</b><span>Net</span></div>
+              <div class="mbox"><b>$3,940</b><span>$/Month</span></div>
+              <div class="mbox"><b class="neg">−$4,120</b><span>Max DD</span></div>
+              <div class="mbox"><b>28.7x</b><span>Return/DD</span></div>
+            </div>
+            <!-- TODO: full backtest data page -->
+            <a class="data-link" href="#">Full data<svg class="ic-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" vector-effect="non-scaling-stroke"/><path d="M7 17 17 7" vector-effect="non-scaling-stroke"/></svg></a>
+          </div>
+          <div class="mini">
+            <div class="mini-head"><h4>NY-DRIFT</h4><span class="mini-meta">ES / NQ · NEW YORK</span></div>
+            <div class="mgrid">
+              <div class="mbox"><b>$135,107</b><span>Net</span></div>
+              <div class="mbox"><b>$4,480</b><span>$/Month</span></div>
+              <div class="mbox"><b class="neg">−$3,896</b><span>Max DD</span></div>
+              <div class="mbox"><b>34.7x</b><span>Return/DD</span></div>
+            </div>
+            <!-- TODO: full backtest data page -->
+            <a class="data-link" href="#">Full data<svg class="ic-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" vector-effect="non-scaling-stroke"/><path d="M7 17 17 7" vector-effect="non-scaling-stroke"/></svg></a>
+          </div>
+        </div>
+
+        <div class="price-row">
+          <div class="price price-lg"><s>$178<span class="sr-only"> original price,</span></s><span class="now">$149</span><span class="per">/MO</span></div>
+          <!-- WHOP: paste checkout link -->
+          <a class="btn btn-buy btn-lg" href="#" rel="noopener">Add both — $149/mo</a>
+        </div>
+        <p class="bundle-foot">One subscription covers both TradingView scripts. Access granted per username via Whop.</p>
+      </article>
+
+      <!-- To add a strategy: copy a card, edit the fields, paste the
+           Whop checkout link into the Get access href. -->
+      <div class="strat-grid">
+
+        <article class="scard">
+          <div class="chart">
+            <svg class="curve" viewBox="0 0 640 160" preserveAspectRatio="none" aria-hidden="true">
+              <defs><linearGradient id="g-asia" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#56C8A2" stop-opacity=".25"/><stop offset="1" stop-color="#56C8A2" stop-opacity="0"/></linearGradient></defs>
+              <path class="curve-area" fill="url(#g-asia)" d="M 0 146.2 C 6 145.4 22.8 143.2 36 141.5 C 49.2 139.8 65.5 137.7 79 136 C 92.5 134.3 105.3 131.6 117 131.2 C 128.7 130.8 136.7 134.7 149 133.6 C 161.3 132.5 177.8 127.4 191 124.8 C 204.2 122.2 214.5 120.5 228 117.9 C 241.5 115.3 259.2 110.2 272 109.4 C 284.8 108.6 294 112.2 305 113.2 C 316 114.2 327 116.5 338 115.1 C 349 113.7 358.3 107.6 371 104.6 C 383.7 101.5 400.5 99.4 414 96.8 C 427.5 94.2 439.7 91.8 452 88.9 C 464.3 86 476.5 80.6 488 79.5 C 499.5 78.4 509.2 84.2 521 82.1 C 532.8 80 546.2 71.2 559 66.8 C 571.8 62.3 584.5 58.6 598 55.4 C 611.5 52.2 633 48.9 640 47.6 L 640 160 L 0 160 Z"/>
+              <path class="curve-line" fill="none" stroke-width="2" vector-effect="non-scaling-stroke" d="M 0 146.2 C 6 145.4 22.8 143.2 36 141.5 C 49.2 139.8 65.5 137.7 79 136 C 92.5 134.3 105.3 131.6 117 131.2 C 128.7 130.8 136.7 134.7 149 133.6 C 161.3 132.5 177.8 127.4 191 124.8 C 204.2 122.2 214.5 120.5 228 117.9 C 241.5 115.3 259.2 110.2 272 109.4 C 284.8 108.6 294 112.2 305 113.2 C 316 114.2 327 116.5 338 115.1 C 349 113.7 358.3 107.6 371 104.6 C 383.7 101.5 400.5 99.4 414 96.8 C 427.5 94.2 439.7 91.8 452 88.9 C 464.3 86 476.5 80.6 488 79.5 C 499.5 78.4 509.2 84.2 521 82.1 C 532.8 80 546.2 71.2 559 66.8 C 571.8 62.3 584.5 58.6 598 55.4 C 611.5 52.2 633 48.9 640 47.6"/>
+            </svg>
+            <div class="chips"><span class="chip chip-min">MIN ACCT 25K</span></div>
+            <div class="chart-data">
+              <div class="net">
+                <span class="net-label">NET · 100K SIZING</span>
+                <span class="net-fig">$118,240</span>
+                <span class="net-range">Jan &rsquo;19 — Aug &rsquo;26</span>
+              </div>
+              <div class="permo"><span class="permo-fig">$3,940</span><span class="permo-label">/ PER MONTH</span></div>
+            </div>
+          </div>
+          <div class="scard-body">
+            <div class="scard-title"><h3>ASIA-ORB</h3><span class="scard-meta">NQ · ASIA · ORB</span></div>
+            <p class="desc">Trades the first structured breakout of the Asia session open on Nasdaq futures. Flat before London.</p>
+            <div class="mgrid">
+              <div class="mbox mbox-em"><b>28.7x</b><span>Return/DD</span></div>
+              <div class="mbox"><b class="neg">−$4,120</b><span>Max DD</span></div>
+              <div class="mbox"><b>58.2%</b><span>Win rate</span></div>
+              <div class="mbox"><b>$3,940</b><span>$/Month</span></div>
+            </div>
+            <div class="price-row">
+              <div class="price"><s>$119<span class="sr-only"> original price,</span></s><span class="now">$79</span><span class="per">/MO</span></div>
+            </div>
+            <div class="cta-row">
+              <!-- TODO: full backtest data page -->
+              <a class="btn" href="#">View full data<svg class="ic-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" vector-effect="non-scaling-stroke"/><path d="M7 17 17 7" vector-effect="non-scaling-stroke"/></svg></a>
+              <!-- WHOP: paste checkout link -->
+              <a class="btn btn-buy" href="#" rel="noopener">Get access</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="scard">
+          <div class="chart">
+            <svg class="curve" viewBox="0 0 640 160" preserveAspectRatio="none" aria-hidden="true">
+              <defs><linearGradient id="g-ldn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#56C8A2" stop-opacity=".25"/><stop offset="1" stop-color="#56C8A2" stop-opacity="0"/></linearGradient></defs>
+              <path class="curve-area" fill="url(#g-ldn)" d="M 0 143.8 C 7 143.1 29 141.2 42 139.6 C 55 138 64.3 136 78 134.2 C 91.7 132.4 110.5 129.4 124 128.7 C 137.5 128 145.8 131.1 159 129.9 C 172.2 128.7 189.3 124 203 121.3 C 216.7 118.6 227 115 241 113.6 C 255 112.2 272.8 113 287 112.8 C 301.2 112.5 312.5 112.3 326 112.1 C 339.5 111.9 354.2 113.9 368 111.6 C 381.8 109.3 395.8 101.8 409 98.2 C 422.2 94.6 434.7 90.8 447 89.7 C 459.3 88.7 469.8 94 483 91.9 C 496.2 89.9 511.3 82.1 526 77.4 C 540.7 72.7 557.5 68 571 63.8 C 584.5 59.6 595.5 54.8 607 52.3 C 618.5 49.8 634.5 49.5 640 48.9 L 640 160 L 0 160 Z"/>
+              <path class="curve-line" fill="none" stroke-width="2" vector-effect="non-scaling-stroke" d="M 0 143.8 C 7 143.1 29 141.2 42 139.6 C 55 138 64.3 136 78 134.2 C 91.7 132.4 110.5 129.4 124 128.7 C 137.5 128 145.8 131.1 159 129.9 C 172.2 128.7 189.3 124 203 121.3 C 216.7 118.6 227 115 241 113.6 C 255 112.2 272.8 113 287 112.8 C 301.2 112.5 312.5 112.3 326 112.1 C 339.5 111.9 354.2 113.9 368 111.6 C 381.8 109.3 395.8 101.8 409 98.2 C 422.2 94.6 434.7 90.8 447 89.7 C 459.3 88.7 469.8 94 483 91.9 C 496.2 89.9 511.3 82.1 526 77.4 C 540.7 72.7 557.5 68 571 63.8 C 584.5 59.6 595.5 54.8 607 52.3 C 618.5 49.8 634.5 49.5 640 48.9"/>
+            </svg>
+            <div class="chips"><span class="chip chip-min">MIN ACCT 25K</span></div>
+            <div class="chart-data">
+              <div class="net">
+                <span class="net-label">NET · 100K SIZING</span>
+                <span class="net-fig">$96,410</span>
+                <span class="net-range">Mar &rsquo;19 — Aug &rsquo;26</span>
+              </div>
+              <div class="permo"><span class="permo-fig">$3,213</span><span class="permo-label">/ PER MONTH</span></div>
+            </div>
+          </div>
+          <div class="scard-body">
+            <div class="scard-title"><h3>LDN-REVERT</h3><span class="scard-meta">ES · LONDON · REVERT</span></div>
+            <p class="desc">Fades statistically stretched moves during the London morning on S&amp;P futures, with volatility-scaled sizing.</p>
+            <div class="mgrid">
+              <div class="mbox mbox-em"><b>27.7x</b><span>Return/DD</span></div>
+              <div class="mbox"><b class="neg">−$3,480</b><span>Max DD</span></div>
+              <div class="mbox"><b>63.1%</b><span>Win rate</span></div>
+              <div class="mbox"><b>$3,213</b><span>$/Month</span></div>
+            </div>
+            <div class="price-row">
+              <div class="price"><s>$119<span class="sr-only"> original price,</span></s><span class="now">$79</span><span class="per">/MO</span></div>
+            </div>
+            <div class="cta-row">
+              <!-- TODO: full backtest data page -->
+              <a class="btn" href="#">View full data<svg class="ic-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" vector-effect="non-scaling-stroke"/><path d="M7 17 17 7" vector-effect="non-scaling-stroke"/></svg></a>
+              <!-- WHOP: paste checkout link -->
+              <a class="btn btn-buy" href="#" rel="noopener">Get access</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="scard">
+          <div class="chart">
+            <svg class="curve" viewBox="0 0 640 160" preserveAspectRatio="none" aria-hidden="true">
+              <defs><linearGradient id="g-ny" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#56C8A2" stop-opacity=".25"/><stop offset="1" stop-color="#56C8A2" stop-opacity="0"/></linearGradient></defs>
+              <path class="curve-area" fill="url(#g-ny)" d="M 0 147.5 C 5.7 146.7 20.5 145 34 142.8 C 47.5 140.7 65.7 137.2 81 134.6 C 96.3 132 112.3 128.1 126 127.3 C 139.7 126.5 151 131.3 163 129.8 C 175 128.3 184 121.7 198 118.2 C 212 114.7 231.8 109.8 247 108.7 C 262.2 107.7 276.2 110.9 289 111.9 C 301.8 112.9 312.8 113.9 324 114.6 C 335.2 115.3 343.2 118.9 356 116.2 C 368.8 113.5 387.5 104.1 401 98.4 C 414.5 92.7 424.8 87.2 437 82.1 C 449.2 77 461.5 69.8 474 67.9 C 486.5 66 499.5 72.8 512 70.8 C 524.5 68.8 535.5 60.6 549 56.2 C 562.5 51.9 577.8 47.8 593 44.7 C 608.2 41.7 632.2 39 640 37.9 L 640 160 L 0 160 Z"/>
+              <path class="curve-line" fill="none" stroke-width="2" vector-effect="non-scaling-stroke" d="M 0 147.5 C 5.7 146.7 20.5 145 34 142.8 C 47.5 140.7 65.7 137.2 81 134.6 C 96.3 132 112.3 128.1 126 127.3 C 139.7 126.5 151 131.3 163 129.8 C 175 128.3 184 121.7 198 118.2 C 212 114.7 231.8 109.8 247 108.7 C 262.2 107.7 276.2 110.9 289 111.9 C 301.8 112.9 312.8 113.9 324 114.6 C 335.2 115.3 343.2 118.9 356 116.2 C 368.8 113.5 387.5 104.1 401 98.4 C 414.5 92.7 424.8 87.2 437 82.1 C 449.2 77 461.5 69.8 474 67.9 C 486.5 66 499.5 72.8 512 70.8 C 524.5 68.8 535.5 60.6 549 56.2 C 562.5 51.9 577.8 47.8 593 44.7 C 608.2 41.7 632.2 39 640 37.9"/>
+            </svg>
+            <div class="chips"><span class="chip chip-rank">REC 01 · HIGHEST PROFIT</span><span class="chip chip-min">MIN ACCT 50K</span></div>
+            <div class="chart-data">
+              <div class="net">
+                <span class="net-label">NET · 100K SIZING</span>
+                <span class="net-fig">$135,107</span>
+                <span class="net-range">Jan &rsquo;19 — Aug &rsquo;26</span>
+              </div>
+              <div class="permo"><span class="permo-fig">$4,480</span><span class="permo-label">/ PER MONTH</span></div>
+            </div>
+          </div>
+          <div class="scard-body">
+            <div class="scard-title"><h3>NY-DRIFT</h3><span class="scard-meta">ES / NQ · NEW YORK · MOMO</span></div>
+            <p class="desc">Momentum continuation through the New York cash open, filtered by overnight positioning and regime state.</p>
+            <div class="mgrid">
+              <div class="mbox mbox-em"><b>34.7x</b><span>Return/DD</span></div>
+              <div class="mbox"><b class="neg">−$3,896</b><span>Max DD</span></div>
+              <div class="mbox"><b>55.7%</b><span>Win rate</span></div>
+              <div class="mbox"><b>$4,480</b><span>$/Month</span></div>
+            </div>
+            <div class="price-row">
+              <div class="price"><s>$149<span class="sr-only"> original price,</span></s><span class="now">$99</span><span class="per">/MO</span></div>
+            </div>
+            <div class="cta-row">
+              <!-- TODO: full backtest data page -->
+              <a class="btn" href="#">View full data<svg class="ic-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" vector-effect="non-scaling-stroke"/><path d="M7 17 17 7" vector-effect="non-scaling-stroke"/></svg></a>
+              <!-- WHOP: paste checkout link -->
+              <a class="btn btn-buy" href="#" rel="noopener">Get access</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="scard">
+          <div class="chart">
+            <svg class="curve" viewBox="0 0 640 160" preserveAspectRatio="none" aria-hidden="true">
+              <defs><linearGradient id="g-cl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#56C8A2" stop-opacity=".25"/><stop offset="1" stop-color="#56C8A2" stop-opacity="0"/></linearGradient></defs>
+              <path class="curve-area" fill="url(#g-cl)" d="M 0 144.8 C 6.5 144.2 24.7 141.5 39 141.2 C 53.3 140.9 72.3 144.2 86 143.1 C 99.7 142 109 137.2 121 134.7 C 133 132.2 145.5 128.6 158 127.9 C 170.5 127.2 182.7 131.3 196 130.4 C 209.3 129.5 223.3 125.9 238 122.6 C 252.7 119.3 270.5 112.2 284 110.8 C 297.5 109.4 307.7 113.1 319 114.2 C 330.3 115.3 339.5 118.9 352 117.6 C 364.5 116.3 381.3 109.8 394 106.3 C 406.7 102.8 415.8 97.8 428 96.7 C 440.2 95.6 453.5 101.9 467 99.8 C 480.5 97.7 496.7 88 509 84.2 C 521.3 80.4 528.2 79.2 541 76.9 C 553.8 74.6 573.8 72.1 586 70.4 C 598.2 68.7 605 66.9 614 66.8 C 623 66.7 635.7 69.2 640 69.7 L 640 160 L 0 160 Z"/>
+              <path class="curve-line" fill="none" stroke-width="2" vector-effect="non-scaling-stroke" d="M 0 144.8 C 6.5 144.2 24.7 141.5 39 141.2 C 53.3 140.9 72.3 144.2 86 143.1 C 99.7 142 109 137.2 121 134.7 C 133 132.2 145.5 128.6 158 127.9 C 170.5 127.2 182.7 131.3 196 130.4 C 209.3 129.5 223.3 125.9 238 122.6 C 252.7 119.3 270.5 112.2 284 110.8 C 297.5 109.4 307.7 113.1 319 114.2 C 330.3 115.3 339.5 118.9 352 117.6 C 364.5 116.3 381.3 109.8 394 106.3 C 406.7 102.8 415.8 97.8 428 96.7 C 440.2 95.6 453.5 101.9 467 99.8 C 480.5 97.7 496.7 88 509 84.2 C 521.3 80.4 528.2 79.2 541 76.9 C 553.8 74.6 573.8 72.1 586 70.4 C 598.2 68.7 605 66.9 614 66.8 C 623 66.7 635.7 69.2 640 69.7"/>
+            </svg>
+            <div class="chips"><span class="chip chip-min">MIN ACCT 50K</span></div>
+            <div class="chart-data">
+              <div class="net">
+                <span class="net-label">NET · 100K SIZING</span>
+                <span class="net-fig">$87,930</span>
+                <span class="net-range">Jun &rsquo;19 — Aug &rsquo;26</span>
+              </div>
+              <div class="permo"><span class="permo-fig">$2,931</span><span class="permo-label">/ PER MONTH</span></div>
+            </div>
+          </div>
+          <div class="scard-body">
+            <div class="scard-title"><h3>CL-ROTATION</h3><span class="scard-meta">CL · 24H · VOL BREAKOUT</span></div>
+            <p class="desc">Crude oil volatility breakout keyed to session handoffs and inventory-cycle behavior.</p>
+            <div class="mgrid">
+              <div class="mbox mbox-em"><b>18.9x</b><span>Return/DD</span></div>
+              <div class="mbox"><b class="neg">−$4,650</b><span>Max DD</span></div>
+              <div class="mbox"><b>52.4%</b><span>Win rate</span></div>
+              <div class="mbox"><b>$2,931</b><span>$/Month</span></div>
+            </div>
+            <div class="price-row">
+              <div class="price"><s>$129<span class="sr-only"> original price,</span></s><span class="now">$89</span><span class="per">/MO</span></div>
+            </div>
+            <div class="cta-row">
+              <!-- TODO: full backtest data page -->
+              <a class="btn" href="#">View full data<svg class="ic-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" vector-effect="non-scaling-stroke"/><path d="M7 17 17 7" vector-effect="non-scaling-stroke"/></svg></a>
+              <!-- WHOP: paste checkout link -->
+              <a class="btn btn-buy" href="#" rel="noopener">Get access</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="scard">
+          <div class="chart">
+            <svg class="curve" viewBox="0 0 640 160" preserveAspectRatio="none" aria-hidden="true">
+              <defs><linearGradient id="g-gc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#56C8A2" stop-opacity=".25"/><stop offset="1" stop-color="#56C8A2" stop-opacity="0"/></linearGradient></defs>
+              <path class="curve-area" fill="url(#g-gc)" d="M 0 142.4 C 7.5 142 30.3 140.9 45 139.8 C 59.7 138.8 74.3 137.4 88 136.1 C 101.7 134.8 113.7 133.2 127 131.9 C 140.3 130.6 155.2 128.8 168 128.4 C 180.8 128 190.5 130.5 204 129.6 C 217.5 128.7 234.2 125.2 249 123.2 C 263.8 121.2 279.3 119.4 293 117.8 C 306.7 116.2 317 115 331 113.4 C 345 111.8 363 108.8 377 108.1 C 391 107.4 401.8 110.4 415 109.3 C 428.2 108.2 442.8 103.8 456 101.2 C 469.2 98.6 481.3 95.9 494 93.8 C 506.7 91.7 518.8 90.1 532 88.6 C 545.2 87.1 560.8 85.7 573 84.9 C 585.2 84.2 593.8 84.3 605 84.1 C 616.2 83.9 634.2 83.7 640 83.6 L 640 160 L 0 160 Z"/>
+              <path class="curve-line" fill="none" stroke-width="2" vector-effect="non-scaling-stroke" d="M 0 142.4 C 7.5 142 30.3 140.9 45 139.8 C 59.7 138.8 74.3 137.4 88 136.1 C 101.7 134.8 113.7 133.2 127 131.9 C 140.3 130.6 155.2 128.8 168 128.4 C 180.8 128 190.5 130.5 204 129.6 C 217.5 128.7 234.2 125.2 249 123.2 C 263.8 121.2 279.3 119.4 293 117.8 C 306.7 116.2 317 115 331 113.4 C 345 111.8 363 108.8 377 108.1 C 391 107.4 401.8 110.4 415 109.3 C 428.2 108.2 442.8 103.8 456 101.2 C 469.2 98.6 481.3 95.9 494 93.8 C 506.7 91.7 518.8 90.1 532 88.6 C 545.2 87.1 560.8 85.7 573 84.9 C 585.2 84.2 593.8 84.3 605 84.1 C 616.2 83.9 634.2 83.7 640 83.6"/>
+            </svg>
+            <div class="chips"><span class="chip chip-min">MIN ACCT 25K</span></div>
+            <div class="chart-data">
+              <div class="net">
+                <span class="net-label">NET · 100K SIZING</span>
+                <span class="net-fig">$74,220</span>
+                <span class="net-range">Jan &rsquo;20 — Aug &rsquo;26</span>
+              </div>
+              <div class="permo"><span class="permo-fig">$2,474</span><span class="permo-label">/ PER MONTH</span></div>
+            </div>
+          </div>
+          <div class="scard-body">
+            <div class="scard-title"><h3>GC-OVERNIGHT</h3><span class="scard-meta">GC · OVERNIGHT · DRIFT</span></div>
+            <p class="desc">Captures the persistent overnight drift structure in gold futures with hard time-based exits.</p>
+            <div class="mgrid">
+              <div class="mbox mbox-em"><b>25.7x</b><span>Return/DD</span></div>
+              <div class="mbox"><b class="neg">−$2,890</b><span>Max DD</span></div>
+              <div class="mbox"><b>60.9%</b><span>Win rate</span></div>
+              <div class="mbox"><b>$2,474</b><span>$/Month</span></div>
+            </div>
+            <div class="price-row">
+              <div class="price"><s>$99<span class="sr-only"> original price,</span></s><span class="now">$69</span><span class="per">/MO</span></div>
+            </div>
+            <div class="cta-row">
+              <!-- TODO: full backtest data page -->
+              <a class="btn" href="#">View full data<svg class="ic-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" vector-effect="non-scaling-stroke"/><path d="M7 17 17 7" vector-effect="non-scaling-stroke"/></svg></a>
+              <!-- WHOP: paste checkout link -->
+              <a class="btn btn-buy" href="#" rel="noopener">Get access</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="scard scard-soon">
+          <div class="chart-soon">
+            <span class="soon-text">AWAITING VALIDATION DATA</span>
+          </div>
+          <div class="scard-body">
+            <div class="scard-title"><h3>VOL-GATE</h3><span class="scard-meta">ALL SESSIONS · REGIME</span></div>
+            <p class="desc">A regime filter that gates any Goal33 system on volatility state: trade only when conditions match the edge.</p>
+            <div class="mgrid">
+              <div class="mbox"><b>—</b><span>Return/DD</span></div>
+              <div class="mbox"><b>—</b><span>Max DD</span></div>
+              <div class="mbox"><b>—</b><span>Win rate</span></div>
+              <div class="mbox"><b>—</b><span>$/Month</span></div>
+            </div>
+            <div class="price-row">
+              <div class="price"><span class="now">$59</span><span class="per">/MO</span></div>
+            </div>
+            <div class="cta-row cta-row-one">
+              <a class="btn" href="mailto:support@goal33systems.com?subject=VOL-GATE%20waitlist">Join waitlist</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── packages ─────────────────────────────────────────── -->
+  <section id="packages">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="idx">02 /</span>
+        <h2>Packages</h2>
+        <span class="note">bundle pricing · cancel anytime through whop</span>
+      </div>
+
+      <div class="grid-3 packs">
+
+        <div class="pack">
+          <h3>Solo</h3>
+          <div class="amount">$59–99<small>/mo</small></div>
+          <p class="sub">Any single system, priced per strategy.</p>
+          <ul>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>1 invite-only TradingView script</span></li>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Alert templates &amp; setup docs</span></li>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Strategy updates while subscribed</span></li>
+          </ul>
+          <!-- WHOP: paste checkout link -->
+          <a class="btn" href="#strategies">Pick a strategy</a>
+        </div>
+
+        <div class="pack popular">
+          <span class="flag">MOST DEPLOYED</span>
+          <h3>Session Stack</h3>
+          <div class="amount"><s>$237<span class="sr-only"> original price,</span></s>$179<small>/mo</small></div>
+          <p class="sub">Any three systems of your choice.</p>
+          <ul>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>3 invite-only TradingView scripts</span></li>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Alert templates &amp; setup docs</span></li>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Priority support</span></li>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Monthly parameter review notes</span></li>
+          </ul>
+          <!-- WHOP: paste checkout link -->
+          <a class="btn btn-buy" href="#" rel="noopener">Get the stack</a>
+        </div>
+
+        <div class="pack">
+          <h3>Full Stack</h3>
+          <div class="amount"><s>$474<span class="sr-only"> original price,</span></s>$299<small>/mo</small></div>
+          <p class="sub">Every current and future Goal33 system.</p>
+          <ul>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>All invite-only scripts, incl. new releases</span></li>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>VOL-GATE regime overlay included</span></li>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Priority support, direct line</span></li>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Early access to experimental systems</span></li>
+          </ul>
+          <!-- WHOP: paste checkout link -->
+          <a class="btn btn-buy" href="#" rel="noopener">Go full stack</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── how access works ─────────────────────────────────── -->
+  <section id="how">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="idx">03 /</span>
+        <h2>How access works</h2>
+        <span class="note">whop checkout · tradingview integration</span>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-top">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 3 7.07 16.97 2.51-7.39 7.39-2.51L3 3z" vector-effect="non-scaling-stroke"/><path d="m13 13 6 6" vector-effect="non-scaling-stroke"/></svg>
+            <span class="n">01</span>
+          </div>
+          <h3>Choose a system</h3>
+          <p>Pick a single strategy or a package. Every listing shows the market, session, and the metrics we track.</p>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="5" rx="2" vector-effect="non-scaling-stroke"/><line x1="2" x2="22" y1="10" y2="10" vector-effect="non-scaling-stroke"/></svg>
+            <span class="n">02</span>
+          </div>
+          <h3>Check out on Whop</h3>
+          <p>Payment runs entirely through Whop&rsquo;s checkout: card, Apple Pay, and more. We never see or store your payment details.</p>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" vector-effect="non-scaling-stroke"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" vector-effect="non-scaling-stroke"/></svg>
+            <span class="n">03</span>
+          </div>
+          <h3>Link TradingView</h3>
+          <p>After checkout, Whop asks for your TradingView username and its native integration grants invite-only script access automatically, usually within minutes.</p>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2" vector-effect="non-scaling-stroke"/></svg>
+            <span class="n">04</span>
+          </div>
+          <h3>Trade with it</h3>
+          <p>Scripts appear under &ldquo;Invite-only&rdquo; in TradingView with alerts ready. Cancel anytime; access revokes automatically when a plan lapses.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── security ─────────────────────────────────────────── -->
+  <section id="security">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="idx">04 /</span>
+        <h2>Security by subtraction</h2>
+        <span class="note">a storefront can&rsquo;t leak what it never holds</span>
+      </div>
+
+      <div class="sec-grid">
+        <div class="fact">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" vector-effect="non-scaling-stroke"/><path d="m4.9 4.9 14.2 14.2" vector-effect="non-scaling-stroke"/></svg>
+          <h3>No accounts here</h3>
+          <p>This site is a static page: no logins, no database, no cookies, no analytics, no trackers. There is nothing on it to steal.</p>
+        </div>
+        <div class="fact">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" vector-effect="non-scaling-stroke"/></svg>
+          <h3>Payments handled by Whop</h3>
+          <p>All checkout and billing run on Whop&rsquo;s PCI-compliant infrastructure. Your card details never touch our systems, because we don&rsquo;t have any.</p>
+        </div>
+        <div class="fact">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" vector-effect="non-scaling-stroke"/><path d="M7 11V7a5 5 0 0 1 10 0v4" vector-effect="non-scaling-stroke"/></svg>
+          <h3>Invite-only scripts</h3>
+          <p>Strategies ship as protected, invite-only TradingView scripts. Source code is never distributed; access is per TradingView username.</p>
+        </div>
+        <div class="fact">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" vector-effect="non-scaling-stroke"/><path d="M21 3v5h-5" vector-effect="non-scaling-stroke"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" vector-effect="non-scaling-stroke"/><path d="M8 16H3v5" vector-effect="non-scaling-stroke"/></svg>
+          <h3>Automatic access control</h3>
+          <p>The Whop-to-TradingView integration grants access on purchase and revokes it on cancellation. No manual lists, no forgotten leaks. Served over HTTPS with a strict Content-Security-Policy and zero third-party scripts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── faq ──────────────────────────────────────────────── -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="idx">05 /</span>
+        <h2>FAQ</h2>
+      </div>
+
+      <div class="faq">
+        <details>
+          <summary>Do I need a paid TradingView plan?</summary>
+          <p>No. Invite-only scripts work on every TradingView tier, including the free plan. Higher tiers just give you more simultaneous alerts and charts.</p>
+        </details>
+        <details>
+          <summary>How fast do I get access after buying?</summary>
+          <p>Access is granted automatically by Whop&rsquo;s TradingView integration once you link your TradingView username at checkout, typically within a few minutes.</p>
+        </details>
+        <details>
+          <summary>What exactly do I receive?</summary>
+          <p>Invite-only access to the strategy script(s) on TradingView, alert templates, setup documentation, and ongoing updates for as long as you&rsquo;re subscribed.</p>
+        </details>
+        <details>
+          <summary>Can I cancel?</summary>
+          <p>Anytime, in one click, from your Whop account. You keep access until the end of the billing period, then it&rsquo;s revoked automatically.</p>
+        </details>
+        <details>
+          <summary>Are the results guaranteed?</summary>
+          <p>No. All published figures are backtested or hypothetical, and past performance, real or simulated, never guarantees future results. Futures trading carries substantial risk of loss. Read the full risk disclosure at the bottom of this page before purchasing.</p>
+        </details>
+        <details>
+          <summary>Can I share the scripts with someone else?</summary>
+          <p>Licenses are per TradingView username. Access granted to your account is for your use only; shared or resold access is revoked without refund.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
 </main>
+
+<!-- ── footer ─────────────────────────────────────────────── -->
+<footer>
+  <div class="wrap">
+    <div class="foot-links">
+      <a href="#strategies">Strategies</a>
+      <a href="#packages">Packages</a>
+      <a href="#how">How access works</a>
+      <a href="mailto:support@goal33systems.com">support@goal33systems.com</a>
+      <!-- TODO: add real Terms of Service / Privacy pages before launch -->
+    </div>
+
+    <p class="disclaimer">
+      <strong>Risk disclosure.</strong> Futures and derivatives trading involves substantial risk of loss
+      and is not suitable for every investor. You may lose more than your initial investment. Only risk
+      capital should be used for trading, and only those with sufficient risk capital should consider trading.
+      <strong>Hypothetical performance disclaimer.</strong> Performance figures displayed on this site are
+      hypothetical or simulated. Hypothetical performance results have many inherent limitations. No
+      representation is being made that any account will or is likely to achieve profits or losses similar
+      to those shown; in fact, there are frequently sharp differences between hypothetical performance
+      results and the actual results subsequently achieved by any particular trading program. One of the
+      limitations of hypothetical performance results is that they are generally prepared with the benefit
+      of hindsight. Goal33 Systems is a software publisher. Nothing on this site constitutes financial,
+      investment, legal, or tax advice, or a solicitation to buy or sell any financial instrument. Purchases,
+      billing, and subscription management are processed by Whop; TradingView is a trademark of TradingView, Inc.
+    </p>
+
+    <div class="copyright">© 2026 GOAL33 SYSTEMS · GOAL33SYSTEMS.COM</div>
+  </div>
+</footer>
+
 </body>
 </html>
-
