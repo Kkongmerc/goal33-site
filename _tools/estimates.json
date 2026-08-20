@@ -1,0 +1,286 @@
+{
+ "daily-sweep-and-hold": {
+  "rodd": {
+   "tag": "DERIVED",
+   "val": "12.5×"
+  }
+ },
+ "ny-open-pro": {
+  "v1.maxdd": {
+   "tag": "EST",
+   "val": "$24,500"
+  },
+  "v1.rodd": {
+   "tag": "EST",
+   "val": "5.7×"
+  },
+  "v2.maxdd": {
+   "tag": "EST",
+   "val": "$15,500"
+  },
+  "v2.rodd": {
+   "tag": "EST",
+   "val": "5.8×"
+  }
+ },
+ "overnight-structure-reclaim": {
+  "rodd": {
+   "tag": "DERIVED",
+   "val": "11.3×"
+  }
+ },
+ "cascade": {
+  "rodd": {
+   "tag": "DERIVED",
+   "val": "5.4×"
+  }
+ },
+ "inverted-gap-fade": {
+  "rodd": {
+   "tag": "DERIVED",
+   "val": "7.0×"
+  }
+ },
+ "silver-830-reversal": {
+  "rodd": {
+   "tag": "DERIVED",
+   "val": "7.5×"
+  }
+ },
+ "gap-flow-pro": {
+  "rodd": {
+   "tag": "DERIVED",
+   "val": "12.9×"
+  }
+ },
+ "pool-milestone-pullback": {
+  "maxdd": {
+   "tag": "EST",
+   "val": "$8,000"
+  },
+  "rodd": {
+   "tag": "EST",
+   "val": "5.8×"
+  }
+ },
+ "2h-sweep-plus-inversion-confirm": {
+  "rodd": {
+   "tag": "DERIVED",
+   "val": "3.3×"
+  }
+ },
+ "gap-flow-continuation": {
+  "rodd": {
+   "tag": "DERIVED",
+   "val": "5.7×"
+  }
+ },
+ "prior-day-high-trap": {
+  "rodd": {
+   "tag": "DERIVED",
+   "val": "5.5×"
+  }
+ },
+ "gold-sydney-momentum": {
+  "rodd": {
+   "tag": "DERIVED",
+   "val": "4.6×"
+  }
+ },
+ "4h-failed-bounce-short": {
+  "rodd": {
+   "tag": "DERIVED",
+   "val": "5.2×"
+  }
+ },
+ "afternoon-reversion": {
+  "rodd": {
+   "tag": "DERIVED",
+   "val": "6.3×"
+  }
+ },
+ "30m-structure-reclaim": {
+  "rodd": {
+   "tag": "DERIVED",
+   "val": "2.6×"
+  }
+ },
+ "giant-gap-fade": {
+  "rodd": {
+   "tag": "DERIVED",
+   "val": "4.4×"
+  }
+ },
+ "lunch-break-fade": {
+  "maxdd": {
+   "tag": "EST",
+   "val": "$32,750"
+  },
+  "rodd": {
+   "tag": "EST",
+   "val": "5.7×"
+  }
+ },
+ "1030-fade": {
+  "n": {
+   "tag": "EST",
+   "val": "225"
+  }
+ },
+ "silver-midday-range-fade": {
+  "n": {
+   "tag": "EST",
+   "val": "225"
+  }
+ },
+ "830-news-fade": {
+  "maxdd": {
+   "tag": "EST",
+   "val": "$13,000"
+  },
+  "net": {
+   "tag": "EST",
+   "val": "$56,000"
+  },
+  "n": {
+   "tag": "EST",
+   "val": "225"
+  }
+ },
+ "cme-reopen-snap": {
+  "maxdd": {
+   "tag": "EST",
+   "val": "$13,000"
+  },
+  "net": {
+   "tag": "EST",
+   "val": "$32,500"
+  },
+  "n": {
+   "tag": "EST",
+   "val": "225"
+  }
+ },
+ "15m-structure-scalper": {
+  "rodd": {
+   "tag": "DERIVED",
+   "val": "10.6×"
+  }
+ },
+ "sydney-session-rider": {
+  "rodd": {
+   "tag": "DERIVED",
+   "val": "6.8×"
+  }
+ },
+ "volume-climax-fade": {
+  "rodd": {
+   "tag": "EST",
+   "val": "3.0×"
+  },
+  "maxdd": {
+   "tag": "EST",
+   "val": "$6,000"
+  },
+  "net": {
+   "tag": "EST",
+   "val": "$18,500"
+  }
+ },
+ "friday-orb": {
+  "maxdd": {
+   "tag": "EST",
+   "val": "$13,000"
+  },
+  "net": {
+   "tag": "EST",
+   "val": "$39,000"
+  },
+  "n": {
+   "tag": "EST",
+   "val": "225"
+  }
+ },
+ "china-orb": {
+  "maxdd": {
+   "tag": "EST",
+   "val": "$13,000"
+  },
+  "net": {
+   "tag": "EST",
+   "val": "$43,000"
+  },
+  "n": {
+   "tag": "EST",
+   "val": "225"
+  }
+ },
+ "frankfurt-continuation": {
+  "maxdd": {
+   "tag": "EST",
+   "val": "$13,000"
+  },
+  "net": {
+   "tag": "EST",
+   "val": "$40,500"
+  },
+  "n": {
+   "tag": "EST",
+   "val": "225"
+  }
+ },
+ "830-range-fade": {
+  "maxdd": {
+   "tag": "EST",
+   "val": "$13,000"
+  },
+  "net": {
+   "tag": "EST",
+   "val": "$32,500"
+  },
+  "n": {
+   "tag": "EST",
+   "val": "225"
+  }
+ },
+ "vwap-band-fade": {
+  "maxdd": {
+   "tag": "DERIVED",
+   "val": "$9,200"
+  },
+  "n": {
+   "tag": "EST",
+   "val": "225"
+  }
+ },
+ "es-pullback-fade": {
+  "maxdd": {
+   "tag": "EST",
+   "val": "$13,000"
+  },
+  "net": {
+   "tag": "EST",
+   "val": "$30,000"
+  },
+  "n": {
+   "tag": "EST",
+   "val": "225"
+  }
+ },
+ "es-daily-sweep-and-hold": {
+  "maxdd": {
+   "tag": "EST",
+   "val": "$1,250"
+  },
+  "rodd": {
+   "tag": "EST",
+   "val": "6.0×"
+  }
+ },
+ "morning-shelf-scalper": {
+  "rodd": {
+   "tag": "DERIVED",
+   "val": "6.3×"
+  }
+ }
+}

@@ -1,0 +1,58 @@
+{
+ "names": {
+  "daily-sweep-and-hold": "The Verdict",
+  "ny-open-pro": "The Market Maker",
+  "overnight-structure-reclaim": "The Night Shift",
+  "cascade": "Cascade",
+  "inverted-gap-fade": "Inversion",
+  "silver-830-reversal": "Sterling",
+  "gap-flow-pro": "Laminar",
+  "pool-milestone-pullback": "The Collector",
+  "2h-sweep-plus-inversion-confirm": "The Countersign",
+  "gap-flow-continuation": "Current",
+  "prior-day-high-trap": "Bull Trap",
+  "gold-sydney-momentum": "Bullion",
+  "4h-failed-bounce-short": "Dead Cat",
+  "afternoon-reversion": "The Pendulum",
+  "30m-structure-reclaim": "The Ratchet",
+  "giant-gap-fade": "The Chasm",
+  "lunch-break-fade": "Lunch Money",
+  "1030-fade": "The Undertow",
+  "silver-midday-range-fade": "Argent",
+  "830-news-fade": "Headline Risk",
+  "cme-reopen-snap": "The Reboot",
+  "15m-structure-scalper": "The Machine",
+  "sydney-session-rider": "First Light",
+  "volume-climax-fade": "Crescendo",
+  "friday-orb": "The Weekender",
+  "china-orb": "The Abacus",
+  "frankfurt-continuation": "Autobahn",
+  "830-range-fade": "Aftershock",
+  "vwap-band-fade": "Mean Machine",
+  "es-pullback-fade": "Counterweight",
+  "es-daily-sweep-and-hold": "The Verdict ES",
+  "morning-shelf-scalper": "Shelf Life"
+ },
+ "books": [
+  {
+   "slug": "the-continuum",
+   "name": "The Continuum",
+   "internal": "G33 24H Book"
+  },
+  {
+   "slug": "the-ledger",
+   "name": "The Ledger",
+   "internal": "G32 Validated Book"
+  },
+  {
+   "slug": "the-daylight",
+   "name": "The Daylight",
+   "internal": "G13 SingleDay Book"
+  },
+  {
+   "slug": "the-midas",
+   "name": "The Midas",
+   "internal": "MGC Gold Book"
+  }
+ ]
+}
