@@ -2092,3 +2092,33 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
 }
 @media (max-width: 960px) { .collections { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .collections { grid-template-columns: minmax(0, 1fr); } }
+
+/* ── $10k simulation placeholders + daily calendar ─────────── */
+.record .tbd {
+  color: var(--faint);
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: .1em;
+  border-bottom: 1px dashed var(--line-bright);
+}
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--sp-1);
+  padding: var(--sp-3) var(--sp-4);
+}
+.cal-wd {
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  letter-spacing: .1em;
+  color: var(--faint);
+  text-align: center;
+  padding-bottom: var(--sp-1);
+}
+.cal-day {
+  aspect-ratio: 1.6 / 1;
+  border: 1px dashed var(--line);
+  background: var(--bg);
+}
+.cal-day.win  { border-style: solid; border-color: rgba(86,200,162,.45); background: var(--accent-dim); }
+.cal-day.loss { border-style: solid; border-color: var(--line-bright); }
