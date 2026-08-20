@@ -28,10 +28,17 @@
      buy-ink #1F1102 on buy/buy-hi           =  8.2 /  9.9
      .was strike price = muted #8FA8A1: 7.0 on panel cards,
        6.5 on the raised buybox
-     .chart-note / .spark-note / .chart-title / .chart-pending
+     .chart-note / .spark-note / .chart-title
        captions = faint #738D85: 5.4 on bg / 5.0 on panel
      .chart-end / .ckey figures = text #E9F2EE (15.6 on panel)
        and muted #8FA8A1 (7.0 on panel)
+     plan finder (#finder): option labels muted #8FA8A1 on panel
+       7.0 → checked mint #56C8A2 on accent-dim over panel 7.5
+       (same math as pill-green); legends muted on panel 7.0 with
+       the Q-index mint 8.6; .finder-wait / .finder-update faint
+       #738D85 on bg 5.4; card copy reuses text/muted/accent on
+       panel; automation tip text #E9F2EE / muted #8FA8A1 on
+       raised 14.5 / 6.5 — no new color pairs introduced
      chart + sparkline strokes are decorative graphics
        (aria-hidden), exempt from text contrast.
    Non-text (WCAG 1.4.11 ≥ 3:1): interactive outline-button
@@ -1822,22 +1829,6 @@ footer { padding: var(--sp-7) 0; }
   letter-spacing: .02em;
   margin-top: var(--sp-2);
 }
-/* placeholder panel for systems without published equity data */
-.chart-pending {
-  min-height: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  border: 1px dashed var(--line-interactive);
-  padding: var(--sp-4);
-  font-family: var(--mono);
-  font-size: var(--fs-2xs);
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--faint);
-}
-
 .record { border: 1px solid var(--line); background: var(--panel); }
 .record-title {
   font-family: var(--mono);
@@ -2120,5 +2111,224 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
   border: 1px dashed var(--line);
   background: var(--bg);
 }
-.cal-day.win  { border-style: solid; border-color: rgba(86,200,162,.45); background: var(--accent-dim); }
-.cal-day.loss { border-style: solid; border-color: var(--line-bright); }
+
+/* ── books: internal designations + exclusive/sold chips ───── */
+.books-list li { display: flex; flex-direction: column; gap: 2px; }
+.bk-int {
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  letter-spacing: .1em;
+  color: var(--faint);
+}
+.chip-excl {
+  border-color: rgba(237, 155, 64, .55);
+  color: var(--buy);
+  background: rgba(237, 155, 64, .08);
+  box-shadow: 0 0 8px rgba(237, 155, 64, .15);
+}
+.chip-sold {
+  border-color: rgba(86, 200, 162, .4);
+  color: var(--accent);
+}
+.included li.inc-exclusive {
+  background: rgba(237, 155, 64, .04);
+  border-left: 2px solid rgba(237, 155, 64, .5);
+}
+.included li .chip { margin-right: var(--sp-2); flex-shrink: 0; }
+.pack ul li.li-note { color: var(--faint); padding-left: 0; }
+.pack ul li.li-note span { font-style: normal; }
+
+/* ── plan finder (#finder): pure-CSS recommendation quiz ─────
+   Bare radios + labels only — no <form>, nothing submits (CSP
+   form-action 'none'). All four pre-rendered cards start hidden;
+   body:has() gates them on one :checked radio per group, then
+   exactly one card renders per answer combination (funded-prop
+   maps with retail). Browsers without :has() drop the gating
+   rules entirely: cards stay hidden and the .finder-wait prompt
+   remains — the accepted no-:has() fallback. Contrast pairs are
+   documented in the header table (all reuse existing AA pairs). */
+.finder-qs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-4);
+}
+.finder-qs > * { min-width: 0; }
+.fq {
+  min-inline-size: 0;             /* fieldsets default to min-content and can overflow */
+  border: 1px solid var(--line);
+  background: var(--panel);
+  padding: var(--sp-2) var(--sp-4) var(--sp-4);
+}
+.fq legend {
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 var(--sp-2);
+}
+.fq-n { color: var(--accent); }
+.fq-opts {
+  display: flex; flex-wrap: wrap;
+  gap: var(--sp-2);
+  padding-top: var(--sp-3);
+}
+/* visually hidden radio — still focusable; arrow keys still cycle the group */
+.fq-radio {
+  position: absolute;
+  width: 1px; height: 1px;
+  opacity: 0;
+  overflow: hidden;
+}
+/* option chips — the site's mono button language, ≥44px targets */
+.fq-opt {
+  display: inline-flex; align-items: center;
+  min-height: 44px;
+  padding: 0 var(--sp-4);
+  border: 1px solid var(--line-interactive);
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: .04em;
+  color: var(--muted);
+  cursor: pointer;
+  user-select: none;
+  transition: border-color var(--fast) var(--ease),
+              color        var(--fast) var(--ease),
+              background   var(--fast) var(--ease);
+}
+.fq-opt:hover { color: var(--text); }
+.fq-radio:checked + .fq-opt {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+  font-weight: 600;
+}
+.fq-radio:focus-visible + .fq-opt {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+/* prompt shown until all four groups are answered (and permanently
+   on browsers without :has() support) */
+.finder-wait {
+  margin-top: var(--sp-4);
+  border: 1px dashed var(--line-interactive);
+  padding: var(--sp-4);
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--faint);
+  text-align: center;
+}
+/* recommendation cards — mint panel with HUD corner ticks */
+.frec {
+  display: none;
+  position: relative;
+  border: 1px solid rgba(86, 200, 162, .45);
+  background: var(--panel);
+  padding: var(--sp-5);
+  margin-top: var(--sp-4);
+}
+.frec::before, .frec::after {
+  content: "";
+  position: absolute;
+  width: 10px; height: 10px;
+  pointer-events: none;
+}
+.frec::before { top: -1px; left: -1px; border-top: 1px solid var(--accent); border-left: 1px solid var(--accent); }
+.frec::after  { bottom: -1px; right: -1px; border-bottom: 1px solid var(--accent); border-right: 1px solid var(--accent); }
+.frec-tag {
+  display: block;
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--sp-2);
+}
+.frec h3 {
+  font-family: var(--display);
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  line-height: 1.1;
+  margin-bottom: var(--sp-2);
+}
+.frec-line {
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .02em;
+  color: var(--text);
+  margin-bottom: var(--sp-2);
+}
+.frec-desc {
+  font-size: var(--fs-md);
+  color: var(--muted);
+  max-width: 56ch;
+}
+.frec-ctas {
+  display: flex; gap: var(--sp-3); flex-wrap: wrap;
+  margin-top: var(--sp-4);
+}
+/* automation add-on panel — additive, shows whenever Q4 = yes */
+.frec-auto {
+  display: none;
+  border: 1px solid var(--line-bright);
+  background: var(--raised);
+  padding: var(--sp-4);
+  margin-top: var(--sp-4);
+}
+.auto-title {
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--sp-2);
+}
+.auto-copy {
+  font-size: var(--fs-md);
+  color: var(--text);
+  max-width: 60ch;
+  margin-bottom: var(--sp-3);
+}
+.auto-cta { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.auto-disc {
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+/* reset note — appears with the results */
+.finder-update {
+  display: none;
+  margin-top: var(--sp-3);
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+/* ── gating: every rule below requires one :checked per group ── */
+body:has([name="q-type"]:checked):has([name="q-exp"]:checked):has([name="q-freq"]:checked):has([name="q-auto"]:checked) .finder-wait { display: none; }
+body:has([name="q-type"]:checked):has([name="q-exp"]:checked):has([name="q-freq"]:checked):has([name="q-auto"]:checked) .finder-update { display: block; }
+/* THE BOOKS — professional desk, any other answers */
+body:has(#qt-desk:checked):has([name="q-exp"]:checked):has([name="q-freq"]:checked):has([name="q-auto"]:checked) .frec-books { display: block; }
+/* ALL-ACCESS — retail/funded-prop + experienced + every-day */
+body:has([name="q-type"]:checked):not(:has(#qt-desk:checked)):has(#qe-exp:checked):has(#qf-day:checked):has([name="q-auto"]:checked) .frec-alla { display: block; }
+/* PICK-3 — retail/funded-prop + experienced + few setups */
+body:has([name="q-type"]:checked):not(:has(#qt-desk:checked)):has(#qe-exp:checked):has(#qf-few:checked):has([name="q-auto"]:checked) .frec-pick3 { display: block; }
+/* STARTER — retail/funded-prop + new to systems, either frequency */
+body:has([name="q-type"]:checked):not(:has(#qt-desk:checked)):has(#qe-new:checked):has([name="q-freq"]:checked):has([name="q-auto"]:checked) .frec-starter { display: block; }
+/* AUTOMATION TIP — additive alongside whichever card when Q4 = yes */
+body:has([name="q-type"]:checked):has([name="q-exp"]:checked):has([name="q-freq"]:checked):has(#qa-yes:checked) .frec-auto { display: block; }
+/* mobile: questions stack, chips wrap — no horizontal scroll at 360px */
+@media (max-width: 768px) {
+  .finder-qs { grid-template-columns: minmax(0, 1fr); }
+}
