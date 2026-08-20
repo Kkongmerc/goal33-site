@@ -39,6 +39,15 @@
        #738D85 on bg 5.4; card copy reuses text/muted/accent on
        panel; automation tip text #E9F2EE / muted #8FA8A1 on
        raised 14.5 / 6.5 — no new color pairs introduced
+     gradient display names (.feat/.fcard/.special-card h4 links,
+       .pack h3 / .books-head h3 links, .pdp-head h1): linear-gradient
+       stops #E9F2EE / #56C8A2 / #6AD8B3 — every stop individually AA
+       on every surface it can cross:
+         #E9F2EE 16.9 / 15.6 / 14.5 on bg / panel / raised
+         #56C8A2  9.3 /  8.6 /  8.0
+         #6AD8B3 11.1 / 10.2 /  9.5
+       gated behind @supports (background-clip: text); outside it the
+       names keep their solid --text fallback.
      chart + sparkline strokes are decorative graphics
        (aria-hidden), exempt from text contrast.
    Non-text (WCAG 1.4.11 ≥ 3:1): interactive outline-button
@@ -50,7 +59,11 @@
    Amber (--buy) carries two owner-approved meanings: transactional
    — purchase CTAs and deal badges/flags/figures (BEST VALUE,
    "2 months free") — and exceptional-stat: the .hot standout-stat
-   glow on verified stats (never on EST values).
+   glow on verified stats (never on EST values). One decorative
+   exception: the chromatic-split name hover flicks amber at 55%
+   alpha as one of two 1px offset shadows — a transient hover-state
+   flourish, not a meaning-bearing use (the AA text color carries
+   the content).
    Red retired with the drawdown highlight — no red on the site.
    Mint (--accent) carries data, profit factors, and the
    VERIFIED status.
@@ -1207,9 +1220,9 @@ section { border-bottom: 1px solid var(--line); padding: var(--sp-8) 0; }
 .sys-name {
   font-family: var(--display);
   font-size: var(--fs-md);
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: .02em;
+  letter-spacing: .04em;
   color: var(--text);
 }
 .sys-desc {
@@ -1615,10 +1628,13 @@ footer { padding: var(--sp-7) 0; }
   .hot { animation: hot-pulse 2.2s var(--ease) 2; }
   .fstat.hot, .gsample.hot { animation-name: hot-pulse-box; }
   .feat-fig.hot { animation-name: hot-pulse-fig; }
-  /* one control pauses ALL page animation (WCAG 2.2.2): the
+  /* one control pauses page animation (WCAG 2.2.2): the
      #ticker-pause checkbox is a direct child of <body> before the
      tickerbar and <main>, so :checked reaches the ticker track,
-     the dial sweep, the badge pulse, and the stat glow */
+     the dial sweep, the badge pulse, and the stat glow (plus the
+     card streak/caret and tick breathe — see the motion block near
+     the end of this file). Sole exemption: the .btn-buy sheen, a
+     600ms one-shot that only runs on hover/focus. */
   #ticker-pause:checked ~ * .ticker-track,
   #ticker-pause:checked ~ * .dial-hand,
   #ticker-pause:checked ~ * .badge-special,
@@ -1950,9 +1966,23 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
   list-style: none;
 }
 .included li:last-child { border-bottom: 0; }
-.included .inc-name { color: var(--text); font-weight: 500; }
+.included .inc-name {
+  font-family: var(--display);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--text);
+}
 .included .inc-price { font-family: var(--mono); font-variant-numeric: tabular-nums; color: var(--faint); white-space: nowrap; }
 .included-scroll { max-height: 30rem; overflow-y: auto; }
+/* phone widths: the long Book price strings ("G13 SingleDay Book ·
+   $1,499/mo solo") overflow the panel as a nowrap span — let the
+   row wrap and the price break so the page never scrolls sideways */
+@media (max-width: 560px) {
+  .included li { flex-wrap: wrap; }
+  .included .inc-price { white-space: normal; }
+}
 
 /* ── 404 ───────────────────────────────────────────────────── */
 .err-wrap {
@@ -2071,7 +2101,14 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
   min-height: 44px;
 }
 .collection li:last-child { border-bottom: 0; }
-.col-name { font-size: var(--fs-sm); color: var(--text); }
+.col-name {
+  font-family: var(--display);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--text);
+}
 .collection a.sys-link { display: inline-flex; align-items: center; min-height: 44px; }
 .col-stat {
   font-family: var(--mono);
@@ -2331,4 +2368,162 @@ body:has([name="q-type"]:checked):has([name="q-exp"]:checked):has([name="q-freq"
 /* mobile: questions stack, chips wrap — no horizontal scroll at 360px */
 @media (max-width: 768px) {
   .finder-qs { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ── typography effects: name treatments + eye-draw accents ──
+   All effects are class-driven (CSP: no style="" anywhere), all
+   animation assignments live inside prefers-reduced-motion:
+   no-preference, and the global reduce block above still nukes
+   every animation/transition. Contrast for the gradient stops is
+   ledgered in the header table. */
+
+a.sys-link { cursor: pointer; }
+
+/* chromatic-split hover on plain (non-gradient) name spans:
+   1px amber / mint dual offset — a subtle CRT color-fringe flick.
+   Amber here is a decorative hover flourish (see header note). */
+.sys-name, .col-name, .included .inc-name {
+  transition: text-shadow 150ms var(--ease);
+}
+a.sys-link:hover .sys-name,
+a.sys-link:hover .col-name,
+a.sys-link:hover .inc-name {
+  text-shadow: 1px 0 rgba(237, 155, 64, .55), -1px 0 rgba(86, 200, 162, .7);
+}
+/* collections + bundle included-lists underline on hover like tables */
+a.sys-link:hover .col-name,
+a.sys-link:hover .inc-name {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* terminal prompt mark on featured + flagship card names — a mono
+   ">" in mint; blinks caret-style only while the card is hovered.
+   -webkit-text-fill-color is re-opaqued here because the gradient
+   block below sets it transparent on the parent and it inherits. */
+.feat h4 a.sys-link::before,
+.fcard h4 a.sys-link::before {
+  content: ">";
+  content: ">" / "";     /* decorative for screen readers (FAQ +/− pattern) */
+  font-family: var(--mono);
+  font-weight: 600;
+  color: var(--accent);
+  -webkit-text-fill-color: var(--accent);
+  margin-right: .35em;
+}
+
+/* gradient-fill display names — Apple-glow style mint sweep.
+   text-shadow is invisible on background-clip:text (it paints
+   behind the transparent fill and can smear), so the phosphor
+   glow is a drop-shadow FILTER on the element instead. Outside
+   @supports the names keep their solid --text color. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .feat h4 a.sys-link,
+  .fcard h4 a.sys-link,
+  .special-card h4 a.sys-link,
+  .books-head h3 a.sys-link,
+  .pack h3 a.sys-link,
+  .pdp-head h1 {
+    background-image: linear-gradient(100deg, #E9F2EE 15%, #56C8A2 60%, #6AD8B3);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    /* resting filter mirrors the hover list's shape (brightness +
+       drop-shadow) so the two states interpolate — mismatched
+       filter-function lists snap instead of easing */
+    filter: brightness(1) drop-shadow(0 0 14px rgba(86, 200, 162, .25));
+    transition: filter 150ms var(--ease);
+  }
+  /* gradient text can't take text-shadow or a visible underline —
+     hover reads as a brightness lift + tighter phosphor glow */
+  .feat h4 a.sys-link:hover,
+  .fcard h4 a.sys-link:hover,
+  .special-card h4 a.sys-link:hover,
+  .books-head h3 a.sys-link:hover,
+  .pack h3 a.sys-link:hover {
+    color: transparent;
+    filter: brightness(1.18) drop-shadow(0 0 10px rgba(86, 200, 162, .45));
+  }
+}
+
+/* light-streak sweep on featured/flagship cards: the cards' HUD
+   corner ticks own ::before/::after, so the streak is the card's
+   own background layer — a slanted translucent mint strip parked
+   off-canvas, swept across once per hover (animation assignment is
+   motion-gated below). Backgrounds sit behind all content by
+   definition: text readability is untouched. */
+.feat, .fcard {
+  background-image: linear-gradient(105deg,
+    rgba(86, 200, 162, 0) 0%,
+    rgba(86, 200, 162, .12) 50%,
+    rgba(86, 200, 162, 0) 100%);
+  background-size: 40% 220%;
+  background-repeat: no-repeat;
+  background-position: -80% 40%;
+}
+
+/* #1 featured card (.feat-lead, The Verdict): the resting ticks
+   grow + gain a static mint halo so the eye lands there first —
+   same TL/BR 1px mint grammar as .term/.pack-books, just louder. */
+.feat-lead { border-color: rgba(86, 200, 162, .75); }
+.feat-lead::before, .feat-lead::after {
+  width: 18px; height: 18px;
+  box-shadow: 0 0 10px rgba(86, 200, 162, .3);
+}
+
+/* "Best value · RoDD" collection: mint left edge + TOP VALUE tag */
+.collection.col-value { border-left: 2px solid var(--accent); }
+.col-tag {
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--accent);
+  border: 1px solid rgba(86, 200, 162, .45);
+  padding: 1px var(--sp-2);
+  margin-left: var(--sp-2);
+  white-space: nowrap;
+}
+
+/* section heads: static 24px mint rule under each h2 that extends
+   to 48px while the section is hovered — quiet downward eye-draw */
+.sec-head h2 { position: relative; }
+.sec-head h2::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -2px;
+  width: 24px; height: 2px;
+  background: var(--accent);
+  transition: width var(--fast) var(--ease);
+}
+section:hover .sec-head h2::after { width: 48px; }
+
+/* motion assignments — opt-in only, same doctrine as the block
+   above. Hover-triggered animations (streak, caret) follow the
+   .btn-buy sheen precedent: user-initiated, ends on un-hover —
+   but caret-blink loops for as long as the pointer rests, so the
+   hover-run pair also honors the global #ticker-pause control.
+   The books-band tick breathe is ambient, so it wires into the
+   same control like the ticker/dial. */
+@media (prefers-reduced-motion: no-preference) {
+  .feat:hover, .fcard:hover { animation: card-streak 700ms var(--ease) 1; }
+  .feat:hover h4 a.sys-link::before,
+  .fcard:hover h4 a.sys-link::before { animation: caret-blink 1.1s steps(1) infinite; }
+  .pack-books::before, .pack-books::after { animation: tick-breathe 4s var(--ease) infinite; }
+  #ticker-pause:checked ~ * .feat:hover,
+  #ticker-pause:checked ~ * .fcard:hover,
+  #ticker-pause:checked ~ * .feat:hover h4 a.sys-link::before,
+  #ticker-pause:checked ~ * .fcard:hover h4 a.sys-link::before,
+  #ticker-pause:checked ~ * .pack-books::before,
+  #ticker-pause:checked ~ * .pack-books::after { animation-play-state: paused; }
+}
+@keyframes card-streak {
+  from { background-position: -80% 40%; }
+  to   { background-position: 180% 40%; }
+}
+@keyframes caret-blink { 50% { opacity: 0; } }
+@keyframes tick-breathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(86, 200, 162, 0); }
+  50%      { box-shadow: 0 0 9px 1px rgba(86, 200, 162, .32); }
 }

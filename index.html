@@ -23,15 +23,16 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
 
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="assets/main.css?v=ee109c0a">
+<link rel="stylesheet" href="assets/main.css?v=24c6831f">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
 <!-- system-status ticker: static release/validation facts only, no market quotes, no prices or percentages.
      Pure-CSS pause control (WCAG 2.2.2): the checkbox is a direct child of <body> placed before the tickerbar and
-     <main>, so one :checked control pauses ALL page animation — ticker track, hero dial sweep, special-badge pulse,
-     and the standout-stat glow pulse; content duplicated once for a seamless loop. -->
+     <main>, so one :checked control pauses page animation — ticker track, hero dial sweep, special-badge pulse,
+     standout-stat glow, card streak/caret, and books-band tick breathe (only exemption: the 600ms one-shot
+     buy-button sheen, hover/focus-initiated); content duplicated once for a seamless loop. -->
 <input type="checkbox" id="ticker-pause" class="ticker-check">
 <div class="tickerbar">
   <label class="ticker-pauselab" for="ticker-pause">
@@ -159,7 +160,7 @@
 
       <div class="featured">
 
-        <article class="feat">
+        <article class="feat feat-lead">
           <h4><a class="sys-link" href="/strategies/daily-sweep-and-hold.html">The Verdict</a></h4>
           <div class="feat-fig hot">5.8</div>
           <div class="feat-figlabel">Profit factor</div>
@@ -225,8 +226,8 @@
           <div class="col-title">High frequency</div>
           <ul><li><a class="sys-link" href="/strategies/15m-structure-scalper.html"><span class="col-name">The Machine</span></a><span class="col-stat">n=1,162</span></li><li><a class="sys-link" href="/strategies/gap-flow-pro.html"><span class="col-name">Laminar</span></a><span class="col-stat">n=803</span></li><li><a class="sys-link" href="/strategies/gap-flow-continuation.html"><span class="col-name">Current</span></a><span class="col-stat">n=646</span></li><li><a class="sys-link" href="/strategies/morning-shelf-scalper.html"><span class="col-name">Shelf Life</span></a><span class="col-stat">n=609</span></li></ul>
         </div>
-        <div class="collection">
-          <div class="col-title">Best value · RoDD</div>
+        <div class="collection col-value">
+          <div class="col-title">Best value · RoDD<span class="col-tag">TOP VALUE</span></div>
           <ul><li><a class="sys-link" href="/strategies/gap-flow-pro.html"><span class="col-name">Laminar</span></a><span class="col-stat">12.9× · n=803</span></li><li><a class="sys-link" href="/strategies/daily-sweep-and-hold.html"><span class="col-name">The Verdict</span></a><span class="col-stat">12.5× · n=54</span></li><li><a class="sys-link" href="/strategies/overnight-structure-reclaim.html"><span class="col-name">The Night Shift</span></a><span class="col-stat">11.3× · n=107</span></li><li><a class="sys-link" href="/strategies/15m-structure-scalper.html"><span class="col-name">The Machine</span></a><span class="col-stat">10.6× · n=1,162</span></li></ul>
         </div>
       </div>
