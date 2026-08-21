@@ -219,14 +219,15 @@ def rodd_menu(p):
         if C < red_at: state = "red"
         elif C < 2 * red_at: state = "amb"
         else: state = "ok"
-        checked = ""
+        checked, rec = "", False
         if state == "ok" and not default_set:
-            checked = " checked"; default_set = True
+            checked = " checked"; default_set = True; rec = True
         proj = rodd * C
         permo = proj / months if months else 0
         lab = f"${C//1000}k" if C >= 1000 and C % 1000 == 0 else f"${C/1000:.1f}k"
         radios += f'<input type="radio" name="ro-{slug}" id="ro-{slug}-{i}" class="ro-r ro-{state}"{checked}>'
-        labels += (f'<label for="ro-{slug}-{i}" class="ro-notch"><span class="ro-tick" aria-hidden="true"></span>'
+        rec_tag = '<span class="ro-rec">REC</span>' if rec else ''
+        labels += (f'<label for="ro-{slug}-{i}" class="ro-notch{" ro-notch-rec" if rec else ""}">{rec_tag}<span class="ro-tick" aria-hidden="true"></span>'
                    f'<span class="ro-amt">{lab}</span></label>')
         if state == "red":
             body = (f'<span class="ro-flag">NOT BUILT FOR THIS SIZE</span> The published max drawdown on this window '
@@ -235,6 +236,9 @@ def rodd_menu(p):
         else:
             body = (f'A drawdown budget of <b>{lab}</b> historically returned <b>~{usd(proj)}</b> over this window'
                     + (f' (&asymp;{usd(permo)}/mo average)' if permo else '') + '.')
+            if rec:
+                body = ('<span class="ro-flag ro-flag-rec">RECOMMENDED SIZE</span> The smallest budget with a '
+                        'full cushion over the published drawdown. ' + body)
             if state == "amb":
                 body = ('<span class="ro-flag">THIN CUSHION</span> The published drawdown is more than half this '
                         'budget &mdash; one bad stretch uses most of your room. ' + body)
@@ -244,12 +248,14 @@ def rodd_menu(p):
     return f"""<div class="rodd" aria-label="Return-on-drawdown sizing menu">
   <div class="rodd-head">
     <span class="rodd-title">Return on drawdown &middot; what a dollar of pain buys</span>
+    <span class="chip-interactive">INTERACTIVE</span>
     <span class="rodd-fig">{esc(b.get("RoDD",""))}&times;</span>
   </div>
   <p class="rodd-why"><b>RoDD is the metric this catalog is priced on.</b> Profit factor says the engine works;
   RoDD says what it costs to hold: net profit divided by the worst peak-to-valley drawdown.
   This system&rsquo;s window: {esc(net)} net &divide; {usd(dd)} max drawdown = <b>{esc(b.get("RoDD",""))}&times;</b>.
   Slide your drawdown budget &mdash; the projection scales with it, and so does the pain.</p>
+  <div class="ro-cta"><svg class="ro-cta-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14" vector-effect="non-scaling-stroke"/><path d="m19 12-7 7-7-7" vector-effect="non-scaling-stroke"/></svg><span>Tap a drawdown budget &mdash; the projection updates instantly</span></div>
   {radios}
   <div class="ro-track" aria-hidden="false">{labels}</div>
   <div class="ro-outs">{outs}</div>
@@ -305,9 +311,9 @@ def product_page(p, is_book):
              f"TradingView invite-only script, activated within 24h.")
     crumb_root = ('<a href="/strategies/the-books.html">The Books</a>' if is_book
                   else '<a href="/#strategies">Strategies</a>')
-    main_col = chart_figure(p) + "\n" + calendar_panel() + "\n" + (
-        engines_block(p) if p.get("engines") else windows_block(p))
-    main_col += "\n" + warn_block(p) + "\n" + rodd_menu(p) + "\n" + legs_block(p) + "\n" + sep_block(p)
+    main_col = rodd_menu(p) + "\n" + chart_figure(p) + "\n" + (
+        engines_block(p) if p.get("engines") else windows_block(p)) + "\n" + calendar_panel()
+    main_col += "\n" + warn_block(p) + "\n" + legs_block(p) + "\n" + sep_block(p)
     xsell = None
     struck = None
     if is_book:
@@ -334,7 +340,9 @@ def product_page(p, is_book):
         <div class="pdp-main">
         {main_col}
         </div>
+        <div class="pdp-side">
         {buybox(p['name'], f"{p['price']:,}", p['name'] + " / " + p['actual'], xsell=xsell)}
+        </div>
       </div>
 
       <div class="pdp-disclaim">
