@@ -117,6 +117,14 @@ recommends the cheaper path instead (The Starter if it IS that trio, otherwise
   rolling glows. Below-fold sections use `content-visibility: auto`. The hero
   carousel depth-sorts via preserve-3d — do NOT add z-index to its poses or
   keyframes (stepped z caused visible pane-order jumps).
+- **Carousel contract** (v7): two modes on radio `#cf-0` (auto, default) vs
+  `#cf-1..6` (hold). Radios MUST stay `position: fixed` — anything else makes
+  label clicks scroll the page. Selection changes use per-slot
+  transition-delays (the cascade that reads as cycling); the play pill
+  re-checks `#cf-0`. The cover-flow CSS block between its banner comment and
+  the 760px media rule is EXCISED WHOLESALE by carousel regens — never insert
+  unrelated rules inside that span (the SITE SYSTEMS region right after it
+  exists because cv/snap/creed once got eaten this way).
 - Type: Chakra Petch (display) / JetBrains Mono (all numerals, tabular-nums) /
   Inter (prose). `--fs-*` and `--sp-*` tokens only; nothing under 11px.
 - Every fg/bg pair ≥ 4.5:1 — the table in `main.css`'s header is the ledger.
