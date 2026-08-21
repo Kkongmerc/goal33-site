@@ -394,8 +394,9 @@ for old, new in [("$4,999", "$2,999"), ("all four in-house engines · each also 
                  ("from $59/mo", f"from ${min(p['price'] for p in S)}/mo")]:
     doc = doc.replace(old, new)
 
-cf_radios = "".join(f'<input class="cf-r" type="radio" name="cf-sel" id="cf-{i+1}">'
-                    for i in range(len(TIER1)))
+cf_radios = ('<input class="cf-r" type="radio" name="cf-sel" id="cf-0" checked>'
+             + "".join(f'<input class="cf-r" type="radio" name="cf-sel" id="cf-{i+1}">'
+                       for i in range(len(TIER1))))
 cf_panes = "".join(
     f'<div class="cf-pane fc-{p["slug"]}">'
     f'<a class="cf-link" href="/strategies/{p["slug"]}.html">'
@@ -408,7 +409,10 @@ cf_panes = "".join(
 cf_dots = "".join(
     f'<label class="cf-dot fc-{p["slug"]}" for="cf-{i+1}"><span class="sr-only">{esc(p["name"])}</span></label>'
     for i, p in enumerate(TIER1))
-cf_html = cf_radios + f'<div class="cf-stage">{cf_panes}</div><div class="cf-dots">{cf_dots}</div>'
+cf_html = (cf_radios + f'<div class="cf-stage">{cf_panes}</div>'
+           f'<div class="cf-dots">{cf_dots}'
+           '<label class="cf-play" for="cf-0"><span class="cf-play-ico" aria-hidden="true"></span>'
+           '<span class="sr-only">Resume the automatic rotation</span></label></div>')
 doc = re.sub(r"(<!-- CFGEN -->).*?(<!-- /CFGEN -->)",
              lambda m: m.group(1) + cf_html + m.group(2), doc, count=1, flags=re.S)
 
