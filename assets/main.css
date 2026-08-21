@@ -2560,38 +2560,6 @@ section:hover .sec-head h2::after { width: 48px; }
 .add-cell { text-align: right; white-space: nowrap; }
 .add-btn-card { width: 100%; margin-bottom: var(--sp-2); }
 
-#add-daily-sweep-and-hold:checked + .add-btn { counter-increment: cart 1 total 249; }
-#add-ny-open-pro:checked + .add-btn { counter-increment: cart 1 total 239; }
-#add-overnight-structure-reclaim:checked + .add-btn { counter-increment: cart 1 total 199; }
-#add-cascade:checked + .add-btn { counter-increment: cart 1 total 199; }
-#add-inverted-gap-fade:checked + .add-btn { counter-increment: cart 1 total 199; }
-#add-silver-830-reversal:checked + .add-btn { counter-increment: cart 1 total 199; }
-#add-gap-flow-pro:checked + .add-btn { counter-increment: cart 1 total 129; }
-#add-pool-milestone-pullback:checked + .add-btn { counter-increment: cart 1 total 129; }
-#add-2h-sweep-plus-inversion-confirm:checked + .add-btn { counter-increment: cart 1 total 129; }
-#add-gap-flow-continuation:checked + .add-btn { counter-increment: cart 1 total 99; }
-#add-prior-day-high-trap:checked + .add-btn { counter-increment: cart 1 total 99; }
-#add-gold-sydney-momentum:checked + .add-btn { counter-increment: cart 1 total 99; }
-#add-4h-failed-bounce-short:checked + .add-btn { counter-increment: cart 1 total 99; }
-#add-afternoon-reversion:checked + .add-btn { counter-increment: cart 1 total 99; }
-#add-30m-structure-reclaim:checked + .add-btn { counter-increment: cart 1 total 99; }
-#add-giant-gap-fade:checked + .add-btn { counter-increment: cart 1 total 99; }
-#add-lunch-break-fade:checked + .add-btn { counter-increment: cart 1 total 99; }
-#add-1030-fade:checked + .add-btn { counter-increment: cart 1 total 99; }
-#add-silver-midday-range-fade:checked + .add-btn { counter-increment: cart 1 total 99; }
-#add-830-news-fade:checked + .add-btn { counter-increment: cart 1 total 79; }
-#add-cme-reopen-snap:checked + .add-btn { counter-increment: cart 1 total 79; }
-#add-15m-structure-scalper:checked + .add-btn { counter-increment: cart 1 total 79; }
-#add-sydney-session-rider:checked + .add-btn { counter-increment: cart 1 total 79; }
-#add-volume-climax-fade:checked + .add-btn { counter-increment: cart 1 total 79; }
-#add-friday-orb:checked + .add-btn { counter-increment: cart 1 total 59; }
-#add-china-orb:checked + .add-btn { counter-increment: cart 1 total 59; }
-#add-frankfurt-continuation:checked + .add-btn { counter-increment: cart 1 total 59; }
-#add-830-range-fade:checked + .add-btn { counter-increment: cart 1 total 59; }
-#add-vwap-band-fade:checked + .add-btn { counter-increment: cart 1 total 59; }
-#add-es-pullback-fade:checked + .add-btn { counter-increment: cart 1 total 59; }
-#add-es-daily-sweep-and-hold:checked + .add-btn { counter-increment: cart 1 total 59; }
-#add-morning-shelf-scalper:checked + .add-btn { counter-increment: cart 1 total 59; }
 
 .cart {
   display: none;
@@ -2616,41 +2584,7 @@ section:hover .sec-head h2::after { width: 48px; }
 .cart-count::after { content: counter(cart) " selected"; }
 .cart-lines { list-style: none; max-height: 13rem; overflow-y: auto; }
 .cart-lines .cl { display: none; }
-#strategies:has(#add-daily-sweep-and-hold:checked) .cl-daily-sweep-and-hold,
-#strategies:has(#add-ny-open-pro:checked) .cl-ny-open-pro,
-#strategies:has(#add-overnight-structure-reclaim:checked) .cl-overnight-structure-reclaim,
-#strategies:has(#add-cascade:checked) .cl-cascade,
-#strategies:has(#add-inverted-gap-fade:checked) .cl-inverted-gap-fade,
-#strategies:has(#add-silver-830-reversal:checked) .cl-silver-830-reversal,
-#strategies:has(#add-gap-flow-pro:checked) .cl-gap-flow-pro,
-#strategies:has(#add-pool-milestone-pullback:checked) .cl-pool-milestone-pullback,
-#strategies:has(#add-2h-sweep-plus-inversion-confirm:checked) .cl-2h-sweep-plus-inversion-confirm,
-#strategies:has(#add-gap-flow-continuation:checked) .cl-gap-flow-continuation,
-#strategies:has(#add-prior-day-high-trap:checked) .cl-prior-day-high-trap,
-#strategies:has(#add-gold-sydney-momentum:checked) .cl-gold-sydney-momentum,
-#strategies:has(#add-4h-failed-bounce-short:checked) .cl-4h-failed-bounce-short,
-#strategies:has(#add-afternoon-reversion:checked) .cl-afternoon-reversion,
-#strategies:has(#add-30m-structure-reclaim:checked) .cl-30m-structure-reclaim,
-#strategies:has(#add-giant-gap-fade:checked) .cl-giant-gap-fade,
-#strategies:has(#add-lunch-break-fade:checked) .cl-lunch-break-fade,
-#strategies:has(#add-1030-fade:checked) .cl-1030-fade,
-#strategies:has(#add-silver-midday-range-fade:checked) .cl-silver-midday-range-fade,
-#strategies:has(#add-830-news-fade:checked) .cl-830-news-fade,
-#strategies:has(#add-cme-reopen-snap:checked) .cl-cme-reopen-snap,
-#strategies:has(#add-15m-structure-scalper:checked) .cl-15m-structure-scalper,
-#strategies:has(#add-sydney-session-rider:checked) .cl-sydney-session-rider,
-#strategies:has(#add-volume-climax-fade:checked) .cl-volume-climax-fade,
-#strategies:has(#add-friday-orb:checked) .cl-friday-orb,
-#strategies:has(#add-china-orb:checked) .cl-china-orb,
-#strategies:has(#add-frankfurt-continuation:checked) .cl-frankfurt-continuation,
-#strategies:has(#add-830-range-fade:checked) .cl-830-range-fade,
-#strategies:has(#add-vwap-band-fade:checked) .cl-vwap-band-fade,
-#strategies:has(#add-es-pullback-fade:checked) .cl-es-pullback-fade,
-#strategies:has(#add-es-daily-sweep-and-hold:checked) .cl-es-daily-sweep-and-hold,
-#strategies:has(#add-morning-shelf-scalper:checked) .cl-morning-shelf-scalper {
-  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3);
-  padding: var(--sp-2) var(--sp-4); border-bottom: 1px solid var(--line);
-}
+/* CARTGEN:reveal (regenerated by _tools/rebuild_index.py) */
 .cl-name {
   font-family: var(--display); font-size: var(--fs-sm); font-weight: 600;
   text-transform: uppercase; letter-spacing: .04em; color: var(--text);
@@ -2789,4 +2723,213 @@ section:hover .sec-head h2::after { width: 48px; }
 .stable tbody th[scope="row"], .stable thead th:first-child { width: 26rem; }
 @media (max-width: 640px) {
   .stable tbody th[scope="row"], .stable thead th:first-child { width: 13rem; }
+}
+
+/* ══ VALIDATED-CATALOG COMPONENTS ════════════════════════════ */
+/* window tile sets (best window / full 2024+) */
+.winset { border: 1px solid var(--line); background: var(--panel); }
+.win-h {
+  display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--line);
+}
+.win-h-2 { border-top: 1px solid var(--line); }
+.win-tag {
+  font-family: var(--mono); font-size: var(--fs-2xs); letter-spacing: .16em;
+  text-transform: uppercase; color: var(--faint);
+}
+.win-tag-best { color: var(--accent); }
+.win-tag-eng { color: var(--accent); }
+.win-range { font-family: var(--mono); font-size: var(--fs-2xs); color: var(--faint); letter-spacing: .04em; }
+.wtiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+  gap: 1px; background: var(--line);
+}
+.wtile {
+  background: var(--panel);
+  padding: var(--sp-3) var(--sp-3);
+  display: flex; flex-direction: column; gap: 2px;
+}
+.wk {
+  font-family: var(--mono); font-size: var(--fs-2xs); letter-spacing: .1em;
+  text-transform: uppercase; color: var(--faint);
+}
+.wv {
+  font-family: var(--mono); font-size: var(--fs-xl); font-weight: 700;
+  font-variant-numeric: tabular-nums; color: var(--text); line-height: 1.15;
+}
+.wtile.hot .wv { color: var(--buy); text-shadow: 0 0 12px rgba(237, 155, 64, .22); }
+
+/* RoDD sizing menu — radios styled as a notched slider, pure CSS */
+.rodd {
+  border: 1px solid var(--line-interactive);
+  background: var(--raised);
+  padding: var(--sp-4);
+  position: relative;
+  transition: border-color var(--fast) var(--ease), box-shadow var(--fast) var(--ease);
+}
+.rodd::before, .rodd::after { content: ""; position: absolute; width: 10px; height: 10px; }
+.rodd::before { top: -1px; left: -1px; border-top: 1px solid var(--accent); border-left: 1px solid var(--accent); }
+.rodd::after  { bottom: -1px; right: -1px; border-bottom: 1px solid var(--accent); border-right: 1px solid var(--accent); }
+.rodd-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3); margin-bottom: var(--sp-3); }
+.rodd-title {
+  font-family: var(--mono); font-size: var(--fs-2xs); letter-spacing: .16em;
+  text-transform: uppercase; color: var(--accent);
+}
+.rodd-fig {
+  font-family: var(--mono); font-size: var(--fs-2xl); font-weight: 700;
+  color: var(--accent); font-variant-numeric: tabular-nums; line-height: 1;
+}
+.rodd-why { font-size: var(--fs-md); color: var(--muted); margin-bottom: var(--sp-4); }
+.rodd-why b { color: var(--text); font-weight: 600; }
+.ro-r { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.ro-track {
+  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr));
+  border-top: 1px solid var(--line-bright);
+  margin-bottom: var(--sp-3);
+}
+.ro-notch {
+  display: flex; flex-direction: column; align-items: center; gap: var(--sp-1);
+  padding: 0 0 var(--sp-2); min-height: 44px;
+  cursor: pointer; user-select: none;
+  color: var(--faint);
+  transition: color var(--fast) var(--ease);
+}
+.ro-notch:hover { color: var(--text); }
+.ro-tick { width: 1px; height: 10px; background: var(--line-bright); }
+.ro-amt {
+  font-family: var(--mono); font-size: var(--fs-2xs); letter-spacing: .04em;
+  font-variant-numeric: tabular-nums;
+}
+/* checked notch highlight — pair each radio to its notch position */
+.ro-r:nth-of-type(1):checked ~ .ro-track .ro-notch:nth-child(1),
+.ro-r:nth-of-type(2):checked ~ .ro-track .ro-notch:nth-child(2),
+.ro-r:nth-of-type(3):checked ~ .ro-track .ro-notch:nth-child(3),
+.ro-r:nth-of-type(4):checked ~ .ro-track .ro-notch:nth-child(4),
+.ro-r:nth-of-type(5):checked ~ .ro-track .ro-notch:nth-child(5),
+.ro-r:nth-of-type(6):checked ~ .ro-track .ro-notch:nth-child(6) {
+  color: var(--accent);
+}
+.ro-r:nth-of-type(1):checked ~ .ro-track .ro-notch:nth-child(1) .ro-tick,
+.ro-r:nth-of-type(2):checked ~ .ro-track .ro-notch:nth-child(2) .ro-tick,
+.ro-r:nth-of-type(3):checked ~ .ro-track .ro-notch:nth-child(3) .ro-tick,
+.ro-r:nth-of-type(4):checked ~ .ro-track .ro-notch:nth-child(4) .ro-tick,
+.ro-r:nth-of-type(5):checked ~ .ro-track .ro-notch:nth-child(5) .ro-tick,
+.ro-r:nth-of-type(6):checked ~ .ro-track .ro-notch:nth-child(6) .ro-tick {
+  background: var(--accent); width: 3px; box-shadow: 0 0 8px rgba(86, 200, 162, .5);
+}
+.ro-r:focus-visible ~ .ro-track { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ro-outs { min-height: 3.4rem; }
+.ro-out { display: none; font-size: var(--fs-md); color: var(--muted); }
+.ro-out b { color: var(--text); font-variant-numeric: tabular-nums; }
+.ro-r:nth-of-type(1):checked ~ .ro-outs .ro-out-1,
+.ro-r:nth-of-type(2):checked ~ .ro-outs .ro-out-2,
+.ro-r:nth-of-type(3):checked ~ .ro-outs .ro-out-3,
+.ro-r:nth-of-type(4):checked ~ .ro-outs .ro-out-4,
+.ro-r:nth-of-type(5):checked ~ .ro-outs .ro-out-5,
+.ro-r:nth-of-type(6):checked ~ .ro-outs .ro-out-6 { display: block; }
+.ro-flag {
+  display: inline-block; margin-right: var(--sp-2);
+  font-family: var(--mono); font-size: var(--fs-2xs); letter-spacing: .12em;
+  padding: 1px 7px; border: 1px solid currentColor;
+}
+/* state tinting: the whole menu shifts when an unfit size is selected */
+.rodd:has(.ro-amb:checked) {
+  border-color: rgba(237, 155, 64, .55);
+  box-shadow: inset 0 0 0 1px rgba(237, 155, 64, .12), 0 0 18px rgba(237, 155, 64, .08);
+}
+.rodd:has(.ro-amb:checked) .ro-flag { color: var(--buy); }
+.rodd:has(.ro-red:checked) {
+  border-color: rgba(224, 101, 95, .65);
+  box-shadow: inset 0 0 0 1px rgba(224, 101, 95, .14), 0 0 18px rgba(224, 101, 95, .10);
+}
+.rodd:has(.ro-red:checked) .ro-flag { color: #E0655F; }
+.rodd:has(.ro-red:checked) .rodd-title,
+.rodd:has(.ro-red:checked) .rodd-fig { color: #E0655F; }
+.ro-note { margin-top: var(--sp-3); font-family: var(--mono); font-size: var(--fs-2xs); color: var(--faint); }
+
+/* legs grid */
+.legs {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: 1px; background: var(--line); border-top: 1px solid var(--line);
+}
+.leg {
+  background: var(--panel); padding: var(--sp-3) var(--sp-4);
+  display: flex; align-items: baseline; gap: var(--sp-2);
+}
+.leg-n { font-family: var(--mono); font-size: var(--fs-2xs); color: var(--accent); }
+.leg-name {
+  font-family: var(--display); font-size: var(--fs-sm); font-weight: 600;
+  text-transform: uppercase; letter-spacing: .04em; color: var(--text);
+}
+
+/* what-separates + warnings */
+.sep-panel .sep-list { list-style: none; padding: var(--sp-2) 0; }
+.sep-list li {
+  display: flex; gap: var(--sp-2); align-items: flex-start;
+  padding: var(--sp-2) var(--sp-4);
+  font-size: var(--fs-md); color: var(--muted);
+}
+.warn-box {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  border: 1px solid rgba(237, 155, 64, .5);
+  border-left: 3px solid var(--buy);
+  background: rgba(237, 155, 64, .05);
+  padding: var(--sp-3) var(--sp-4);
+}
+.warn-box .ic { color: var(--buy); flex-shrink: 0; }
+.warn-box p { font-size: var(--fs-md); color: var(--text); }
+
+@media (max-width: 560px) {
+  .wtiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ro-track { grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 0; }
+  .ro-notch { border-top: 1px solid var(--line-bright); }
+}
+
+/* CARTGEN:rules — generated from catalog2.json; do not hand-edit */
+#add-spartacus:checked + .add-btn { counter-increment: cart 1 total 509; }
+#add-the-alloy:checked + .add-btn { counter-increment: cart 1 total 469; }
+#add-silver-830-reversal:checked + .add-btn { counter-increment: cart 1 total 249; }
+#add-china-orb:checked + .add-btn { counter-increment: cart 1 total 249; }
+#add-afternoon-reversion:checked + .add-btn { counter-increment: cart 1 total 239; }
+#add-30m-structure-reclaim:checked + .add-btn { counter-increment: cart 1 total 199; }
+#add-es-pullback-fade:checked + .add-btn { counter-increment: cart 1 total 189; }
+#add-lunch-break-fade:checked + .add-btn { counter-increment: cart 1 total 189; }
+#add-vwap-band-fade:checked + .add-btn { counter-increment: cart 1 total 179; }
+#add-silver-midday-range-fade:checked + .add-btn { counter-increment: cart 1 total 159; }
+#add-friday-orb:checked + .add-btn { counter-increment: cart 1 total 159; }
+#add-830-range-fade:checked + .add-btn { counter-increment: cart 1 total 159; }
+#add-frankfurt-continuation:checked + .add-btn { counter-increment: cart 1 total 149; }
+#add-pool-milestone-pullback:checked + .add-btn { counter-increment: cart 1 total 129; }
+#add-830-news-fade:checked + .add-btn { counter-increment: cart 1 total 129; }
+#add-1030-fade:checked + .add-btn { counter-increment: cart 1 total 139; }
+#add-the-vise-12:checked + .add-btn { counter-increment: cart 1 total 119; }
+#add-the-vise-15:checked + .add-btn { counter-increment: cart 1 total 119; }
+#add-the-vise-25:checked + .add-btn { counter-increment: cart 1 total 139; }
+#add-cme-reopen-snap:checked + .add-btn { counter-increment: cart 1 total 119; }
+#add-ny-open-pro:checked + .add-btn { counter-increment: cart 1 total 349; }
+#strategies:has(#add-spartacus:checked) .cl-spartacus,
+#strategies:has(#add-the-alloy:checked) .cl-the-alloy,
+#strategies:has(#add-silver-830-reversal:checked) .cl-silver-830-reversal,
+#strategies:has(#add-china-orb:checked) .cl-china-orb,
+#strategies:has(#add-afternoon-reversion:checked) .cl-afternoon-reversion,
+#strategies:has(#add-30m-structure-reclaim:checked) .cl-30m-structure-reclaim,
+#strategies:has(#add-es-pullback-fade:checked) .cl-es-pullback-fade,
+#strategies:has(#add-lunch-break-fade:checked) .cl-lunch-break-fade,
+#strategies:has(#add-vwap-band-fade:checked) .cl-vwap-band-fade,
+#strategies:has(#add-silver-midday-range-fade:checked) .cl-silver-midday-range-fade,
+#strategies:has(#add-friday-orb:checked) .cl-friday-orb,
+#strategies:has(#add-830-range-fade:checked) .cl-830-range-fade,
+#strategies:has(#add-frankfurt-continuation:checked) .cl-frankfurt-continuation,
+#strategies:has(#add-pool-milestone-pullback:checked) .cl-pool-milestone-pullback,
+#strategies:has(#add-830-news-fade:checked) .cl-830-news-fade,
+#strategies:has(#add-1030-fade:checked) .cl-1030-fade,
+#strategies:has(#add-the-vise-12:checked) .cl-the-vise-12,
+#strategies:has(#add-the-vise-15:checked) .cl-the-vise-15,
+#strategies:has(#add-the-vise-25:checked) .cl-the-vise-25,
+#strategies:has(#add-cme-reopen-snap:checked) .cl-cme-reopen-snap,
+#strategies:has(#add-ny-open-pro:checked) .cl-ny-open-pro {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-4); border-bottom: 1px solid var(--line);
 }
