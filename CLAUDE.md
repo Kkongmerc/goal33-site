@@ -114,10 +114,16 @@ recommends the cheaper path instead (The Starter if it IS that trio, otherwise
   generators — change thresholds there, never hand-color a cell). Flagship
   cards star their rank-picked standout stat; rank tags show "#N" only for
   top-3 (honesty rule — never fake a rank).
-- **Performance doctrine** (the page lagged once): no `-webkit-box-reflect`,
-  and never attach infinite text-shadow/filter animations to many elements at
-  once — the violet `.lead` aurora and single-element accents are the only
-  rolling glows. Below-fold sections use `content-visibility: auto`. The hero
+- **Performance doctrine** (the page lagged twice): every INFINITE animation
+  on this site keyframes ONLY `opacity` or `transform` — compositor-only, no
+  per-frame paint. Glows are painted statically and pulsed via opacity (the
+  carousel dots light through an `::after` layer, the nav ember lives on a
+  pseudo, the violet `.lead` aurora breathes opacity over a static shadow).
+  Never keyframe box-shadow / text-shadow / filter / background-color on an
+  infinite loop; finite ≤2-cycle pulses are the only exception. No
+  `-webkit-box-reflect`. Below-fold sections use `content-visibility: auto`
+  with measured `contain-intrinsic-size` values (#packages stays exempt — cv's
+  paint containment clips the fixed starter popup inside it). The hero
   carousel depth-sorts via preserve-3d — do NOT add z-index to its poses or
   keyframes (stepped z caused visible pane-order jumps).
 - **Carousel contract** (v7): two modes on radio `#cf-0` (auto, default) vs
