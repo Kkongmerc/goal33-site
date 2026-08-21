@@ -2559,13 +2559,13 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
   font-variant-numeric: tabular-nums;
   font-size: 1.15em;
   line-height: 1.1;
-  color: #B98CFF;
+  color: #7CFFB2;   /* neon green, 14.2 on panel — same tone as the DD medals */
   font-weight: 700;
   text-decoration: underline;
-  text-decoration-color: rgba(185, 140, 255, .75);
+  text-decoration-color: rgba(124, 255, 178, .70);
   text-decoration-thickness: 2px;
   text-underline-offset: 4px;
-  text-shadow: 0 0 7px rgba(185, 140, 255, .60), 0 0 18px rgba(157, 92, 255, .32);
+  text-shadow: 0 0 7px rgba(124, 255, 178, .55), 0 0 18px rgba(86, 200, 162, .30);
 }
 
 /* ── mobile burger nav (details/summary, zero-JS) ── */
