@@ -2667,11 +2667,7 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
   max-width: 780px;
   margin: 0 auto;
   padding: var(--sp-6) 0 var(--sp-4);
-  display: flex;
-  flex-direction: column;
 }
-.plan-prog { order: -2; }
-.plan-results { order: -1; }
 .plan-prog { display: flex; gap: 6px; margin-bottom: var(--sp-5); }
 .pp { height: 4px; flex: 1; background: var(--line-bright); transition: background-color .35s var(--ease), box-shadow .35s var(--ease); }
 #plan:has(.pq-scope input:checked) .pp-1,
@@ -2773,7 +2769,7 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
 #plan:has(.pq-exec input:checked) .pq-exec:not(:focus-within) .pq-radio:checked + .pq-opt { padding: 3px 10px; background: transparent; box-shadow: none; border-color: rgba(86, 200, 162, .55); }
 #plan:has(.pq-exec input:checked) .pq-exec:not(:focus-within) .pq-radio:checked + .pq-opt b { font-size: var(--fs-xs); }
 #plan:has(.pq-exec input:checked) .pq-exec:not(:focus-within) .pq-radio:checked + .pq-opt span { display: none; }
-.plan-results { min-width: 0; margin: 0 0 var(--sp-4); }
+.plan-results { min-width: 0; margin: var(--sp-5) 0 0; }
 #plan a, .plan-results a { text-decoration: none; }
 #plan a:hover, .plan-results a:hover { text-decoration: none; }
 .pr { display: none; }
