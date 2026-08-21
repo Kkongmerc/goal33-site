@@ -2410,10 +2410,7 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
   text-transform: uppercase;
   white-space: nowrap;
   color: #E8C15C !important;
-  padding: 8px 15px;
-  background: linear-gradient(180deg, #0B0B10, #050508);
-  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-  box-shadow: inset 0 0 16px rgba(232, 193, 92, .08), inset 0 -8px 14px rgba(232, 193, 92, .06);
+  padding: 8px 4px;
   text-shadow: 0 0 8px rgba(232, 193, 92, .35);
 }
 .nav-books::after {
@@ -2431,15 +2428,8 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
   pointer-events: none;
   transition: inset .25s var(--ease);
 }
-.nav-books .nav-ember {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  box-shadow: inset 0 0 18px rgba(232, 193, 92, .16), 0 0 18px rgba(232, 193, 92, .26);
-  opacity: 0;
-}
-.nav-books:hover { color: #F5DFA6 !important; box-shadow: inset 0 0 18px rgba(232, 193, 92, .18), 0 0 20px rgba(232, 193, 92, .30); }
+.nav-books .nav-ember { display: none; }
+.nav-books:hover { color: #F5DFA6 !important; text-shadow: 0 0 12px rgba(232, 193, 92, .55); }
 .nav-books:hover::before { inset: 4px -4px -4px 4px; }
 @media (prefers-reduced-motion: no-preference) {
   .nav-books .nav-ember { animation: books-ember 5.6s ease-in-out infinite; }
