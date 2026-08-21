@@ -86,6 +86,23 @@ def head(title, desc, path, bodycls=""):
     </nav>
     <!-- WHOP: replace this link with the Whop storefront URL -->
     <a class="btn btn-sm btn-buy" href="/#packages" rel="noopener">Get access</a>
+    <!-- DISCORD: replace this href with the community invite link -->
+    <a class="btn btn-sm btn-discord" href="#" rel="noopener"><svg class="ic-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.7 17.4c-3.2-.1-4.9-1.7-4.9-1.7.3-4 1.4-6.6 2.7-8.3C7.8 6.4 9.2 6 9.2 6l.5 1.1c1.5-.3 3.1-.3 4.6 0L14.8 6s1.4.4 2.7 1.4c1.3 1.7 2.4 4.3 2.7 8.3 0 0-1.7 1.6-4.9 1.7l-.8-1.1c-1.6.3-3.4.3-5 0z"/><circle cx="9.6" cy="12.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.6" r="1.15" fill="currentColor" stroke="none"/></svg><span>Discord</span></a>
+    <details class="nav-mob">
+      <summary aria-label="Menu"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span></summary>
+      <nav class="nav-mob-panel" aria-label="Mobile">
+        <a href="/#strategies">Strategies</a>
+        <a href="/#flagships">Tier 1 &middot; Flagships</a>
+        <a href="/#tier-2">Tier 2 &middot; Core systems</a>
+        <a href="/#tier-3">Tier 3 &middot; Session specialists</a>
+        <a href="/#packages">Books and Bundles</a>
+        <a href="/plan.html">Find your plan</a>
+        <a href="/#how">How access works</a>
+        <a href="/#faq">FAQ</a>
+        <!-- DISCORD: replace this href with the community invite link -->
+        <a href="#" rel="noopener">Join the community Discord</a>
+      </nav>
+    </details>
   </div>
 </header>
 
@@ -101,6 +118,10 @@ FOOTER = f"""</main>
       <a href="/#packages">Bundles</a>
       <a href="/plan.html">Find your plan</a>
       <a href="/#how">How access works</a>
+      <a href="/terms.html">Terms</a>
+      <a href="/privacy.html">Privacy</a>
+      <!-- DISCORD: replace this href with the community invite link -->
+      <a href="#" rel="noopener">Discord</a>
       <!--email_off--><a href="mailto:support@goal33systems.com">support@goal33systems.com</a><!--/email_off-->
     </div>
     <p class="disclaimer">{esc(DISCLAIMER)}</p>
@@ -321,7 +342,7 @@ THEMED = {p["slug"] for p in sorted(CAT["strategies"], key=lambda x: -x["price"]
 THEMED |= {b["slug"] for b in CAT["books"]}
 
 os.makedirs(os.path.join(BASE, "strategies"), exist_ok=True)
-urls = ["/", "/plan.html"]
+urls = ["/", "/plan.html", "/terms.html", "/privacy.html"]
 
 def product_page(p, is_book):
     path = f"/strategies/{p['slug']}.html"
@@ -555,6 +576,147 @@ p404 += f"""
 """
 p404 += FOOTER
 open(os.path.join(BASE, "404.html"), "w", encoding="utf-8").write(p404)
+
+
+# ── legal pages ─────────────────────────────────────────────────
+def legal_page(fname, title, body):
+    page = head(f"{title} — Goal33 Systems",
+                f"{title} for Goal33 Systems — TradingView invite-only strategy subscriptions sold through Whop.",
+                f"/{fname}")
+    page += f"""
+  <div class="wrap legal">
+    {body}
+  </div>
+"""
+    page += FOOTER
+    open(os.path.join(BASE, fname), "w", encoding="utf-8").write(page)
+
+TERMS_BODY = """<h1>Terms of Service</h1>
+<p class="updated">Last updated: 21 August 2026</p>
+
+<h2><span class="n">01</span> Who we are, and what these terms cover</h2>
+<p>Goal33 Systems (&ldquo;we&rdquo;, &ldquo;us&rdquo;) publishes trading-strategy software delivered as
+invite-only TradingView scripts. By purchasing a subscription or using this site you agree to these
+terms. If you do not agree, do not purchase access.</p>
+
+<h2><span class="n">02</span> What you are buying</h2>
+<p>A subscription is a <strong>license to use software</strong> &mdash; access to one or more strategy
+scripts on the TradingView platform for as long as your subscription is active. It is not a managed
+account, not a trading service, not a signal service operated on your behalf, and not financial,
+investment, legal, or tax advice. We are software publishers, not advisers or brokers, and no
+fiduciary relationship is created.</p>
+
+<h2><span class="n">03</span> Billing, cancellation, refunds</h2>
+<p>All payments are processed by Whop; we never see or store your payment details. Subscriptions renew
+automatically until cancelled. You can cancel anytime through Whop and access runs to the end of the
+paid period, then revokes automatically. Refunds are handled through Whop under the refund terms
+presented at checkout; billing disputes should be raised through Whop first so they reach us fastest.</p>
+
+<h2><span class="n">04</span> Access and your TradingView username</h2>
+<p>Delivery requires a valid TradingView username, which you provide at checkout. We grant invite-only
+access to that username, normally within 24 hours of purchase. Keeping the username accurate is your
+responsibility; access is revoked automatically when a subscription lapses or is refunded.</p>
+
+<h2><span class="n">05</span> Acceptable use</h2>
+<ul>
+<li>One subscription covers one TradingView account. Do not share, pool, or resell access.</li>
+<li>Do not copy, decompile, reverse-engineer, republish, or redistribute any script, its source, its
+settings, or its signals, in whole or in part.</li>
+<li>Do not misrepresent our published statistics or use our name or materials to market a third-party
+product.</li>
+</ul>
+<p>We may suspend or revoke access for violations, without refund where the law allows.</p>
+
+<h2><span class="n">06</span> Performance figures</h2>
+<p>Every statistic on this site comes from backtested or validation runs over the stated windows, with
+commissions and slippage modeled, published exactly as the run produced them. Backtested and
+hypothetical performance has inherent limitations, does not represent live trading, and is not a
+guarantee or projection of future results. You can lose money, including more than you deposit,
+trading futures. Only risk capital should be used. The full risk and hypothetical-performance
+disclosures in the footer of every page form part of these terms.</p>
+
+<h2><span class="n">07</span> Intellectual property</h2>
+<p>All scripts, code, names, marks, statistics, and site content remain our property. Your
+subscription grants a limited, non-exclusive, non-transferable, revocable license to use the scripts
+for your own trading while the subscription is active. No other rights are granted.</p>
+
+<h2><span class="n">08</span> Disclaimer of warranties; limitation of liability</h2>
+<p>The scripts and this site are provided <strong>as is</strong>, without warranties of any kind,
+express or implied, including merchantability, fitness for a particular purpose, and uninterrupted or
+error-free operation. TradingView and Whop are independent platforms we do not control. To the maximum
+extent permitted by law, our total liability for any claim arising out of these terms or your use of
+the software is limited to the subscription fees you paid us in the three months before the claim
+arose; we are not liable for trading losses, lost profits, or indirect, incidental, or consequential
+damages.</p>
+
+<h2><span class="n">09</span> Changes, termination, governing law</h2>
+<p>We may update these terms; the &ldquo;last updated&rdquo; date changes when we do, and continued use
+after a change is acceptance. We may discontinue a product at any time; if we discontinue something
+you have paid for, the unused portion is refunded through Whop. These terms are governed by the laws
+of the United States and of the state in which Goal33 Systems is organized, without regard to
+conflict-of-law rules.</p>
+<!-- LEGAL: set the specific state of organization here once the entity is formed -->
+
+<h2><span class="n">10</span> Contact</h2>
+<p>Questions about these terms: <!--email_off--><a href="mailto:support@goal33systems.com">support@goal33systems.com</a><!--/email_off-->.</p>"""
+
+PRIVACY_BODY = """<h1>Privacy Policy</h1>
+<p class="updated">Last updated: 21 August 2026</p>
+
+<h2><span class="n">01</span> The short version</h2>
+<p>This site is a static page. It has no accounts, no login, no forms, no cookies, no analytics, no
+trackers, and it runs no scripts in your browser. We cannot collect what never exists: browsing this
+site sends us nothing about you.</p>
+
+<h2><span class="n">02</span> What we never collect</h2>
+<ul>
+<li>No cookies or local storage, first- or third-party.</li>
+<li>No analytics, pixels, fingerprinting, or session recording.</li>
+<li>No account data &mdash; there are no accounts on this site.</li>
+<li>No payment details &mdash; we never see or store card numbers.</li>
+</ul>
+
+<h2><span class="n">03</span> What third parties process</h2>
+<ul>
+<li><strong>Whop</strong> runs checkout and billing. When you buy, Whop collects your name, email,
+payment details, and your TradingView username under
+<a href="https://whop.com/privacy" rel="noopener">Whop&rsquo;s privacy policy</a>. Whop shares with us
+only what we need to deliver access: your order, email, and TradingView username.</li>
+<li><strong>TradingView</strong> hosts the strategy scripts. Granting invite-only access associates
+your TradingView username with our scripts under TradingView&rsquo;s own policies.</li>
+<li><strong>GitHub Pages and Cloudflare</strong> serve this site and keep standard, short-lived server
+logs (IP address, user agent, requested page) for security and delivery, under their own policies. We
+do not receive or mine those logs.</li>
+<li><strong>Google Fonts</strong> serves the site&rsquo;s typefaces; your browser requests font files
+from Google&rsquo;s servers, which sees the request metadata (IP, user agent).</li>
+<li><strong>Discord</strong> hosts our community; joining it is optional and governed by
+Discord&rsquo;s terms and privacy policy.</li>
+</ul>
+
+<h2><span class="n">04</span> What we do with what we have</h2>
+<p>The data we hold is your order record, your email, and your TradingView username. We use them for
+exactly three things: granting and revoking script access, support, and service messages about your
+subscription. We do not sell data, run marketing lists, or share anything beyond the processors named
+above.</p>
+
+<h2><span class="n">05</span> Email support</h2>
+<p>If you email support, we keep the thread to help you and for our records. Nothing else is done
+with it.</p>
+
+<h2><span class="n">06</span> Retention and your rights</h2>
+<p>Order records are kept as long as bookkeeping and tax rules require; access records are kept while
+your subscription is active. Email us to ask what we hold about you, to correct it, or to request
+deletion of anything we are not legally required to keep.</p>
+
+<h2><span class="n">07</span> Children</h2>
+<p>This site and our products are not directed at anyone under 18, and futures trading is not either.</p>
+
+<h2><span class="n">08</span> Changes and contact</h2>
+<p>If this policy changes, the date above changes with it. Questions:
+<!--email_off--><a href="mailto:support@goal33systems.com">support@goal33systems.com</a><!--/email_off-->.</p>"""
+
+legal_page("terms.html", "Terms of Service", TERMS_BODY)
+legal_page("privacy.html", "Privacy Policy", PRIVACY_BODY)
 
 # ── sitemap + stale-page cleanup ────────────────────────────────
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
