@@ -5,6 +5,7 @@ import json, html, os, sys, hashlib
 _HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, _HERE)
 import charts
+from glyphs import glyph, emblem
 
 BASE = os.path.dirname(_HERE)  # repo root
 CAT = json.load(open(os.path.join(_HERE, "catalog2.json"), encoding="utf-8"))
@@ -38,7 +39,7 @@ def is_hot(key, val):
             "Net": v >= 150000}.get(key, False)
 
 # ── shared page skeleton ────────────────────────────────────────
-def head(title, desc, path):
+def head(title, desc, path, bodycls=""):
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,7 +62,7 @@ def head(title, desc, path):
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/main.css?v={CSSV}">
 </head>
-<body>
+<body{f' class="{bodycls}"' if bodycls else ''}>
 <a class="skip" href="#main">Skip to content</a>
 
 <header>
@@ -305,6 +306,9 @@ def market_chips(meta):
     return chips
 
 # ── strategy + book pages ───────────────────────────────────────
+THEMED = {p["slug"] for p in sorted(CAT["strategies"], key=lambda x: -x["price"])[:6]}
+THEMED |= {b["slug"] for b in CAT["books"]}
+
 os.makedirs(os.path.join(BASE, "strategies"), exist_ok=True)
 urls = ["/", "/plan.html"]
 
@@ -326,14 +330,16 @@ def product_page(p, is_book):
         others = [bk for bk in CAT["books"] if bk["slug"] != p["slug"]]
         xsell = ('All four engines: <a href="/strategies/the-books.html">The Books — $2,999/mo</a> · '
                  + " · ".join(f'<a href="/strategies/{o["slug"]}.html">{esc(o["name"])}</a>' for o in others[:2]))
-    page = head(f"{p['name']} — Goal33 Systems", mdesc, path)
+    page = head(f"{p['name']} — Goal33 Systems", mdesc, path,
+                bodycls=(f"pdp-theme fc-{p['slug']}" if p["slug"] in THEMED else ""))
     page += f"""
   <div class="wrap">
     <nav class="crumbs" aria-label="Breadcrumb">{crumb_root}<span class="sep">/</span>{esc(p['name'])}</nav>
 
     <article class="pdp">
       <div class="pdp-head">
-        <div>
+        {('<span class="pdp-glyph" aria-hidden="true">' + (emblem(p['slug'], 'bk-emblem pdp-mark') if is_book else glyph(p['slug'], 'glyph pdp-mark')) + '</span>') if p['slug'] in THEMED else ''}
+        <div class="pdp-id">
           <h1>{esc(p['name'])}</h1>
           <div class="card-real">{esc(p['actual'])}</div>
           <div class="pdp-meta">{market_chips(p['meta'])}<span class="chip chip-verified">LIVE-VALIDATED</span>{'<span class="chip chip-mkt">IN-HOUSE BOOK</span>' if is_book else ''}</div>
