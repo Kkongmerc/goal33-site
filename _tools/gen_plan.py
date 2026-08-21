@@ -71,8 +71,8 @@ def stat_strip(p):
 def single_card(p, tkey, alt):
     alt_line = (f'<p class="pr-alt">Runner-up: <a href="/strategies/{alt["slug"]}.html">{esc(alt["name"])}</a>'
                 f' — {bs(alt,"RoDD")}&times; RoDD, {bs(alt,"Win")} win, {bs(alt,"Max DD")} max drawdown.</p>') if alt else ""
-    return f"""<div class="pr-card">
-      <div class="pr-head">{glyph(p['slug'], 'glyph g-plan')}<div class="pr-id">
+    return f"""<div class="pr-card fc-{p['slug']}">
+      <div class="pr-head"><span class="pr-gchip">{glyph(p['slug'], 'glyph g-plan')}</span><div class="pr-id">
         <a class="pr-name" href="/strategies/{p['slug']}.html">{esc(p['name'])}</a>
         <span class="pr-real">{esc(p['actual'])}</span></div>
         <div class="pr-price">${p['price']}<small>/MO</small></div>
@@ -236,25 +236,37 @@ exec_opts = [
 ]
 
 qs = f"""
+      <input type="checkbox" id="ed-scope" class="pq-edit">
       <fieldset class="pq pq-scope">
         <legend><span class="pq-n">STEP 01</span> <span class="pq-q">What are you shopping for?</span></legend>
         {chips('q-scope', scope_opts)}
+      <label class="pq-editlab" for="ed-scope"><span class="sr-only">Change this answer</span></label>
+        <label class="pq-close" for="ed-scope">done</label>
       </fieldset>
 
+      <input type="checkbox" id="ed-budget" class="pq-edit">
       <fieldset class="pq pq-budget">
         <legend><span class="pq-n">STEP 02</span> <span class="pq-q">What drawdown budget are you sizing?</span></legend>
         <p class="pq-hint">Not your account size — the open drawdown you could genuinely sit through without pulling the plug. The same number the sizing menu on every product page runs on.</p>
         {chips('q-budget', budget_opts)}
+      <label class="pq-editlab" for="ed-budget"><span class="sr-only">Change this answer</span></label>
+        <label class="pq-close" for="ed-budget">done</label>
       </fieldset>
 
+      <input type="checkbox" id="ed-temp" class="pq-edit">
       <fieldset class="pq pq-temp">
         <legend><span class="pq-n">STEP 03</span> <span class="pq-q">What kind of ride can you stomach?</span></legend>
         {chips('q-temp', temp_opts)}
+      <label class="pq-editlab" for="ed-temp"><span class="sr-only">Change this answer</span></label>
+        <label class="pq-close" for="ed-temp">done</label>
       </fieldset>
 
+      <input type="checkbox" id="ed-exec" class="pq-edit">
       <fieldset class="pq pq-exec">
         <legend><span class="pq-n">STEP 04</span> <span class="pq-q">How will you run it?</span></legend>
         {chips('q-exec', exec_opts)}
+      <label class="pq-editlab" for="ed-exec"><span class="sr-only">Change this answer</span></label>
+        <label class="pq-close" for="ed-exec">done</label>
       </fieldset>
 """
 
