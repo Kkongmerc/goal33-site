@@ -1,3 +1,6 @@
 # Never publish local AI tooling/config to the public site
 .claude/
 .mcp.json
+
+__pycache__/
+*.pyc
