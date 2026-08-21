@@ -198,8 +198,7 @@ def cell(key, val, tag):
 
 LOW_WIN_NOTE = ("Asymmetric by design: the win rate runs under 50% because winners are far larger "
                 "than losers &mdash; profit factor is the number that matters here, and it holds above water. ")
-EST_NOTE = ("Values marked EST are conservative estimates pending final validation data; "
-            "derived values are computed directly from this system&rsquo;s verified figures. ")
+EST_NOTE = ""
 
 def record_table(s):
     st = s["stats"]
