@@ -46,6 +46,14 @@ ADDCELL = lambda slug, name: (
     f'<label for="add-{slug}" class="add-btn"><span class="add-ico" aria-hidden="true"></span>'
     f'<span class="add-txt">Add</span><span class="sr-only"> {esc(name)} to selection</span></label></td>')
 
+LEAD_KEYS = ["RoDD", "PF", "Win", "Net", "Trades"]
+LEADERS = {k: max(S, key=lambda p: num(bs(p, k)))["slug"] for k in LEAD_KEYS}
+def val_cls(p, k):
+    v = bs(p, k)
+    if k in LEAD_KEYS and LEADERS[k] == p["slug"]:
+        return "lead"
+    return "hot" if is_hot(k, v) else ""
+
 srt = sorted(S, key=lambda x: -x["price"])
 TIER1, TIER2, TIER3 = srt[:6], [x for x in srt[6:] if x["price"] >= 149], [x for x in srt[6:] if x["price"] < 149]
 
@@ -54,7 +62,8 @@ def fcard(p):
     stats = ""
     for k, lab in [("RoDD", "RoDD"), ("PF", "PF"), ("Win", "Win"), ("Net", "Net"), ("Max DD", "Max DD"), ("Trades", "n")]:
         v = bs(p, k)
-        hot = ' class="hot"' if is_hot(k, v) else ""
+        c = val_cls(p, k)
+        hot = f' class="{c}"' if c else ""
         stats += f'<div class="fstat"><b{hot}>{esc(v)}</b><span>{lab}</span></div>'
     return f"""<article class="fcard">
           <div class="fcard-top">
@@ -86,7 +95,8 @@ def trow(p):
         v = bs(p, k)
         cls = []
         if k == "RoDD": cls.append("pf")
-        if is_hot(k, v): cls.append("hot")
+        vc = val_cls(p, k)
+        if vc: cls.append(vc)
         c = f' class="{" ".join(cls)}"' if cls else ""
         cells += f'<td{c}>{esc(v)}</td>'
     return f"""<tr>

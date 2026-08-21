@@ -1173,19 +1173,30 @@ section { border-bottom: 1px solid var(--line); padding: var(--sp-8) 0; }
    (amber = transactional OR exceptional-stat): amber value,
    subtle amber ring, faint amber glow. #ED9B40 = 7.9 on panel,
    7.4 on the raised row-hover background (AA). */
+/* number-only standout: amber glyph glow, never a box or ring */
 .hot,
 .stable tbody td.hot,
 .record td.hot {
   color: var(--buy);
   font-weight: 600;
-  box-shadow: inset 0 0 0 1px rgba(237, 155, 64, .35),
-              0 0 10px rgba(237, 155, 64, .18);
+  box-shadow: none;
+  text-shadow: 0 0 10px rgba(237, 155, 64, .28);
 }
-/* stat boxes carry a real border — recolor it instead of ringing */
 .fstat.hot,
 .gsample.hot {
-  border-color: rgba(237, 155, 64, .5);
-  box-shadow: 0 0 10px rgba(237, 155, 64, .18);
+  border-color: var(--line);
+  box-shadow: none;
+  color: var(--buy);
+  text-shadow: 0 0 10px rgba(237, 155, 64, .28);
+}
+/* category leader: the single best value per column glows violet */
+.lead,
+.stable tbody td.lead,
+.fstat b.lead {
+  color: #B18CFF;   /* 9.9 on panel, AA */
+  font-weight: 700;
+  box-shadow: none;
+  text-shadow: 0 0 12px rgba(177, 140, 255, .38);
 }
 /* bare featured-band figures glow on the glyphs, not a box */
 .feat-fig.hot {
@@ -1612,8 +1623,6 @@ footer { padding: var(--sp-7) 0; }
   /* gentle standout-stat glow pulse — same finite budget; the box
      and figure variants keep each shape's resting shadow form */
   .hot { animation: hot-pulse 2.2s var(--ease) 2; }
-  .fstat.hot, .gsample.hot { animation-name: hot-pulse-box; }
-  .feat-fig.hot { animation-name: hot-pulse-fig; }
   /* one control pauses page animation (WCAG 2.2.2): the
      #ticker-pause checkbox is a direct child of <body> before the
      tickerbar and <main>, so :checked reaches the ticker track,
@@ -2722,10 +2731,13 @@ section:hover .sec-head h2::after { width: 48px; }
 .wtiles {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
-  gap: 1px; background: var(--line);
+  gap: var(--sp-2);
+  padding: var(--sp-3);
+  background: transparent;   /* empty grid remainder is plain background */
 }
 .wtile {
   background: var(--panel);
+  border: 1px solid var(--line);
   padding: var(--sp-3) var(--sp-3);
   display: flex; flex-direction: column; gap: 2px;
 }
@@ -2939,6 +2951,21 @@ section:hover .sec-head h2::after { width: 48px; }
 .ro-r.ro-red:nth-of-type(6):checked ~ .ro-track .ro-notch:nth-child(6) .ro-amt {
   color: #E0655F; font-weight: 700;
 }
+
+/* best-window pane: separated + glowing */
+.winset-best {
+  border-color: rgba(86, 200, 162, .55);
+  box-shadow: 0 0 18px rgba(86, 200, 162, .16), inset 0 0 0 1px rgba(86, 200, 162, .10);
+}
+.winset-best .win-h { border-bottom-color: rgba(86, 200, 162, .3); }
+.winset + .winset { margin-top: var(--sp-3); }
+
+/* screener rows: whole-rectangle amber glow on hover, no underline */
+.stable tbody tr:hover > td,
+.stable tbody tr:hover > th[scope="row"] { background: #182221; }  /* panel + 6% amber, solid for the sticky column */
+.stable tbody tr:hover { box-shadow: inset 0 0 0 1px rgba(237, 155, 64, .45), 0 0 14px rgba(237, 155, 64, .12); }
+.stable a.sys-link:hover { text-decoration: none; }
+.stable a.sys-link:hover .sys-name { text-decoration: none; color: var(--buy); }
 
 /* recommended size: heavy emphasis */
 .ro-notch { position: relative; }

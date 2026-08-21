@@ -148,14 +148,16 @@ def tile_grid(stats):
 
 def windows_block(p, label_prefix=""):
     b, f = p["best"], p["full"]
-    out = f'''<div class="winset">
+    out = f'''<div class="winset winset-best">
     <div class="win-h"><span class="win-tag win-tag-best">BEST WINDOW</span><span class="win-range">{esc(p.get("window",""))}</span></div>
-    {tile_grid(b["stats"])}'''
+    {tile_grid(b["stats"])}
+  </div>'''
     if f:
         out += f'''
-    <div class="win-h win-h-2"><span class="win-tag">FULL 2024+ WINDOW</span><span class="win-range">context</span></div>
-    {tile_grid(f["stats"])}'''
-    out += "\n  </div>"
+  <div class="winset">
+    <div class="win-h"><span class="win-tag">FULL 2024+ WINDOW</span><span class="win-range">context</span></div>
+    {tile_grid(f["stats"])}
+  </div>'''
     return out
 
 def engines_block(p):
@@ -163,14 +165,16 @@ def engines_block(p):
     out = ""
     for key, label in [("v1", "ENGINE V1 · INSIDE ENTRY"), ("v2", "ENGINE V2 · EXPANSION-GATED")]:
         d = e[key]
-        out += f'''<div class="winset">
+        out += f'''<div class="winset winset-best">
     <div class="win-h"><span class="win-tag win-tag-eng">{label}</span><span class="win-range">{esc(d.get("window",""))}</span></div>
-    {tile_grid(d["best"]["stats"])}'''
+    {tile_grid(d["best"]["stats"])}
+  </div>'''
         if d.get("full"):
             out += f'''
-    <div class="win-h win-h-2"><span class="win-tag">FULL 2024+ WINDOW</span><span class="win-range">context</span></div>
-    {tile_grid(d["full"]["stats"])}'''
-        out += "\n  </div>"
+  <div class="winset">
+    <div class="win-h"><span class="win-tag">FULL 2024+ WINDOW</span><span class="win-range">context</span></div>
+    {tile_grid(d["full"]["stats"])}
+  </div>'''
     return out
 
 def chart_figure(p):
