@@ -2420,17 +2420,8 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
   transform: rotate(45deg);
   box-shadow: 0 0 8px rgba(232, 193, 92, .6);
 }
-.nav-books::before {
-  content: "";
-  position: absolute;
-  inset: -4px 4px 4px -4px;
-  border: 1px solid rgba(232, 193, 92, .25);
-  pointer-events: none;
-  transition: inset .25s var(--ease);
-}
 .nav-books .nav-ember { display: none; }
 .nav-books:hover { color: #F5DFA6 !important; text-shadow: 0 0 12px rgba(232, 193, 92, .55); }
-.nav-books:hover::before { inset: 4px -4px -4px 4px; }
 @media (prefers-reduced-motion: no-preference) {
   .nav-books .nav-ember { animation: books-ember 5.6s ease-in-out infinite; }
   @keyframes books-ember {
@@ -2561,11 +2552,20 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
 .nav-mob-panel a.mob-books { color: #E8C15C; }
 .nav-mob-panel a.mob-books:hover { color: #F5DFA6; background: #14100A; }
 
-/* the sizing menu's historical-return projection: bright violet, lit */
-.ro-ret {
+/* the sizing menu's historical-return projection: big purple, underlined,
+   impossible to miss */
+.ro-ret, .ro-out b.ro-ret, .rodd b.ro-ret {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 1.45em;
+  line-height: 1.1;
   color: #B98CFF;
   font-weight: 700;
-  text-shadow: 0 0 6px rgba(185, 140, 255, .60), 0 0 16px rgba(157, 92, 255, .30);
+  text-decoration: underline;
+  text-decoration-color: rgba(185, 140, 255, .75);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  text-shadow: 0 0 7px rgba(185, 140, 255, .60), 0 0 18px rgba(157, 92, 255, .32);
 }
 
 /* ── mobile burger nav (details/summary, zero-JS) ── */
