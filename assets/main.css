@@ -2455,12 +2455,17 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--sp-3);
   width: 100%;
+  grid-column: 1 / -1;   /* spans the copy AND the carousel columns */
+  margin-top: var(--sp-2);
 }
 .hero .hero-ctas .btn, .hero .cta-row .btn {
-  min-height: 56px;
+  min-height: 60px;
   font-size: var(--fs-md);
   letter-spacing: .04em;
-  justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--sp-5);
   border-color: rgba(86, 200, 162, .45);
   background-image: linear-gradient(180deg, rgba(86, 200, 162, .07), transparent 70%);
   transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s var(--ease), background-color .2s var(--ease);
@@ -2470,6 +2475,8 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
   border-color: var(--accent);
   box-shadow: 0 10px 26px rgba(86, 200, 162, .16);
 }
+.hero .hero-ctas .btn .ic-arrow { transition: transform .2s var(--ease); }
+.hero .hero-ctas .btn:hover .ic-arrow { transform: translate(3px, -3px); }
 @media (max-width: 560px) { .hero .hero-ctas, .hero .cta-row { grid-template-columns: minmax(0, 1fr); } }
 .plan-banner {
   display: flex;
