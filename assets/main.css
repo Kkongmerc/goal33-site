@@ -32,13 +32,20 @@
        captions = faint #738D85: 5.4 on bg / 5.0 on panel
      .chart-end / .ckey figures = text #E9F2EE (15.6 on panel)
        and muted #8FA8A1 (7.0 on panel)
-     plan finder (#finder): option labels muted #8FA8A1 on panel
-       7.0 → checked mint #56C8A2 on accent-dim over panel 7.5
-       (same math as pill-green); legends muted on panel 7.0 with
-       the Q-index mint 8.6; .finder-wait / .finder-update faint
-       #738D85 on bg 5.4; card copy reuses text/muted/accent on
-       panel; automation tip text #E9F2EE / muted #8FA8A1 on
-       raised 14.5 / 6.5 — no new color pairs introduced
+     plan finder (plan.html): reuses text/muted/faint/mint pairs
+       on bg/panel/raised only — no new pairs; chip checked state
+       mint on rgba mint over raised ≥ 7.5 (same math as pill-green)
+     book identity colors (owner-approved exception to the two-
+       accent rule; data text stays mint/amber everywhere else):
+       midas gold #E8C15C on panel 10.3 / raised 9.6 (AA)
+       continuum cyan #5CC8E8 on panel 9.2 / raised 8.6 (AA)
+       daylight sun-orange #FF9142 on panel 7.9 / raised 7.4 (AA)
+       vault silver #C7D3DC on panel 11.7 / raised 10.9 (AA)
+     flagship identity colors (same exception; name/emblem/chrome
+       only — all ≥ 7.6 on panel): spartacus bronze #E3A857 8.5,
+       alloy copper #F0907A 7.6, market-maker blue #7FB2FF 8.2,
+       sterling silver #D9E3EA 13.7, abacus jade-lime #B4E369 12.0,
+       pendulum orchid #E88FC6 7.8
      gradient display names (.feat/.fcard/.special-card h4 links,
        .pack h3 / .books-head h3 links, .pdp-head h1): linear-gradient
        stops #E9F2EE / #56C8A2 / #6AD8B3 — every stop individually AA
@@ -699,6 +706,12 @@ section { border-bottom: 1px solid var(--line); padding: var(--sp-8) 0; }
    opt-in only (prefers-reduced-motion: no-preference) and finite
    (2 cycles ≈ 4.4s < 5s, WCAG 2.2.2). */
 .badge-special {
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  max-width: none;
+  line-height: 1.2;
+  background: var(--bg);
   font-family: var(--mono);
   font-size: var(--fs-2xs);
   font-weight: 700;
@@ -872,6 +885,9 @@ section { border-bottom: 1px solid var(--line); padding: var(--sp-8) 0; }
 }
 .fcard-id { min-width: 0; }
 .fcard h4 {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
   font-family: var(--display);
   font-size: var(--fs-xl);
   font-weight: 700;
@@ -2042,31 +2058,138 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
   letter-spacing: .02em;
 }
 .pack-books .sub { color: var(--muted); max-width: 52ch; margin-bottom: var(--sp-4); }
-.books-list {
+
+/* ── the book deck: four in-house engines, each with its own identity.
+   Colors are an owner-approved exception to the two-accent rule — ledger
+   pairs in the header table. Stretched .bk-name link = whole card clickable. */
+.bookdeck {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--sp-2);
+  gap: var(--sp-3);
   margin-bottom: var(--sp-4);
 }
-.books-list li {
-  font-family: var(--mono);
-  font-size: var(--fs-xs);
-  letter-spacing: .04em;
-  color: var(--text);
-  border: 1px solid var(--line-bright);
-  background: var(--panel);
-  padding: var(--sp-2) var(--sp-3);
-  text-align: center;
-  white-space: nowrap;
+.bookcard {
+  --bk: #C7D3DC;
+  --bk-soft: rgba(199, 211, 220, .14);
+  --bk-line: rgba(199, 211, 220, .38);
+  --bk-glow: rgba(199, 211, 220, .22);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: var(--sp-4);
+  border: 1px solid var(--bk-line);
+  background: radial-gradient(130% 90% at 50% 0%, var(--bk-soft), transparent 58%), var(--panel);
+  overflow: hidden;
+  transition: box-shadow .25s var(--ease), transform .25s var(--ease), border-color .25s var(--ease);
 }
+.bk-midas     { --bk: #E8C15C; --bk-soft: rgba(232, 193, 92, .15); --bk-line: rgba(232, 193, 92, .40); --bk-glow: rgba(232, 193, 92, .26); }
+.bk-continuum { --bk: #5CC8E8; --bk-soft: rgba(92, 200, 232, .13); --bk-line: rgba(92, 200, 232, .38); --bk-glow: rgba(92, 200, 232, .24); }
+.bk-daylight  { --bk: #FF9142; --bk-soft: rgba(255, 145, 66, .14); --bk-line: rgba(255, 145, 66, .40); --bk-glow: rgba(255, 145, 66, .26); }
+.bk-vault     { --bk: #C7D3DC; --bk-soft: rgba(199, 211, 220, .12); --bk-line: rgba(199, 211, 220, .36); --bk-glow: rgba(199, 211, 220, .22); }
+.bookcard:hover, .bookcard:focus-within {
+  border-color: var(--bk);
+  box-shadow: 0 0 24px var(--bk-glow), inset 0 0 22px var(--bk-soft);
+  transform: translateY(-2px);
+}
+/* sheen sweep in the book's own color on hover */
+.bookcard::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(115deg, transparent 32%, var(--bk-soft) 48%, transparent 64%);
+  transform: translateX(-130%);
+  pointer-events: none;
+}
+.bk-emblem {
+  width: 46px; height: 46px;
+  color: var(--bk);
+  filter: drop-shadow(0 0 7px var(--bk-glow));
+  margin-bottom: 3px;
+}
+.bookcard .bk-name {
+  font-family: var(--display);
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  color: var(--bk);
+  text-decoration: none;
+}
+.bookcard .bk-name::after { content: ""; position: absolute; inset: 0; }  /* whole card clicks */
+.bookcard:hover .bk-name, .bookcard:focus-within .bk-name { color: var(--bk); text-shadow: 0 0 10px var(--bk-glow); }
+.bk-epithet {
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--bk);
+  opacity: .78;
+}
+.bk-price {
+  margin-top: auto;
+  padding-top: var(--sp-2);
+  font-family: var(--mono);
+  font-size: var(--fs-md);
+  font-weight: 700;
+  color: var(--text);
+}
+.bk-price small { font-size: var(--fs-2xs); font-weight: 400; color: var(--muted); letter-spacing: .06em; }
+/* mini variant (plan page) */
+.bookdeck-mini { gap: var(--sp-2); margin: 0 0 var(--sp-3); }
+.bookdeck-mini .bookcard { padding: var(--sp-3); }
+.bookdeck-mini .bk-emblem { width: 32px; height: 32px; }
+.bookdeck-mini .bk-name { font-size: var(--fs-md); }
+.bookdeck-mini .bk-epithet { display: none; }
+@media (max-width: 900px) {
+  .bookdeck { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 440px) {
+  .bookdeck { grid-template-columns: minmax(0, 1fr); }
+  .bookdeck-mini { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* ambient emblem motion — gated, and wired into the pause control */
+@media (prefers-reduced-motion: no-preference) {
+  .bookcard::after { transition: transform .9s var(--ease); }
+  .bookcard:hover::after, .bookcard:focus-within::after { transform: translateX(130%); }
+  .bk-continuum .bk-orbit {
+    transform-box: view-box;
+    transform-origin: 50% 50%;
+    animation: bk-spin 18s linear infinite;
+  }
+  .bk-daylight .bk-rays {
+    transform-box: view-box;
+    transform-origin: 50% 50%;
+    animation: bk-sunspin 22s linear infinite;
+  }
+  .bk-midas .bk-ray { animation: bk-twinkle 4.4s ease-in-out infinite; }
+  .bk-vault .bk-wheel {
+    transform-box: view-box;
+    transform-origin: 50% 50%;
+    transition: transform .7s var(--ease);
+  }
+  .bk-vault:hover .bk-wheel, .bk-vault:focus-within .bk-wheel { transform: rotate(32deg); }
+  #ticker-pause:checked ~ * .bk-orbit,
+  #ticker-pause:checked ~ * .bk-rays,
+  #ticker-pause:checked ~ * .bk-ray { animation-play-state: paused; }
+}
+@keyframes bk-spin { to { transform: rotate(360deg); } }
+@keyframes bk-sunspin {
+  0%   { transform: rotate(0deg) scale(1); opacity: .85; }
+  25%  { transform: rotate(90deg) scale(1.05); opacity: 1; }
+  50%  { transform: rotate(180deg) scale(1); opacity: .85; }
+  75%  { transform: rotate(270deg) scale(1.05); opacity: 1; }
+  100% { transform: rotate(360deg) scale(1); opacity: .85; }
+}
+@keyframes bk-twinkle {
+  0%, 100% { opacity: .55; }
+  50%      { opacity: 1; }
+}
+
 .books-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); flex-wrap: wrap; }
 .books-ctas { display: flex; gap: var(--sp-3); flex-wrap: wrap; }
-@media (max-width: 820px) {
-  .books-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
 @media (max-width: 480px) {
-  .books-list li { white-space: normal; }
   .books-ctas { width: 100%; }
   .books-ctas .btn { flex: 1 1 auto; }
 }
@@ -2145,7 +2268,6 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
 }
 
 /* ── books: internal designations + exclusive/sold chips ───── */
-.books-list li { display: flex; flex-direction: column; gap: 2px; }
 .bk-int {
   font-family: var(--mono);
   font-size: var(--fs-2xs);
@@ -2170,200 +2292,327 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
 .pack ul li.li-note { color: var(--faint); padding-left: 0; }
 .pack ul li.li-note span { font-style: normal; }
 
-/* ── plan finder (#finder): pure-CSS recommendation quiz ─────
-   Bare radios + labels only — no <form>, nothing submits (CSP
-   form-action 'none'). All four pre-rendered cards start hidden;
-   body:has() gates them on one :checked radio per group, then
-   exactly one card renders per answer combination (funded-prop
-   maps with retail). Browsers without :has() drop the gating
-   rules entirely: cards stay hidden and the .finder-wait prompt
-   remains — the accepted no-:has() fallback. Contrast pairs are
-   documented in the header table (all reuse existing AA pairs). */
-.finder-qs {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--sp-4);
+/* (the on-page finder quiz moved to plan.html — see PLAN region below) */
+
+/* ── per-product glyphs: one minimal mark per strategy, muted mint at
+   rest, riding the amber hover state with the name it sits beside */
+.glyph { flex: none; }
+/* tier tables: the glyph gets its own cell — a bordered chip standing
+   beside the whole name + description block, not inline with the name */
+.sys { display: flex; align-items: center; gap: var(--sp-3); }
+.sys-txt { min-width: 0; }
+.gcell {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line-bright);
+  background: var(--raised);
+  transition: border-color .2s var(--ease), box-shadow .2s var(--ease);
 }
-.finder-qs > * { min-width: 0; }
-.fq {
-  min-inline-size: 0;             /* fieldsets default to min-content and can overflow */
-  border: 1px solid var(--line);
-  background: var(--panel);
-  padding: var(--sp-2) var(--sp-4) var(--sp-4);
+.g-row { width: 21px; height: 21px; color: rgba(86, 200, 162, .60); }
+.stable tbody tr:hover .gcell { border-color: var(--buy); box-shadow: 0 0 10px rgba(237, 155, 64, .25); }
+.stable tbody tr:hover .g-row { color: var(--buy); filter: drop-shadow(0 0 4px rgba(237, 155, 64, .45)); }
+.fglyph { flex: none; width: 46px; height: 46px; }
+.g-flag {
+  width: 100%; height: 100%;
+  color: var(--fc, var(--accent));
+  filter: drop-shadow(0 0 6px var(--fc-soft, rgba(86, 200, 162, .25)));
 }
-.fq legend {
-  font-family: var(--mono);
-  font-size: var(--fs-2xs);
-  font-weight: 500;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--muted);
-  padding: 0 var(--sp-2);
+@media (prefers-reduced-motion: no-preference) {
+  .g-flag { animation: fg-breathe 5.4s ease-in-out infinite; }
+  @keyframes fg-breathe {
+    0%, 100% { filter: drop-shadow(0 0 4px var(--fc-soft, rgba(86, 200, 162, .22))); }
+    50%      { filter: drop-shadow(0 0 11px var(--fc-glow, rgba(86, 200, 162, .45))); }
+  }
+  #ticker-pause:checked ~ * .g-flag { animation-play-state: paused; }
 }
-.fq-n { color: var(--accent); }
-.fq-opts {
-  display: flex; flex-wrap: wrap;
-  gap: var(--sp-2);
-  padding-top: var(--sp-3);
-}
-/* visually hidden radio — still focusable; arrow keys still cycle the group */
-.fq-radio {
-  position: absolute;
-  width: 1px; height: 1px;
-  opacity: 0;
-  overflow: hidden;
-}
-/* option chips — the site's mono button language, ≥44px targets */
-.fq-opt {
-  display: inline-flex; align-items: center;
-  min-height: 44px;
-  padding: 0 var(--sp-4);
-  border: 1px solid var(--line-interactive);
+.g-plan { width: 28px; height: 28px; color: var(--accent); margin-top: 2px; }
+
+/* ── plan-finder banner: lives inside the sticky header, on screen
+   at all times; mint = navigation, not commerce */
+.nav-plan { color: var(--accent) !important; }
+.plan-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  padding: 7px var(--sp-4);
+  border-top: 1px solid var(--line);
+  background: linear-gradient(90deg, rgba(86, 200, 162, .08), rgba(86, 200, 162, .02) 55%, transparent), var(--bg);
   font-family: var(--mono);
   font-size: var(--fs-xs);
   letter-spacing: .04em;
   color: var(--muted);
-  cursor: pointer;
-  user-select: none;
-  transition: border-color var(--fast) var(--ease),
-              color        var(--fast) var(--ease),
-              background   var(--fast) var(--ease);
+  text-decoration: none;
+  transition: background-color .2s var(--ease);
 }
-.fq-opt:hover { color: var(--text); }
-.fq-radio:checked + .fq-opt {
-  border-color: var(--accent);
+.plan-banner:hover { color: var(--text); background-color: var(--panel); }
+.pb-tag {
+  border: 1px solid var(--accent);
   color: var(--accent);
-  background: var(--accent-dim);
-  font-weight: 600;
+  padding: 2px 8px;
+  font-size: var(--fs-2xs);
+  font-weight: 700;
+  letter-spacing: .12em;
+  white-space: nowrap;
 }
-.fq-radio:focus-visible + .fq-opt {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+.pb-copy b { color: var(--text); font-weight: 600; }
+.pb-go { color: var(--accent); font-weight: 700; white-space: nowrap; }
+.plan-banner:hover .pb-go { text-shadow: 0 0 8px rgba(86, 200, 162, .5); }
+@media (max-width: 800px) { .pb-copy { display: none; } }
+
+/* ── PLAN (plan.html): the standalone finder. Questions left (sticky),
+   result panels right; radios + :has() reveal exactly one recommendation
+   per answer combo. No :has() support -> panels stay hidden and the
+   .pr-wait prompts remain: the accepted fallback. */
+.plan-hero {
+  padding: var(--sp-8) 0 var(--sp-6);
+  border-bottom: 1px solid var(--line);
+  background: radial-gradient(60% 130% at 50% 0%, rgba(86, 200, 162, .07), transparent 62%);
 }
-/* prompt shown until all four groups are answered (and permanently
-   on browsers without :has() support) */
-.finder-wait {
-  margin-top: var(--sp-4);
-  border: 1px dashed var(--line-interactive);
-  padding: var(--sp-4);
-  font-family: var(--mono);
-  font-size: var(--fs-xs);
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--faint);
-  text-align: center;
-}
-/* recommendation cards — mint panel with HUD corner ticks */
-.frec {
-  display: none;
-  position: relative;
-  border: 1px solid rgba(86, 200, 162, .45);
-  background: var(--panel);
-  padding: var(--sp-5);
-  margin-top: var(--sp-4);
-}
-.frec::before, .frec::after {
-  content: "";
-  position: absolute;
-  width: 10px; height: 10px;
-  pointer-events: none;
-}
-.frec::before { top: -1px; left: -1px; border-top: 1px solid var(--accent); border-left: 1px solid var(--accent); }
-.frec::after  { bottom: -1px; right: -1px; border-bottom: 1px solid var(--accent); border-right: 1px solid var(--accent); }
-.frec-tag {
-  display: block;
+.plan-kicker {
   font-family: var(--mono);
   font-size: var(--fs-2xs);
-  font-weight: 500;
-  letter-spacing: .14em;
-  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: .22em;
   color: var(--accent);
   margin-bottom: var(--sp-2);
 }
-.frec h3 {
+.plan-hero h1 {
   font-family: var(--display);
-  font-size: var(--fs-2xl);
+  font-size: var(--fs-3xl);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .01em;
+  line-height: 1.05;
+}
+.plan-hero .mint { color: var(--accent); }
+.plan-sub { color: var(--muted); max-width: 64ch; margin-top: var(--sp-3); line-height: 1.6; }
+#plan {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: var(--sp-6);
+  align-items: start;
+  padding: var(--sp-6) 0 var(--sp-4);
+}
+.plan-qs { position: sticky; top: calc(var(--header-h) + 46px); }
+.pq {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  padding: var(--sp-4);
+  margin-bottom: var(--sp-3);
+  min-inline-size: auto;
+}
+/* float pulls the legend off the fieldset border into normal flow —
+   this is what keeps question text from colliding with box outlines */
+.pq legend {
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin-bottom: var(--sp-3);
+  font-family: var(--display);
+  font-size: var(--fs-md);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+.pq legend + * { clear: both; }
+.pq-n {
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  font-weight: 700;
+  letter-spacing: .16em;
+  color: var(--accent);
+  margin-right: var(--sp-2);
+}
+.pq-hint {
+  clear: both;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  line-height: 1.5;
+  margin-bottom: var(--sp-3);
+  max-width: 52ch;
+}
+.pq-opts { clear: both; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-2); }
+.pq-radio { position: absolute; opacity: 0; pointer-events: none; }
+.pq-opt {
+  display: block;
+  border: 1px solid var(--line-bright);
+  background: var(--raised);
+  padding: var(--sp-2) var(--sp-3);
+  cursor: pointer;
+  transition: border-color .2s var(--ease), background-color .2s var(--ease), box-shadow .2s var(--ease);
+}
+.pq-opt b { display: block; font-weight: 600; font-size: var(--fs-sm); color: var(--text); }
+.pq-opt span { display: block; font-size: var(--fs-2xs); color: var(--muted); margin-top: 2px; line-height: 1.45; }
+.pq-opt:hover { border-color: rgba(86, 200, 162, .55); }
+.pq-radio:checked + .pq-opt {
+  border-color: var(--accent);
+  background-color: #0F2321;
+  box-shadow: 0 0 12px rgba(86, 200, 162, .22), inset 0 0 0 1px rgba(86, 200, 162, .35);
+}
+.pq-radio:focus-visible + .pq-opt { outline: 2px solid var(--accent); outline-offset: 2px; }
+.plan-results { min-width: 0; }
+.pr { display: none; }
+.pr + .pr { margin-top: var(--sp-4); }
+.pr-wait {
+  border: 1px dashed var(--line-bright);
+  padding: var(--sp-6) var(--sp-4);
+  text-align: center;
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}
+.pr-wait b { color: var(--accent); }
+.pr-card {
+  position: relative;
+  border: 1px solid var(--line-interactive);
+  background: var(--panel);
+  padding: var(--sp-5);
+}
+.pr-card::before, .pr-card::after { content: ""; position: absolute; width: 10px; height: 10px; }
+.pr-card::before { top: -1px; left: -1px; border-top: 1px solid var(--accent); border-left: 1px solid var(--accent); }
+.pr-card::after  { bottom: -1px; right: -1px; border-bottom: 1px solid var(--accent); border-right: 1px solid var(--accent); }
+.pr-head { display: flex; align-items: flex-start; gap: var(--sp-3); margin-bottom: var(--sp-3); }
+.pr-id { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pr-name {
+  font-family: var(--display);
+  font-size: var(--fs-xl);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .02em;
-  line-height: 1.1;
-  margin-bottom: var(--sp-2);
-}
-.frec-line {
-  font-family: var(--mono);
-  font-size: var(--fs-sm);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: .02em;
   color: var(--text);
-  margin-bottom: var(--sp-2);
+  text-decoration: none;
 }
-.frec-desc {
-  font-size: var(--fs-md);
-  color: var(--muted);
-  max-width: 56ch;
+a.pr-name:hover { color: var(--accent); }
+.pr-real { font-family: var(--mono); font-size: var(--fs-2xs); color: var(--muted); letter-spacing: .05em; }
+.pr-price {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  color: var(--buy);
+  white-space: nowrap;
 }
-.frec-ctas {
-  display: flex; gap: var(--sp-3); flex-wrap: wrap;
-  margin-top: var(--sp-4);
-}
-/* automation add-on panel — additive, shows whenever Q4 = yes */
-.frec-auto {
-  display: none;
-  border: 1px solid var(--line-bright);
-  background: var(--raised);
-  padding: var(--sp-4);
-  margin-top: var(--sp-4);
-}
-.auto-title {
+.pr-price small { font-size: var(--fs-2xs); font-weight: 400; color: var(--muted); }
+.pr-price .was { font-size: var(--fs-sm); font-weight: 400; color: var(--faint); margin-right: 6px; }
+.pr-why { color: var(--muted); font-size: var(--fs-sm); line-height: 1.55; margin-bottom: var(--sp-3); }
+.pr-why a, .pr-alt a { color: var(--accent); }
+.pr-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-2); margin-bottom: var(--sp-4); }
+.prs b { display: block; font-family: var(--mono); font-size: var(--fs-lg); font-weight: 700; color: var(--text); }
+.prs span {
   font-family: var(--mono);
   font-size: var(--fs-2xs);
-  font-weight: 500;
-  letter-spacing: .14em;
+  color: var(--faint);
   text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.pr-trio { list-style: none; margin: 0 0 var(--sp-3); }
+.pr-trio li {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  padding: var(--sp-2) 0;
+  border-bottom: 1px solid var(--line);
+}
+.pr-trio .pr-name { font-size: var(--fs-md); }
+.pr-trio .pr-real { flex-basis: 100%; order: 4; padding-left: 25px; }
+.pr-trio .pr-mini { margin-left: auto; font-family: var(--mono); font-size: var(--fs-2xs); color: var(--muted); }
+.pr-trio .pr-solo { font-family: var(--mono); font-size: var(--fs-xs); color: var(--faint); }
+.pr-alt { font-size: var(--fs-xs); color: var(--muted); margin-bottom: var(--sp-3); }
+.pr-ctas { display: flex; gap: var(--sp-3); flex-wrap: wrap; }
+.pr-exec { margin-top: var(--sp-4); }
+.pmt {
+  border: 1px solid rgba(86, 200, 162, .40);
+  background: linear-gradient(180deg, rgba(86, 200, 162, .06), transparent 60%), var(--panel);
+  padding: var(--sp-4) var(--sp-5);
+}
+.pmt-title {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: .18em;
   color: var(--accent);
   margin-bottom: var(--sp-2);
 }
-.auto-copy {
-  font-size: var(--fs-md);
-  color: var(--text);
-  max-width: 60ch;
-  margin-bottom: var(--sp-3);
-}
-.auto-cta { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
-.auto-disc {
+.pmt-copy { color: var(--muted); font-size: var(--fs-sm); line-height: 1.55; margin-bottom: var(--sp-3); }
+.pmt-steps { margin: 0 0 var(--sp-3) 1.3em; font-family: var(--mono); font-size: var(--fs-xs); color: var(--text); }
+.pmt-steps li { margin-bottom: 4px; }
+.pmt-cta { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.pmt-disc { font-family: var(--mono); font-size: var(--fs-2xs); color: var(--faint); letter-spacing: .06em; }
+.pmt-manual { border-color: var(--line-bright); background: var(--panel); }
+.pmt-manual .pmt-title { color: var(--muted); }
+.plan-update {
+  grid-column: 1 / -1;
+  text-align: center;
   font-family: var(--mono);
   font-size: var(--fs-2xs);
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-/* reset note — appears with the results */
-.finder-update {
-  display: none;
-  margin-top: var(--sp-3);
-  font-family: var(--mono);
-  font-size: var(--fs-2xs);
-  letter-spacing: .08em;
-  text-transform: uppercase;
   color: var(--faint);
+  letter-spacing: .08em;
+  padding: var(--sp-2) 0 var(--sp-6);
 }
-/* ── gating: every rule below requires one :checked per group ── */
-body:has([name="q-type"]:checked):has([name="q-exp"]:checked):has([name="q-freq"]:checked):has([name="q-auto"]:checked) .finder-wait { display: none; }
-body:has([name="q-type"]:checked):has([name="q-exp"]:checked):has([name="q-freq"]:checked):has([name="q-auto"]:checked) .finder-update { display: block; }
-/* THE BOOKS — professional desk, any other answers */
-body:has(#qt-desk:checked):has([name="q-exp"]:checked):has([name="q-freq"]:checked):has([name="q-auto"]:checked) .frec-books { display: block; }
-/* ALL-ACCESS — retail/funded-prop + experienced + every-day */
-body:has([name="q-type"]:checked):not(:has(#qt-desk:checked)):has(#qe-exp:checked):has(#qf-day:checked):has([name="q-auto"]:checked) .frec-alla { display: block; }
-/* PICK-3 — retail/funded-prop + experienced + few setups */
-body:has([name="q-type"]:checked):not(:has(#qt-desk:checked)):has(#qe-exp:checked):has(#qf-few:checked):has([name="q-auto"]:checked) .frec-pick3 { display: block; }
-/* STARTER — retail/funded-prop + new to systems, either frequency */
-body:has([name="q-type"]:checked):not(:has(#qt-desk:checked)):has(#qe-new:checked):has([name="q-freq"]:checked):has([name="q-auto"]:checked) .frec-starter { display: block; }
-/* AUTOMATION TIP — additive alongside whichever card when Q4 = yes */
-body:has([name="q-type"]:checked):has([name="q-exp"]:checked):has([name="q-freq"]:checked):has(#qa-yes:checked) .frec-auto { display: block; }
-/* mobile: questions stack, chips wrap — no horizontal scroll at 360px */
-@media (max-width: 768px) {
-  .finder-qs { grid-template-columns: minmax(0, 1fr); }
+/* what-separates panel now lives in the buy rail */
+.pdp-side .sep-panel { margin-top: var(--sp-4); }
+@media (max-width: 900px) {
+  #plan { grid-template-columns: minmax(0, 1fr); }
+  .plan-qs { position: static; }
 }
+@media (max-width: 480px) {
+  .pq-opts, .pr-stats { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .pr-head { flex-wrap: wrap; }
+  .pr-price { margin-left: 0; flex-basis: 100%; }
+}
+
+/* ── PLAN reveal logic ── */
+.pq-budget, .pq-temp, .pq-exec { display: none; }
+#plan:has(#s1:checked) .pq-budget,
+#plan:has(#s2:checked) .pq-budget,
+#plan:has(#s3:checked) .pq-budget { display: block; }
+#plan:has(#s1:checked):has(.pq-budget input:checked) .pq-temp,
+#plan:has(#s2:checked):has(.pq-budget input:checked) .pq-temp { display: block; }
+#plan:has(.pq-scope input:checked) .pq-exec { display: block; }
+#w-scope { display: block; }
+#plan:has(.pq-scope input:checked) #w-scope { display: none; }
+#plan:has(#s1:checked):not(:has(.pq-budget input:checked)) #w-budget,
+#plan:has(#s2:checked):not(:has(.pq-budget input:checked)) #w-budget,
+#plan:has(#s3:checked):not(:has(.pq-budget input:checked)) #w-budget { display: block; }
+#plan:has(#s1:checked):has(.pq-budget input:checked):not(:has(.pq-temp input:checked)) #w-temp,
+#plan:has(#s2:checked):has(.pq-budget input:checked):not(:has(.pq-temp input:checked)) #w-temp { display: block; }
+#plan:has(#s1:checked):has(#b1:checked):has(#t1:checked) #r-s1-b1-t1 { display: block; }
+#plan:has(#s1:checked):has(#b1:checked):has(#t2:checked) #r-s1-b1-t2 { display: block; }
+#plan:has(#s1:checked):has(#b1:checked):has(#t3:checked) #r-s1-b1-t3 { display: block; }
+#plan:has(#s1:checked):has(#b2:checked):has(#t1:checked) #r-s1-b2-t1 { display: block; }
+#plan:has(#s1:checked):has(#b2:checked):has(#t2:checked) #r-s1-b2-t2 { display: block; }
+#plan:has(#s1:checked):has(#b2:checked):has(#t3:checked) #r-s1-b2-t3 { display: block; }
+#plan:has(#s1:checked):has(#b3:checked):has(#t1:checked) #r-s1-b3-t1 { display: block; }
+#plan:has(#s1:checked):has(#b3:checked):has(#t2:checked) #r-s1-b3-t2 { display: block; }
+#plan:has(#s1:checked):has(#b3:checked):has(#t3:checked) #r-s1-b3-t3 { display: block; }
+#plan:has(#s1:checked):has(#b4:checked):has(#t1:checked) #r-s1-b4-t1 { display: block; }
+#plan:has(#s1:checked):has(#b4:checked):has(#t2:checked) #r-s1-b4-t2 { display: block; }
+#plan:has(#s1:checked):has(#b4:checked):has(#t3:checked) #r-s1-b4-t3 { display: block; }
+#plan:has(#s2:checked):has(#b1:checked):has(#t1:checked) #r-s2-b1-t1 { display: block; }
+#plan:has(#s2:checked):has(#b1:checked):has(#t2:checked) #r-s2-b1-t2 { display: block; }
+#plan:has(#s2:checked):has(#b1:checked):has(#t3:checked) #r-s2-b1-t3 { display: block; }
+#plan:has(#s2:checked):has(#b2:checked):has(#t1:checked) #r-s2-b2-t1 { display: block; }
+#plan:has(#s2:checked):has(#b2:checked):has(#t2:checked) #r-s2-b2-t2 { display: block; }
+#plan:has(#s2:checked):has(#b2:checked):has(#t3:checked) #r-s2-b2-t3 { display: block; }
+#plan:has(#s2:checked):has(#b3:checked):has(#t1:checked) #r-s2-b3-t1 { display: block; }
+#plan:has(#s2:checked):has(#b3:checked):has(#t2:checked) #r-s2-b3-t2 { display: block; }
+#plan:has(#s2:checked):has(#b3:checked):has(#t3:checked) #r-s2-b3-t3 { display: block; }
+#plan:has(#s2:checked):has(#b4:checked):has(#t1:checked) #r-s2-b4-t1 { display: block; }
+#plan:has(#s2:checked):has(#b4:checked):has(#t2:checked) #r-s2-b4-t2 { display: block; }
+#plan:has(#s2:checked):has(#b4:checked):has(#t3:checked) #r-s2-b4-t3 { display: block; }
+#plan:has(#s3:checked):has(#b1:checked) #r-s3-small { display: block; }
+#plan:has(#s3:checked):has(#b2:checked) #r-s3-big,
+#plan:has(#s3:checked):has(#b3:checked) #r-s3-big,
+#plan:has(#s3:checked):has(#b4:checked) #r-s3-big { display: block; }
+#plan:has(#s4:checked) #r-s4 { display: block; }
+#plan:has(.pq-scope input:checked):has(#e1:checked) #r-e1 { display: block; }
+#plan:has(.pq-scope input:checked):has(#e2:checked) #r-e2 { display: block; }
 
 /* ── typography effects: name treatments + eye-draw accents ──
    All effects are class-driven (CSP: no style="" anywhere), all
@@ -3008,24 +3257,51 @@ section:hover .sec-head h2::after { width: 48px; }
 }
 .fcard:hover h4 a, .feat:hover h4 a { filter: drop-shadow(0 0 12px rgba(237, 155, 64, .35)); }
 
+/* ── flagship identity colors — same grammar as the book deck (owner-
+   approved exception to the two-accent rule; ledger in the header).
+   Data stats stay mint/amber/violet; only the card chrome, name, and
+   emblem carry the identity. Cards without a skin fall back to mint. */
+.fc-spartacus            { --fc: #E3A857; --fc-hi: #F0C083; --fc-soft: rgba(227, 168, 87, .14); --fc-line: rgba(227, 168, 87, .38); --fc-glow: rgba(227, 168, 87, .34); }
+.fc-the-alloy            { --fc: #F0907A; --fc-hi: #F7B3A2; --fc-soft: rgba(240, 144, 122, .13); --fc-line: rgba(240, 144, 122, .38); --fc-glow: rgba(240, 144, 122, .34); }
+.fc-ny-open-pro          { --fc: #7FB2FF; --fc-hi: #A8CBFF; --fc-soft: rgba(127, 178, 255, .13); --fc-line: rgba(127, 178, 255, .38); --fc-glow: rgba(127, 178, 255, .34); }
+.fc-silver-830-reversal  { --fc: #D9E3EA; --fc-hi: #F2F7FA; --fc-soft: rgba(217, 227, 234, .11); --fc-line: rgba(217, 227, 234, .34); --fc-glow: rgba(217, 227, 234, .30); }
+.fc-china-orb            { --fc: #B4E369; --fc-hi: #CDF096; --fc-soft: rgba(180, 227, 105, .12); --fc-line: rgba(180, 227, 105, .36); --fc-glow: rgba(180, 227, 105, .32); }
+.fc-afternoon-reversion  { --fc: #E88FC6; --fc-hi: #F4B8DC; --fc-soft: rgba(232, 143, 198, .13); --fc-line: rgba(232, 143, 198, .38); --fc-glow: rgba(232, 143, 198, .34); }
+.fcard[class*=" fc-"] {
+  border-color: var(--fc-line);
+  background: radial-gradient(130% 80% at 50% 0%, var(--fc-soft), transparent 55%), var(--panel);
+}
+.fcard[class*=" fc-"]:hover {
+  border-color: var(--fc);
+  box-shadow: 0 0 22px var(--fc-glow);
+}
+.fcard[class*=" fc-"] h4 a.sys-link::before { color: var(--fc); -webkit-text-fill-color: var(--fc); }
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .fcard[class*=" fc-"] h4 a.sys-link {
+    background-image: linear-gradient(100deg, #E9F2EE 10%, var(--fc) 55%, var(--fc-hi));
+    filter: brightness(1) drop-shadow(0 0 14px var(--fc-soft));
+  }
+  .fcard[class*=" fc-"]:hover h4 a.sys-link {
+    background-image: linear-gradient(100deg, var(--fc), var(--fc-hi));
+  }
+}
+.fcard[class*=" fc-"]:hover h4 a.sys-link { filter: drop-shadow(0 0 12px var(--fc-glow)); }
+
 /* lightning flicker on category leaders — irregular, electric, gated */
 @media (prefers-reduced-motion: no-preference) {
   /* aurora breathe: two shadow layers crossfade on offset rhythms, so the
      glow drifts and swells instead of snapping — electric, never choppy */
+  /* text-shadow only — a filter here would brighten the whole cell
+     rectangle, which read as a box-glow flash on page load */
   .lead, .stable tbody td.lead, .fstat b.lead {
-    animation: lead-breathe 4.8s ease-in-out infinite,
-               lead-drift 7.2s ease-in-out infinite;
+    animation: lead-breathe 9.6s ease-in-out infinite;
   }
   @keyframes lead-breathe {
     0%, 100% { text-shadow: 0 0 5px rgba(157, 92, 255, .55), 0 0 16px rgba(122, 59, 255, .30), 0 0 34px rgba(122, 59, 255, .12); }
-    45%      { text-shadow: 0 0 7px rgba(196, 165, 255, .90), 0 0 24px rgba(157, 92, 255, .55), 0 0 46px rgba(122, 59, 255, .25); }
-    62%      { text-shadow: 0 0 5px rgba(180, 140, 255, .70), 0 0 20px rgba(157, 92, 255, .40), 0 0 38px rgba(122, 59, 255, .18); }
-  }
-  @keyframes lead-drift {
-    0%, 100% { filter: brightness(1); }
-    30%      { filter: brightness(1.14); }
-    55%      { filter: brightness(.96); }
-    80%      { filter: brightness(1.08); }
+    22%      { text-shadow: 0 0 7px rgba(196, 165, 255, .90), 0 0 24px rgba(157, 92, 255, .55), 0 0 46px rgba(122, 59, 255, .25); }
+    34%      { text-shadow: 0 0 5px rgba(180, 140, 255, .70), 0 0 20px rgba(157, 92, 255, .40), 0 0 38px rgba(122, 59, 255, .18); }
+    58%      { text-shadow: 0 0 8px rgba(196, 165, 255, .80), 0 0 26px rgba(157, 92, 255, .50), 0 0 42px rgba(122, 59, 255, .22); }
+    76%      { text-shadow: 0 0 5px rgba(157, 92, 255, .60), 0 0 18px rgba(122, 59, 255, .34), 0 0 36px rgba(122, 59, 255, .14); }
   }
 }
 #ticker-pause:checked ~ * .lead,
@@ -3078,17 +3354,31 @@ section:hover .sec-head h2::after { width: 48px; }
   gap: var(--sp-4);
 }
 .pack-starter { border-color: var(--buy); position: relative; box-shadow: 0 0 18px rgba(237, 155, 64, .12); }
-.pack-starter .badge-special { position: absolute; top: calc(-1 * var(--sp-2)); left: var(--sp-4); }
+.pack-starter .badge-special { position: absolute; top: calc(-1 * var(--sp-2)); left: var(--sp-4); background: var(--raised); }
 @media (max-width: 960px) { .packs-3 { grid-template-columns: minmax(0, 1fr); } }
 
 /* recommended size: heavy emphasis */
 .ro-notch { position: relative; }
-.ro-notch-rec {
+.ro-notch-rec { border-color: rgba(237, 155, 64, .45); }
+.ro-notch-rec .ro-amt { font-weight: 700; }
+/* the amber emphasis rides the selection: our pick is checked by default,
+   click elsewhere and the highlight leaves — the OUR PICK tag stays */
+.ro-r:nth-of-type(1):checked ~ .ro-track .ro-notch:nth-child(1).ro-notch-rec,
+.ro-r:nth-of-type(2):checked ~ .ro-track .ro-notch:nth-child(2).ro-notch-rec,
+.ro-r:nth-of-type(3):checked ~ .ro-track .ro-notch:nth-child(3).ro-notch-rec,
+.ro-r:nth-of-type(4):checked ~ .ro-track .ro-notch:nth-child(4).ro-notch-rec,
+.ro-r:nth-of-type(5):checked ~ .ro-track .ro-notch:nth-child(5).ro-notch-rec,
+.ro-r:nth-of-type(6):checked ~ .ro-track .ro-notch:nth-child(6).ro-notch-rec {
   border-color: var(--buy);
   background: rgba(237, 155, 64, .10);
   box-shadow: 0 0 12px rgba(237, 155, 64, .30);
 }
-.ro-notch-rec .ro-amt { color: var(--buy); font-weight: 700; }
+.ro-r:nth-of-type(1):checked ~ .ro-track .ro-notch:nth-child(1).ro-notch-rec .ro-amt,
+.ro-r:nth-of-type(2):checked ~ .ro-track .ro-notch:nth-child(2).ro-notch-rec .ro-amt,
+.ro-r:nth-of-type(3):checked ~ .ro-track .ro-notch:nth-child(3).ro-notch-rec .ro-amt,
+.ro-r:nth-of-type(4):checked ~ .ro-track .ro-notch:nth-child(4).ro-notch-rec .ro-amt,
+.ro-r:nth-of-type(5):checked ~ .ro-track .ro-notch:nth-child(5).ro-notch-rec .ro-amt,
+.ro-r:nth-of-type(6):checked ~ .ro-track .ro-notch:nth-child(6).ro-notch-rec .ro-amt { color: var(--buy); }
 .ro-rec {
   position: absolute; top: -9px; left: 50%; transform: translateX(-50%);
   font-family: var(--mono); font-size: var(--fs-2xs); font-weight: 700;
@@ -3098,7 +3388,13 @@ section:hover .sec-head h2::after { width: 48px; }
   white-space: nowrap;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .ro-notch-rec { animation: rec-glow 2.4s var(--ease) infinite; }
+  /* the glow pulse only rides the notch while it is the selected one */
+  .ro-r:nth-of-type(1):checked ~ .ro-track .ro-notch:nth-child(1).ro-notch-rec,
+  .ro-r:nth-of-type(2):checked ~ .ro-track .ro-notch:nth-child(2).ro-notch-rec,
+  .ro-r:nth-of-type(3):checked ~ .ro-track .ro-notch:nth-child(3).ro-notch-rec,
+  .ro-r:nth-of-type(4):checked ~ .ro-track .ro-notch:nth-child(4).ro-notch-rec,
+  .ro-r:nth-of-type(5):checked ~ .ro-track .ro-notch:nth-child(5).ro-notch-rec,
+  .ro-r:nth-of-type(6):checked ~ .ro-track .ro-notch:nth-child(6).ro-notch-rec { animation: rec-glow 2.4s var(--ease) infinite; }
   @keyframes rec-glow {
     0%, 100% { box-shadow: 0 0 8px rgba(237, 155, 64, .22); }
     50% { box-shadow: 0 0 18px rgba(237, 155, 64, .45); }

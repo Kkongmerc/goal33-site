@@ -1076,7 +1076,7 @@
   },
   {
    "slug": "the-ledger",
-   "name": "The Ledger",
+   "name": "The Vault",
    "actual": "MNQ Validated Book",
    "meta": "MNQ · validated-only NY router",
    "window": "01 Jan 2025 - 19 Aug 2026",
@@ -1110,7 +1110,7 @@
    "price": 589,
    "legs": [],
    "sep": [
-    "The conservative book: a router assembled from individually validated legs.",
+    "The conservative book: a router assembled exclusively from individually validated legs. Nothing enters The Vault until it has survived validation on its own.",
     "1,428 trades on the headline window."
    ],
    "warn": ""

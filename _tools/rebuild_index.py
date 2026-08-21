@@ -3,6 +3,7 @@ Splices: ticker, stats strip, hero lede, the whole #strategies section,
 the #packages bundles, and finder price mentions. Static sections
 (hero dial, why, finder structure, how, security, faq, footer) untouched."""
 import json, os, re, sys, html, hashlib
+from glyphs import glyph, emblem
 _HERE = os.path.dirname(os.path.abspath(__file__))
 BASE = os.path.dirname(_HERE)
 CAT = json.load(open(os.path.join(_HERE, "catalog2.json"), encoding="utf-8"))
@@ -65,8 +66,9 @@ def fcard(p):
         c = val_cls(p, k)
         hot = f' class="{c}"' if c else ""
         stats += f'<div class="fstat"><b{hot}>{esc(v)}</b><span>{lab}</span></div>'
-    return f"""<article class="fcard">
+    return f"""<article class="fcard fc-{p['slug']}">
           <div class="fcard-top">
+            <span class="fglyph" aria-hidden="true">{glyph(p['slug'], 'glyph g-flag')}</span>
             <div class="fcard-id">
               <h4><a class="sys-link" href="/strategies/{p['slug']}.html">{esc(p['name'])}</a></h4>
           <div class="card-real">{esc(p['actual'])}</div>
@@ -100,7 +102,7 @@ def trow(p):
         c = f' class="{" ".join(cls)}"' if cls else ""
         cells += f'<td{c}>{esc(v)}</td>'
     return f"""<tr>
-              <th scope="row"><div class="sys"><div class="sys-name-row"><a class="sys-link" href="/strategies/{p['slug']}.html"><span class="sys-name">{esc(p['name'])}</span></a><span class="sys-real">{esc(p['actual'])}</span>{market_chips(p['meta'])}<span class="chip chip-verified">VERIFIED</span></div><span class="sys-desc">{esc(p['sep'][0][:110]) if p['sep'] else ''}</span></div></th>
+              <th scope="row"><div class="sys"><span class="gcell" aria-hidden="true">{glyph(p['slug'], 'glyph g-row')}</span><div class="sys-txt"><div class="sys-name-row"><a class="sys-link" href="/strategies/{p['slug']}.html"><span class="sys-name">{esc(p['name'])}</span></a><span class="sys-real">{esc(p['actual'])}</span>{market_chips(p['meta'])}<span class="chip chip-verified">VERIFIED</span></div><span class="sys-desc">{esc(p['sep'][0][:110]) if p['sep'] else ''}</span></div></div></th>
               {cells}
               <td class="price-cell">${p['price']}<span class="per">/mo</span></td>
               {ADDCELL(p['slug'], p['name'])}
@@ -194,7 +196,7 @@ cart = f"""<!-- ── selection cart: pure CSS (counters + :has), zero JS ─�
 strategies = f"""<section id="strategies">
     <div class="wrap">
       <div class="sec-head">
-        <span class="idx">02 /</span>
+        <span class="idx">01 /</span>
         <h2>Strategies</h2>
         <span class="note">{len(S)} live-validated systems &middot; best window and full 2024+ window published</span>
       </div>
@@ -229,9 +231,16 @@ strategies = f"""<section id="strategies">
 doc = re.sub(r'<section id="strategies">.*?</section>', strategies, doc, count=1, flags=re.S)
 
 # ── bundles section ─────────────────────────────────────────────
+BOOK_SKIN = {"the-midas": "bk-midas", "the-continuum": "bk-continuum",
+             "the-daylight": "bk-daylight", "the-ledger": "bk-vault"}
+BOOK_EPITHET = {"the-midas": "Everything it touches", "the-continuum": "Around the clock",
+                "the-daylight": "One session, settled", "the-ledger": "Validated legs only"}
 book_lis = "".join(
-    f'<li><a class="sys-link" href="/strategies/{b["slug"]}.html">{esc(b["name"])}</a>'
-    f'<span class="bk-int">{esc(b["actual"]).upper()} · ${b["price"]:,}/MO SOLO</span></li>'
+    f'<li class="bookcard {BOOK_SKIN[b["slug"]]}">{emblem(b["slug"])}'
+    f'<a class="sys-link bk-name" href="/strategies/{b["slug"]}.html">{esc(b["name"])}</a>'
+    f'<span class="bk-epithet">{esc(BOOK_EPITHET[b["slug"]])}</span>'
+    f'<span class="bk-int">{esc(b["actual"]).upper()}</span>'
+    f'<span class="bk-price">${b["price"]:,}<small>/MO SOLO</small></span></li>'
     for b in B)
 inc_check = ('<svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" '
              'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
@@ -239,7 +248,7 @@ inc_check = ('<svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="curr
 packages = f"""<section id="packages">
     <div class="wrap">
       <div class="sec-head">
-        <span class="idx">03 /</span>
+        <span class="idx">02 /</span>
         <h2>Bundles</h2>
         <span class="note">cancel anytime through whop &middot; annual = 2 months free</span>
       </div>
@@ -250,7 +259,7 @@ packages = f"""<section id="packages">
           <span class="chip chip-mkt">IN-HOUSE ENGINES</span>
         </div>
         <p class="sub">The four engines we run ourselves &mdash; multi-leg routers, live-validated, both windows published. Sold separately from ${min(b['price'] for b in B):,}/mo; all four together under the price of any two.</p>
-        <ul class="books-list">{book_lis}</ul>
+        <ul class="bookdeck">{book_lis}</ul>
         <div class="books-foot">
           <div class="amount"><s class="was">${BN['books_all']['combined']:,}<span class="sr-only"> combined solo price,</span></s>${BN['books_all']['price']:,}<small>/mo</small></div>
           <div class="books-ctas">

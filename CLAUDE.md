@@ -33,7 +33,15 @@ _tools/catalog2.json          <- SOURCE OF TRUTH (curated from the owners'
   -> python _tools/rebuild_index.py  -> index.html catalog sections (ticker,
                                         stats strip, lede, #strategies, #packages)
                                         + the CARTGEN css region in main.css
+  -> python _tools/gen_plan.py       -> plan.html (the Find-your-plan page:
+                                        every recommendation COMPUTED from
+                                        catalog2 by fixed rules — win/RoDD/net
+                                        sort within a drawdown-budget cap)
 ```
+
+`_tools/glyphs.py` is the shared per-product SVG mark library (one glyph per
+strategy slug + the four book emblems) imported by rebuild_index and gen_plan —
+add a mark there when a new product lands, or its glyph slot renders empty.
 
 `catalog2.json` is curated OFF-REPO from the owners' playbook export (the raw
 playbook contains Pine filenames and research paths — never commit it). Each
@@ -53,10 +61,17 @@ are never published. The Market Maker is ONE product carrying both NYO engines.
 
 **Workflow for any data/product change:**
 1. Owner supplies a new playbook export; re-curate catalog2.json off-repo.
-2. Run gen_pages, then rebuild_index (order matters: rebuild_index regenerates
-   the cart rules in main.css; gen_pages stamps `?v=` on its own output).
-3. Recompute the css hash and restamp index.html to match all other pages.
+2. Run gen_pages, then rebuild_index, then gen_plan (order matters:
+   rebuild_index regenerates the cart rules in main.css, so the css hash
+   moves after it runs).
+3. Recompute the css hash and restamp ALL pages (index, plan, success, 404,
+   strategies/*) to the same `?v=` — a one-liner over every html file.
 4. Verify, commit, push.
+
+**Plan-finder honesty rule** (enforced in gen_plan.py): if the computed best
+trio for a Pick-3 seeker is worth less than the $499 bundle price, the page
+recommends the cheaper path instead (The Starter if it IS that trio, otherwise
+"buy the three solo") — never delete this branch to make Pick-3 sell better.
 
 ## Hard content rules (violations have been caught and reverted before)
 
@@ -84,7 +99,11 @@ are never published. The Market Maker is ONE product carrying both NYO engines.
 - Mint `--accent #56C8A2` = data, wins, VERIFIED status. Teal-black surfaces.
 - Amber `--buy #ED9B40` = **only** purchase CTAs, deal badges, and standout stats
   (`.hot` — thresholds: PF≥2, Win≥80%, RoDD≥4, n≥600, Net≥$150k; formula-driven).
-- Red = retired (drawdowns display plain). No other colors.
+- Red = retired (drawdowns display plain). Violet #9D5CFF = category leaders only.
+- **Identity colors** (owner-approved exception): each Book and each flagship
+  card carries its own color on name/emblem/chrome ONLY (`.bk-*` / `.fc-<slug>`
+  skins in main.css) — data figures stay mint/amber/violet. Every identity
+  color is in the header ledger; keep any new one ≥ 4.5:1 on panel.
 - Type: Chakra Petch (display) / JetBrains Mono (all numerals, tabular-nums) /
   Inter (prose). `--fs-*` and `--sp-*` tokens only; nothing under 11px.
 - Every fg/bg pair ≥ 4.5:1 — the table in `main.css`'s header is the ledger.

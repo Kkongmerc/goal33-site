@@ -70,6 +70,7 @@ def head(title, desc, path):
     <nav class="nav-links" aria-label="Main">
       <a href="/#strategies">Strategies</a>
       <a href="/#packages">Bundles</a>
+      <a class="nav-plan" href="/plan.html">Find your plan</a>
       <a href="/#how">How access works</a>
       <a href="/#faq">FAQ</a>
     </nav>
@@ -88,6 +89,7 @@ FOOTER = f"""</main>
     <div class="foot-links">
       <a href="/#strategies">Strategies</a>
       <a href="/#packages">Bundles</a>
+      <a href="/plan.html">Find your plan</a>
       <a href="/#how">How access works</a>
       <!--email_off--><a href="mailto:support@goal33systems.com">support@goal33systems.com</a><!--/email_off-->
     </div>
@@ -304,7 +306,7 @@ def market_chips(meta):
 
 # ── strategy + book pages ───────────────────────────────────────
 os.makedirs(os.path.join(BASE, "strategies"), exist_ok=True)
-urls = ["/"]
+urls = ["/", "/plan.html"]
 
 def product_page(p, is_book):
     path = f"/strategies/{p['slug']}.html"
@@ -317,7 +319,7 @@ def product_page(p, is_book):
                   else '<a href="/#strategies">Strategies</a>')
     main_col = rodd_menu(p) + "\n" + chart_figure(p) + "\n" + (
         engines_block(p) if p.get("engines") else windows_block(p)) + "\n" + calendar_panel()
-    main_col += "\n" + warn_block(p) + "\n" + legs_block(p) + "\n" + sep_block(p)
+    main_col += "\n" + warn_block(p) + "\n" + legs_block(p)
     xsell = None
     struck = None
     if is_book:
@@ -346,6 +348,7 @@ def product_page(p, is_book):
         </div>
         <div class="pdp-side">
         {buybox(p['name'], f"{p['price']:,}", p['name'] + " / " + p['actual'], xsell=xsell)}
+        {sep_block(p)}
         </div>
       </div>
 
