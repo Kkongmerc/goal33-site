@@ -2478,6 +2478,7 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
   text-decoration: none;
   transition: background-color .2s var(--ease);
 }
+.plan-banner, .plan-banner:hover, .plan-banner:focus-visible { text-decoration: none; }
 .plan-banner:hover { background-color: var(--panel); }
 .pb-tag {
   border: 1px solid var(--accent);
