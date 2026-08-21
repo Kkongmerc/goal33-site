@@ -2889,7 +2889,6 @@ section:hover .sec-head h2::after { width: 48px; }
   border-color: var(--buy);
   box-shadow: 0 0 12px rgba(237, 155, 64, .35);
 }
-.rodd:has(.ro-red:checked) .ro-track .ro-notch:hover { border-color: #E0655F; color: #E0655F; }
 
 /* blatant interactivity signaling on the RoDD pane */
 .chip-interactive {
@@ -2920,6 +2919,26 @@ section:hover .sec-head h2::after { width: 48px; }
 .ro-r:nth-of-type(4):checked ~ .ro-track .ro-notch:nth-child(4) .ro-amt,
 .ro-r:nth-of-type(5):checked ~ .ro-track .ro-notch:nth-child(5) .ro-amt,
 .ro-r:nth-of-type(6):checked ~ .ro-track .ro-notch:nth-child(6) .ro-amt { color: var(--buy); font-weight: 700; }
+
+/* a red (unfit) notch shows red ONLY while it is the selected one */
+.ro-r.ro-red:nth-of-type(1):checked ~ .ro-track .ro-notch:nth-child(1),
+.ro-r.ro-red:nth-of-type(2):checked ~ .ro-track .ro-notch:nth-child(2),
+.ro-r.ro-red:nth-of-type(3):checked ~ .ro-track .ro-notch:nth-child(3),
+.ro-r.ro-red:nth-of-type(4):checked ~ .ro-track .ro-notch:nth-child(4),
+.ro-r.ro-red:nth-of-type(5):checked ~ .ro-track .ro-notch:nth-child(5),
+.ro-r.ro-red:nth-of-type(6):checked ~ .ro-track .ro-notch:nth-child(6) {
+  background: rgba(224, 101, 95, .14);
+  border-color: #E0655F;
+  box-shadow: 0 0 12px rgba(224, 101, 95, .35);
+}
+.ro-r.ro-red:nth-of-type(1):checked ~ .ro-track .ro-notch:nth-child(1) .ro-amt,
+.ro-r.ro-red:nth-of-type(2):checked ~ .ro-track .ro-notch:nth-child(2) .ro-amt,
+.ro-r.ro-red:nth-of-type(3):checked ~ .ro-track .ro-notch:nth-child(3) .ro-amt,
+.ro-r.ro-red:nth-of-type(4):checked ~ .ro-track .ro-notch:nth-child(4) .ro-amt,
+.ro-r.ro-red:nth-of-type(5):checked ~ .ro-track .ro-notch:nth-child(5) .ro-amt,
+.ro-r.ro-red:nth-of-type(6):checked ~ .ro-track .ro-notch:nth-child(6) .ro-amt {
+  color: #E0655F; font-weight: 700;
+}
 
 /* recommended size: heavy emphasis */
 .ro-notch { position: relative; }
