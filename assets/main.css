@@ -1627,7 +1627,7 @@ footer { padding: var(--sp-7) 0; }
 
 /* ── motion: opt-in only ───────────────────────────────────── */
 @media (prefers-reduced-motion: no-preference) {
-  .ticker-track { animation: tick 60s linear infinite; }
+  .ticker-track { animation: tick 60s linear infinite; will-change: transform; }
   .ticker:hover .ticker-track { animation-play-state: paused; }
   .cursor { animation: blink 1.1s steps(1) infinite; }
   .dial-hand { animation: dial-sweep 40s linear infinite; }
@@ -2350,8 +2350,8 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
 }
 @media (prefers-reduced-motion: no-preference) {
   @keyframes fg-breathe {
-    0%, 100% { filter: drop-shadow(0 0 4px var(--fc-soft, rgba(86, 200, 162, .22))); }
-    50%      { filter: drop-shadow(0 0 11px var(--fc-glow, rgba(86, 200, 162, .45))); }
+    0%, 100% { opacity: .8; }
+    50%      { opacity: 1; }
   }
 }
 .g-plan { width: 28px; height: 28px; color: var(--accent); margin-top: 2px; }
@@ -2432,15 +2432,23 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
   pointer-events: none;
   transition: inset .25s var(--ease);
 }
+.nav-books .nav-ember {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 18px rgba(232, 193, 92, .16), 0 0 18px rgba(232, 193, 92, .26);
+  opacity: 0;
+}
 .nav-books:hover { color: #F5DFA6 !important; box-shadow: inset 0 0 18px rgba(232, 193, 92, .18), 0 0 20px rgba(232, 193, 92, .30); }
 .nav-books:hover::before { inset: 4px -4px -4px 4px; }
 @media (prefers-reduced-motion: no-preference) {
-  .nav-books { animation: books-ember 5.6s ease-in-out infinite; }
+  .nav-books .nav-ember { animation: books-ember 5.6s ease-in-out infinite; }
   @keyframes books-ember {
-    0%, 100% { box-shadow: inset 0 0 14px rgba(232, 193, 92, .08), 0 0 10px rgba(232, 193, 92, .12); }
-    50%      { box-shadow: inset 0 0 18px rgba(232, 193, 92, .16), 0 0 18px rgba(232, 193, 92, .26); }
+    0%, 100% { opacity: 0; }
+    50%      { opacity: 1; }
   }
-  #ticker-pause:checked ~ * .nav-books { animation-play-state: paused; }
+  #ticker-pause:checked ~ * .nav-books .nav-ember { animation-play-state: paused; }
 }
 .hero .hero-ctas, .hero .cta-row {
   display: grid;
@@ -3519,6 +3527,7 @@ section:hover .sec-head h2::after { width: 48px; }
   .pdp-mark { animation: fg-breathe 5.4s ease-in-out infinite; }
   #ticker-pause:checked ~ * .pdp-mark { animation-play-state: paused; }
 }
+/* fg-breathe is opacity-only; the drop-shadow stays static */
 .pdp-theme .pdp-head h1 { color: var(--fc); text-shadow: 0 0 18px var(--fc-glow); }
 @supports ((-webkit-background-clip: text) or (background-clip: text)) {
   .pdp-theme .pdp-head h1 {
@@ -3607,7 +3616,7 @@ section:hover .sec-head h2::after { width: 48px; }
 #cf-1:checked ~ .cf-stage .cf-pane:nth-child(5) { transform: translateX(-238px) translateZ(-320px) rotateY(-34deg); opacity: .28; transition-delay: .06s, .06s, 0s; }
 #cf-1:checked ~ .cf-stage .cf-pane:nth-child(6) { transform: translateX(-182px) translateZ(-140px) rotateY(-30deg); opacity: 1; transition-delay: .12s, .12s, 0s; }
 #cf-1:checked ~ .cf-stage .cf-pane:nth-child(1) .cf-pick { display: none; }
-#cf-1:checked ~ .cf-dots .cf-dot:nth-child(1) { background: var(--fc); box-shadow: 0 0 10px var(--fc-glow); }
+#cf-1:checked ~ .cf-dots .cf-dot:nth-child(1)::after { opacity: 1; }
 #cf-2:checked ~ .cf-stage .cf-pane:nth-child(1) { transform: translateX(-182px) translateZ(-140px) rotateY(-30deg); opacity: 1; transition-delay: .12s, .12s, 0s; }
 #cf-2:checked ~ .cf-stage .cf-pane:nth-child(2) { transform: translateX(0) translateZ(95px) rotateY(0deg); opacity: 1; transition-delay: .26s, .26s, 0s; }
 #cf-2:checked ~ .cf-stage .cf-pane:nth-child(3) { transform: translateX(182px) translateZ(-140px) rotateY(30deg); opacity: 1; transition-delay: .12s, .12s, 0s; }
@@ -3615,7 +3624,7 @@ section:hover .sec-head h2::after { width: 48px; }
 #cf-2:checked ~ .cf-stage .cf-pane:nth-child(5) { transform: translateX(0) translateZ(-450px) rotateY(0deg); opacity: .14; transition-delay: 0s, 0s, 0s; }
 #cf-2:checked ~ .cf-stage .cf-pane:nth-child(6) { transform: translateX(-238px) translateZ(-320px) rotateY(-34deg); opacity: .28; transition-delay: .06s, .06s, 0s; }
 #cf-2:checked ~ .cf-stage .cf-pane:nth-child(2) .cf-pick { display: none; }
-#cf-2:checked ~ .cf-dots .cf-dot:nth-child(2) { background: var(--fc); box-shadow: 0 0 10px var(--fc-glow); }
+#cf-2:checked ~ .cf-dots .cf-dot:nth-child(2)::after { opacity: 1; }
 #cf-3:checked ~ .cf-stage .cf-pane:nth-child(1) { transform: translateX(-238px) translateZ(-320px) rotateY(-34deg); opacity: .28; transition-delay: .06s, .06s, 0s; }
 #cf-3:checked ~ .cf-stage .cf-pane:nth-child(2) { transform: translateX(-182px) translateZ(-140px) rotateY(-30deg); opacity: 1; transition-delay: .12s, .12s, 0s; }
 #cf-3:checked ~ .cf-stage .cf-pane:nth-child(3) { transform: translateX(0) translateZ(95px) rotateY(0deg); opacity: 1; transition-delay: .26s, .26s, 0s; }
@@ -3623,7 +3632,7 @@ section:hover .sec-head h2::after { width: 48px; }
 #cf-3:checked ~ .cf-stage .cf-pane:nth-child(5) { transform: translateX(238px) translateZ(-320px) rotateY(34deg); opacity: .28; transition-delay: .06s, .06s, 0s; }
 #cf-3:checked ~ .cf-stage .cf-pane:nth-child(6) { transform: translateX(0) translateZ(-450px) rotateY(0deg); opacity: .14; transition-delay: 0s, 0s, 0s; }
 #cf-3:checked ~ .cf-stage .cf-pane:nth-child(3) .cf-pick { display: none; }
-#cf-3:checked ~ .cf-dots .cf-dot:nth-child(3) { background: var(--fc); box-shadow: 0 0 10px var(--fc-glow); }
+#cf-3:checked ~ .cf-dots .cf-dot:nth-child(3)::after { opacity: 1; }
 #cf-4:checked ~ .cf-stage .cf-pane:nth-child(1) { transform: translateX(0) translateZ(-450px) rotateY(0deg); opacity: .14; transition-delay: 0s, 0s, 0s; }
 #cf-4:checked ~ .cf-stage .cf-pane:nth-child(2) { transform: translateX(-238px) translateZ(-320px) rotateY(-34deg); opacity: .28; transition-delay: .06s, .06s, 0s; }
 #cf-4:checked ~ .cf-stage .cf-pane:nth-child(3) { transform: translateX(-182px) translateZ(-140px) rotateY(-30deg); opacity: 1; transition-delay: .12s, .12s, 0s; }
@@ -3631,7 +3640,7 @@ section:hover .sec-head h2::after { width: 48px; }
 #cf-4:checked ~ .cf-stage .cf-pane:nth-child(5) { transform: translateX(182px) translateZ(-140px) rotateY(30deg); opacity: 1; transition-delay: .12s, .12s, 0s; }
 #cf-4:checked ~ .cf-stage .cf-pane:nth-child(6) { transform: translateX(238px) translateZ(-320px) rotateY(34deg); opacity: .28; transition-delay: .06s, .06s, 0s; }
 #cf-4:checked ~ .cf-stage .cf-pane:nth-child(4) .cf-pick { display: none; }
-#cf-4:checked ~ .cf-dots .cf-dot:nth-child(4) { background: var(--fc); box-shadow: 0 0 10px var(--fc-glow); }
+#cf-4:checked ~ .cf-dots .cf-dot:nth-child(4)::after { opacity: 1; }
 #cf-5:checked ~ .cf-stage .cf-pane:nth-child(1) { transform: translateX(238px) translateZ(-320px) rotateY(34deg); opacity: .28; transition-delay: .06s, .06s, 0s; }
 #cf-5:checked ~ .cf-stage .cf-pane:nth-child(2) { transform: translateX(0) translateZ(-450px) rotateY(0deg); opacity: .14; transition-delay: 0s, 0s, 0s; }
 #cf-5:checked ~ .cf-stage .cf-pane:nth-child(3) { transform: translateX(-238px) translateZ(-320px) rotateY(-34deg); opacity: .28; transition-delay: .06s, .06s, 0s; }
@@ -3639,7 +3648,7 @@ section:hover .sec-head h2::after { width: 48px; }
 #cf-5:checked ~ .cf-stage .cf-pane:nth-child(5) { transform: translateX(0) translateZ(95px) rotateY(0deg); opacity: 1; transition-delay: .26s, .26s, 0s; }
 #cf-5:checked ~ .cf-stage .cf-pane:nth-child(6) { transform: translateX(182px) translateZ(-140px) rotateY(30deg); opacity: 1; transition-delay: .12s, .12s, 0s; }
 #cf-5:checked ~ .cf-stage .cf-pane:nth-child(5) .cf-pick { display: none; }
-#cf-5:checked ~ .cf-dots .cf-dot:nth-child(5) { background: var(--fc); box-shadow: 0 0 10px var(--fc-glow); }
+#cf-5:checked ~ .cf-dots .cf-dot:nth-child(5)::after { opacity: 1; }
 #cf-6:checked ~ .cf-stage .cf-pane:nth-child(1) { transform: translateX(182px) translateZ(-140px) rotateY(30deg); opacity: 1; transition-delay: .12s, .12s, 0s; }
 #cf-6:checked ~ .cf-stage .cf-pane:nth-child(2) { transform: translateX(238px) translateZ(-320px) rotateY(34deg); opacity: .28; transition-delay: .06s, .06s, 0s; }
 #cf-6:checked ~ .cf-stage .cf-pane:nth-child(3) { transform: translateX(0) translateZ(-450px) rotateY(0deg); opacity: .14; transition-delay: 0s, 0s, 0s; }
@@ -3647,7 +3656,7 @@ section:hover .sec-head h2::after { width: 48px; }
 #cf-6:checked ~ .cf-stage .cf-pane:nth-child(5) { transform: translateX(-182px) translateZ(-140px) rotateY(-30deg); opacity: 1; transition-delay: .12s, .12s, 0s; }
 #cf-6:checked ~ .cf-stage .cf-pane:nth-child(6) { transform: translateX(0) translateZ(95px) rotateY(0deg); opacity: 1; transition-delay: .26s, .26s, 0s; }
 #cf-6:checked ~ .cf-stage .cf-pane:nth-child(6) .cf-pick { display: none; }
-#cf-6:checked ~ .cf-dots .cf-dot:nth-child(6) { background: var(--fc); box-shadow: 0 0 10px var(--fc-glow); }
+#cf-6:checked ~ .cf-dots .cf-dot:nth-child(6)::after { opacity: 1; }
 .cf-dots {
   display: flex;
   align-items: center;
@@ -3658,11 +3667,21 @@ section:hover .sec-head h2::after { width: 48px; }
   z-index: 7;
 }
 .cf-dot {
+  position: relative;
   width: 13px; height: 13px;
   border: 1px solid var(--fc, var(--accent));
   background: transparent;
   cursor: pointer;
-  transition: background-color .2s var(--ease), box-shadow .2s var(--ease), transform .2s var(--ease);
+  transition: transform .2s var(--ease);
+}
+.cf-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--fc, var(--accent));
+  box-shadow: 0 0 10px var(--fc-glow, rgba(86, 200, 162, .4));
+  opacity: 0;
+  transition: opacity .25s var(--ease);
 }
 .cf-dot:hover { transform: scale(1.25); box-shadow: 0 0 8px var(--fc-glow, rgba(86, 200, 162, .3)); }
 .cf-play {
@@ -3685,12 +3704,12 @@ section:hover .sec-head h2::after { width: 48px; }
 #cf-0:checked ~ .cf-dots .cf-play { opacity: .3; }
 @media (prefers-reduced-motion: no-preference) {
   .coverflow:has(#cf-0:checked) .cf-pane { animation: cf-cycle 30s var(--ease) infinite; }
-  .coverflow:has(#cf-0:checked) .cf-dot { animation: dot-cycle 30s var(--ease) infinite; }
-  .coverflow:has(#cf-0:checked) .cf-pane:nth-child(2), .coverflow:has(#cf-0:checked) .cf-dot:nth-child(2) { animation-delay: -25s; }
-  .coverflow:has(#cf-0:checked) .cf-pane:nth-child(3), .coverflow:has(#cf-0:checked) .cf-dot:nth-child(3) { animation-delay: -20s; }
-  .coverflow:has(#cf-0:checked) .cf-pane:nth-child(4), .coverflow:has(#cf-0:checked) .cf-dot:nth-child(4) { animation-delay: -15s; }
-  .coverflow:has(#cf-0:checked) .cf-pane:nth-child(5), .coverflow:has(#cf-0:checked) .cf-dot:nth-child(5) { animation-delay: -10s; }
-  .coverflow:has(#cf-0:checked) .cf-pane:nth-child(6), .coverflow:has(#cf-0:checked) .cf-dot:nth-child(6) { animation-delay: -5s; }
+  .coverflow:has(#cf-0:checked) .cf-dot::after { animation: dot-cycle 30s var(--ease) infinite; }
+  .coverflow:has(#cf-0:checked) .cf-pane:nth-child(2), .coverflow:has(#cf-0:checked) .cf-dot:nth-child(2)::after { animation-delay: -25s; }
+  .coverflow:has(#cf-0:checked) .cf-pane:nth-child(3), .coverflow:has(#cf-0:checked) .cf-dot:nth-child(3)::after { animation-delay: -20s; }
+  .coverflow:has(#cf-0:checked) .cf-pane:nth-child(4), .coverflow:has(#cf-0:checked) .cf-dot:nth-child(4)::after { animation-delay: -15s; }
+  .coverflow:has(#cf-0:checked) .cf-pane:nth-child(5), .coverflow:has(#cf-0:checked) .cf-dot:nth-child(5)::after { animation-delay: -10s; }
+  .coverflow:has(#cf-0:checked) .cf-pane:nth-child(6), .coverflow:has(#cf-0:checked) .cf-dot:nth-child(6)::after { animation-delay: -5s; }
   @keyframes cf-cycle {
     0.00% { transform: translateX(0) translateZ(95px) rotateY(0deg); opacity: 1; }
     13.17% { transform: translateX(0) translateZ(95px) rotateY(0deg); opacity: 1; }
@@ -3707,15 +3726,15 @@ section:hover .sec-head h2::after { width: 48px; }
     100% { transform: translateX(0) translateZ(95px) rotateY(0deg); opacity: 1; }
   }
   @keyframes dot-cycle {
-    0%     { background-color: var(--fc); box-shadow: 0 0 10px var(--fc-glow); }
-    13.17% { background-color: var(--fc); box-shadow: 0 0 10px var(--fc-glow); }
-    16.67% { background-color: transparent; box-shadow: 0 0 0 rgba(0, 0, 0, 0); }
-    96.50% { background-color: transparent; box-shadow: 0 0 0 rgba(0, 0, 0, 0); }
-    100%   { background-color: var(--fc); box-shadow: 0 0 10px var(--fc-glow); }
+    0%     { opacity: 1; }
+    13.17% { opacity: 1; }
+    16.67% { opacity: 0; }
+    96.50% { opacity: 0; }
+    100%   { opacity: 1; }
   }
-  .coverflow:hover .cf-pane, .coverflow:hover .cf-dot,
+  .coverflow:hover .cf-pane, .coverflow:hover .cf-dot::after,
   #ticker-pause:checked ~ * .cf-pane,
-  #ticker-pause:checked ~ * .cf-dot { animation-play-state: paused; }
+  #ticker-pause:checked ~ * .cf-dot::after { animation-play-state: paused; }
 }
 @media (max-width: 1100px) {
   .cf-stage { transform: scale(.80); transform-origin: center; height: 330px; }
@@ -3729,10 +3748,10 @@ section:hover .sec-head h2::after { width: 48px; }
 /* render-on-approach: below-fold sections skip layout/paint offscreen */
 /* #packages excluded: the fixed starter popup lives inside it and
    cv's paint containment would clip it offscreen */
-#why, #how, #security, #faq, .creed {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 900px;
-}
+#why, #how { content-visibility: auto; contain-intrinsic-size: auto 930px; }
+#security { content-visibility: auto; contain-intrinsic-size: auto 600px; }
+#faq { content-visibility: auto; contain-intrinsic-size: auto 1050px; }
+.creed { content-visibility: auto; contain-intrinsic-size: auto 510px; }
 /* guided scrolling: gentle snap toward section starts, never trapping */
 html { scroll-snap-type: y proximity; scroll-padding-top: calc(var(--header-h) + 58px); }
 .hero, .creed, #strategies, #packages, #why, #how, #security, #faq { scroll-snap-align: start; }
@@ -3852,8 +3871,8 @@ html { scroll-snap-type: y proximity; scroll-padding-top: calc(var(--header-h) +
 @media (prefers-reduced-motion: no-preference) {
   /* aurora breathe: two shadow layers crossfade on offset rhythms, so the
      glow drifts and swells instead of snapping — electric, never choppy */
-  /* text-shadow only — a filter here would brighten the whole cell
-     rectangle, which read as a box-glow flash on page load */
+  /* opacity-only breathe over a STATIC text-shadow — animating the
+     shadow itself repainted every leader cell on every frame */
   .lead, .stable tbody td.lead, .fstat b.lead {
     animation: lead-breathe 9.6s ease-in-out infinite;
   }
@@ -3861,11 +3880,11 @@ html { scroll-snap-type: y proximity; scroll-padding-top: calc(var(--header-h) +
      the tables every frame and lagged the page; the violet leader keeps
      the living aurora */
   @keyframes lead-breathe {
-    0%, 100% { text-shadow: 0 0 5px rgba(157, 92, 255, .55), 0 0 16px rgba(122, 59, 255, .30), 0 0 34px rgba(122, 59, 255, .12); }
-    22%      { text-shadow: 0 0 7px rgba(196, 165, 255, .90), 0 0 24px rgba(157, 92, 255, .55), 0 0 46px rgba(122, 59, 255, .25); }
-    34%      { text-shadow: 0 0 5px rgba(180, 140, 255, .70), 0 0 20px rgba(157, 92, 255, .40), 0 0 38px rgba(122, 59, 255, .18); }
-    58%      { text-shadow: 0 0 8px rgba(196, 165, 255, .80), 0 0 26px rgba(157, 92, 255, .50), 0 0 42px rgba(122, 59, 255, .22); }
-    76%      { text-shadow: 0 0 5px rgba(157, 92, 255, .60), 0 0 18px rgba(122, 59, 255, .34), 0 0 36px rgba(122, 59, 255, .14); }
+    0%, 100% { opacity: .78; }
+    22%      { opacity: 1; }
+    34%      { opacity: .88; }
+    58%      { opacity: .97; }
+    76%      { opacity: .82; }
   }
 }
 #ticker-pause:checked ~ * .lead,

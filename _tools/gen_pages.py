@@ -79,7 +79,7 @@ def head(title, desc, path, bodycls=""):
           <a href="/#packages">Bundles &amp; deals</a>
         </div>
       </div>
-      <a class="nav-books" href="/#packages">Books and Bundles</a>
+      <a class="nav-books" href="/#packages">Books and Bundles<span class="nav-ember" aria-hidden="true"></span></a>
       <a class="nav-plan" href="/plan.html">Find your plan</a>
       <a href="/#how">How access works</a>
       <a href="/#faq">FAQ</a>
