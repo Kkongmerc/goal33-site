@@ -3726,7 +3726,9 @@ section:hover .sec-head h2::after { width: 48px; }
 /* ── SITE SYSTEMS (keep OUTSIDE the cover-flow block above — that block
    gets excised wholesale when the carousel is regenerated) ── */
 /* render-on-approach: below-fold sections skip layout/paint offscreen */
-#packages, #why, #how, #security, #faq, .creed {
+/* #packages excluded: the fixed starter popup lives inside it and
+   cv's paint containment would clip it offscreen */
+#why, #how, #security, #faq, .creed {
   content-visibility: auto;
   contain-intrinsic-size: auto 900px;
 }

@@ -89,6 +89,9 @@ recommends the cheaper path instead (The Starter if it IS that trio, otherwise
 5. **Required disclaimer verbatim** on every page (footer + strategies section on
    index). Never reword it.
 6. **Never put the owners' Pine repo filenames anywhere in this repo or site.**
+   The same goes for the owners' personal names — published copy says
+   "our team", never an individual (a first-name "ruling" label leaked
+   once through the catalog window labels; curate.py now scrubs names).
 7. Every buy CTA keeps its adjacent `<!-- WHOP: ... -->` comment. Buy links point
    at product pages until real Whop checkout links replace them (grep `WHOP:`).
 8. Warnings that survived owner review (Pendulum tariff week, Collector sizing
@@ -131,7 +134,7 @@ recommends the cheaper path instead (The Starter if it IS that trio, otherwise
 - Value doctrine: **RoDD backed by n is THE metric** — hero stat on every card
   and product page, the pricing input, and the sizing menu. PF supports.
 - Strategy display names are the "cool names" (Spartacus, The Market Maker, …)
-  from `_tools/names.json`; original names appear as subtitles. Slugs/URLs never
+  embedded in catalog2.json; original names appear as subtitles. Slugs/URLs never
   change on rename.
 
 ## Pricing (current — formula-driven, see pipeline section)

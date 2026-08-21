@@ -90,7 +90,7 @@ def fcard(p):
         tile_cls = "fstat fstat-star" if k == star else "fstat"
         if k == star:
             r = RANKS[(p["slug"], k)]
-            lab_tag = f"#{r} {'MAX DD' if k == 'Max DD' else k.upper()}" if r <= 3 else "STANDOUT"
+            lab_tag = f"#{r} {'MAX DD' if k == 'Max DD' else k.upper()}" if r <= 3 else "SIGNATURE"
             tag = f'<i class="star-tag">{lab_tag}</i>'
         else:
             tag = ""

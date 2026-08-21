@@ -7,7 +7,7 @@
    "meta": "MNQ · 24h, DOW/TOD sliced (Tue/Wed strongest, Sun negative)",
    "window": "01 Feb 2026 - 19 Aug 2026",
    "best": {
-    "label": "Best window — 01 Feb 2026 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Feb 2026 - 19 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "21.75",
      "PF": "1.77",
@@ -37,7 +37,7 @@
    "legs": [],
    "sep": [
     "Two-trend consensus chassis sliced by day-of-week and time-of-day; its strongest 30-minute slot alone netted +$5.0k at an 81% win rate.",
-    "Collin’s pinned baseline configuration — the exact build that runs in-house."
+    "Our team's pinned baseline configuration — the exact build that runs in-house."
    ],
    "warn": ""
   },
@@ -48,7 +48,7 @@
    "meta": "MGC · combined LVL5M overnight + FVGC-NY windows",
    "window": "01 Nov 2025 - 19 Aug 2026",
    "best": {
-    "label": "Best window — 01 Nov 2025 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Nov 2025 - 19 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "19.89",
      "PF": "1.64",
@@ -88,7 +88,7 @@
    "meta": "SI · 08:30",
    "window": "01 May 2024 - 19 Aug 2026",
    "best": {
-    "label": "Best window — 01 May 2024 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 May 2024 - 19 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "9.18",
      "PF": "1.47",
@@ -102,7 +102,7 @@
     }
    },
    "full": {
-    "label": "Best window — 01 May 2024 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 May 2024 - 19 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "9.18",
      "PF": "1.47",
@@ -129,7 +129,7 @@
    "meta": "NQ · 21:30 ET China-open ORB cont",
    "window": "01 Sep 2025 - 16 Aug 2026",
    "best": {
-    "label": "Best window — 01 Sep 2025 - 16 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Sep 2025 - 16 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "12.55",
      "PF": "2.31",
@@ -169,7 +169,7 @@
    "meta": "NQ · 15:30",
    "window": "01 Feb 2024 - 19 Aug 2026",
    "best": {
-    "label": "Best window — 01 Feb 2024 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Feb 2024 - 19 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "8.52",
      "PF": "1.33",
@@ -183,7 +183,7 @@
     }
    },
    "full": {
-    "label": "Best window — 01 Feb 2024 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Feb 2024 - 19 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "8.52",
      "PF": "1.33",
@@ -210,7 +210,7 @@
    "meta": "NQ · all-day",
    "window": "01 Jan 2025 - 17 Aug 2026",
    "best": {
-    "label": "Best window — 01 Jan 2025 - 17 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Jan 2025 - 17 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "8.33",
      "PF": "1.70",
@@ -250,7 +250,7 @@
    "meta": "ES · 4H pullback fade",
    "window": "01 Jun 2025 - 19 Aug 2026",
    "best": {
-    "label": "Best window — 01 Jun 2025 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Jun 2025 - 19 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "6.60",
      "PF": "1.51",
@@ -290,7 +290,7 @@
    "meta": "NQ · 13:00",
    "window": "01 Sep 2025 - 19 Aug 2026",
    "best": {
-    "label": "Best window — 01 Sep 2025 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Sep 2025 - 19 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "6.66",
      "PF": "1.58",
@@ -330,7 +330,7 @@
    "meta": "NQ · 2.5σ VWAP band fade",
    "window": "01 Mar 2025 - 17 Aug 2026",
    "best": {
-    "label": "Best window — 01 Mar 2025 - 17 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Mar 2025 - 17 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "6.02",
      "PF": "1.46",
@@ -370,7 +370,7 @@
    "meta": "SI · 13:00 ET silver range fade",
    "window": "01 Oct 2024 - 19 Aug 2026",
    "best": {
-    "label": "Best window — 01 Oct 2024 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Oct 2024 - 19 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "4.18",
      "PF": "1.48",
@@ -384,7 +384,7 @@
     }
    },
    "full": {
-    "label": "Best window — 01 Oct 2024 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Oct 2024 - 19 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "4.18",
      "PF": "1.48",
@@ -411,7 +411,7 @@
    "meta": "NQ · Fridays 09:30 ET ORB breakout",
    "window": "01 Jan 2024 - 14 Aug 2026",
    "best": {
-    "label": "Best window — 01 Jan 2024 - 14 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Jan 2024 - 14 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "6.00",
      "PF": "1.61",
@@ -425,7 +425,7 @@
     }
    },
    "full": {
-    "label": "Best window — 01 Jan 2024 - 14 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Jan 2024 - 14 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "6.00",
      "PF": "1.61",
@@ -452,7 +452,7 @@
    "meta": "NQ · 08:30 ET OR15 range fade",
    "window": "01 Jan 2024 - 19 Aug 2026",
    "best": {
-    "label": "Best window — 01 Jan 2024 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Jan 2024 - 19 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "3.86",
      "PF": "1.22",
@@ -466,7 +466,7 @@
     }
    },
    "full": {
-    "label": "Best window — 01 Jan 2024 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Jan 2024 - 19 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "3.86",
      "PF": "1.22",
@@ -493,7 +493,7 @@
    "meta": "NQ · 01:00 ET Frankfurt ORB cont",
    "window": "01 Jan 2024 - 17 Aug 2026",
    "best": {
-    "label": "Best window — 01 Jan 2024 - 17 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Jan 2024 - 17 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "4.70",
      "PF": "1.58",
@@ -507,7 +507,7 @@
     }
    },
    "full": {
-    "label": "Best window — 01 Jan 2024 - 17 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Jan 2024 - 17 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "4.70",
      "PF": "1.58",
@@ -534,7 +534,7 @@
    "meta": "NQ · 01:00",
    "window": "01 Jan 2025 - 19 Aug 2026",
    "best": {
-    "label": "Best window — 01 Jan 2025 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Jan 2025 - 19 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "3.80",
      "PF": "2.06",
@@ -574,7 +574,7 @@
    "meta": "NQ · 08:30 ET failed-break fade",
    "window": "01 Sep 2025 - 18 Aug 2026",
    "best": {
-    "label": "Best window — 01 Sep 2025 - 18 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Sep 2025 - 18 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "2.57",
      "PF": "1.42",
@@ -614,7 +614,7 @@
    "meta": "NQ · 10:30 ET OR30 fade",
    "window": "01 Sep 2025 - 19 Aug 2026",
    "best": {
-    "label": "Best window — 01 Sep 2025 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Sep 2025 - 19 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "3.86",
      "PF": "1.47",
@@ -655,7 +655,7 @@
    "meta": "NQ · 24×7 (~7.5/day)",
    "window": "01 May 2024 - 19 Aug 2026",
    "best": {
-    "label": "Best window — 01 May 2024 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 May 2024 - 19 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "3.05",
      "PF": "1.29",
@@ -669,7 +669,7 @@
     }
    },
    "full": {
-    "label": "Best window — 01 May 2024 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 May 2024 - 19 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "3.05",
      "PF": "1.29",
@@ -697,7 +697,7 @@
    "meta": "NQ · 18:00 ET CME reopen ORB cont",
    "window": "01 Feb 2025 - 17 Aug 2026",
    "best": {
-    "label": "Best window — 01 Feb 2025 - 17 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Feb 2025 - 17 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "1.99",
      "PF": "1.56",
@@ -741,7 +741,7 @@
     "v1": {
      "label": "ENGINE V1 · INSIDE ENTRY",
      "best": {
-      "label": "Best window — 01 Jul 2024 - 17 Aug 2026 (headline basis, Collin ruling 08-20)",
+      "label": "Best window — 01 Jul 2024 - 17 Aug 2026 (headline basis, our team's ruling 08-20)",
       "stats": {
        "RoDD": "11.76",
        "PF": "1.91",
@@ -755,7 +755,7 @@
       }
      },
      "full": {
-      "label": "Best window — 01 Jul 2024 - 17 Aug 2026 (headline basis, Collin ruling 08-20)",
+      "label": "Best window — 01 Jul 2024 - 17 Aug 2026 (headline basis, our team's ruling 08-20)",
       "stats": {
        "RoDD": "11.76",
        "PF": "1.91",
@@ -773,7 +773,7 @@
     "v2": {
      "label": "ENGINE V2 · EXPANSION-GATED",
      "best": {
-      "label": "Best window — 01 Dec 2024 - 17 Aug 2026 (headline basis, Collin ruling 08-20)",
+      "label": "Best window — 01 Dec 2024 - 17 Aug 2026 (headline basis, our team's ruling 08-20)",
       "stats": {
        "RoDD": "15.77",
        "PF": "2.31",
@@ -787,7 +787,7 @@
       }
      },
      "full": {
-      "label": "Best window — 01 Dec 2024 - 17 Aug 2026 (headline basis, Collin ruling 08-20)",
+      "label": "Best window — 01 Dec 2024 - 17 Aug 2026 (headline basis, our team's ruling 08-20)",
       "stats": {
        "RoDD": "15.77",
        "PF": "2.31",
@@ -804,7 +804,7 @@
     }
    },
    "best": {
-    "label": "Best window — 01 Dec 2024 - 17 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Dec 2024 - 17 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "15.77",
      "PF": "2.31",
@@ -818,7 +818,7 @@
     }
    },
    "full": {
-    "label": "Best window — 01 Dec 2024 - 17 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Dec 2024 - 17 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "15.77",
      "PF": "2.31",
@@ -848,7 +848,7 @@
     "g12": {
      "label": "GEOMETRY A · 12PT STOP",
      "best": {
-      "label": "Best window — 01 Feb 2026 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+      "label": "Best window — 01 Feb 2026 - 19 Aug 2026 (headline basis, our team's ruling 08-20)",
       "stats": {
        "RoDD": "2.31",
        "PF": "1.51",
@@ -879,7 +879,7 @@
     "g15": {
      "label": "GEOMETRY B · 15PT STOP",
      "best": {
-      "label": "Best window — 01 Feb 2026 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+      "label": "Best window — 01 Feb 2026 - 19 Aug 2026 (headline basis, our team's ruling 08-20)",
       "stats": {
        "RoDD": "1.78",
        "PF": "1.38",
@@ -909,7 +909,7 @@
     }
    },
    "best": {
-    "label": "Best window — 01 Feb 2026 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Feb 2026 - 19 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "2.31",
      "PF": "1.51",
@@ -952,7 +952,7 @@
    "meta": "MGC · 24h, 5 legs (TOCOM/London BREAKOUT/FVGC-NY/LVL5M-ON/DF0830)",
    "window": "01 Jan 2026 - 19 Aug 2026",
    "best": {
-    "label": "Best window — 01 Jan 2026 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Jan 2026 - 19 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "31.28",
      "PF": "1.79",
@@ -999,7 +999,7 @@
    "meta": "MNQ · 9-leg 24h router",
    "window": "01 Oct 2025 - 19 Aug 2026",
    "best": {
-    "label": "Best window — 01 Oct 2025 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Oct 2025 - 19 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "26.82",
      "PF": "1.63",
@@ -1040,7 +1040,7 @@
    "meta": "MNQ · 24h single-position router",
    "window": "01 Jan 2025 - 03 Apr 2026",
    "best": {
-    "label": "Best window — 01 Jan 2025 - 03 Apr 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Jan 2025 - 03 Apr 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "23.34",
      "PF": "1.96",
@@ -1081,7 +1081,7 @@
    "meta": "MNQ · validated-only NY router",
    "window": "01 Jan 2025 - 19 Aug 2026",
    "best": {
-    "label": "Best window — 01 Jan 2025 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "label": "Best window — 01 Jan 2025 - 19 Aug 2026 (headline basis, our team's ruling 08-20)",
     "stats": {
      "RoDD": "7.59",
      "PF": "1.33",

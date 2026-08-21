@@ -268,7 +268,6 @@ def rodd_menu(p):
     return f"""<div class="rodd" aria-label="Return-on-drawdown sizing menu">
   <div class="rodd-head">
     <span class="rodd-title">Return on drawdown &middot; what a dollar of pain buys</span>
-    <span class="chip-interactive">INTERACTIVE</span>
     <span class="rodd-fig">{esc(b.get("RoDD",""))}&times;</span>
   </div>
   <p class="rodd-why"><b>RoDD is the metric this catalog is priced on.</b> Profit factor says the engine works;
