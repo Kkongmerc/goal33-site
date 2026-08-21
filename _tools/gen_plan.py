@@ -237,23 +237,23 @@ exec_opts = [
 
 qs = f"""
       <fieldset class="pq pq-scope">
-        <legend><span class="pq-n">STEP 01</span> What are you shopping for?</legend>
+        <legend><span class="pq-n">STEP 01</span> <span class="pq-q">What are you shopping for?</span></legend>
         {chips('q-scope', scope_opts)}
       </fieldset>
 
       <fieldset class="pq pq-budget">
-        <legend><span class="pq-n">STEP 02</span> What drawdown budget are you sizing?</legend>
+        <legend><span class="pq-n">STEP 02</span> <span class="pq-q">What drawdown budget are you sizing?</span></legend>
         <p class="pq-hint">Not your account size — the open drawdown you could genuinely sit through without pulling the plug. The same number the sizing menu on every product page runs on.</p>
         {chips('q-budget', budget_opts)}
       </fieldset>
 
       <fieldset class="pq pq-temp">
-        <legend><span class="pq-n">STEP 03</span> What kind of ride can you stomach?</legend>
+        <legend><span class="pq-n">STEP 03</span> <span class="pq-q">What kind of ride can you stomach?</span></legend>
         {chips('q-temp', temp_opts)}
       </fieldset>
 
       <fieldset class="pq pq-exec">
-        <legend><span class="pq-n">STEP 04</span> How will you run it?</legend>
+        <legend><span class="pq-n">STEP 04</span> <span class="pq-q">How will you run it?</span></legend>
         {chips('q-exec', exec_opts)}
       </fieldset>
 """
@@ -313,8 +313,20 @@ page = f"""<!DOCTYPE html>
   <div class="wrap nav">
     <a class="brand" href="/">GOAL<span class="n33">33</span><small>SYSTEMS</small></a>
     <nav class="nav-links" aria-label="Main">
-      <a href="/#strategies">Strategies</a>
-      <a href="/#packages">Bundles</a>
+      <div class="nav-drop">
+        <a href="/#strategies">Strategies<svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+        <div class="nav-menu">
+          <a href="/#flagships">Flagships</a>
+          <a href="/#tier-2">Core systems</a>
+          <a href="/#tier-3">Session specialists</a>
+          <a href="/#edge">Browse by edge</a>
+          <a href="/#packages">Bundles &amp; deals</a>
+        </div>
+      </div>
+      <a class="nav-tier" href="/#flagships">Tier 1</a>
+      <a class="nav-tier" href="/#tier-2">Tier 2</a>
+      <a class="nav-tier" href="/#tier-3">Tier 3</a>
+      <a class="nav-books" href="/#packages">Books and Bundles</a>
       <a class="nav-plan" href="/plan.html" aria-current="page">Find your plan</a>
       <a href="/#how">How access works</a>
       <a href="/#faq">FAQ</a>
@@ -338,13 +350,11 @@ page = f"""<!DOCTYPE html>
 
   <div class="wrap">
     <div id="plan">
+      <div class="plan-prog" aria-hidden="true"><span class="pp pp-1"></span><span class="pp pp-2"></span><span class="pp pp-3"></span><span class="pp pp-4"></span></div>
       <div class="plan-qs">
       {qs}
       </div>
       <section class="plan-results" aria-live="polite">
-        <div class="pr pr-wait" id="w-scope"><p>Answer <b>STEP 01</b> to begin.</p></div>
-        <div class="pr pr-wait" id="w-budget"><p>Set your <b>drawdown budget</b> (STEP 02) to see your match.</p></div>
-        <div class="pr pr-wait" id="w-temp"><p>Pick a <b>temperament</b> (STEP 03) and your recommendation appears here.</p></div>
         {panels}
         {fleet_small}
         {fleet_big}

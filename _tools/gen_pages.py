@@ -69,8 +69,20 @@ def head(title, desc, path, bodycls=""):
   <div class="wrap nav">
     <a class="brand" href="/">GOAL<span class="n33">33</span><small>SYSTEMS</small></a>
     <nav class="nav-links" aria-label="Main">
-      <a href="/#strategies">Strategies</a>
-      <a href="/#packages">Bundles</a>
+      <div class="nav-drop">
+        <a href="/#strategies">Strategies<svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+        <div class="nav-menu">
+          <a href="/#flagships">Flagships</a>
+          <a href="/#tier-2">Core systems</a>
+          <a href="/#tier-3">Session specialists</a>
+          <a href="/#edge">Browse by edge</a>
+          <a href="/#packages">Bundles &amp; deals</a>
+        </div>
+      </div>
+      <a class="nav-tier" href="/#flagships">Tier 1</a>
+      <a class="nav-tier" href="/#tier-2">Tier 2</a>
+      <a class="nav-tier" href="/#tier-3">Tier 3</a>
+      <a class="nav-books" href="/#packages">Books and Bundles</a>
       <a class="nav-plan" href="/plan.html">Find your plan</a>
       <a href="/#how">How access works</a>
       <a href="/#faq">FAQ</a>
@@ -143,6 +155,9 @@ def tile_grid(stats):
     for k in ORDER:
         if k in stats:
             hot = ' hot' if is_hot(k, stats[k]) else ''
+            if k == "Max DD":
+                n = num(stats[k])
+                hot += ' dd-gold' if n <= 2000 else (' dd-neon' if n <= 5000 else '')
             cells += f'<div class="wtile{hot}"><span class="wk">{esc(k)}</span><span class="wv">{esc(stats[k])}</span></div>'
     for k, v in stats.items():
         if k not in ORDER:

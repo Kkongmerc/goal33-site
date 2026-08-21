@@ -23,7 +23,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
 
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="assets/main.css?v=a8ddc9d5">
+<link rel="stylesheet" href="assets/main.css?v=fec7e109">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -50,11 +50,23 @@
   <div class="wrap nav">
     <a class="brand" href="./">GOAL<span class="n33">33</span><small>SYSTEMS</small></a>
     <nav class="nav-links" aria-label="Main">
-      <a href="#strategies">Strategies</a>
-      <a href="#packages">Bundles</a>
+      <div class="nav-drop">
+        <a href="/#strategies">Strategies<svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+        <div class="nav-menu">
+          <a href="/#flagships">Flagships</a>
+          <a href="/#tier-2">Core systems</a>
+          <a href="/#tier-3">Session specialists</a>
+          <a href="/#edge">Browse by edge</a>
+          <a href="/#packages">Bundles &amp; deals</a>
+        </div>
+      </div>
+      <a class="nav-tier" href="/#flagships">Tier 1</a>
+      <a class="nav-tier" href="/#tier-2">Tier 2</a>
+      <a class="nav-tier" href="/#tier-3">Tier 3</a>
+      <a class="nav-books" href="/#packages">Books and Bundles</a>
       <a class="nav-plan" href="/plan.html">Find your plan</a>
-      <a href="#how">How access works</a>
-      <a href="#faq">FAQ</a>
+      <a href="/#how">How access works</a>
+      <a href="/#faq">FAQ</a>
     </nav>
     <!-- WHOP: replace this link with the Whop storefront URL -->
     <a class="btn btn-sm btn-solid" href="/#packages" rel="noopener">Get access</a>
@@ -114,9 +126,12 @@
   <!-- ── the creed: integrity statement, meant to be seen ──── -->
   <section class="creed" aria-label="Data integrity statement">
     <div class="wrap">
+      <div class="creed-frame">
+      <span class="creed-tag">THE STANDARD</span>
       <p class="creed-kicker">The standard</p>
       <p class="creed-text">Every number on this site comes straight from <span class="hl">verified broker backtests</span>, commissions and slippage modeled, and is published exactly as the run produced it.</p>
       <p class="creed-nots"><span>Nothing smoothed.</span><span>Nothing cherry-picked.</span><span>Nothing inflated.</span></p>
+      </div>
     </div>
   </section>
 
@@ -150,7 +165,7 @@
         <span class="note">every figure from the validation playbook &middot; best window</span>
       </div>
 
-      <div class="collections">
+      <div class="collections" id="edge">
         <div class="collection col-value">
           <div class="col-title">Best value · RoDD</div>
           <ul><li><a class="sys-link" href="/strategies/spartacus.html"><span class="col-name">Spartacus</span></a><span class="col-stat">21.75× · n=1,302</span></li><li><a class="sys-link" href="/strategies/the-alloy.html"><span class="col-name">The Alloy</span></a><span class="col-stat">19.89× · n=1,234</span></li><li><a class="sys-link" href="/strategies/ny-open-pro.html"><span class="col-name">The Market Maker</span></a><span class="col-stat">15.77× · n=231</span></li><li><a class="sys-link" href="/strategies/china-orb.html"><span class="col-name">The Abacus</span></a><span class="col-stat">12.55× · n=155</span></li></ul>
@@ -175,7 +190,7 @@
         <span class="note">$239&ndash;$509/mo &middot; 6 systems</span>
       </div>
 
-      <div class="flagships">
+      <div class="flagships" id="flagships">
 
         <article class="fcard fc-spartacus">
           <div class="fcard-top">
@@ -189,7 +204,7 @@
             <div class="fhero"><b>21.75&times;</b><span>RoDD &middot; best window</span></div>
           </div>
           <p class="desc">Two-trend consensus chassis sliced by day-of-week and time-of-day; its strongest 30-minute slot alone netted +$5.0k at an 81% win rate.</p>
-          <div class="fstats"><div class="fstat"><b class="lead">21.75</b><span>RoDD</span></div><div class="fstat"><b>1.77</b><span>PF</span></div><div class="fstat"><b>67.0%</b><span>Win</span></div><div class="fstat"><b>$27.5k</b><span>Net</span></div><div class="fstat"><b>$1.3k</b><span>Max DD</span></div><div class="fstat"><b class="lead">1,302</b><span>n</span></div></div>
+          <div class="fstats"><div class="fstat fstat-star"><b class="lead">21.75</b><span>RoDD</span><i class="star-tag">#1 RODD</i></div><div class="fstat"><b>1.77</b><span>PF</span></div><div class="fstat"><b>67.0%</b><span>Win</span></div><div class="fstat"><b>$27.5k</b><span>Net</span></div><div class="fstat"><b class="dd-gold">$1.3k</b><span>Max DD</span></div><div class="fstat"><b class="lead">1,302</b><span>n</span></div></div>
           <div class="price-row">
             <div class="price"><span class="now">$509</span><span class="per">/MO</span></div>
           </div>
@@ -212,7 +227,7 @@
             <div class="fhero"><b>19.89&times;</b><span>RoDD &middot; best window</span></div>
           </div>
           <p class="desc">Two engines fused and run as one: the 5-minute structure leg and the FVG-continuation leg, both live on gold, captured in-flight.</p>
-          <div class="fstats"><div class="fstat"><b class="hot">19.89</b><span>RoDD</span></div><div class="fstat"><b>1.64</b><span>PF</span></div><div class="fstat"><b>69.5%</b><span>Win</span></div><div class="fstat"><b>$62.3k</b><span>Net</span></div><div class="fstat"><b>$3.1k</b><span>Max DD</span></div><div class="fstat"><b class="hot">1,234</b><span>n</span></div></div>
+          <div class="fstats"><div class="fstat fstat-star"><b class="hot">19.89</b><span>RoDD</span><i class="star-tag">#2 RODD</i></div><div class="fstat"><b>1.64</b><span>PF</span></div><div class="fstat"><b>69.5%</b><span>Win</span></div><div class="fstat"><b>$62.3k</b><span>Net</span></div><div class="fstat"><b class="dd-neon">$3.1k</b><span>Max DD</span></div><div class="fstat"><b class="hot">1,234</b><span>n</span></div></div>
           <div class="price-row">
             <div class="price"><span class="now">$469</span><span class="per">/MO</span></div>
           </div>
@@ -235,7 +250,7 @@
             <div class="fhero"><b>15.77&times;</b><span>RoDD &middot; best window</span></div>
           </div>
           <p class="desc">Two engines on the New York open: the inside-entry original (67.9% win across 305 trades) and the expansion-gated v2, published on honest costs. One purchase covers both.</p>
-          <div class="fstats"><div class="fstat"><b class="hot">15.77</b><span>RoDD</span></div><div class="fstat"><b class="hot">2.31</b><span>PF</span></div><div class="fstat"><b>36.4%</b><span>Win</span></div><div class="fstat"><b>$98.5k</b><span>Net</span></div><div class="fstat"><b>$6.2k</b><span>Max DD</span></div><div class="fstat"><b>231</b><span>n</span></div></div>
+          <div class="fstats"><div class="fstat"><b class="hot">15.77</b><span>RoDD</span></div><div class="fstat fstat-star"><b class="hot">2.31</b><span>PF</span><i class="star-tag">#2 PF</i></div><div class="fstat"><b>36.4%</b><span>Win</span></div><div class="fstat"><b>$98.5k</b><span>Net</span></div><div class="fstat"><b>$6.2k</b><span>Max DD</span></div><div class="fstat"><b>231</b><span>n</span></div></div>
           <div class="price-row">
             <div class="price"><span class="now">$349</span><span class="per">/MO</span></div>
           </div>
@@ -258,7 +273,7 @@
             <div class="fhero"><b>9.18&times;</b><span>RoDD &middot; best window</span></div>
           </div>
           <p class="desc">TV-validated across all six configurations with a uniform small haircut — the first cross-instrument strategy in the program to survive TradingView end-to-end.</p>
-          <div class="fstats"><div class="fstat"><b>9.18</b><span>RoDD</span></div><div class="fstat"><b>1.47</b><span>PF</span></div><div class="fstat"><b>51.7%</b><span>Win</span></div><div class="fstat"><b class="hot">$163.3k</b><span>Net</span></div><div class="fstat"><b>$17.8k</b><span>Max DD</span></div><div class="fstat"><b>557</b><span>n</span></div></div>
+          <div class="fstats"><div class="fstat"><b>9.18</b><span>RoDD</span></div><div class="fstat"><b>1.47</b><span>PF</span></div><div class="fstat"><b>51.7%</b><span>Win</span></div><div class="fstat fstat-star"><b class="hot">$163.3k</b><span>Net</span><i class="star-tag">#2 NET</i></div><div class="fstat"><b>$17.8k</b><span>Max DD</span></div><div class="fstat"><b>557</b><span>n</span></div></div>
           <div class="price-row">
             <div class="price"><span class="now">$249</span><span class="per">/MO</span></div>
           </div>
@@ -281,7 +296,7 @@
             <div class="fhero"><b>12.55&times;</b><span>RoDD &middot; best window</span></div>
           </div>
           <p class="desc">PF 2.31 on the Shanghai open — the highest profit factor of any single-session system in the catalog.</p>
-          <div class="fstats"><div class="fstat"><b class="hot">12.55</b><span>RoDD</span></div><div class="fstat"><b class="lead">2.31</b><span>PF</span></div><div class="fstat"><b>71.0%</b><span>Win</span></div><div class="fstat"><b>$47.5k</b><span>Net</span></div><div class="fstat"><b>$3.8k</b><span>Max DD</span></div><div class="fstat"><b>155</b><span>n</span></div></div>
+          <div class="fstats"><div class="fstat"><b class="hot">12.55</b><span>RoDD</span></div><div class="fstat fstat-star"><b class="lead">2.31</b><span>PF</span><i class="star-tag">#1 PF</i></div><div class="fstat"><b>71.0%</b><span>Win</span></div><div class="fstat"><b>$47.5k</b><span>Net</span></div><div class="fstat"><b class="dd-neon">$3.8k</b><span>Max DD</span></div><div class="fstat"><b>155</b><span>n</span></div></div>
           <div class="price-row">
             <div class="price"><span class="now">$249</span><span class="per">/MO</span></div>
           </div>
@@ -304,7 +319,7 @@
             <div class="fhero"><b>8.52&times;</b><span>RoDD &middot; best window</span></div>
           </div>
           <p class="desc">Audited against its own worst stretch: the April tariff week cost −$11.3k and the edge still closed the sample ahead — no outlier dependence.</p>
-          <div class="fstats"><div class="fstat"><b>8.52</b><span>RoDD</span></div><div class="fstat"><b>1.33</b><span>PF</span></div><div class="fstat"><b>51.7%</b><span>Win</span></div><div class="fstat"><b>$71.4k</b><span>Net</span></div><div class="fstat"><b>$8.4k</b><span>Max DD</span></div><div class="fstat"><b>633</b><span>n</span></div></div>
+          <div class="fstats"><div class="fstat"><b>8.52</b><span>RoDD</span></div><div class="fstat"><b>1.33</b><span>PF</span></div><div class="fstat"><b>51.7%</b><span>Win</span></div><div class="fstat"><b>$71.4k</b><span>Net</span></div><div class="fstat"><b>$8.4k</b><span>Max DD</span></div><div class="fstat fstat-star"><b>633</b><span>n</span><i class="star-tag">STANDOUT</i></div></div>
           <div class="price-row">
             <div class="price"><span class="now">$239</span><span class="per">/MO</span></div>
           </div>
@@ -318,7 +333,7 @@
 
       </div>
 
-      <div class="tier-head">
+      <div class="tier-head" id="tier-2">
         <span class="tier-tag">TIER 2</span>
         <h3>Core systems</h3>
         <span class="note">$149&ndash;$199/mo &middot; 8 systems</span>
@@ -395,7 +410,7 @@
         </table>
       </div>
 
-      <div class="tier-head">
+      <div class="tier-head" id="tier-3">
         <span class="tier-tag">TIER 3</span>
         <h3>Session specialists</h3>
         <span class="note">$119&ndash;$139/mo &middot; 6 systems</span>
@@ -446,7 +461,7 @@
             </tr>
             <tr>
               <th scope="row"><div class="sys"><span class="gcell" aria-hidden="true"><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15.8 5.2a7.2 7.2 0 1 0 0 13.6"/><path d="M15.8 5.2h3.4M15.8 18.8h3.4"/><path d="M19.4 8.4v7.2"/><path d="M17.6 8.4h3.6"/></svg></span><div class="sys-txt"><div class="sys-name-row"><a class="sys-link" href="/strategies/cme-reopen-snap.html"><span class="sys-name">The Vise</span></a><span class="sys-real">NQ CME 18:00 Reopen</span><span class="chip chip-mkt">NQ</span><span class="chip chip-verified">VERIFIED</span></div><span class="sys-desc">The 18:00 Globex reopen, faded with a 77.5% win rate over the window.</span></div></div></th>
-              <td class="pf">1.99</td><td>1.56</td><td>77.5%</td><td>$8.5k</td><td>$4.3k</td><td>142</td>
+              <td class="pf">1.99</td><td>1.56</td><td>77.5%</td><td>$8.5k</td><td class="dd-neon">$4.3k</td><td>142</td>
               <td class="price-cell">$119<span class="per">/mo</span></td>
               <td class="act-cell"><!-- WHOP: replace this product-page link with the Whop checkout link --><a class="btn btn-buy btn-row" href="/strategies/cme-reopen-snap.html" rel="noopener">Get access</a><input type="checkbox" id="add-cme-reopen-snap" class="add-cb"><label for="add-cme-reopen-snap" class="add-btn"><span class="add-ico" aria-hidden="true"></span><span class="add-txt">Add</span><span class="sr-only"> The Vise to selection</span></label></td>
             </tr>
@@ -496,7 +511,7 @@
         <span class="note">cancel anytime through whop &middot; annual = 2 months free</span>
       </div>
 
-      <article class="pack pack-books">
+      <article class="pack pack-books" id="books">
         <div class="books-head">
           <h3><a class="sys-link" href="/strategies/the-books.html">The Books</a></h3>
           <span class="chip chip-mkt">IN-HOUSE ENGINES</span>

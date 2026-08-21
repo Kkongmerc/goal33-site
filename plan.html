@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/assets/main.css?v=a8ddc9d5">
+<link rel="stylesheet" href="/assets/main.css?v=fec7e109">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -27,8 +27,20 @@
   <div class="wrap nav">
     <a class="brand" href="/">GOAL<span class="n33">33</span><small>SYSTEMS</small></a>
     <nav class="nav-links" aria-label="Main">
-      <a href="/#strategies">Strategies</a>
-      <a href="/#packages">Bundles</a>
+      <div class="nav-drop">
+        <a href="/#strategies">Strategies<svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+        <div class="nav-menu">
+          <a href="/#flagships">Flagships</a>
+          <a href="/#tier-2">Core systems</a>
+          <a href="/#tier-3">Session specialists</a>
+          <a href="/#edge">Browse by edge</a>
+          <a href="/#packages">Bundles &amp; deals</a>
+        </div>
+      </div>
+      <a class="nav-tier" href="/#flagships">Tier 1</a>
+      <a class="nav-tier" href="/#tier-2">Tier 2</a>
+      <a class="nav-tier" href="/#tier-3">Tier 3</a>
+      <a class="nav-books" href="/#packages">Books and Bundles</a>
       <a class="nav-plan" href="/plan.html" aria-current="page">Find your plan</a>
       <a href="/#how">How access works</a>
       <a href="/#faq">FAQ</a>
@@ -52,34 +64,32 @@
 
   <div class="wrap">
     <div id="plan">
+      <div class="plan-prog" aria-hidden="true"><span class="pp pp-1"></span><span class="pp pp-2"></span><span class="pp pp-3"></span><span class="pp pp-4"></span></div>
       <div class="plan-qs">
       
       <fieldset class="pq pq-scope">
-        <legend><span class="pq-n">STEP 01</span> What are you shopping for?</legend>
+        <legend><span class="pq-n">STEP 01</span> <span class="pq-q">What are you shopping for?</span></legend>
         <div class="pq-opts"><input class="pq-radio" type="radio" name="q-scope" id="s1"><label class="pq-opt" for="s1"><b>One system</b><span>Start focused — a single edge, run properly</span></label><input class="pq-radio" type="radio" name="q-scope" id="s2"><label class="pq-opt" for="s2"><b>Three systems</b><span>A custom Pick-3, named by you at checkout</span></label><input class="pq-radio" type="radio" name="q-scope" id="s3"><label class="pq-opt" for="s3"><b>The whole shelf</b><span>All-Access — every strategy at once</span></label><input class="pq-radio" type="radio" name="q-scope" id="s4"><label class="pq-opt" for="s4"><b>The in-house Books</b><span>The four engines we run ourselves</span></label></div>
       </fieldset>
 
       <fieldset class="pq pq-budget">
-        <legend><span class="pq-n">STEP 02</span> What drawdown budget are you sizing?</legend>
+        <legend><span class="pq-n">STEP 02</span> <span class="pq-q">What drawdown budget are you sizing?</span></legend>
         <p class="pq-hint">Not your account size — the open drawdown you could genuinely sit through without pulling the plug. The same number the sizing menu on every product page runs on.</p>
         <div class="pq-opts"><input class="pq-radio" type="radio" name="q-budget" id="b1"><label class="pq-opt" for="b1"><b>$1k–$5k</b><span>Room for a ~$4.5k drawdown</span></label><input class="pq-radio" type="radio" name="q-budget" id="b2"><label class="pq-opt" for="b2"><b>$5k–$10k</b><span>Room for a ~$9.5k drawdown</span></label><input class="pq-radio" type="radio" name="q-budget" id="b3"><label class="pq-opt" for="b3"><b>$10k–$25k</b><span>Room for a ~$22.5k drawdown</span></label><input class="pq-radio" type="radio" name="q-budget" id="b4"><label class="pq-opt" for="b4"><b>$25k+</b><span>Deep book — any published drawdown</span></label></div>
       </fieldset>
 
       <fieldset class="pq pq-temp">
-        <legend><span class="pq-n">STEP 03</span> What kind of ride can you stomach?</legend>
+        <legend><span class="pq-n">STEP 03</span> <span class="pq-q">What kind of ride can you stomach?</span></legend>
         <div class="pq-opts"><input class="pq-radio" type="radio" name="q-temp" id="t1"><label class="pq-opt" for="t1"><b>Steady grind</b><span>High win rate. Long green streaks, shallow pain.</span></label><input class="pq-radio" type="radio" name="q-temp" id="t2"><label class="pq-opt" for="t2"><b>Best math</b><span>Maximum return per dollar of drawdown. The RoDD play.</span></label><input class="pq-radio" type="radio" name="q-temp" id="t3"><label class="pq-opt" for="t3"><b>Big swings ok</b><span>Chase the biggest published net. Deeper holes en route.</span></label></div>
       </fieldset>
 
       <fieldset class="pq pq-exec">
-        <legend><span class="pq-n">STEP 04</span> How will you run it?</legend>
+        <legend><span class="pq-n">STEP 04</span> <span class="pq-q">How will you run it?</span></legend>
         <div class="pq-opts"><input class="pq-radio" type="radio" name="q-exec" id="e1"><label class="pq-opt" for="e1"><b>Manually</b><span>I take the alerts myself</span></label><input class="pq-radio" type="radio" name="q-exec" id="e2"><label class="pq-opt" for="e2"><b>Automated</b><span>Hands-free, alerts execute at my broker</span></label></div>
       </fieldset>
 
       </div>
       <section class="plan-results" aria-live="polite">
-        <div class="pr pr-wait" id="w-scope"><p>Answer <b>STEP 01</b> to begin.</p></div>
-        <div class="pr pr-wait" id="w-budget"><p>Set your <b>drawdown budget</b> (STEP 02) to see your match.</p></div>
-        <div class="pr pr-wait" id="w-temp"><p>Pick a <b>temperament</b> (STEP 03) and your recommendation appears here.</p></div>
         <div class="pr" id="r-s1-b1-t1"><div class="pr-card">
       <div class="pr-head"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15.8 5.2a7.2 7.2 0 1 0 0 13.6"/><path d="M15.8 5.2h3.4M15.8 18.8h3.4"/><path d="M19.4 8.4v7.2"/><path d="M17.6 8.4h3.6"/></svg><div class="pr-id">
         <a class="pr-name" href="/strategies/cme-reopen-snap.html">The Vise</a>

@@ -57,17 +57,44 @@ def val_cls(p, k):
         return "lead"
     return "hot" if is_hot(k, v) else ""
 
+# really low max drawdowns get medal tiers: gold <= $2k, neon green <= $5k
+def dd_cls(v):
+    n = num(v)
+    return "dd-gold" if n <= 2000 else ("dd-neon" if n <= 5000 else "")
+
+# per-strategy stat ranks across the whole catalog (1 = best) — used to pick
+# each flagship's standout stat, the figure that makes it a flagship
+RANK_KEYS = ["RoDD", "PF", "Win", "Net", "Trades", "Max DD"]
+RANKS = {}
+for _k in RANK_KEYS:
+    order = sorted(S, key=lambda p: (num(bs(p, _k)) if _k != "Max DD" else -num(bs(p, _k))), reverse=True)
+    for _i, _p in enumerate(order):
+        RANKS[(_p["slug"], _k)] = _i + 1
+STAR_PRIORITY = ["RoDD", "Net", "Win", "Max DD", "PF", "Trades"]
+def star_key(p):
+    best = min(RANK_KEYS, key=lambda k: (RANKS[(p["slug"], k)], STAR_PRIORITY.index(k)))
+    return best
+
 srt = sorted(S, key=lambda x: -x["price"])
 TIER1, TIER2, TIER3 = srt[:6], [x for x in srt[6:] if x["price"] >= 149], [x for x in srt[6:] if x["price"] < 149]
 
 # ── flagship cards ──────────────────────────────────────────────
 def fcard(p):
     stats = ""
+    star = star_key(p)
     for k, lab in [("RoDD", "RoDD"), ("PF", "PF"), ("Win", "Win"), ("Net", "Net"), ("Max DD", "Max DD"), ("Trades", "n")]:
         v = bs(p, k)
-        c = val_cls(p, k)
-        hot = f' class="{c}"' if c else ""
-        stats += f'<div class="fstat"><b{hot}>{esc(v)}</b><span>{lab}</span></div>'
+        cls = [c for c in (val_cls(p, k),) if c]
+        if k == "Max DD" and dd_cls(v): cls.append(dd_cls(v))
+        hot = f' class="{" ".join(cls)}"' if cls else ""
+        tile_cls = "fstat fstat-star" if k == star else "fstat"
+        if k == star:
+            r = RANKS[(p["slug"], k)]
+            lab_tag = f"#{r} {'MAX DD' if k == 'Max DD' else k.upper()}" if r <= 3 else "STANDOUT"
+            tag = f'<i class="star-tag">{lab_tag}</i>'
+        else:
+            tag = ""
+        stats += f'<div class="{tile_cls}"><b{hot}>{esc(v)}</b><span>{lab}</span>{tag}</div>'
     return f"""<article class="fcard fc-{p['slug']}">
           <div class="fcard-top">
             <span class="fglyph" aria-hidden="true">{glyph(p['slug'], 'glyph g-flag')}</span>
@@ -101,6 +128,9 @@ def trow(p):
         if k == "RoDD": cls.append("pf")
         vc = val_cls(p, k)
         if vc: cls.append(vc)
+        if k == "Max DD":
+            dc = dd_cls(v)
+            if dc: cls.append(dc)
         c = f' class="{" ".join(cls)}"' if cls else ""
         cells += f'<td{c}>{esc(v)}</td>'
     return f"""<tr>
@@ -110,9 +140,9 @@ def trow(p):
               {ACTCELL(p['slug'], p['name'])}
             </tr>"""
 
-def table(tier, label, items):
+def table(tier, label, items, anchor):
     rows = "\n            ".join(trow(p) for p in items)
-    return f"""<div class="tier-head">
+    return f"""<div class="tier-head" id="{anchor}">
         <span class="tier-tag">{tier}</span>
         <h3>{label}</h3>
         <span class="note">${min(p['price'] for p in items)}&ndash;${max(p['price'] for p in items)}/mo &middot; {len(items)} systems</span>
@@ -162,7 +192,7 @@ collections = f"""<div class="tier-head">
         <span class="note">every figure from the validation playbook &middot; best window</span>
       </div>
 
-      <div class="collections">
+      <div class="collections" id="edge">
         {coll("Best value · RoDD", top_by("RoDD", lambda p: f"{bs(p,'RoDD')}× · n={bs(p,'Trades')}"), extra="col-value")}
         {coll("High win rate", top_by("Win", lambda p: bs(p, "Win")))}
         {coll("High return", top_by("Net", lambda p: bs(p, "Net")))}
@@ -211,15 +241,15 @@ strategies = f"""<section id="strategies">
         <span class="note">${TIER1[-1]['price']}&ndash;${TIER1[0]['price']}/mo &middot; {len(TIER1)} systems</span>
       </div>
 
-      <div class="flagships">
+      <div class="flagships" id="flagships">
 
         {chr(10).join(fcard(p) for p in TIER1)}
 
       </div>
 
-      {table("TIER 2", "Core systems", TIER2)}
+      {table("TIER 2", "Core systems", TIER2, "tier-2")}
 
-      {table("TIER 3", "Session specialists", TIER3)}
+      {table("TIER 3", "Session specialists", TIER3, "tier-3")}
 
       {FOOTNOTE}
 
@@ -253,7 +283,7 @@ packages = f"""<section id="packages">
         <span class="note">cancel anytime through whop &middot; annual = 2 months free</span>
       </div>
 
-      <article class="pack pack-books">
+      <article class="pack pack-books" id="books">
         <div class="books-head">
           <h3><a class="sys-link" href="/strategies/the-books.html">The Books</a></h3>
           <span class="chip chip-mkt">IN-HOUSE ENGINES</span>
