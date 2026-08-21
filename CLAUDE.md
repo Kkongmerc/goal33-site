@@ -103,7 +103,20 @@ recommends the cheaper path instead (The Starter if it IS that trio, otherwise
 - **Identity colors** (owner-approved exception): each Book and each flagship
   card carries its own color on name/emblem/chrome ONLY (`.bk-*` / `.fc-<slug>`
   skins in main.css) — data figures stay mint/amber/violet. Every identity
-  color is in the header ledger; keep any new one ≥ 4.5:1 on panel.
+  color is in the header ledger; keep any new one ≥ 4.5:1 on panel. The ten
+  special products (6 flagships + 4 books) also get identity-THEMED product
+  pages: gen_pages puts `pdp-theme fc-<slug>` on <body>, which remaps the
+  --buy channel page-wide.
+- **DD medals**: Max DD ≤ $2k renders gold, ≤ $5k neon green (`dd_cls` in the
+  generators — change thresholds there, never hand-color a cell). Flagship
+  cards star their rank-picked standout stat; rank tags show "#N" only for
+  top-3 (honesty rule — never fake a rank).
+- **Performance doctrine** (the page lagged once): no `-webkit-box-reflect`,
+  and never attach infinite text-shadow/filter animations to many elements at
+  once — the violet `.lead` aurora and single-element accents are the only
+  rolling glows. Below-fold sections use `content-visibility: auto`. The hero
+  carousel depth-sorts via preserve-3d — do NOT add z-index to its poses or
+  keyframes (stepped z caused visible pane-order jumps).
 - Type: Chakra Petch (display) / JetBrains Mono (all numerals, tabular-nums) /
   Inter (prose). `--fs-*` and `--sp-*` tokens only; nothing under 11px.
 - Every fg/bg pair ≥ 4.5:1 — the table in `main.css`'s header is the ledger.
