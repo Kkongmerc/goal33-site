@@ -2549,6 +2549,7 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
   align-items: center;
   gap: 10px;
   padding: 14px 28px;
+  border-radius: 12px;
   background: #5865F2;
   color: #FFFFFF;
   font-family: var(--display);
