@@ -32,7 +32,7 @@ doc = open(os.path.join(BASE, "index.html"), encoding="utf-8").read()
 
 # ── preserve hand-written blocks inside #strategies ─────────────
 gl = re.search(r'(<div class="glossary">.*?)(?=\n\s*(?:<article|<div class="tier-head"|<div class="collections"))', doc, re.S)
-GLOSSARY = gl.group(1).rstrip() if gl else ""
+GLOSSARY = re.sub(r'(?:\s*<!--[^>]*-->)+\s*$', '', gl.group(1)).rstrip() if gl else ""
 fn = re.search(r'(<div class="sec-footnote">.*?</div>)\s*\n', doc, re.S)
 FOOTNOTE = fn.group(1) if fn else ""
 assert GLOSSARY and FOOTNOTE, "glossary/footnote anchors missing"
@@ -136,7 +136,7 @@ def coll(title, rows, extra=""):
         f'<li><a class="sys-link" href="/strategies/{s}.html"><span class="col-name">{esc(n)}</span></a><span class="col-stat">{esc(v)}</span></li>'
         for s, n, v in rows)
     return f"""<div class="collection{extra and ' ' + extra}">
-          <div class="col-title">{title}{'<span class="col-tag">TOP VALUE</span>' if extra else ''}</div>
+          <div class="col-title">{title}</div>
           <ul>{lis}</ul>
         </div>"""
 

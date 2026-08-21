@@ -226,7 +226,7 @@ def rodd_menu(p):
         permo = proj / months if months else 0
         lab = f"${C//1000}k" if C >= 1000 and C % 1000 == 0 else f"${C/1000:.1f}k"
         radios += f'<input type="radio" name="ro-{slug}" id="ro-{slug}-{i}" class="ro-r ro-{state}"{checked}>'
-        rec_tag = '<span class="ro-rec">REC</span>' if rec else ''
+        rec_tag = '<span class="ro-rec">OUR PICK</span>' if rec else ''
         labels += (f'<label for="ro-{slug}-{i}" class="ro-notch{" ro-notch-rec" if rec else ""}">{rec_tag}<span class="ro-tick" aria-hidden="true"></span>'
                    f'<span class="ro-amt">{lab}</span></label>')
         if state == "red":
@@ -255,7 +255,6 @@ def rodd_menu(p):
   RoDD says what it costs to hold: net profit divided by the worst peak-to-valley drawdown.
   This system&rsquo;s window: {esc(net)} net &divide; {usd(dd)} max drawdown = <b>{esc(b.get("RoDD",""))}&times;</b>.
   Slide your drawdown budget &mdash; the projection scales with it, and so does the pain.</p>
-  <div class="ro-cta"><svg class="ro-cta-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14" vector-effect="non-scaling-stroke"/><path d="m19 12-7 7-7-7" vector-effect="non-scaling-stroke"/></svg><span>Tap a drawdown budget &mdash; the projection updates instantly</span></div>
   {radios}
   <div class="ro-track" aria-hidden="false">{labels}</div>
   <div class="ro-outs">{outs}</div>
