@@ -313,7 +313,7 @@ packages = f"""<section id="packages">
         <label for="pop-dismiss" class="pop-close"><span class="sr-only">Dismiss offer</span><span class="pop-x" aria-hidden="true"></span></label>
         <span class="badge-special">STARTER SPECIAL</span>
         <p class="pop-line"><b>3 systems &middot; ${BN['starter']['price']}/mo</b></p>
-        <p class="pop-sub">The Vise, The Vise 25pt, and The Grip &mdash; the whole structure family. Worth <s class="was">${BN['starter']['combined']}</s> solo.</p>
+        <p class="pop-sub">{" + ".join(esc(next(s for s in S if s["slug"] == sl)["name"]) for sl in BN['starter']['slugs'])} &mdash; the lowest published drawdowns in the value tiers. Worth <s class="was">${BN['starter']['combined']}</s> solo.</p>
         <!-- WHOP: replace this product-page link with the Whop checkout link -->
         <a class="btn btn-buy pop-go" href="/strategies/the-starter.html" rel="noopener">Get 3 for ${BN['starter']['price']}</a>
       </aside>

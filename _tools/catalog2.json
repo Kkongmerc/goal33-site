@@ -205,7 +205,7 @@
   },
   {
    "slug": "30m-structure-reclaim",
-   "name": "The Grip",
+   "name": "The Press",
    "actual": "NQ 30m Structure Sweep-Reclaim",
    "meta": "NQ · all-day",
    "window": "01 Jan 2025 - 17 Aug 2026",
@@ -609,7 +609,7 @@
   },
   {
    "slug": "1030-fade",
-   "name": "The Undertow",
+   "name": "The Grip",
    "actual": "NQ 10:30 Fade",
    "meta": "NQ · 10:30 ET OR30 fade",
    "window": "01 Sep 2025 - 19 Aug 2026",
@@ -643,13 +643,14 @@
    "price": 139,
    "legs": [],
    "sep": [
-    "Mid-morning reversion with an 80.1% win rate over the published window."
+    "Mid-morning reversion with an 80.1% win rate over the published window.",
+    "A $7.0k published max drawdown — built for smaller accounts."
    ],
    "warn": ""
   },
   {
    "slug": "the-vise-25",
-   "name": "The Vise · 25pt",
+   "name": "The Clamp · 25pt",
    "actual": "NQ LVL-5M v2 tight-stop (25pt)",
    "meta": "NQ · 24×7 (~7.5/day)",
    "window": "01 May 2024 - 19 Aug 2026",
@@ -691,7 +692,7 @@
   },
   {
    "slug": "cme-reopen-snap",
-   "name": "The Reboot",
+   "name": "The Vise",
    "actual": "NQ CME 18:00 Reopen",
    "meta": "NQ · 18:00 ET CME reopen ORB cont",
    "window": "01 Feb 2025 - 17 Aug 2026",
@@ -725,7 +726,8 @@
    "price": 119,
    "legs": [],
    "sep": [
-    "The 18:00 Globex reopen, faded with a 77.5% win rate over the window."
+    "The 18:00 Globex reopen, faded with a 77.5% win rate over the window.",
+    "The smallest max drawdown in its tier — $4.3k on the published window."
    ],
    "warn": ""
   },
@@ -838,7 +840,7 @@
   },
   {
    "slug": "the-vise",
-   "name": "The Vise",
+   "name": "The Clamp",
    "actual": "NQ LVL-5M v2 tight-stop (12pt + 15pt)",
    "meta": "NQ · tight-stop structure sweep-reclaim · 12pt + 15pt geometries",
    "window": "01 Feb 2026 - 19 Aug 2026",
@@ -1129,11 +1131,11 @@
   },
   "starter": {
    "price": 149,
-   "combined": 457,
+   "combined": 387,
    "slugs": [
-    "the-vise",
-    "the-vise-25",
-    "30m-structure-reclaim"
+    "cme-reopen-snap",
+    "1030-fade",
+    "830-news-fade"
    ]
   }
  }

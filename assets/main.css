@@ -2966,7 +2966,7 @@ section:hover .sec-head h2::after { width: 48px; }
 }
 .stable tbody tr:hover > td,
 .stable tbody tr:hover > th[scope="row"] {
-  background: #182221;  /* panel + 6% amber, solid for the sticky column */
+  background-color: #182221;  /* panel + 6% amber, solid for the sticky column; column glows stay layered above via background-image */
   box-shadow: inset 0 1px 0 rgba(237, 155, 64, .40), inset 0 -1px 0 rgba(237, 155, 64, .40);
 }
 .stable tbody tr:hover > th[scope="row"] { box-shadow: inset 0 1px 0 rgba(237, 155, 64, .40), inset 0 -1px 0 rgba(237, 155, 64, .40), inset 1px 0 0 rgba(237, 155, 64, .40); }
@@ -2975,11 +2975,10 @@ section:hover .sec-head h2::after { width: 48px; }
 .stable a.sys-link:hover { text-decoration: none; }
 .stable a.sys-link:hover .sys-name { text-decoration: none; }
 
-/* RoDD column: a soft shine down the whole column, no hard edges */
+/* RoDD column: borderless feathered glow, persists beneath the hover tint */
 .stable tbody td.pf, .stable thead th:nth-child(2) {
-  background-image: linear-gradient(180deg, rgba(86, 200, 162, .10), rgba(86, 200, 162, .03));
+  background-image: radial-gradient(70% 130% at 50% 50%, rgba(86, 200, 162, .13), rgba(86, 200, 162, .04) 60%, transparent 85%);
 }
-.stable tbody tr:hover > td.pf { background-image: none; }  /* hover amber wins cleanly */
 
 /* whole row is the click target: the name link stretches over the row;
    Add + Get access float above it */
@@ -2990,7 +2989,7 @@ section:hover .sec-head h2::after { width: 48px; }
 /* browse-by-edge rows: amber hover glow, flowy, whole-row click */
 .collection li { position: relative; transition: background .28s var(--ease), box-shadow .28s var(--ease); }
 .collection li:hover {
-  background: #182221;
+  background-color: #182221;
   box-shadow: inset 0 1px 0 rgba(237, 155, 64, .35), inset 0 -1px 0 rgba(237, 155, 64, .35);
 }
 .collection li:hover .col-name { color: var(--buy); text-shadow: 0 0 10px rgba(237, 155, 64, .3); }
@@ -3011,13 +3010,22 @@ section:hover .sec-head h2::after { width: 48px; }
 
 /* lightning flicker on category leaders — irregular, electric, gated */
 @media (prefers-reduced-motion: no-preference) {
-  .lead, .stable tbody td.lead, .fstat b.lead { animation: lead-arc 3.4s steps(1) infinite; }
-  @keyframes lead-arc {
-    0%, 88%, 100% { text-shadow: 0 0 6px rgba(157, 92, 255, .65), 0 0 18px rgba(157, 92, 255, .35); }
-    89% { text-shadow: 0 0 4px rgba(196, 165, 255, .95), 0 0 26px rgba(157, 92, 255, .70), 1px 0 0 rgba(196, 165, 255, .5); }
-    90.5% { text-shadow: 0 0 8px rgba(157, 92, 255, .45), 0 0 14px rgba(157, 92, 255, .3); }
-    92% { text-shadow: 0 0 3px rgba(224, 208, 255, .95), 0 0 30px rgba(157, 92, 255, .8), -1px 0 0 rgba(196, 165, 255, .5); }
-    93.5% { text-shadow: 0 0 6px rgba(157, 92, 255, .65), 0 0 18px rgba(157, 92, 255, .35); }
+  /* aurora breathe: two shadow layers crossfade on offset rhythms, so the
+     glow drifts and swells instead of snapping — electric, never choppy */
+  .lead, .stable tbody td.lead, .fstat b.lead {
+    animation: lead-breathe 4.8s ease-in-out infinite,
+               lead-drift 7.2s ease-in-out infinite;
+  }
+  @keyframes lead-breathe {
+    0%, 100% { text-shadow: 0 0 5px rgba(157, 92, 255, .55), 0 0 16px rgba(122, 59, 255, .30), 0 0 34px rgba(122, 59, 255, .12); }
+    45%      { text-shadow: 0 0 7px rgba(196, 165, 255, .90), 0 0 24px rgba(157, 92, 255, .55), 0 0 46px rgba(122, 59, 255, .25); }
+    62%      { text-shadow: 0 0 5px rgba(180, 140, 255, .70), 0 0 20px rgba(157, 92, 255, .40), 0 0 38px rgba(122, 59, 255, .18); }
+  }
+  @keyframes lead-drift {
+    0%, 100% { filter: brightness(1); }
+    30%      { filter: brightness(1.14); }
+    55%      { filter: brightness(.96); }
+    80%      { filter: brightness(1.08); }
   }
 }
 #ticker-pause:checked ~ * .lead,

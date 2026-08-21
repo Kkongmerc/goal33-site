@@ -442,12 +442,13 @@ starter_rows = "".join(
     f'<li><a class="sys-link" href="/strategies/{s}.html"><span class="inc-name">{esc(by_slug[s]["name"])}</span></a>'
     f'<span class="inc-price">{esc(by_slug[s]["actual"])} · ${by_slug[s]["price"]}/mo solo</span></li>'
     for s in ST["slugs"])
+starter_names = " + ".join(by_slug[s]["name"] for s in ST["slugs"])
 bundle_page("the-starter", "The Starter", ST["price"], ST["combined"],
-    "Three structure systems, one price. The entry point to the catalog.",
+    "Three low-drawdown, high-win-rate session systems. The safest door into the catalog.",
     f"""<div class="record">
-        <div class="record-title">Included — the structure family, three systems</div>
+        <div class="record-title">Included — three low-drawdown session systems</div>
         <ul class="included">{starter_rows}</ul>
-        <p class="record-note">The Vise (both stop geometries), The Vise 25pt, and The Grip: one sweep-reclaim engine family across three timeframes. Worth ${ST["combined"]}/mo solo.</p>
+        <p class="record-note">{starter_names}: the three smallest published drawdowns in the value tiers, every one winning over 77% of its trades on the published window. Worth ${ST["combined"]}/mo solo.</p>
       </div>""",
     'Outgrow it? <a href="/strategies/pick-3.html">Pick-3 — $499/mo</a> · <a href="/strategies/all-access.html">All-Access — $999/mo</a>')
 
