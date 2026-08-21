@@ -2557,7 +2557,7 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
 .ro-ret, .ro-out b.ro-ret, .rodd b.ro-ret {
   font-family: var(--mono);
   font-variant-numeric: tabular-nums;
-  font-size: 1.45em;
+  font-size: 1.15em;
   line-height: 1.1;
   color: #B98CFF;
   font-weight: 700;
