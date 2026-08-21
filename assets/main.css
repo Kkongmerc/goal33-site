@@ -3752,9 +3752,9 @@ section:hover .sec-head h2::after { width: 48px; }
 #security { content-visibility: auto; contain-intrinsic-size: auto 600px; }
 #faq { content-visibility: auto; contain-intrinsic-size: auto 1050px; }
 .creed { content-visibility: auto; contain-intrinsic-size: auto 510px; }
-/* guided scrolling: gentle snap toward section starts, never trapping */
-html { scroll-snap-type: y proximity; scroll-padding-top: calc(var(--header-h) + 58px); }
-.hero, .creed, #strategies, #packages, #why, #how, #security, #faq { scroll-snap-align: start; }
+/* free scrolling by owner request; scroll-padding still offsets anchor
+   jumps under the sticky header */
+html { scroll-padding-top: calc(var(--header-h) + 58px); }
 #flagships, #tier-2, #tier-3, #edge, #books { scroll-margin-top: calc(var(--header-h) + 64px); }
 
 /* ── THE STANDARD: framed slab in the site's display grammar ── */

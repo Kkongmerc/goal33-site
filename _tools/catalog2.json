@@ -947,7 +947,7 @@
  "books": [
   {
    "slug": "the-midas",
-   "name": "The Midas",
+   "name": "Midas",
    "actual": "MGC Gold Book",
    "meta": "MGC · 24h, 5 legs (TOCOM/London BREAKOUT/FVGC-NY/LVL5M-ON/DF0830)",
    "window": "01 Jan 2026 - 19 Aug 2026",
@@ -994,7 +994,7 @@
   },
   {
    "slug": "the-continuum",
-   "name": "The Continuum",
+   "name": "Continuum",
    "actual": "MNQ 24H Book",
    "meta": "MNQ · 9-leg 24h router",
    "window": "01 Oct 2025 - 19 Aug 2026",
@@ -1035,7 +1035,7 @@
   },
   {
    "slug": "the-daylight",
-   "name": "The Daylight",
+   "name": "Daylight",
    "actual": "NQ SingleDay Book",
    "meta": "MNQ · 24h single-position router",
    "window": "01 Jan 2025 - 03 Apr 2026",
@@ -1076,7 +1076,7 @@
   },
   {
    "slug": "the-ledger",
-   "name": "The Vault",
+   "name": "Vault",
    "actual": "MNQ Validated Book",
    "meta": "MNQ · validated-only NY router",
    "window": "01 Jan 2025 - 19 Aug 2026",
