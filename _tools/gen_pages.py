@@ -95,7 +95,7 @@ def head(title, desc, path, bodycls=""):
         <a href="/#flagships">Tier 1 &middot; Flagships</a>
         <a href="/#tier-2">Tier 2 &middot; Core systems</a>
         <a href="/#tier-3">Tier 3 &middot; Session specialists</a>
-        <a href="/#packages">Books and Bundles</a>
+        <a class="mob-books" href="/#packages">Books and Bundles</a>
         <a href="/plan.html">Find your plan</a>
         <a href="/#how">How access works</a>
         <a href="/#faq">FAQ</a>
@@ -113,6 +113,10 @@ FOOTER = f"""</main>
 
 <footer>
   <div class="wrap">
+    <div class="foot-community">
+      <!-- DISCORD: replace this href with the community invite link -->
+      <a class="btn-discord-big" href="#" rel="noopener"><svg class="ic-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.7 17.4c-3.2-.1-4.9-1.7-4.9-1.7.3-4 1.4-6.6 2.7-8.3C7.8 6.4 9.2 6 9.2 6l.5 1.1c1.5-.3 3.1-.3 4.6 0L14.8 6s1.4.4 2.7 1.4c1.3 1.7 2.4 4.3 2.7 8.3 0 0-1.7 1.6-4.9 1.7l-.8-1.1c-1.6.3-3.4.3-5 0z"/><circle cx="9.6" cy="12.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.6" r="1.15" fill="currentColor" stroke="none"/></svg><span>Join the Community!</span></a>
+    </div>
     <div class="foot-links">
       <a href="/#strategies">Strategies</a>
       <a href="/#packages">Bundles</a>

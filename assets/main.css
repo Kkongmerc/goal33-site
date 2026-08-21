@@ -2542,6 +2542,34 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
 .ic-discord { width: 17px; height: 17px; }
 .btn-discord:hover .ic-discord { filter: drop-shadow(0 0 5px rgba(86, 200, 162, .5)); }
 
+/* footer community CTA: Discord blurple #5865F2, white text 5.0:1 (AA) */
+.foot-community { display: flex; justify-content: center; margin-bottom: var(--sp-6); }
+.btn-discord-big {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background: #5865F2;
+  color: #FFFFFF;
+  font-family: var(--display);
+  font-size: var(--fs-md);
+  font-weight: 700;
+  letter-spacing: .03em;
+  text-decoration: none;
+  transition: background-color .2s var(--ease), transform .2s var(--ease), box-shadow .2s var(--ease);
+}
+.btn-discord-big .ic-discord { width: 22px; height: 22px; }
+.btn-discord-big:hover {
+  background: #6B77F5;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(88, 101, 242, .35);
+  text-decoration: none;
+  color: #FFFFFF;
+}
+/* Books and Bundles rides gold in the mobile panel too */
+.nav-mob-panel a.mob-books { color: #E8C15C; }
+.nav-mob-panel a.mob-books:hover { color: #F5DFA6; background: #14100A; }
+
 /* ── mobile burger nav (details/summary, zero-JS) ── */
 .nav-mob { display: none; position: relative; margin-left: var(--sp-2); }
 .nav-mob summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid var(--line-bright); background: var(--raised); }
