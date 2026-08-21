@@ -163,8 +163,9 @@ def windows_block(p, label_prefix=""):
 def engines_block(p):
     e = p["engines"]
     out = ""
-    for key, label in [("v1", "ENGINE V1 · INSIDE ENTRY"), ("v2", "ENGINE V2 · EXPANSION-GATED")]:
+    for key in sorted(e):
         d = e[key]
+        label = d.get("label", key.upper())
         out += f'''<div class="winset winset-best">
     <div class="win-h"><span class="win-tag win-tag-eng">{label}</span><span class="win-range">{esc(d.get("window",""))}</span></div>
     {tile_grid(d["best"]["stats"])}
@@ -434,6 +435,21 @@ bundle_page("the-books", "The Books", BN["books_all"]["price"], BN["books_all"][
         <p class="record-note">The engines we run ourselves. Each book is also sold separately; this tier is all four, priced under any two solo.</p>
       </div>""",
     'Not ready for the engines? <a href="/strategies/all-access.html">All-Access — $999/mo</a>')
+
+ST = BN["starter"]
+by_slug = {s["slug"]: s for s in CAT["strategies"]}
+starter_rows = "".join(
+    f'<li><a class="sys-link" href="/strategies/{s}.html"><span class="inc-name">{esc(by_slug[s]["name"])}</span></a>'
+    f'<span class="inc-price">{esc(by_slug[s]["actual"])} · ${by_slug[s]["price"]}/mo solo</span></li>'
+    for s in ST["slugs"])
+bundle_page("the-starter", "The Starter", ST["price"], ST["combined"],
+    "Three structure systems, one price. The entry point to the catalog.",
+    f"""<div class="record">
+        <div class="record-title">Included — the structure family, three systems</div>
+        <ul class="included">{starter_rows}</ul>
+        <p class="record-note">The Vise (both stop geometries), The Vise 25pt, and The Grip: one sweep-reclaim engine family across three timeframes. Worth ${ST["combined"]}/mo solo.</p>
+      </div>""",
+    'Outgrow it? <a href="/strategies/pick-3.html">Pick-3 — $499/mo</a> · <a href="/strategies/all-access.html">All-Access — $999/mo</a>')
 
 # ── success page ────────────────────────────────────────────────
 psucc = head("Order Confirmed — Goal33 Systems",

@@ -205,7 +205,7 @@
   },
   {
    "slug": "30m-structure-reclaim",
-   "name": "The Ratchet",
+   "name": "The Grip",
    "actual": "NQ 30m Structure Sweep-Reclaim",
    "meta": "NQ · all-day",
    "window": "01 Jan 2025 - 17 Aug 2026",
@@ -648,88 +648,6 @@
    "warn": ""
   },
   {
-   "slug": "the-vise-12",
-   "name": "The Vise · 12pt",
-   "actual": "NQ LVL-5M v2 tight-stop (12pt)",
-   "meta": "NQ · 24×7 (~8.6/day)",
-   "window": "01 Feb 2026 - 19 Aug 2026",
-   "best": {
-    "label": "Best window — 01 Feb 2026 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
-    "stats": {
-     "RoDD": "2.31",
-     "PF": "1.51",
-     "Win": "55.9%",
-     "Net": "$23.4k",
-     "Max DD": "$10.1k",
-     "Trades": "177",
-     "$/trade": "$132",
-     "Months": "7",
-     "RoDD/mo": "0.33"
-    }
-   },
-   "full": {
-    "label": "Full 2024+ window (context)",
-    "stats": {
-     "RoDD": "1.17",
-     "PF": "1.14",
-     "Win": "52.3%",
-     "Net": "$31.4k",
-     "Max DD": "$26.7k",
-     "Trades": "946",
-     "$/trade": "$33",
-     "Months": "32"
-    }
-   },
-   "price": 119,
-   "legs": [],
-   "sep": [
-    "Tight-stop structure sweep-reclaim, breakeven at 1R. Three stop geometries share the engine — 12pt is the tightest.",
-    "Enters on the retrace of the confirm-close gap; the order either fills on the pullback or cancels."
-   ],
-   "warn": ""
-  },
-  {
-   "slug": "the-vise-15",
-   "name": "The Vise · 15pt",
-   "actual": "NQ LVL-5M v2 tight-stop (15pt)",
-   "meta": "NQ · 24×7 (~8.4/day)",
-   "window": "01 Feb 2026 - 19 Aug 2026",
-   "best": {
-    "label": "Best window — 01 Feb 2026 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
-    "stats": {
-     "RoDD": "1.78",
-     "PF": "1.38",
-     "Win": "54.9%",
-     "Net": "$18.6k",
-     "Max DD": "$10.5k",
-     "Trades": "175",
-     "$/trade": "$107",
-     "Months": "7",
-     "RoDD/mo": "0.25"
-    }
-   },
-   "full": {
-    "label": "Full 2024+ window (context)",
-    "stats": {
-     "RoDD": "1.30",
-     "PF": "1.15",
-     "Win": "53.3%",
-     "Net": "$40.1k",
-     "Max DD": "$30.8k",
-     "Trades": "904",
-     "$/trade": "$44",
-     "Months": "32"
-    }
-   },
-   "price": 119,
-   "legs": [],
-   "sep": [
-    "Tight-stop structure sweep-reclaim, breakeven at 1R. The 15pt geometry — the middle of the family.",
-    "Enters on the retrace of the confirm-close gap; the order either fills on the pullback or cancels."
-   ],
-   "warn": ""
-  },
-  {
    "slug": "the-vise-25",
    "name": "The Vise · 25pt",
    "actual": "NQ LVL-5M v2 tight-stop (25pt)",
@@ -819,6 +737,7 @@
    "window": "01 Dec 2024 - 17 Aug 2026",
    "engines": {
     "v1": {
+     "label": "ENGINE V1 · INSIDE ENTRY",
      "best": {
       "label": "Best window — 01 Jul 2024 - 17 Aug 2026 (headline basis, Collin ruling 08-20)",
       "stats": {
@@ -850,6 +769,7 @@
      "window": "01 Jul 2024 - 17 Aug 2026"
     },
     "v2": {
+     "label": "ENGINE V2 · EXPANSION-GATED",
      "best": {
       "label": "Best window — 01 Dec 2024 - 17 Aug 2026 (headline basis, Collin ruling 08-20)",
       "stats": {
@@ -913,6 +833,111 @@
    "legs": [],
    "sep": [
     "Two engines on the New York open: the inside-entry original (67.9% win across 305 trades) and the expansion-gated v2, published on honest costs. One purchase covers both."
+   ],
+   "warn": ""
+  },
+  {
+   "slug": "the-vise",
+   "name": "The Vise",
+   "actual": "NQ LVL-5M v2 tight-stop (12pt + 15pt)",
+   "meta": "NQ · tight-stop structure sweep-reclaim · 12pt + 15pt geometries",
+   "window": "01 Feb 2026 - 19 Aug 2026",
+   "engines": {
+    "g12": {
+     "label": "GEOMETRY A · 12PT STOP",
+     "best": {
+      "label": "Best window — 01 Feb 2026 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+      "stats": {
+       "RoDD": "2.31",
+       "PF": "1.51",
+       "Win": "55.9%",
+       "Net": "$23.4k",
+       "Max DD": "$10.1k",
+       "Trades": "177",
+       "$/trade": "$132",
+       "Months": "7",
+       "RoDD/mo": "0.33"
+      }
+     },
+     "full": {
+      "label": "Full 2024+ window (context)",
+      "stats": {
+       "RoDD": "1.17",
+       "PF": "1.14",
+       "Win": "52.3%",
+       "Net": "$31.4k",
+       "Max DD": "$26.7k",
+       "Trades": "946",
+       "$/trade": "$33",
+       "Months": "32"
+      }
+     },
+     "window": "01 Feb 2026 - 19 Aug 2026"
+    },
+    "g15": {
+     "label": "GEOMETRY B · 15PT STOP",
+     "best": {
+      "label": "Best window — 01 Feb 2026 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+      "stats": {
+       "RoDD": "1.78",
+       "PF": "1.38",
+       "Win": "54.9%",
+       "Net": "$18.6k",
+       "Max DD": "$10.5k",
+       "Trades": "175",
+       "$/trade": "$107",
+       "Months": "7",
+       "RoDD/mo": "0.25"
+      }
+     },
+     "full": {
+      "label": "Full 2024+ window (context)",
+      "stats": {
+       "RoDD": "1.30",
+       "PF": "1.15",
+       "Win": "53.3%",
+       "Net": "$40.1k",
+       "Max DD": "$30.8k",
+       "Trades": "904",
+       "$/trade": "$44",
+       "Months": "32"
+      }
+     },
+     "window": "01 Feb 2026 - 19 Aug 2026"
+    }
+   },
+   "best": {
+    "label": "Best window — 01 Feb 2026 - 19 Aug 2026 (headline basis, Collin ruling 08-20)",
+    "stats": {
+     "RoDD": "2.31",
+     "PF": "1.51",
+     "Win": "55.9%",
+     "Net": "$23.4k",
+     "Max DD": "$10.1k",
+     "Trades": "177",
+     "$/trade": "$132",
+     "Months": "7",
+     "RoDD/mo": "0.33"
+    }
+   },
+   "full": {
+    "label": "Full 2024+ window (context)",
+    "stats": {
+     "RoDD": "1.17",
+     "PF": "1.14",
+     "Win": "52.3%",
+     "Net": "$31.4k",
+     "Max DD": "$26.7k",
+     "Trades": "946",
+     "$/trade": "$33",
+     "Months": "32"
+    }
+   },
+   "price": 119,
+   "legs": [],
+   "sep": [
+    "Tight-stop structure sweep-reclaim, breakeven at 1R. Two stop geometries included — 12pt and 15pt — one engine, pick per session.",
+    "Enters on the retrace of the confirm-close gap; the order either fills on the pullback or cancels."
    ],
    "warn": ""
   }
@@ -1092,7 +1117,7 @@
  "bundles": {
   "all_access": {
    "price": 999,
-   "combined": 4339
+   "combined": 4220
   },
   "pick3": {
    "price": 499,
@@ -1101,6 +1126,15 @@
   "books_all": {
    "price": 2999,
    "combined": 3656
+  },
+  "starter": {
+   "price": 149,
+   "combined": 457,
+   "slugs": [
+    "the-vise",
+    "the-vise-25",
+    "30m-structure-reclaim"
+   ]
   }
  }
 }

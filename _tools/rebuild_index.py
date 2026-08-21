@@ -261,7 +261,19 @@ packages = f"""<section id="packages">
         </div>
       </article>
 
-      <div class="packs-2">
+      <div class="packs-3">
+
+        <div class="pack pack-starter">
+          <span class="badge-special">STARTER SPECIAL</span>
+          <h3><a class="sys-link" href="/strategies/the-starter.html">The Starter</a></h3>
+          <div class="amount"><s class="was">${BN['starter']['combined']}<span class="sr-only"> combined solo price,</span></s>${BN['starter']['price']}<small>/mo</small></div>
+          <p class="sub">Three structure systems, one price. The entry point to the catalog.</p>
+          <ul>
+            {"".join(f'<li>{inc_check}<span>{esc(next(s for s in S if s["slug"] == sl)["name"])} &middot; {esc(next(s for s in S if s["slug"] == sl)["actual"])}</span></li>' for sl in BN['starter']['slugs'])}
+          </ul>
+          <!-- WHOP: replace this product-page link with the Whop checkout link -->
+          <a class="btn btn-buy" href="/strategies/the-starter.html" rel="noopener">Get the starter</a>
+        </div>
 
         <div class="pack popular">
           <span class="flag">BEST VALUE</span>
@@ -294,6 +306,17 @@ packages = f"""<section id="packages">
       </div>
 
       <p class="banner">Annual on anything = <b>2 months free</b></p>
+
+      <!-- starter special pop-up: pure CSS, dismissible, bottom-left -->
+      <input type="checkbox" id="pop-dismiss" class="pop-cb">
+      <aside class="special-pop" aria-label="Starter special offer">
+        <label for="pop-dismiss" class="pop-close"><span class="sr-only">Dismiss offer</span><span class="pop-x" aria-hidden="true"></span></label>
+        <span class="badge-special">STARTER SPECIAL</span>
+        <p class="pop-line"><b>3 systems &middot; ${BN['starter']['price']}/mo</b></p>
+        <p class="pop-sub">The Vise, The Vise 25pt, and The Grip &mdash; the whole structure family. Worth <s class="was">${BN['starter']['combined']}</s> solo.</p>
+        <!-- WHOP: replace this product-page link with the Whop checkout link -->
+        <a class="btn btn-buy pop-go" href="/strategies/the-starter.html" rel="noopener">Get 3 for ${BN['starter']['price']}</a>
+      </aside>
     </div>
   </section>"""
 
