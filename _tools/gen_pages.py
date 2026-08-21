@@ -279,7 +279,7 @@ def rodd_menu(p):
                     f'({usd(red_at)}) exceeds a {lab} budget &mdash; this sizing would not have survived the sample. '
                     f'Some systems are not meant to run this small.')
         else:
-            body = (f'A drawdown budget of <b>{lab}</b> historically returned <b>~{usd(proj)}</b> over this window'
+            body = (f'A drawdown budget of <b>{lab}</b> historically returned <b class="ro-ret">~{usd(proj)}</b> over this window'
                     + (f' (&asymp;{usd(permo)}/mo average)' if permo else '') + '.')
             if rec:
                 body = ('<span class="ro-flag ro-flag-rec">RECOMMENDED SIZE</span> The smallest budget with a '

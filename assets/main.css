@@ -2561,6 +2561,13 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
 .nav-mob-panel a.mob-books { color: #E8C15C; }
 .nav-mob-panel a.mob-books:hover { color: #F5DFA6; background: #14100A; }
 
+/* the sizing menu's historical-return projection: bright violet, lit */
+.ro-ret {
+  color: #B98CFF;
+  font-weight: 700;
+  text-shadow: 0 0 6px rgba(185, 140, 255, .60), 0 0 16px rgba(157, 92, 255, .30);
+}
+
 /* ── mobile burger nav (details/summary, zero-JS) ── */
 .nav-mob { display: none; position: relative; margin-left: var(--sp-2); }
 .nav-mob summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid var(--line-bright); background: var(--raised); }
