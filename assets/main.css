@@ -4031,12 +4031,18 @@ html { scroll-padding-top: calc(var(--header-h) + 58px); }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--sp-4);
+  gap: var(--sp-2);
   min-width: 0;
 }
 .hero-visual .dial-wrap { width: 100%; }
-.hero-visual .dial { max-width: 190px; }
+/* 240px reads as a deliberate anchor above the carousel; at 190 it floated
+   with dead space either side, and the visual column came up ~40px shorter
+   than the copy column. 240 + tight gap + carousel ~= the copy height. */
+.hero-visual .dial { max-width: 240px; }
 .hero-visual .coverflow { width: 100%; }
+@media (max-width: 900px) {
+  .hero-visual .dial { max-width: 176px; }
+}
 
 /* mobile flagship glyph: fixed 64px (must sit AFTER the stretch base in
    the cascade — the 480px block earlier in the file loses that fight) */
