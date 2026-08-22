@@ -382,7 +382,7 @@ doc = re.sub(r'<ul class="stats wrap">.*?</ul>', stats_strip, doc, count=1, flag
 
 doc = re.sub(r'<p class="lede">.*?</p>',
     f"""<p class="lede">
-          Futures Trading Bots sells the session systems we actually run: {len(S)} live-validated strategies and four
+          FuturesTradingBots sells the session systems we actually run: {len(S)} live-validated strategies and four
           in-house books across MNQ, NQ, MGC, SI, and ES futures. Every figure comes from the validation
           playbook &mdash; best window and full 2024+ window, both published. TradingView invite-only
           scripts, activated within 24h. Checkout runs through Whop.

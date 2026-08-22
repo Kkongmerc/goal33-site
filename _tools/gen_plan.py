@@ -303,11 +303,11 @@ page = f"""<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>Find your plan — Futures Trading Bots</title>
+<title>Find your plan — FuturesTradingBots</title>
 <meta name="description" content="Answer four questions — drawdown budget, temperament, scope, execution — and get a specific recommendation: named systems or a custom Pick-3, sized to a drawdown you can actually hold.">
 <meta name="theme-color" content="#051014">
-<meta property="og:title" content="Find your plan — Futures Trading Bots">
-<meta property="og:site_name" content="Futures Trading Bots">
+<meta property="og:title" content="Find your plan — FuturesTradingBots">
+<meta property="og:site_name" content="FuturesTradingBots">
 <meta property="og:description" content="Four questions to a specific, named recommendation — sized to the drawdown you can actually hold.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{SITE}/plan.html">
@@ -420,11 +420,11 @@ page = f"""<!DOCTYPE html>
       to those shown; in fact, there are frequently sharp differences between hypothetical performance
       results and the actual results subsequently achieved by any particular trading program. One of the
       limitations of hypothetical performance results is that they are generally prepared with the benefit
-      of hindsight. Futures Trading Bots is a software publisher. Nothing on this site constitutes financial,
+      of hindsight. FuturesTradingBots is a software publisher. Nothing on this site constitutes financial,
       investment, legal, or tax advice, or a solicitation to buy or sell any financial instrument. Purchases,
       billing, and subscription management are processed by Whop; TradingView is a trademark of TradingView, Inc.
     </p>
-    <div class="copyright">&copy; 2026 FUTURES TRADING BOTS &middot; futurestradingbots.com</div>
+    <div class="copyright">&copy; 2026 FuturesTradingBots &middot; futurestradingbots.com</div>
   </div>
 </footer>
 

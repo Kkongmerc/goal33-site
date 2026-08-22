@@ -51,7 +51,7 @@ def head(title, desc, path, bodycls=""):
 <meta name="description" content="{html.escape(desc)}">
 <meta name="theme-color" content="#051014">
 <meta property="og:title" content="{html.escape(title)}">
-<meta property="og:site_name" content="Futures Trading Bots">
+<meta property="og:site_name" content="FuturesTradingBots">
 <meta property="og:description" content="{html.escape(desc)}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{SITE}{path}">
@@ -139,11 +139,11 @@ FOOTER = f"""</main>
       to those shown; in fact, there are frequently sharp differences between hypothetical performance
       results and the actual results subsequently achieved by any particular trading program. One of the
       limitations of hypothetical performance results is that they are generally prepared with the benefit
-      of hindsight. Futures Trading Bots is a software publisher. Nothing on this site constitutes financial,
+      of hindsight. FuturesTradingBots is a software publisher. Nothing on this site constitutes financial,
       investment, legal, or tax advice, or a solicitation to buy or sell any financial instrument. Purchases,
       billing, and subscription management are processed by Whop; TradingView is a trademark of TradingView, Inc.
     </p>
-    <div class="copyright">© 2026 FUTURES TRADING BOTS · futurestradingbots.com</div>
+    <div class="copyright">© 2026 FuturesTradingBots · futurestradingbots.com</div>
   </div>
 </footer>
 
@@ -366,7 +366,7 @@ def product_page(p, is_book):
         others = [bk for bk in CAT["books"] if bk["slug"] != p["slug"]]
         xsell = ('All four engines: <a href="/strategies/the-books.html">The Books — $2,999/mo</a> · '
                  + " · ".join(f'<a href="/strategies/{o["slug"]}.html">{esc(o["name"])}</a>' for o in others[:2]))
-    page = head(f"{p['name']} — Futures Trading Bots", mdesc, path,
+    page = head(f"{p['name']} — FuturesTradingBots", mdesc, path,
                 bodycls=(f"pdp-theme fc-{p['slug']}" if p["slug"] in THEMED else ""))
     page += f"""
   <div class="wrap">
@@ -416,7 +416,7 @@ BN = CAT["bundles"]
 def bundle_page(slug, name, price, struck, desc, extra, xsell):
     path = f"/strategies/{slug}.html"
     urls.append(path)
-    page = head(f"{name} — Futures Trading Bots", desc + " TradingView invite-only scripts, activated within 24h.", path)
+    page = head(f"{name} — FuturesTradingBots", desc + " TradingView invite-only scripts, activated within 24h.", path)
     page += f"""
   <div class="wrap">
     <nav class="crumbs" aria-label="Breadcrumb"><a href="/#packages">Bundles</a><span class="sep">/</span>{esc(name)}</nav>
@@ -498,7 +498,7 @@ bundle_page("the-starter", "The Starter", ST["price"], ST["combined"],
     'Outgrow it? <a href="/strategies/pick-3.html">Pick-3 — $499/mo</a> · <a href="/strategies/all-access.html">All-Access — $999/mo</a>')
 
 # ── success page ────────────────────────────────────────────────
-psucc = head("Order Confirmed — Futures Trading Bots",
+psucc = head("Order Confirmed — FuturesTradingBots",
              "Purchase confirmed. Your TradingView invite-only script activates within 24h.",
              "/success.html").replace(
     '<meta property="og:type" content="website">',
@@ -554,7 +554,7 @@ psucc += FOOTER
 open(os.path.join(BASE, "success.html"), "w", encoding="utf-8").write(psucc)
 
 # ── 404 ─────────────────────────────────────────────────────────
-p404 = head("404 — Futures Trading Bots", "Page not found.", "/404.html").replace(
+p404 = head("404 — FuturesTradingBots", "Page not found.", "/404.html").replace(
     '<meta property="og:type" content="website">',
     '<meta property="og:type" content="website">\n<meta name="robots" content="noindex">')
 p404 += f"""
@@ -584,8 +584,8 @@ open(os.path.join(BASE, "404.html"), "w", encoding="utf-8").write(p404)
 
 # ── legal pages ─────────────────────────────────────────────────
 def legal_page(fname, title, body):
-    page = head(f"{title} — Futures Trading Bots",
-                f"{title} for Futures Trading Bots — TradingView invite-only strategy subscriptions sold through Whop.",
+    page = head(f"{title} — FuturesTradingBots",
+                f"{title} for FuturesTradingBots — TradingView invite-only strategy subscriptions sold through Whop.",
                 f"/{fname}")
     page += f"""
   <div class="wrap legal">
@@ -599,7 +599,7 @@ TERMS_BODY = """<h1>Terms of Service</h1>
 <p class="updated">Last updated: 21 August 2026</p>
 
 <h2><span class="n">01</span> Who we are, and what these terms cover</h2>
-<p>Futures Trading Bots (&ldquo;we&rdquo;, &ldquo;us&rdquo;) publishes trading-strategy software delivered as
+<p>FuturesTradingBots (&ldquo;we&rdquo;, &ldquo;us&rdquo;) publishes trading-strategy software delivered as
 invite-only TradingView scripts. By purchasing a subscription or using this site you agree to these
 terms. If you do not agree, do not purchase access.</p>
 
@@ -657,7 +657,7 @@ damages.</p>
 <p>We may update these terms; the &ldquo;last updated&rdquo; date changes when we do, and continued use
 after a change is acceptance. We may discontinue a product at any time; if we discontinue something
 you have paid for, the unused portion is refunded through Whop. These terms are governed by the laws
-of the United States and of the state in which Futures Trading Bots is organized, without regard to
+of the United States and of the state in which FuturesTradingBots is organized, without regard to
 conflict-of-law rules.</p>
 <!-- LEGAL: set the specific state of organization here once the entity is formed -->
 
