@@ -4027,21 +4027,25 @@ html { scroll-padding-top: calc(var(--header-h) + 58px); }
    (owner request 2026-08-22 - moved out of #how, explanatory caption dropped;
    the dial speaks for itself). .hero-visual stacks the two so the carousel
    keeps its own size and simply sits lower. */
-.hero-visual {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--sp-2);
-  min-width: 0;
+/* Session clock lives in the 01 / Strategies section head (owner request
+   2026-08-22 - hero reverted to its original carousel-only layout). It sits
+   at the right end of the existing header row, so it costs NO extra vertical
+   space: the row simply grows to the dial's height. Decorative only
+   (aria-hidden), and hidden on small screens where the row must stay compact. */
+.sec-head-dial { align-items: center; }
+.sec-head .sec-dial {
+  margin-left: auto;
+  width: auto;
+  flex: none;
+  align-self: center;
 }
-.hero-visual .dial-wrap { width: 100%; }
-/* 240px reads as a deliberate anchor above the carousel; at 190 it floated
-   with dead space either side, and the visual column came up ~40px shorter
-   than the copy column. 240 + tight gap + carousel ~= the copy height. */
-.hero-visual .dial { max-width: 240px; }
-.hero-visual .coverflow { width: 100%; }
-@media (max-width: 900px) {
-  .hero-visual .dial { max-width: 176px; }
+.sec-head .sec-dial .dial { width: 88px; height: 88px; max-width: 88px; }
+/* At 88px the SYDNEY/SHANGHAI/FRANKFURT/NEW YORK labels scale to ~3.4px -
+   illegible fuzz, and under the 11px type floor. Drop them here; the ring,
+   session arcs and sweep hand still carry the idea. */
+.sec-head .sec-dial .dial-label { display: none; }
+@media (max-width: 760px) {
+  .sec-head .sec-dial { display: none; }
 }
 
 /* mobile flagship glyph: fixed 64px (must sit AFTER the stretch base in
