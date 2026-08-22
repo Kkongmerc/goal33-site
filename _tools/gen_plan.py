@@ -19,7 +19,7 @@ _HERE = os.path.dirname(os.path.abspath(__file__))
 BASE = os.path.dirname(_HERE)
 CAT = json.load(open(os.path.join(_HERE, "catalog2.json"), encoding="utf-8"))
 S, B, BN = CAT["strategies"], CAT["books"], CAT["bundles"]
-SITE = "https://goal33systems.com"
+SITE = "https://futurestradingbots.com"
 CSSV = hashlib.md5(open(os.path.join(BASE, "assets", "main.css"), "rb").read()).hexdigest()[:8]
 
 def esc(s): return html.escape(str(s), quote=False)
@@ -273,7 +273,7 @@ qs = f"""
 pmt_panel = """<aside class="pr pr-exec" id="r-e2">
         <div class="pmt">
           <div class="pmt-title">PARTNERED WITH PICKMYTRADE</div>
-          <p class="pmt-copy">Every Goal33 system fires standard TradingView alerts. Through our partner
+          <p class="pmt-copy">Every system here fires standard TradingView alerts. Through our partner
           PickMyTrade, those alerts route straight to your broker &mdash; Tradovate, NinjaTrader, and more &mdash;
           and execute hands-free. Setup takes minutes, no code.</p>
           <ol class="pmt-steps">
@@ -303,11 +303,11 @@ page = f"""<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>Find your plan — Goal33 Systems</title>
+<title>Find your plan — Futures Trading Bots</title>
 <meta name="description" content="Answer four questions — drawdown budget, temperament, scope, execution — and get a specific recommendation: named systems or a custom Pick-3, sized to a drawdown you can actually hold.">
 <meta name="theme-color" content="#051014">
-<meta property="og:title" content="Find your plan — Goal33 Systems">
-<meta property="og:site_name" content="Goal33 Systems">
+<meta property="og:title" content="Find your plan — Futures Trading Bots">
+<meta property="og:site_name" content="Futures Trading Bots">
 <meta property="og:description" content="Four questions to a specific, named recommendation — sized to the drawdown you can actually hold.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{SITE}/plan.html">
@@ -323,7 +323,7 @@ page = f"""<!DOCTYPE html>
 
 <header>
   <div class="wrap nav">
-    <a class="brand" href="/">GOAL<span class="n33">33</span><small>SYSTEMS</small></a>
+    <a class="brand" href="/"><svg class="bmark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="bmark-ant" d="M12 3.6V7.2"/><circle class="bmark-node" cx="12" cy="2.4" r="1.5"/><rect class="bmark-head" x="3.6" y="7.2" width="16.8" height="13" rx="3.4"/><rect class="bmark-eye" x="8" y="10.3" width="2.3" height="6.4" rx="1.15"/><rect class="bmark-eye" x="13.7" y="11.9" width="2.3" height="4.6" rx="1.15"/></svg><span class="bname">FUTURES<small>TRADING<span class="mk">BOTS</span></small></span></a>
     <nav class="nav-links" aria-label="Main">
       <div class="nav-drop">
         <a href="/#strategies">Strategies<svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
@@ -407,7 +407,7 @@ page = f"""<!DOCTYPE html>
       <a href="/privacy.html">Privacy</a>
       <!-- DISCORD: replace this href with the community invite link -->
       <a href="#" rel="noopener">Discord</a>
-      <!--email_off--><a href="mailto:support@goal33systems.com">support@goal33systems.com</a><!--/email_off-->
+      <!--email_off--><a href="mailto:support@futurestradingbots.com">support@futurestradingbots.com</a><!--/email_off-->
     </div>
     <p class="disclaimer">{esc(DISCLAIMER)}</p>
     <p class="disclaimer">
@@ -420,11 +420,11 @@ page = f"""<!DOCTYPE html>
       to those shown; in fact, there are frequently sharp differences between hypothetical performance
       results and the actual results subsequently achieved by any particular trading program. One of the
       limitations of hypothetical performance results is that they are generally prepared with the benefit
-      of hindsight. Goal33 Systems is a software publisher. Nothing on this site constitutes financial,
+      of hindsight. Futures Trading Bots is a software publisher. Nothing on this site constitutes financial,
       investment, legal, or tax advice, or a solicitation to buy or sell any financial instrument. Purchases,
       billing, and subscription management are processed by Whop; TradingView is a trademark of TradingView, Inc.
     </p>
-    <div class="copyright">&copy; 2026 GOAL33 SYSTEMS &middot; GOAL33SYSTEMS.COM</div>
+    <div class="copyright">&copy; 2026 FUTURES TRADING BOTS &middot; futurestradingbots.com</div>
   </div>
 </footer>
 

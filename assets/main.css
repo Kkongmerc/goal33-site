@@ -1,4 +1,4 @@
-/* ── Goal33 Systems ─ main.css ───────────────────────────────
+/* ── Futures Trading Bots ─ main.css ───────────────────────────────
    Dark quant-terminal storefront, catalog release r3.
    Chakra Petch (display) + Inter (prose) + JetBrains Mono (data)
    via Google Fonts; robust local fallbacks. Zero JavaScript.
@@ -265,11 +265,22 @@ header {
   margin-block: calc(-1 * var(--sp-1));
 }
 .brand:hover { text-decoration: none; }
-.brand .n33 { color: var(--accent); }
+/* wordmark lockup: candlestick-eyed bot mark + FUTURES / TRADINGBOTS.
+   Accent lands on BOTS (the distinctive word); mint on the eyes is the
+   data channel per the brand ledger. All fills come from classes - the CSP
+   forbids inline style attributes. */
+.brand { display: inline-flex; align-items: center; gap: var(--sp-2); }
+.brand .bname { display: block; }
+.brand .mk { color: var(--accent); }
+.bmark { width: 1.5em; height: 1.5em; flex: none; }
+.bmark-head { fill: none; stroke: var(--text); stroke-width: 1.6; }
+.bmark-ant  { fill: none; stroke: var(--text); stroke-width: 1.6; stroke-linecap: round; }
+.bmark-node { fill: var(--accent); }
+.bmark-eye  { fill: var(--accent); }
 .brand small {
   display: block;
   font-size: var(--fs-2xs); font-weight: 400;
-  letter-spacing: .3em;
+  letter-spacing: .12em;   /* tuned so line 2 tracks line 1's width */
   color: var(--faint);
   margin-top: -2px;   /* optical */
 }

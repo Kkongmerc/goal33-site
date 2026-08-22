@@ -9,7 +9,7 @@ from glyphs import glyph, emblem
 
 BASE = os.path.dirname(_HERE)  # repo root
 CAT = json.load(open(os.path.join(_HERE, "catalog2.json"), encoding="utf-8"))
-SITE = "https://goal33systems.com"
+SITE = "https://futurestradingbots.com"
 TODAY = "2026-08-20"
 CSSV = hashlib.md5(open(os.path.join(BASE, "assets", "main.css"), "rb").read()).hexdigest()[:8]
 
@@ -51,7 +51,7 @@ def head(title, desc, path, bodycls=""):
 <meta name="description" content="{html.escape(desc)}">
 <meta name="theme-color" content="#051014">
 <meta property="og:title" content="{html.escape(title)}">
-<meta property="og:site_name" content="Goal33 Systems">
+<meta property="og:site_name" content="Futures Trading Bots">
 <meta property="og:description" content="{html.escape(desc)}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{SITE}{path}">
@@ -67,7 +67,7 @@ def head(title, desc, path, bodycls=""):
 
 <header>
   <div class="wrap nav">
-    <a class="brand" href="/">GOAL<span class="n33">33</span><small>SYSTEMS</small></a>
+    <a class="brand" href="/"><svg class="bmark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="bmark-ant" d="M12 3.6V7.2"/><circle class="bmark-node" cx="12" cy="2.4" r="1.5"/><rect class="bmark-head" x="3.6" y="7.2" width="16.8" height="13" rx="3.4"/><rect class="bmark-eye" x="8" y="10.3" width="2.3" height="6.4" rx="1.15"/><rect class="bmark-eye" x="13.7" y="11.9" width="2.3" height="4.6" rx="1.15"/></svg><span class="bname">FUTURES<small>TRADING<span class="mk">BOTS</span></small></span></a>
     <nav class="nav-links" aria-label="Main">
       <div class="nav-drop">
         <a href="/#strategies">Strategies<svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
@@ -126,7 +126,7 @@ FOOTER = f"""</main>
       <a href="/privacy.html">Privacy</a>
       <!-- DISCORD: replace this href with the community invite link -->
       <a href="#" rel="noopener">Discord</a>
-      <!--email_off--><a href="mailto:support@goal33systems.com">support@goal33systems.com</a><!--/email_off-->
+      <!--email_off--><a href="mailto:support@futurestradingbots.com">support@futurestradingbots.com</a><!--/email_off-->
     </div>
     <p class="disclaimer">{esc(DISCLAIMER)}</p>
     <p class="disclaimer">
@@ -139,11 +139,11 @@ FOOTER = f"""</main>
       to those shown; in fact, there are frequently sharp differences between hypothetical performance
       results and the actual results subsequently achieved by any particular trading program. One of the
       limitations of hypothetical performance results is that they are generally prepared with the benefit
-      of hindsight. Goal33 Systems is a software publisher. Nothing on this site constitutes financial,
+      of hindsight. Futures Trading Bots is a software publisher. Nothing on this site constitutes financial,
       investment, legal, or tax advice, or a solicitation to buy or sell any financial instrument. Purchases,
       billing, and subscription management are processed by Whop; TradingView is a trademark of TradingView, Inc.
     </p>
-    <div class="copyright">© 2026 GOAL33 SYSTEMS · GOAL33SYSTEMS.COM</div>
+    <div class="copyright">© 2026 FUTURES TRADING BOTS · futurestradingbots.com</div>
   </div>
 </footer>
 
@@ -366,7 +366,7 @@ def product_page(p, is_book):
         others = [bk for bk in CAT["books"] if bk["slug"] != p["slug"]]
         xsell = ('All four engines: <a href="/strategies/the-books.html">The Books — $2,999/mo</a> · '
                  + " · ".join(f'<a href="/strategies/{o["slug"]}.html">{esc(o["name"])}</a>' for o in others[:2]))
-    page = head(f"{p['name']} — Goal33 Systems", mdesc, path,
+    page = head(f"{p['name']} — Futures Trading Bots", mdesc, path,
                 bodycls=(f"pdp-theme fc-{p['slug']}" if p["slug"] in THEMED else ""))
     page += f"""
   <div class="wrap">
@@ -416,7 +416,7 @@ BN = CAT["bundles"]
 def bundle_page(slug, name, price, struck, desc, extra, xsell):
     path = f"/strategies/{slug}.html"
     urls.append(path)
-    page = head(f"{name} — Goal33 Systems", desc + " TradingView invite-only scripts, activated within 24h.", path)
+    page = head(f"{name} — Futures Trading Bots", desc + " TradingView invite-only scripts, activated within 24h.", path)
     page += f"""
   <div class="wrap">
     <nav class="crumbs" aria-label="Breadcrumb"><a href="/#packages">Bundles</a><span class="sep">/</span>{esc(name)}</nav>
@@ -498,7 +498,7 @@ bundle_page("the-starter", "The Starter", ST["price"], ST["combined"],
     'Outgrow it? <a href="/strategies/pick-3.html">Pick-3 — $499/mo</a> · <a href="/strategies/all-access.html">All-Access — $999/mo</a>')
 
 # ── success page ────────────────────────────────────────────────
-psucc = head("Order Confirmed — Goal33 Systems",
+psucc = head("Order Confirmed — Futures Trading Bots",
              "Purchase confirmed. Your TradingView invite-only script activates within 24h.",
              "/success.html").replace(
     '<meta property="og:type" content="website">',
@@ -533,7 +533,7 @@ psucc += f"""
 
         <aside class="buybox" aria-label="Support">
           <span class="annual">Need a hand?</span>
-          <!--email_off--><a class="btn btn-buy" href="mailto:support@goal33systems.com">Email support</a><!--/email_off-->
+          <!--email_off--><a class="btn btn-buy" href="mailto:support@futurestradingbots.com">Email support</a><!--/email_off-->
           <ul>
             <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Manual activation fallback within the 24h window</span></li>
             <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Cancel anytime from your Whop dashboard</span></li>
@@ -554,7 +554,7 @@ psucc += FOOTER
 open(os.path.join(BASE, "success.html"), "w", encoding="utf-8").write(psucc)
 
 # ── 404 ─────────────────────────────────────────────────────────
-p404 = head("404 — Goal33 Systems", "Page not found.", "/404.html").replace(
+p404 = head("404 — Futures Trading Bots", "Page not found.", "/404.html").replace(
     '<meta property="og:type" content="website">',
     '<meta property="og:type" content="website">\n<meta name="robots" content="noindex">')
 p404 += f"""
@@ -572,7 +572,7 @@ p404 += f"""
         </div>
       </div>
       <div class="err-links">
-        <a class="btn btn-solid" href="/">Back to Goal33</a>
+        <a class="btn btn-solid" href="/">Back to home</a>
         <a class="btn" href="/#strategies">Browse strategies</a>
       </div>
     </div>
@@ -584,8 +584,8 @@ open(os.path.join(BASE, "404.html"), "w", encoding="utf-8").write(p404)
 
 # ── legal pages ─────────────────────────────────────────────────
 def legal_page(fname, title, body):
-    page = head(f"{title} — Goal33 Systems",
-                f"{title} for Goal33 Systems — TradingView invite-only strategy subscriptions sold through Whop.",
+    page = head(f"{title} — Futures Trading Bots",
+                f"{title} for Futures Trading Bots — TradingView invite-only strategy subscriptions sold through Whop.",
                 f"/{fname}")
     page += f"""
   <div class="wrap legal">
@@ -599,7 +599,7 @@ TERMS_BODY = """<h1>Terms of Service</h1>
 <p class="updated">Last updated: 21 August 2026</p>
 
 <h2><span class="n">01</span> Who we are, and what these terms cover</h2>
-<p>Goal33 Systems (&ldquo;we&rdquo;, &ldquo;us&rdquo;) publishes trading-strategy software delivered as
+<p>Futures Trading Bots (&ldquo;we&rdquo;, &ldquo;us&rdquo;) publishes trading-strategy software delivered as
 invite-only TradingView scripts. By purchasing a subscription or using this site you agree to these
 terms. If you do not agree, do not purchase access.</p>
 
@@ -657,12 +657,12 @@ damages.</p>
 <p>We may update these terms; the &ldquo;last updated&rdquo; date changes when we do, and continued use
 after a change is acceptance. We may discontinue a product at any time; if we discontinue something
 you have paid for, the unused portion is refunded through Whop. These terms are governed by the laws
-of the United States and of the state in which Goal33 Systems is organized, without regard to
+of the United States and of the state in which Futures Trading Bots is organized, without regard to
 conflict-of-law rules.</p>
 <!-- LEGAL: set the specific state of organization here once the entity is formed -->
 
 <h2><span class="n">10</span> Contact</h2>
-<p>Questions about these terms: <!--email_off--><a href="mailto:support@goal33systems.com">support@goal33systems.com</a><!--/email_off-->.</p>"""
+<p>Questions about these terms: <!--email_off--><a href="mailto:support@futurestradingbots.com">support@futurestradingbots.com</a><!--/email_off-->.</p>"""
 
 PRIVACY_BODY = """<h1>Privacy Policy</h1>
 <p class="updated">Last updated: 21 August 2026</p>
@@ -717,7 +717,7 @@ deletion of anything we are not legally required to keep.</p>
 
 <h2><span class="n">08</span> Changes and contact</h2>
 <p>If this policy changes, the date above changes with it. Questions:
-<!--email_off--><a href="mailto:support@goal33systems.com">support@goal33systems.com</a><!--/email_off-->.</p>"""
+<!--email_off--><a href="mailto:support@futurestradingbots.com">support@futurestradingbots.com</a><!--/email_off-->.</p>"""
 
 legal_page("terms.html", "Terms of Service", TERMS_BODY)
 legal_page("privacy.html", "Privacy Policy", PRIVACY_BODY)

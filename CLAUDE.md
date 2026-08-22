@@ -1,6 +1,6 @@
-# goal33systems.com — how everything runs
+# futurestradingbots.com — how everything runs
 
-Static storefront for Goal33 Systems (futures trading strategies sold via Whop +
+Static storefront for Futures Trading Bots (futures trading strategies sold via Whop +
 TradingView invite-only scripts). This file is the operating manual. Read it fully
 before changing anything — most of the rules below exist because a verifier or the
 owners caught a real problem.
