@@ -922,7 +922,7 @@ refund and you get it in full &mdash; no questions, no conditions. One per custo
 to the first purchase, not renewals.</p>
 <p><strong>2. First-month performance guarantee.</strong> If a strategy&rsquo;s own published signals net
 a loss over your first 30 days of access &mdash; measured on the strategy&rsquo;s official signal record
-at one-contract scale with commissions and slippage modeled, the same accounting used for every figure
+at the position size that record was produced at, with commissions and slippage modeled &mdash; the same accounting used for every figure
 on this site &mdash; you get a full refund of your first month on request. Request within 7 days after
 your first 30 days end; one per customer per product. The measure is the strategy&rsquo;s signal record,
 not any individual account&rsquo;s fills, sizing, or discretionary deviations &mdash; that keeps the test
