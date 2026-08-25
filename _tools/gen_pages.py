@@ -159,6 +159,11 @@ def buybox(name, price, whop_note, xsell=None, struck=None):
   <span class="annual">Annual = 2 months free</span>
   <!-- WHOP: paste checkout link ({whop_note}) -->
   <a class="btn btn-buy" href="#" rel="noopener">Get access</a>
+  <div class="guar">
+    <span class="guar-line"><b>7-day</b> money-back &mdash; no questions</span>
+    <span class="guar-line"><b>First month not profitable?</b> Full refund</span>
+    <span class="guar-note">per the strategy&rsquo;s own published signals &middot; <a href="/terms.html">terms</a></span>
+  </div>
   <ul>
     <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>TradingView invite-only script, activated within 24h</span></li>
     <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Alert templates and setup documentation</span></li>
@@ -166,6 +171,7 @@ def buybox(name, price, whop_note, xsell=None, struck=None):
     <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Cancel anytime through Whop; access revokes automatically</span></li>
   </ul>
   <p class="xsell">{xs}</p>
+  <p class="refnote">Have a referral code? It takes <b>10% off</b> at checkout.</p>
 </aside>"""
 
 # ── components ──────────────────────────────────────────────────
@@ -184,6 +190,60 @@ def tile_grid(stats):
         if k not in ORDER:
             cells += f'<div class="wtile"><span class="wk">{esc(k)}</span><span class="wv">{esc(v)}</span></div>'
     return f'<div class="wtiles">{cells}</div>'
+
+TVT_ROWS = [("Net profit", "Net"), ("Total closed trades", "Trades"), ("Percent profitable", "Win"),
+            ("Profit factor", "PF"), ("Max drawdown", "Max DD"), ("Avg per trade", "$/trade"),
+            ("Return on max drawdown", "RoDD"), ("RoDD per month", "RoDD/mo"), ("Months in window", "Months")]
+
+def tvt_val(stats, key, best=False):
+    v = stats.get(key, "")
+    if v in ("", None): return '<td class="tv-mut">&mdash;</td>'
+    cls = "tv-pos" if key in ("Net", "PF", "Win", "RoDD", "RoDD/mo", "$/trade") else ("tv-neg" if key == "Max DD" else "")
+    if key == "Max DD" and best:
+        n2 = num(v)
+        cls += " dd-gold" if n2 <= 2000 else (" dd-neon" if n2 <= 5000 else "")
+    return f'<td class="{cls}">{esc(v)}</td>'
+
+def tester_block(p):
+    b, f = p["best"]["stats"], (p.get("full") or {}).get("stats", {})
+    slug = p["slug"]
+    tiles = ""
+    for lab, key, cls in [("Net profit", "Net", "tv-pos"), ("Total trades", "Trades", ""),
+                          ("Profitable", "Win", "tv-pos"), ("Profit factor", "PF", "tv-pos"),
+                          ("Max drawdown", "Max DD", "tv-neg"), ("Avg / trade", "$/trade", "tv-pos")]:
+        v = b.get(key, "")
+        tiles += f'<div class="tvt-tile"><span class="tvt-k">{lab}</span><b class="{cls}">{esc(v) or "&mdash;"}</b></div>'
+    rows = ""
+    for lab, key in TVT_ROWS:
+        rows += (f'<tr><th scope="row">{lab}</th>{tvt_val(b, key, best=True)}{tvt_val(f, key)}</tr>')
+    return f"""<div class="tvt" id="tester">
+  <div class="tvt-bar">
+    <span class="tvt-title">Strategy Tester &mdash; {esc(p['name'])}</span>
+    <span class="tvt-src">validated run &middot; commissions + slippage modeled</span>
+  </div>
+  <input type="radio" name="tvt-{slug}" id="tvt-{slug}-ov" class="tvt-r" checked>
+  <input type="radio" name="tvt-{slug}" id="tvt-{slug}-ps" class="tvt-r">
+  <div class="tvt-tabs">
+    <label for="tvt-{slug}-ov" class="tvt-tab tvt-tab-ov">Overview</label>
+    <label for="tvt-{slug}-ps" class="tvt-tab tvt-tab-ps">Performance summary</label>
+    <span class="tvt-tab tvt-tab-off" title="Activates when the trade-level export lands">List of trades &middot; soon</span>
+  </div>
+  <div class="tvt-pane tvt-ov">
+    {chart_figure(p)}
+    <div class="tvt-tiles">{tiles}</div>
+    <p class="tvt-note">Best window &middot; {esc(p.get("window", ""))}. Equity curve is illustrative, fitted to the published stats, until the trade-level export replaces it.</p>
+  </div>
+  <div class="tvt-pane tvt-ps">
+    <div class="screener" tabindex="0" role="region" aria-label="Performance summary table, scrolls horizontally">
+    <table class="tvt-table">
+      <caption class="sr-only">Performance summary: best window vs full 2024+ window</caption>
+      <thead><tr><th scope="col">Metric</th><th scope="col">Best window</th><th scope="col">Full 2024+</th></tr></thead>
+      <tbody>{rows}</tbody>
+    </table>
+    </div>
+    <p class="tvt-note">{esc(p["best"].get("label", ""))}</p>
+  </div>
+</div>"""
 
 def windows_block(p, label_prefix=""):
     b, f = p["best"], p["full"]
@@ -356,8 +416,8 @@ def product_page(p, is_book):
              f"TradingView invite-only script, activated within 24h.")
     crumb_root = ('<a href="/strategies/the-books.html">The Books</a>' if is_book
                   else '<a href="/#strategies">Strategies</a>')
-    main_col = rodd_menu(p) + "\n" + chart_figure(p) + "\n" + (
-        engines_block(p) if p.get("engines") else windows_block(p)) + "\n" + calendar_panel()
+    main_col = rodd_menu(p) + "\n" + tester_block(p) + "\n" + (
+        engines_block(p) if p.get("engines") else "") + "\n" + calendar_panel()
     main_col += "\n" + warn_block(p) + "\n" + legs_block(p)
     xsell = None
     struck = None
@@ -613,11 +673,23 @@ account, not a trading service, not a signal service operated on your behalf, an
 investment, legal, or tax advice. We are software publishers, not advisers or brokers, and no
 fiduciary relationship is created.</p>
 
-<h2><span class="n">03</span> Billing, cancellation, refunds</h2>
+<h2><span class="n">03</span> Billing, cancellation, refunds &mdash; and our two guarantees</h2>
 <p>All payments are processed by Whop; we never see or store your payment details. Subscriptions renew
 automatically until cancelled. You can cancel anytime through Whop and access runs to the end of the
-paid period, then revokes automatically. Refunds are handled through Whop under the refund terms
-presented at checkout; billing disputes should be raised through Whop first so they reach us fastest.</p>
+paid period, then revokes automatically. All refunds are issued through Whop.</p>
+<p><strong>1. Seven-day money-back.</strong> Within 7 days of your first charge for a product, request a
+refund and you get it in full &mdash; no questions, no conditions. One per customer per product; applies
+to the first purchase, not renewals.</p>
+<p><strong>2. First-month performance guarantee.</strong> If a strategy&rsquo;s own published signals net
+a loss over your first 30 days of access &mdash; measured on the strategy&rsquo;s official signal record
+at one-contract scale with commissions and slippage modeled, the same accounting used for every figure
+on this site &mdash; you get a full refund of your first month on request. Request within 7 days after
+your first 30 days end; one per customer per product. The measure is the strategy&rsquo;s signal record,
+not any individual account&rsquo;s fills, sizing, or discretionary deviations &mdash; that keeps the test
+objective and checkable by both of us.</p>
+<p><strong>Referrals.</strong> Referral codes give the buyer 10% off at checkout and pay the referrer a
+commission through Whop&rsquo;s affiliate system. Referral rewards may be withheld where self-referral or
+abuse is evident. Billing disputes should be raised through Whop first so they reach us fastest.</p>
 
 <h2><span class="n">04</span> Access and your TradingView username</h2>
 <p>Delivery requires a valid TradingView username, which you provide at checkout. We grant invite-only

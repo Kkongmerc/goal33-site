@@ -325,8 +325,8 @@ if PRELAUNCH:
   </section>"""
     cf_panes_override = "".join(
         f'<div class="cf-pane"><a class="cf-link" href="/#strategies">'
-        f'<b class="cf-name">FLAGSHIP {i:02d}</b>'
-        f'<span class="cf-stat">IN VALIDATION</span></a>'
+        f'<b class="cf-name">{"FLAGSHIP %02d" % i if i <= 5 else "MORE"}</b>'
+        f'<span class="cf-stat">{"IN VALIDATION" if i <= 5 else "AFTER THE TOP FIVE"}</span></a>'
         f'<label class="cf-pick" for="cf-{i}"><span class="sr-only">Bring slot {i} to the front</span></label></div>'
         for i in range(1, 7))
 
