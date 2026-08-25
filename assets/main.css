@@ -3940,6 +3940,85 @@ section:hover .sec-head h2::after { width: 48px; }
 html { scroll-padding-top: calc(var(--header-h) + 58px); }
 #flagships, #tier-2, #tier-3, #edge, #books { scroll-margin-top: calc(var(--header-h) + 64px); }
 
+
+/* ── PRE-LAUNCH landing: the placeholder band shown while the published
+   catalog is empty. Removed from rendering automatically the moment the
+   first product publishes — the rules stay for the next relaunch. */
+.prelaunch {
+  position: relative;
+  border: 1px solid rgba(86, 200, 162, .35);
+  background: radial-gradient(90% 130% at 50% 0%, rgba(86, 200, 162, .06), transparent 60%), var(--panel);
+  padding: var(--sp-7) var(--sp-6);
+  margin-top: var(--sp-4);
+}
+.prelaunch::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid rgba(86, 200, 162, .12);
+  pointer-events: none;
+}
+.pl-tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  font-weight: 700;
+  letter-spacing: .18em;
+  color: var(--accent);
+  border: 1px solid rgba(86, 200, 162, .45);
+  padding: 3px 10px;
+  margin-bottom: var(--sp-4);
+}
+.prelaunch h3 {
+  font-family: var(--display);
+  font-size: clamp(1.3rem, 2.4vw, 2rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .01em;
+  margin-bottom: var(--sp-3);
+  max-width: 30ch;
+  text-wrap: balance;
+}
+.prelaunch p { color: var(--muted); max-width: 62ch; line-height: 1.6; }
+.pl-slots {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--sp-3);
+  margin: var(--sp-5) 0;
+}
+.pl-slots .slot {
+  border: 1px dashed rgba(86, 200, 162, .35);
+  background: var(--raised);
+  padding: var(--sp-4) var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.slot-n {
+  font-family: var(--mono);
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  color: rgba(86, 200, 162, .55);
+}
+.slot-lab {
+  font-family: var(--display);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.slot-sub {
+  font-family: var(--mono);
+  font-size: var(--fs-2xs);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.pl-ctas { display: flex; gap: var(--sp-3); flex-wrap: wrap; margin-top: var(--sp-4); }
+@media (max-width: 860px) { .pl-slots { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 420px) { .pl-slots { grid-template-columns: minmax(0, 1fr); } }
+
 /* ── THE STANDARD: framed slab in the site's display grammar ── */
 .creed { padding: var(--sp-6) 0; }
 .creed-frame {
@@ -4192,46 +4271,8 @@ html { scroll-padding-top: calc(var(--header-h) + 58px); }
 }
 
 /* CARTGEN:rules — generated from catalog2.json; do not hand-edit */
-#add-spartacus:checked + .add-btn { counter-increment: cart 1 total 509; }
-#add-the-alloy:checked + .add-btn { counter-increment: cart 1 total 469; }
-#add-silver-830-reversal:checked + .add-btn { counter-increment: cart 1 total 249; }
-#add-china-orb:checked + .add-btn { counter-increment: cart 1 total 249; }
-#add-afternoon-reversion:checked + .add-btn { counter-increment: cart 1 total 239; }
-#add-30m-structure-reclaim:checked + .add-btn { counter-increment: cart 1 total 199; }
-#add-es-pullback-fade:checked + .add-btn { counter-increment: cart 1 total 189; }
-#add-lunch-break-fade:checked + .add-btn { counter-increment: cart 1 total 189; }
-#add-vwap-band-fade:checked + .add-btn { counter-increment: cart 1 total 179; }
-#add-silver-midday-range-fade:checked + .add-btn { counter-increment: cart 1 total 159; }
-#add-friday-orb:checked + .add-btn { counter-increment: cart 1 total 159; }
-#add-830-range-fade:checked + .add-btn { counter-increment: cart 1 total 159; }
-#add-frankfurt-continuation:checked + .add-btn { counter-increment: cart 1 total 149; }
-#add-pool-milestone-pullback:checked + .add-btn { counter-increment: cart 1 total 129; }
-#add-830-news-fade:checked + .add-btn { counter-increment: cart 1 total 129; }
-#add-1030-fade:checked + .add-btn { counter-increment: cart 1 total 139; }
-#add-the-vise-25:checked + .add-btn { counter-increment: cart 1 total 139; }
-#add-cme-reopen-snap:checked + .add-btn { counter-increment: cart 1 total 119; }
-#add-ny-open-pro:checked + .add-btn { counter-increment: cart 1 total 349; }
-#add-the-vise:checked + .add-btn { counter-increment: cart 1 total 119; }
-#strategies:has(#add-spartacus:checked) .cl-spartacus,
-#strategies:has(#add-the-alloy:checked) .cl-the-alloy,
-#strategies:has(#add-silver-830-reversal:checked) .cl-silver-830-reversal,
-#strategies:has(#add-china-orb:checked) .cl-china-orb,
-#strategies:has(#add-afternoon-reversion:checked) .cl-afternoon-reversion,
-#strategies:has(#add-30m-structure-reclaim:checked) .cl-30m-structure-reclaim,
-#strategies:has(#add-es-pullback-fade:checked) .cl-es-pullback-fade,
-#strategies:has(#add-lunch-break-fade:checked) .cl-lunch-break-fade,
-#strategies:has(#add-vwap-band-fade:checked) .cl-vwap-band-fade,
-#strategies:has(#add-silver-midday-range-fade:checked) .cl-silver-midday-range-fade,
-#strategies:has(#add-friday-orb:checked) .cl-friday-orb,
-#strategies:has(#add-830-range-fade:checked) .cl-830-range-fade,
-#strategies:has(#add-frankfurt-continuation:checked) .cl-frankfurt-continuation,
-#strategies:has(#add-pool-milestone-pullback:checked) .cl-pool-milestone-pullback,
-#strategies:has(#add-830-news-fade:checked) .cl-830-news-fade,
-#strategies:has(#add-1030-fade:checked) .cl-1030-fade,
-#strategies:has(#add-the-vise-25:checked) .cl-the-vise-25,
-#strategies:has(#add-cme-reopen-snap:checked) .cl-cme-reopen-snap,
-#strategies:has(#add-ny-open-pro:checked) .cl-ny-open-pro,
-#strategies:has(#add-the-vise:checked) .cl-the-vise {
+
+ {
   display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3);
   padding: var(--sp-2) var(--sp-4); border-bottom: 1px solid var(--line);
 }

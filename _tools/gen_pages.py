@@ -10,6 +10,8 @@ from glyphs import glyph, emblem
 BASE = os.path.dirname(_HERE)  # repo root
 CAT = json.load(open(os.path.join(_HERE, "catalog2.json"), encoding="utf-8"))
 SITE = "https://futurestradingbots.com"
+# PRE-LAUNCH: no published products -> skip product + bundle pages entirely
+PRELAUNCH = not CAT["strategies"] and not CAT["books"]
 TODAY = "2026-08-20"
 CSSV = hashlib.md5(open(os.path.join(BASE, "assets", "main.css"), "rb").read()).hexdigest()[:8]
 
@@ -402,10 +404,11 @@ def product_page(p, is_book):
     page += FOOTER
     open(os.path.join(BASE, "strategies", p["slug"] + ".html"), "w", encoding="utf-8").write(page)
 
-for p in CAT["strategies"]:
-    product_page(p, is_book=False)
-for p in CAT["books"]:
-    product_page(p, is_book=True)
+if not PRELAUNCH:
+    for p in CAT["strategies"]:
+        product_page(p, is_book=False)
+    for p in CAT["books"]:
+        product_page(p, is_book=True)
 
 # ── bundle pages ────────────────────────────────────────────────
 BN = CAT["bundles"]
@@ -444,142 +447,145 @@ inc_rows = "".join(
     f'<li><a class="sys-link" href="/strategies/{s["slug"]}.html"><span class="inc-name">{esc(s["name"])}</span></a>'
     f'<span class="inc-price">${s["price"]}/mo</span></li>'
     for s in sorted(CAT["strategies"], key=lambda x: -x["price"]))
-bundle_page("all-access", "All-Access", BN["all_access"]["price"], BN["all_access"]["combined"],
-    "Every validated strategy in the catalog. The Books are not included.",
-    f"""<div class="record">
-        <div class="record-title">Included — all {len(CAT["strategies"])} validated systems (combined ${BN["all_access"]["combined"]:,}/mo)</div>
-        <div class="included included-scroll" tabindex="0" role="region" aria-label="All included systems"><ul>{inc_rows}</ul></div>
-        <p class="record-note">The Books are not included in All-Access. The four in-house engines are a separate premium tier, from $589/mo each or $2,999/mo together.</p>
-      </div>""",
-    'Want the engines themselves? <a href="/strategies/the-books.html">The Books — $2,999/mo</a>')
+if not PRELAUNCH:
+    bundle_page("all-access", "All-Access", BN["all_access"]["price"], BN["all_access"]["combined"],
+        "Every validated strategy in the catalog. The Books are not included.",
+        f"""<div class="record">
+            <div class="record-title">Included — all {len(CAT["strategies"])} validated systems (combined ${BN["all_access"]["combined"]:,}/mo)</div>
+            <div class="included included-scroll" tabindex="0" role="region" aria-label="All included systems"><ul>{inc_rows}</ul></div>
+            <p class="record-note">The Books are not included in All-Access. The four in-house engines are a separate premium tier, from $589/mo each or $2,999/mo together.</p>
+          </div>""",
+        'Want the engines themselves? <a href="/strategies/the-books.html">The Books — $2,999/mo</a>')
 
-bundle_page("pick-3", "Pick-3", BN["pick3"]["price"], BN["pick3"]["top3"],
-    "Any three validated systems, swap monthly.",
-    """<div class="record">
-        <div class="record-title">How Pick-3 works</div>
-        <ul class="included">
-          <li><span class="inc-name">Choose any 3 validated systems</span></li>
-          <li><span class="inc-name">Swap your picks monthly</span></li>
-          <li><span class="inc-name">Each pick delivered as a TradingView invite-only script, activated within 24h</span></li>
-        </ul>
-      </div>""",
-    'Want everything? <a href="/strategies/all-access.html">All-Access — $999/mo</a>')
+    bundle_page("pick-3", "Pick-3", BN["pick3"]["price"], BN["pick3"]["top3"],
+        "Any three validated systems, swap monthly.",
+        """<div class="record">
+            <div class="record-title">How Pick-3 works</div>
+            <ul class="included">
+              <li><span class="inc-name">Choose any 3 validated systems</span></li>
+              <li><span class="inc-name">Swap your picks monthly</span></li>
+              <li><span class="inc-name">Each pick delivered as a TradingView invite-only script, activated within 24h</span></li>
+            </ul>
+          </div>""",
+        'Want everything? <a href="/strategies/all-access.html">All-Access — $999/mo</a>')
 
-book_rows = "".join(
-    f'<li><a class="sys-link" href="/strategies/{b["slug"]}.html"><span class="inc-name">{esc(b["name"])}</span></a>'
-    f'<span class="inc-price">{esc(b["actual"])} · ${b["price"]:,}/mo solo</span></li>'
-    for b in CAT["books"])
-bundle_page("the-books", "The Books", BN["books_all"]["price"], BN["books_all"]["combined"],
-    "All four in-house engines. The metric that matters at this level: return on drawdown.",
-    f"""<div class="record">
-        <div class="record-title">Included — all four in-house engines</div>
-        <ul class="included">{book_rows}</ul>
-        <p class="record-note">The engines we run ourselves. Each book is also sold separately; this tier is all four, priced under any two solo.</p>
-      </div>""",
-    'Not ready for the engines? <a href="/strategies/all-access.html">All-Access — $999/mo</a>')
+    book_rows = "".join(
+        f'<li><a class="sys-link" href="/strategies/{b["slug"]}.html"><span class="inc-name">{esc(b["name"])}</span></a>'
+        f'<span class="inc-price">{esc(b["actual"])} · ${b["price"]:,}/mo solo</span></li>'
+        for b in CAT["books"])
+    bundle_page("the-books", "The Books", BN["books_all"]["price"], BN["books_all"]["combined"],
+        "All four in-house engines. The metric that matters at this level: return on drawdown.",
+        f"""<div class="record">
+            <div class="record-title">Included — all four in-house engines</div>
+            <ul class="included">{book_rows}</ul>
+            <p class="record-note">The engines we run ourselves. Each book is also sold separately; this tier is all four, priced under any two solo.</p>
+          </div>""",
+        'Not ready for the engines? <a href="/strategies/all-access.html">All-Access — $999/mo</a>')
 
-ST = BN["starter"]
-by_slug = {s["slug"]: s for s in CAT["strategies"]}
-starter_rows = "".join(
-    f'<li><a class="sys-link" href="/strategies/{s}.html"><span class="inc-name">{esc(by_slug[s]["name"])}</span></a>'
-    f'<span class="inc-price">{esc(by_slug[s]["actual"])} · ${by_slug[s]["price"]}/mo solo</span></li>'
-    for s in ST["slugs"])
-starter_names = " + ".join(by_slug[s]["name"] for s in ST["slugs"])
-bundle_page("the-starter", "The Starter", ST["price"], ST["combined"],
-    "Three low-drawdown, high-win-rate session systems. The safest door into the catalog.",
-    f"""<div class="record">
-        <div class="record-title">Included — three low-drawdown session systems</div>
-        <ul class="included">{starter_rows}</ul>
-        <p class="record-note">{starter_names}: the three smallest published drawdowns in the value tiers, every one winning over 77% of its trades on the published window. Worth ${ST["combined"]}/mo solo.</p>
-      </div>""",
-    'Outgrow it? <a href="/strategies/pick-3.html">Pick-3 — $499/mo</a> · <a href="/strategies/all-access.html">All-Access — $999/mo</a>')
+    ST = BN["starter"]
+    by_slug = {s["slug"]: s for s in CAT["strategies"]}
+    starter_rows = "".join(
+        f'<li><a class="sys-link" href="/strategies/{s}.html"><span class="inc-name">{esc(by_slug[s]["name"])}</span></a>'
+        f'<span class="inc-price">{esc(by_slug[s]["actual"])} · ${by_slug[s]["price"]}/mo solo</span></li>'
+        for s in ST["slugs"])
+    starter_names = " + ".join(by_slug[s]["name"] for s in ST["slugs"])
+    bundle_page("the-starter", "The Starter", ST["price"], ST["combined"],
+        "Three low-drawdown, high-win-rate session systems. The safest door into the catalog.",
+        f"""<div class="record">
+            <div class="record-title">Included — three low-drawdown session systems</div>
+            <ul class="included">{starter_rows}</ul>
+            <p class="record-note">{starter_names}: the three smallest published drawdowns in the value tiers, every one winning over 77% of its trades on the published window. Worth ${ST["combined"]}/mo solo.</p>
+          </div>""",
+        'Outgrow it? <a href="/strategies/pick-3.html">Pick-3 — $499/mo</a> · <a href="/strategies/all-access.html">All-Access — $999/mo</a>')
 
-# ── success page ────────────────────────────────────────────────
-psucc = head("Order Confirmed — FuturesTradingBots",
-             "Purchase confirmed. Your TradingView invite-only script activates within 24h.",
-             "/success.html").replace(
-    '<meta property="og:type" content="website">',
-    '<meta property="og:type" content="website">\n<meta name="robots" content="noindex">')
-psucc += f"""
-  <div class="wrap">
-    <article class="pdp">
-      <div class="pdp-head">
-        <div>
-          <div class="microlabel">Order confirmed</div>
-          <h1>You&rsquo;re in.</h1>
-          <div class="pdp-meta"><span class="chip chip-verified">PAYMENT RECEIVED</span></div>
-          <span class="pdp-note">TradingView invite-only script &middot; activated within 24h</span>
-        </div>
+    # ── success page ────────────────────────────────────────────────
+    psucc = head("Order Confirmed — FuturesTradingBots",
+                 "Purchase confirmed. Your TradingView invite-only script activates within 24h.",
+                 "/success.html").replace(
+        '<meta property="og:type" content="website">',
+        '<meta property="og:type" content="website">\n<meta name="robots" content="noindex">')
+    psucc += f"""
+      <div class="wrap">
+        <article class="pdp">
+          <div class="pdp-head">
+            <div>
+              <div class="microlabel">Order confirmed</div>
+              <h1>You&rsquo;re in.</h1>
+              <div class="pdp-meta"><span class="chip chip-verified">PAYMENT RECEIVED</span></div>
+              <span class="pdp-note">TradingView invite-only script &middot; activated within 24h</span>
+            </div>
+          </div>
+
+          <div class="pdp-cols">
+            <div class="pdp-main">
+              <div class="record">
+                <div class="record-title">What happens now</div>
+                <table>
+                  <tbody>
+                    <tr><th scope="row">01 &middot; Receipt</th><td>Whop has emailed your receipt. Your subscription lives in your Whop dashboard &mdash; manage or cancel it there anytime.</td></tr>
+                    <tr><th scope="row">02 &middot; TradingView link</th><td>If you entered your TradingView username at checkout, you&rsquo;re set. If not, add it now in your Whop dashboard under this product &mdash; access can&rsquo;t be granted without it.</td></tr>
+                    <tr><th scope="row">03 &middot; Activation</th><td>Your script is activated within 24h. It appears in TradingView under Indicators &rarr; Invite-only scripts. TradingView also sends a notification &mdash; check spam if you don&rsquo;t see it.</td></tr>
+                    <tr><th scope="row">04 &middot; Setup</th><td>Load the script on your chart and set alerts using the included templates and setup documentation.</td></tr>
+                  </tbody>
+                </table>
+                <p class="record-note">Username must match your TradingView account exactly &mdash; access is granted per username. Nothing arrived after 24h? Email us and we&rsquo;ll grant it manually.</p>
+              </div>
+            </div>
+
+            <aside class="buybox" aria-label="Support">
+              <span class="annual">Need a hand?</span>
+              <!--email_off--><a class="btn btn-buy" href="mailto:support@futurestradingbots.com">Email support</a><!--/email_off-->
+              <ul>
+                <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Manual activation fallback within the 24h window</span></li>
+                <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Cancel anytime from your Whop dashboard</span></li>
+              </ul>
+              <p class="xsell">Questions first? <a href="/#faq">Read the FAQ</a></p>
+            </aside>
+          </div>
+
+          <div class="pdp-disclaim">
+            <p class="disclaim-sm">{esc(DISCLAIMER)}</p>
+          </div>
+
+          <a class="backlink" href="/#strategies">&larr; Browse the catalog</a>
+        </article>
       </div>
+    """
+    psucc += FOOTER
+    open(os.path.join(BASE, "success.html"), "w", encoding="utf-8").write(psucc)
 
-      <div class="pdp-cols">
-        <div class="pdp-main">
-          <div class="record">
-            <div class="record-title">What happens now</div>
-            <table>
-              <tbody>
-                <tr><th scope="row">01 &middot; Receipt</th><td>Whop has emailed your receipt. Your subscription lives in your Whop dashboard &mdash; manage or cancel it there anytime.</td></tr>
-                <tr><th scope="row">02 &middot; TradingView link</th><td>If you entered your TradingView username at checkout, you&rsquo;re set. If not, add it now in your Whop dashboard under this product &mdash; access can&rsquo;t be granted without it.</td></tr>
-                <tr><th scope="row">03 &middot; Activation</th><td>Your script is activated within 24h. It appears in TradingView under Indicators &rarr; Invite-only scripts. TradingView also sends a notification &mdash; check spam if you don&rsquo;t see it.</td></tr>
-                <tr><th scope="row">04 &middot; Setup</th><td>Load the script on your chart and set alerts using the included templates and setup documentation.</td></tr>
-              </tbody>
-            </table>
-            <p class="record-note">Username must match your TradingView account exactly &mdash; access is granted per username. Nothing arrived after 24h? Email us and we&rsquo;ll grant it manually.</p>
+    # ── 404 ─────────────────────────────────────────────────────────
+    p404 = head("404 — FuturesTradingBots", "Page not found.", "/404.html").replace(
+        '<meta property="og:type" content="website">',
+        '<meta property="og:type" content="website">\n<meta name="robots" content="noindex">')
+    p404 += f"""
+      <div class="wrap err-wrap">
+        <div class="err">
+          <h1 class="err-code">404<span class="sr-only"> — page not found</span></h1>
+          <div class="term">
+            <div class="term-bar"><span>g33 · locate</span><span>bash</span></div>
+            <div class="term-body">
+              <div class="cmd">g33 locate ./requested-page</div>
+              <div class="out">searching catalog ...... <span class="num">{len(CAT["strategies"]) + len(CAT["books"])} products</span></div>
+              <div class="out">match .................. no such system</div>
+              <div class="out">status ................. <span class="ok">the rest of the site is intact</span></div>
+              <div class="cmd"><span class="cursor"></span></div>
+            </div>
+          </div>
+          <div class="err-links">
+            <a class="btn btn-solid" href="/">Back to home</a>
+            <a class="btn" href="/#strategies">Browse strategies</a>
           </div>
         </div>
-
-        <aside class="buybox" aria-label="Support">
-          <span class="annual">Need a hand?</span>
-          <!--email_off--><a class="btn btn-buy" href="mailto:support@futurestradingbots.com">Email support</a><!--/email_off-->
-          <ul>
-            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Manual activation fallback within the 24h window</span></li>
-            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Cancel anytime from your Whop dashboard</span></li>
-          </ul>
-          <p class="xsell">Questions first? <a href="/#faq">Read the FAQ</a></p>
-        </aside>
       </div>
-
-      <div class="pdp-disclaim">
-        <p class="disclaim-sm">{esc(DISCLAIMER)}</p>
-      </div>
-
-      <a class="backlink" href="/#strategies">&larr; Browse the catalog</a>
-    </article>
-  </div>
-"""
-psucc += FOOTER
-open(os.path.join(BASE, "success.html"), "w", encoding="utf-8").write(psucc)
-
-# ── 404 ─────────────────────────────────────────────────────────
-p404 = head("404 — FuturesTradingBots", "Page not found.", "/404.html").replace(
-    '<meta property="og:type" content="website">',
-    '<meta property="og:type" content="website">\n<meta name="robots" content="noindex">')
-p404 += f"""
-  <div class="wrap err-wrap">
-    <div class="err">
-      <h1 class="err-code">404<span class="sr-only"> — page not found</span></h1>
-      <div class="term">
-        <div class="term-bar"><span>g33 · locate</span><span>bash</span></div>
-        <div class="term-body">
-          <div class="cmd">g33 locate ./requested-page</div>
-          <div class="out">searching catalog ...... <span class="num">{len(CAT["strategies"]) + len(CAT["books"])} products</span></div>
-          <div class="out">match .................. no such system</div>
-          <div class="out">status ................. <span class="ok">the rest of the site is intact</span></div>
-          <div class="cmd"><span class="cursor"></span></div>
-        </div>
-      </div>
-      <div class="err-links">
-        <a class="btn btn-solid" href="/">Back to home</a>
-        <a class="btn" href="/#strategies">Browse strategies</a>
-      </div>
-    </div>
-  </div>
-"""
-p404 += FOOTER
-open(os.path.join(BASE, "404.html"), "w", encoding="utf-8").write(p404)
+    """
+    p404 += FOOTER
+    open(os.path.join(BASE, "404.html"), "w", encoding="utf-8").write(p404)
 
 
-# ── legal pages ─────────────────────────────────────────────────
+    # ── legal pages ─────────────────────────────────────────────────
+
+
 def legal_page(fname, title, body):
     page = head(f"{title} — FuturesTradingBots",
                 f"{title} for FuturesTradingBots — TradingView invite-only strategy subscriptions sold through Whop.",

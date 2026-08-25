@@ -73,6 +73,23 @@ trio for a Pick-3 seeker is worth less than the $499 bundle price, the page
 recommends the cheaper path instead (The Starter if it IS that trio, otherwise
 "buy the three solo") — never delete this branch to make Pick-3 sell better.
 
+## PRE-LAUNCH MODE (current state)
+
+The published catalog is intentionally EMPTY while the new lineup is validated:
+`catalog2.json` has `strategies: []` and `books: []`, and all three generators
+detect this (`PRELAUNCH`) and render "new lineup loading" placeholder bands
+instead of products — no product/bundle pages are written, the plan finder shows
+an offline notice, the carousel shows five reserved flagship slots. NOTHING was
+deleted: the full previous catalog and rendered examples live in
+`_tools/archive/`, and every builder function is intact.
+
+**To publish a product:** fill one slot from `catalog2.json` -> `drafts`
+(the `_template_strategy` object documents every field), move it into
+`strategies[]` (or `books[]`), add its glyph in `_tools/glyphs.py` and — for a
+flagship/book — an `fc-<slug>` color skin in main.css, then run the three
+generators and restamp. The moment one product is published, the whole catalog
+UI (cards, tables, cart, carousel, plan finder, bundles) comes back by itself.
+
 ## Hard content rules (violations have been caught and reverted before)
 
 1. **Every number must trace to `_tools/catalog2.json`.** No invented stats and

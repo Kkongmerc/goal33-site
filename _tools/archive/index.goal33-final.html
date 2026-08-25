@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Security: strict CSP — no scripts, no forms; the only cross-origin fetch permitted is Google Fonts.
+     Note: frame-ancestors cannot be set via <meta> and GitHub Pages cannot send headers — accepted limitation. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<title>Goal33 Systems — Live-Validated Futures Session Strategies</title>
+<meta name="description" content="21 live-validated session strategies and four in-house books for MNQ, NQ, MGC, SI, and ES futures. Best window and full 2024+ window published for every system. TradingView invite-only scripts via Whop.">
+<meta name="theme-color" content="#051014">
+<meta property="og:title" content="Goal33 Systems">
+<meta property="og:site_name" content="Goal33 Systems">
+<meta property="og:description" content="21 live-validated session strategies and four in-house books. Both validation windows published for every system. TradingView invite-only scripts via Whop.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://goal33systems.com/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/main.css?v=0e25d8d8">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- system-status ticker: static release/validation facts only, no market quotes, no prices or percentages.
+     Pure-CSS pause control (WCAG 2.2.2): the checkbox is a direct child of <body> placed before the tickerbar and
+     <main>, so one :checked control pauses page animation — ticker track, hero dial sweep, special-badge pulse,
+     standout-stat glow, card streak/caret, and books-band tick breathe (only exemption: the 600ms one-shot
+     buy-button sheen, hover/focus-initiated); content duplicated once for a seamless loop. -->
+<input type="checkbox" id="ticker-pause" class="ticker-check">
+<div class="tickerbar">
+  <label class="ticker-pauselab" for="ticker-pause">
+    <span class="tp tp-pause"><svg class="ic-pp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="9" y1="6" x2="9" y2="18" vector-effect="non-scaling-stroke"/><line x1="15" y1="6" x2="15" y2="18" vector-effect="non-scaling-stroke"/></svg>Pause motion</span>
+    <span class="tp tp-play"><svg class="ic-pp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5.5 18 12 8 18.5z" vector-effect="non-scaling-stroke"/></svg>Play motion</span>
+  </label>
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>20 SYSTEMS · 4 BOOKS</span><span>SESSION: SYDNEY → SHANGHAI → FRANKFURT → NEW YORK</span><span>SPARTACUS · VERIFIED</span><span>THE ALLOY · VERIFIED</span><span>THE MARKET MAKER · VERIFIED</span><span>THE ABACUS · VERIFIED</span><span>STERLING · VERIFIED</span><span>THE PENDULUM · VERIFIED</span><span>THE PRESS · VERIFIED</span><span>MARKETS: MNQ · NQ · MGC · SI · ES</span><span>DELIVERY: TRADINGVIEW INVITE-ONLY · ACTIVATED WITHIN 24H</span><span>20 SYSTEMS · 4 BOOKS</span><span>SESSION: SYDNEY → SHANGHAI → FRANKFURT → NEW YORK</span><span>SPARTACUS · VERIFIED</span><span>THE ALLOY · VERIFIED</span><span>THE MARKET MAKER · VERIFIED</span><span>THE ABACUS · VERIFIED</span><span>STERLING · VERIFIED</span><span>THE PENDULUM · VERIFIED</span><span>THE PRESS · VERIFIED</span><span>MARKETS: MNQ · NQ · MGC · SI · ES</span><span>DELIVERY: TRADINGVIEW INVITE-ONLY · ACTIVATED WITHIN 24H</span>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="./">GOAL<span class="n33">33</span><small>SYSTEMS</small></a>
+    <nav class="nav-links" aria-label="Main">
+      <div class="nav-drop">
+        <a href="/#strategies">Strategies<svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+        <div class="nav-menu">
+          <a href="/#flagships"><b>Tier 1</b> Flagships</a>
+          <a href="/#tier-2"><b>Tier 2</b> Core systems</a>
+          <a href="/#tier-3"><b>Tier 3</b> Session specialists</a>
+          <a href="/#edge">Browse by edge</a>
+          <a href="/#packages">Bundles &amp; deals</a>
+        </div>
+      </div>
+      <a class="nav-books" href="/#packages">Books and Bundles<span class="nav-ember" aria-hidden="true"></span></a>
+      <a class="nav-plan" href="/plan.html">Find your plan</a>
+      <a href="/#how">How access works</a>
+      <a href="/#faq">FAQ</a>
+    </nav>
+    <!-- WHOP: replace this link with the Whop storefront URL -->
+    <a class="btn btn-sm btn-buy" href="/#packages" rel="noopener">Get access</a>
+    <!-- DISCORD: replace this href with the community invite link -->
+    <a class="btn btn-sm btn-discord" href="#" rel="noopener"><svg class="ic-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.7 17.4c-3.2-.1-4.9-1.7-4.9-1.7.3-4 1.4-6.6 2.7-8.3C7.8 6.4 9.2 6 9.2 6l.5 1.1c1.5-.3 3.1-.3 4.6 0L14.8 6s1.4.4 2.7 1.4c1.3 1.7 2.4 4.3 2.7 8.3 0 0-1.7 1.6-4.9 1.7l-.8-1.1c-1.6.3-3.4.3-5 0z"/><circle cx="9.6" cy="12.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.6" r="1.15" fill="currentColor" stroke="none"/></svg><span>Discord</span></a>
+    <details class="nav-mob">
+      <summary aria-label="Menu"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span></summary>
+      <nav class="nav-mob-panel" aria-label="Mobile">
+        <a href="/#strategies">Strategies</a>
+        <a href="/#flagships">Tier 1 &middot; Flagships</a>
+        <a href="/#tier-2">Tier 2 &middot; Core systems</a>
+        <a href="/#tier-3">Tier 3 &middot; Session specialists</a>
+        <a class="mob-books" href="/#packages">Books and Bundles</a>
+        <a href="/plan.html">Find your plan</a>
+        <a href="/#how">How access works</a>
+        <a href="/#faq">FAQ</a>
+        <!-- DISCORD: replace this href with the community invite link -->
+        <a href="#" rel="noopener">Join the community Discord</a>
+      </nav>
+    </details>
+  </div>
+  <a class="plan-banner" href="/plan.html">
+    <span class="pb-tag">PLAN FINDER</span>
+    <span class="pb-copy">Not sure where to start? Four questions to a <b>named recommendation</b> &mdash; sized to the drawdown you can actually hold</span>
+    <span class="pb-go">Find your plan &rarr;</span>
+  </a>
+</header>
+
+<main id="main">
+
+  <!-- ── hero ─────────────────────────────────────────────── -->
+  <section class="hero" aria-label="Introduction">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="microlabel">Systematic · Session Futures · TradingView</div>
+        <h1>Strategies engineered to be <span class="hl">measured</span>, not believed.</h1>
+        <p class="lede">
+          Goal33 sells the session systems we actually run: 20 live-validated strategies and four
+          in-house books across MNQ, NQ, MGC, SI, and ES futures. Every figure comes from the validation
+          playbook &mdash; best window and full 2024+ window, both published. TradingView invite-only
+          scripts, activated within 24h. Checkout runs through Whop.
+        </p>
+        <!-- origin story — owner-approved copy, sheet-documented -->
+        <p class="origin">
+          Goal33 started with a simple observation: overpriced strategies
+          being sold online &mdash; edges our own systems were quietly
+          outperforming. So we published the catalog ourselves: measured,
+          verified, and priced like software instead of snake oil.
+        </p>
+        
+      </div>
+
+      <!-- flagship cover-flow: filled by rebuild_index between the CFGEN
+           markers; panes work exactly like the flagship cards (identity
+           color, glyph, whole pane links to the product page) -->
+      <div class="coverflow" aria-label="Flagship strategies">
+        <!-- CFGEN --><input class="cf-r" type="radio" name="cf-sel" id="cf-0" checked><input class="cf-r" type="radio" name="cf-sel" id="cf-1"><input class="cf-r" type="radio" name="cf-sel" id="cf-2"><input class="cf-r" type="radio" name="cf-sel" id="cf-3"><input class="cf-r" type="radio" name="cf-sel" id="cf-4"><input class="cf-r" type="radio" name="cf-sel" id="cf-5"><input class="cf-r" type="radio" name="cf-sel" id="cf-6"><div class="cf-stage"><div class="cf-pane fc-spartacus"><a class="cf-link" href="/strategies/spartacus.html"><svg class="glyph cf-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 20v-7a6 6 0 0 1 12 0v7"/><path d="M12 10v10"/><path d="M7.5 13.5h9"/><path d="M8 4.2c2.6-1.9 5.4-1.9 8 0"/></svg><b class="cf-name">Spartacus</b><span class="cf-stat">21.75&times; RoDD &middot; best window</span></a><label class="cf-pick" for="cf-1"><span class="sr-only">Bring Spartacus to the front</span></label></div><div class="cf-pane fc-the-alloy"><a class="cf-link" href="/strategies/the-alloy.html"><svg class="glyph cf-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 5.5 13 10l-4.5 4.5L4 10z"/><path d="M15.5 9.5 20 14l-4.5 4.5L11 14z"/></svg><b class="cf-name">The Alloy</b><span class="cf-stat">19.89&times; RoDD &middot; best window</span></a><label class="cf-pick" for="cf-2"><span class="sr-only">Bring The Alloy to the front</span></label></div><div class="cf-pane fc-ny-open-pro"><a class="cf-link" href="/strategies/ny-open-pro.html"><svg class="glyph cf-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.4 12 4l8 5.4"/><path d="M6.4 9.4v7.2M12 9.4v7.2M17.6 9.4v7.2"/><path d="M4.5 19.6h15"/></svg><b class="cf-name">The Market Maker</b><span class="cf-stat">15.77&times; RoDD &middot; best window</span></a><label class="cf-pick" for="cf-3"><span class="sr-only">Bring The Market Maker to the front</span></label></div><div class="cf-pane fc-silver-830-reversal"><a class="cf-link" href="/strategies/silver-830-reversal.html"><svg class="glyph cf-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 9.5h9l2.6 7.5H4.9z"/><path d="M17 3.6v3.2"/><path d="M15.4 5.2h3.2"/></svg><b class="cf-name">Sterling</b><span class="cf-stat">9.18&times; RoDD &middot; best window</span></a><label class="cf-pick" for="cf-4"><span class="sr-only">Bring Sterling to the front</span></label></div><div class="cf-pane fc-china-orb"><a class="cf-link" href="/strategies/china-orb.html"><svg class="glyph cf-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="1"/><path d="M4 10.4h16"/><circle cx="8.6" cy="7.7" r="1.15"/><circle cx="13" cy="7.7" r="1.15"/><circle cx="9.4" cy="14.7" r="1.15"/><circle cx="14.6" cy="14.7" r="1.15"/></svg><b class="cf-name">The Abacus</b><span class="cf-stat">12.55&times; RoDD &middot; best window</span></a><label class="cf-pick" for="cf-5"><span class="sr-only">Bring The Abacus to the front</span></label></div><div class="cf-pane fc-afternoon-reversion"><a class="cf-link" href="/strategies/afternoon-reversion.html"><svg class="glyph cf-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.4" r="1.1"/><path d="M12 5.4 16.6 15"/><circle cx="17.6" cy="17.2" r="2.5"/><path d="M6 14.6a10 10 0 0 0 4 4.2"/></svg><b class="cf-name">The Pendulum</b><span class="cf-stat">8.52&times; RoDD &middot; best window</span></a><label class="cf-pick" for="cf-6"><span class="sr-only">Bring The Pendulum to the front</span></label></div></div><div class="cf-dots"><label class="cf-dot fc-spartacus" for="cf-1"><span class="sr-only">Spartacus</span></label><label class="cf-dot fc-the-alloy" for="cf-2"><span class="sr-only">The Alloy</span></label><label class="cf-dot fc-ny-open-pro" for="cf-3"><span class="sr-only">The Market Maker</span></label><label class="cf-dot fc-silver-830-reversal" for="cf-4"><span class="sr-only">Sterling</span></label><label class="cf-dot fc-china-orb" for="cf-5"><span class="sr-only">The Abacus</span></label><label class="cf-dot fc-afternoon-reversion" for="cf-6"><span class="sr-only">The Pendulum</span></label><label class="cf-play" for="cf-0"><span class="cf-play-ico" aria-hidden="true"></span><span class="sr-only">Resume the automatic rotation</span></label></div><!-- /CFGEN -->
+      </div>
+      <div class="hero-ctas">
+          <a class="btn btn-solid" href="#strategies"><span>Browse strategies</span><svg class="ic-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" vector-effect="non-scaling-stroke"/><path d="M7 17 17 7" vector-effect="non-scaling-stroke"/></svg></a>
+          <a class="btn" href="#how"><span>How access works</span><svg class="ic-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" vector-effect="non-scaling-stroke"/><path d="M7 17 17 7" vector-effect="non-scaling-stroke"/></svg></a>
+        </div>
+    </div>
+  </section>
+
+  <!-- ── stats strip ───────────────────────────────────────── -->
+  <ul class="stats wrap">
+    <li><b>24</b><span>Validated products</span></li>
+    <li><b>5</b><span class="oneline">MNQ·NQ·MGC·SI·ES</span></li>
+    <li><b>2&times;</b><span>Windows published</span></li>
+    <li><b>24h</b><span>Activation window</span></li>
+  </ul>
+
+  <!-- ── strategies ───────────────────────────────────────── -->
+  <!-- ── the creed: integrity statement, meant to be seen ──── -->
+
+
+  <section id="strategies">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="idx">01 /</span>
+        <h2>Strategies</h2>
+        <span class="note">20 live-validated systems &middot; best window and full 2024+ window published</span>
+      </div>
+
+      <div class="glossary">
+        <div class="gloss-title">How to read the stats</div>
+        <dl class="gloss-grid">
+          <div class="gdef"><dt><span class="gchip">PF</span></dt><dd>Profit factor: gross wins &divide; gross losses. Above 1.3 is solid, above 2 is exceptional.</dd></div>
+          <div class="gdef"><dt><span class="gchip">WIN</span></dt><dd>Winning trade percentage.</dd></div>
+          <div class="gdef"><dt><span class="gchip">N</span></dt><dd>Number of trades in the validation sample. Bigger = more trustworthy.</dd></div>
+          <div class="gdef"><dt><span class="gchip">NET</span></dt><dd>Net profit over the stated window, commissions and slippage modeled.</dd></div>
+          <div class="gdef"><dt><span class="gchip">MAX DD</span></dt><dd>Worst peak-to-valley drawdown in the sample.</dd></div>
+          <div class="gdef"><dt><span class="gchip">RODD</span></dt><dd>Return over max drawdown: net profit &divide; worst drawdown over the sample.</dd></div>
+        </dl>
+        <div class="gloss-legend">
+          <span class="gleg"><span class="gsample">STAT</span>verified</span>
+          <span class="gleg"><span class="gsample hot">STAT</span>standout stat</span>
+        </div>
+      </div>
+
+      <div class="tier-head">
+        <span class="tier-tag">BROWSE</span>
+        <h3>By edge</h3>
+        <span class="note">every figure from the validation playbook &middot; best window</span>
+      </div>
+
+      <div class="collections" id="edge">
+        <div class="collection col-value">
+          <div class="col-title">Best value · RoDD</div>
+          <ul><li><a class="sys-link" href="/strategies/spartacus.html"><span class="col-name">Spartacus</span></a><span class="col-stat">21.75× · n=1,302</span></li><li><a class="sys-link" href="/strategies/the-alloy.html"><span class="col-name">The Alloy</span></a><span class="col-stat">19.89× · n=1,234</span></li><li><a class="sys-link" href="/strategies/ny-open-pro.html"><span class="col-name">The Market Maker</span></a><span class="col-stat">15.77× · n=231</span></li><li><a class="sys-link" href="/strategies/china-orb.html"><span class="col-name">The Abacus</span></a><span class="col-stat">12.55× · n=155</span></li></ul>
+        </div>
+        <div class="collection">
+          <div class="col-title">High win rate</div>
+          <ul><li><a class="sys-link" href="/strategies/pool-milestone-pullback.html"><span class="col-name">The Collector</span></a><span class="col-stat">92.2%</span></li><li><a class="sys-link" href="/strategies/1030-fade.html"><span class="col-name">The Grip</span></a><span class="col-stat">80.1%</span></li><li><a class="sys-link" href="/strategies/830-news-fade.html"><span class="col-name">Headline Risk</span></a><span class="col-stat">77.7%</span></li><li><a class="sys-link" href="/strategies/cme-reopen-snap.html"><span class="col-name">The Vise</span></a><span class="col-stat">77.5%</span></li></ul>
+        </div>
+        <div class="collection">
+          <div class="col-title">High return</div>
+          <ul><li><a class="sys-link" href="/strategies/30m-structure-reclaim.html"><span class="col-name">The Press</span></a><span class="col-stat">$423.5k</span></li><li><a class="sys-link" href="/strategies/silver-830-reversal.html"><span class="col-name">Sterling</span></a><span class="col-stat">$163.3k</span></li><li><a class="sys-link" href="/strategies/830-range-fade.html"><span class="col-name">Aftershock</span></a><span class="col-stat">$158.3k</span></li><li><a class="sys-link" href="/strategies/ny-open-pro.html"><span class="col-name">The Market Maker</span></a><span class="col-stat">$98.5k</span></li></ul>
+        </div>
+        <div class="collection">
+          <div class="col-title">High frequency</div>
+          <ul><li><a class="sys-link" href="/strategies/spartacus.html"><span class="col-name">Spartacus</span></a><span class="col-stat">n=1,302</span></li><li><a class="sys-link" href="/strategies/the-alloy.html"><span class="col-name">The Alloy</span></a><span class="col-stat">n=1,234</span></li><li><a class="sys-link" href="/strategies/the-vise-25.html"><span class="col-name">The Clamp · 25pt</span></a><span class="col-stat">n=751</span></li><li><a class="sys-link" href="/strategies/830-range-fade.html"><span class="col-name">Aftershock</span></a><span class="col-stat">n=662</span></li></ul>
+        </div>
+      </div>
+
+      <div class="tier-head">
+        <span class="tier-tag">TIER 1</span>
+        <h3>Flagships</h3>
+        <span class="note">$239&ndash;$509/mo &middot; 6 systems</span>
+      </div>
+
+      <div class="flagships" id="flagships">
+
+        <article class="fcard fc-spartacus">
+          <div class="fcard-top">
+            <span class="fglyph" aria-hidden="true"><svg class="glyph g-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 20v-7a6 6 0 0 1 12 0v7"/><path d="M12 10v10"/><path d="M7.5 13.5h9"/><path d="M8 4.2c2.6-1.9 5.4-1.9 8 0"/></svg></span>
+            <div class="fcard-id">
+              <h4><a class="sys-link" href="/strategies/spartacus.html">Spartacus</a></h4>
+          <div class="card-real">MNQ Two-Trend Chassis</div>
+              <div class="fmeta"><span class="chip chip-mkt">MNQ</span><span class="chip chip-verified">VERIFIED</span></div>
+              <span class="fmeta-note">01 Feb 2026 - 19 Aug 2026</span>
+            </div>
+            <div class="fhero"><b>21.75&times;</b><span>RoDD &middot; best window</span></div>
+          </div>
+          <p class="desc">Two-trend consensus chassis sliced by day-of-week and time-of-day; its strongest 30-minute slot alone netted +$5.0k at an 81% win rate.</p>
+          <div class="fstats"><div class="fstat fstat-star"><b class="lead">21.75</b><span>RoDD</span><i class="star-tag">#1 RODD</i></div><div class="fstat"><b>1.77</b><span>PF</span></div><div class="fstat"><b>67.0%</b><span>Win</span></div><div class="fstat"><b>$27.5k</b><span>Net</span></div><div class="fstat"><b class="dd-gold">$1.3k</b><span>Max DD</span></div><div class="fstat"><b class="lead">1,302</b><span>n</span></div></div>
+          <div class="price-row">
+            <div class="price"><span class="now">$509</span><span class="per">/MO</span></div>
+          </div>
+          <input type="checkbox" id="add-spartacus" class="add-cb"><label for="add-spartacus" class="add-btn add-btn-card"><span class="add-ico" aria-hidden="true"></span><span class="add-txt">Add</span><span class="sr-only"> Spartacus to selection</span></label>
+          <div class="cta-row">
+            <a class="btn" href="/strategies/spartacus.html">View full data<svg class="ic-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" vector-effect="non-scaling-stroke"/><path d="M7 17 17 7" vector-effect="non-scaling-stroke"/></svg></a>
+            <!-- WHOP: replace this product-page link with the Whop checkout link -->
+            <a class="btn btn-buy" href="/strategies/spartacus.html" rel="noopener">Get access</a>
+          </div>
+        </article>
+<article class="fcard fc-the-alloy">
+          <div class="fcard-top">
+            <span class="fglyph" aria-hidden="true"><svg class="glyph g-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 5.5 13 10l-4.5 4.5L4 10z"/><path d="M15.5 9.5 20 14l-4.5 4.5L11 14z"/></svg></span>
+            <div class="fcard-id">
+              <h4><a class="sys-link" href="/strategies/the-alloy.html">The Alloy</a></h4>
+          <div class="card-real">MGC L5+FVGC Combo</div>
+              <div class="fmeta"><span class="chip chip-mkt">MGC</span><span class="chip chip-verified">VERIFIED</span></div>
+              <span class="fmeta-note">01 Nov 2025 - 19 Aug 2026</span>
+            </div>
+            <div class="fhero"><b>19.89&times;</b><span>RoDD &middot; best window</span></div>
+          </div>
+          <p class="desc">Two engines fused and run as one: the 5-minute structure leg and the FVG-continuation leg, both live on gold, captured in-flight.</p>
+          <div class="fstats"><div class="fstat fstat-star"><b class="hot">19.89</b><span>RoDD</span><i class="star-tag">#2 RODD</i></div><div class="fstat"><b>1.64</b><span>PF</span></div><div class="fstat"><b>69.5%</b><span>Win</span></div><div class="fstat"><b>$62.3k</b><span>Net</span></div><div class="fstat"><b class="dd-neon">$3.1k</b><span>Max DD</span></div><div class="fstat"><b class="hot">1,234</b><span>n</span></div></div>
+          <div class="price-row">
+            <div class="price"><span class="now">$469</span><span class="per">/MO</span></div>
+          </div>
+          <input type="checkbox" id="add-the-alloy" class="add-cb"><label for="add-the-alloy" class="add-btn add-btn-card"><span class="add-ico" aria-hidden="true"></span><span class="add-txt">Add</span><span class="sr-only"> The Alloy to selection</span></label>
+          <div class="cta-row">
+            <a class="btn" href="/strategies/the-alloy.html">View full data<svg class="ic-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" vector-effect="non-scaling-stroke"/><path d="M7 17 17 7" vector-effect="non-scaling-stroke"/></svg></a>
+            <!-- WHOP: replace this product-page link with the Whop checkout link -->
+            <a class="btn btn-buy" href="/strategies/the-alloy.html" rel="noopener">Get access</a>
+          </div>
+        </article>
+<article class="fcard fc-ny-open-pro">
+          <div class="fcard-top">
+            <span class="fglyph" aria-hidden="true"><svg class="glyph g-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.4 12 4l8 5.4"/><path d="M6.4 9.4v7.2M12 9.4v7.2M17.6 9.4v7.2"/><path d="M4.5 19.6h15"/></svg></span>
+            <div class="fcard-id">
+              <h4><a class="sys-link" href="/strategies/ny-open-pro.html">The Market Maker</a></h4>
+          <div class="card-real">NY 09:30 Open — two engines</div>
+              <div class="fmeta"><span class="chip chip-mkt">NQ</span><span class="chip chip-verified">VERIFIED</span></div>
+              <span class="fmeta-note">01 Dec 2024 - 17 Aug 2026</span>
+            </div>
+            <div class="fhero"><b>15.77&times;</b><span>RoDD &middot; best window</span></div>
+          </div>
+          <p class="desc">Two engines on the New York open: the inside-entry original (67.9% win across 305 trades) and the expansion-gated v2, published on honest costs. One purchase covers both.</p>
+          <div class="fstats"><div class="fstat"><b class="hot">15.77</b><span>RoDD</span></div><div class="fstat fstat-star"><b class="hot">2.31</b><span>PF</span><i class="star-tag">#2 PF</i></div><div class="fstat"><b>36.4%</b><span>Win</span></div><div class="fstat"><b>$98.5k</b><span>Net</span></div><div class="fstat"><b>$6.2k</b><span>Max DD</span></div><div class="fstat"><b>231</b><span>n</span></div></div>
+          <div class="price-row">
+            <div class="price"><span class="now">$349</span><span class="per">/MO</span></div>
+          </div>
+          <input type="checkbox" id="add-ny-open-pro" class="add-cb"><label for="add-ny-open-pro" class="add-btn add-btn-card"><span class="add-ico" aria-hidden="true"></span><span class="add-txt">Add</span><span class="sr-only"> The Market Maker to selection</span></label>
+          <div class="cta-row">
+            <a class="btn" href="/strategies/ny-open-pro.html">View full data<svg class="ic-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" vector-effect="non-scaling-stroke"/><path d="M7 17 17 7" vector-effect="non-scaling-stroke"/></svg></a>
+            <!-- WHOP: replace this product-page link with the Whop checkout link -->
+            <a class="btn btn-buy" href="/strategies/ny-open-pro.html" rel="noopener">Get access</a>
+          </div>
+        </article>
+<article class="fcard fc-silver-830-reversal">
+          <div class="fcard-top">
+            <span class="fglyph" aria-hidden="true"><svg class="glyph g-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 9.5h9l2.6 7.5H4.9z"/><path d="M17 3.6v3.2"/><path d="M15.4 5.2h3.2"/></svg></span>
+            <div class="fcard-id">
+              <h4><a class="sys-link" href="/strategies/silver-830-reversal.html">Sterling</a></h4>
+          <div class="card-real">SI 08:30 ORB Fade</div>
+              <div class="fmeta"><span class="chip chip-mkt">SI</span><span class="chip chip-verified">VERIFIED</span></div>
+              <span class="fmeta-note">01 May 2024 - 19 Aug 2026</span>
+            </div>
+            <div class="fhero"><b>9.18&times;</b><span>RoDD &middot; best window</span></div>
+          </div>
+          <p class="desc">TV-validated across all six configurations with a uniform small haircut — the first cross-instrument strategy in the program to survive TradingView end-to-end.</p>
+          <div class="fstats"><div class="fstat"><b>9.18</b><span>RoDD</span></div><div class="fstat"><b>1.47</b><span>PF</span></div><div class="fstat"><b>51.7%</b><span>Win</span></div><div class="fstat fstat-star"><b class="hot">$163.3k</b><span>Net</span><i class="star-tag">#2 NET</i></div><div class="fstat"><b>$17.8k</b><span>Max DD</span></div><div class="fstat"><b>557</b><span>n</span></div></div>
+          <div class="price-row">
+            <div class="price"><span class="now">$249</span><span class="per">/MO</span></div>
+          </div>
+          <input type="checkbox" id="add-silver-830-reversal" class="add-cb"><label for="add-silver-830-reversal" class="add-btn add-btn-card"><span class="add-ico" aria-hidden="true"></span><span class="add-txt">Add</span><span class="sr-only"> Sterling to selection</span></label>
+          <div class="cta-row">
+            <a class="btn" href="/strategies/silver-830-reversal.html">View full data<svg class="ic-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" vector-effect="non-scaling-stroke"/><path d="M7 17 17 7" vector-effect="non-scaling-stroke"/></svg></a>
+            <!-- WHOP: replace this product-page link with the Whop checkout link -->
+            <a class="btn btn-buy" href="/strategies/silver-830-reversal.html" rel="noopener">Get access</a>
+          </div>
+        </article>
+<article class="fcard fc-china-orb">
+          <div class="fcard-top">
+            <span class="fglyph" aria-hidden="true"><svg class="glyph g-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="1"/><path d="M4 10.4h16"/><circle cx="8.6" cy="7.7" r="1.15"/><circle cx="13" cy="7.7" r="1.15"/><circle cx="9.4" cy="14.7" r="1.15"/><circle cx="14.6" cy="14.7" r="1.15"/></svg></span>
+            <div class="fcard-id">
+              <h4><a class="sys-link" href="/strategies/china-orb.html">The Abacus</a></h4>
+          <div class="card-real">NQ China ORB</div>
+              <div class="fmeta"><span class="chip chip-mkt">NQ</span><span class="chip chip-verified">VERIFIED</span></div>
+              <span class="fmeta-note">01 Sep 2025 - 16 Aug 2026</span>
+            </div>
+            <div class="fhero"><b>12.55&times;</b><span>RoDD &middot; best window</span></div>
+          </div>
+          <p class="desc">PF 2.31 on the Shanghai open — the highest profit factor of any single-session system in the catalog.</p>
+          <div class="fstats"><div class="fstat"><b class="hot">12.55</b><span>RoDD</span></div><div class="fstat fstat-star"><b class="lead">2.31</b><span>PF</span><i class="star-tag">#1 PF</i></div><div class="fstat"><b>71.0%</b><span>Win</span></div><div class="fstat"><b>$47.5k</b><span>Net</span></div><div class="fstat"><b class="dd-neon">$3.8k</b><span>Max DD</span></div><div class="fstat"><b>155</b><span>n</span></div></div>
+          <div class="price-row">
+            <div class="price"><span class="now">$249</span><span class="per">/MO</span></div>
+          </div>
+          <input type="checkbox" id="add-china-orb" class="add-cb"><label for="add-china-orb" class="add-btn add-btn-card"><span class="add-ico" aria-hidden="true"></span><span class="add-txt">Add</span><span class="sr-only"> The Abacus to selection</span></label>
+          <div class="cta-row">
+            <a class="btn" href="/strategies/china-orb.html">View full data<svg class="ic-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" vector-effect="non-scaling-stroke"/><path d="M7 17 17 7" vector-effect="non-scaling-stroke"/></svg></a>
+            <!-- WHOP: replace this product-page link with the Whop checkout link -->
+            <a class="btn btn-buy" href="/strategies/china-orb.html" rel="noopener">Get access</a>
+          </div>
+        </article>
+<article class="fcard fc-afternoon-reversion">
+          <div class="fcard-top">
+            <span class="fglyph" aria-hidden="true"><svg class="glyph g-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.4" r="1.1"/><path d="M12 5.4 16.6 15"/><circle cx="17.6" cy="17.2" r="2.5"/><path d="M6 14.6a10 10 0 0 0 4 4.2"/></svg></span>
+            <div class="fcard-id">
+              <h4><a class="sys-link" href="/strategies/afternoon-reversion.html">The Pendulum</a></h4>
+          <div class="card-real">NQ PM Fade</div>
+              <div class="fmeta"><span class="chip chip-mkt">NQ</span><span class="chip chip-verified">VERIFIED</span></div>
+              <span class="fmeta-note">01 Feb 2024 - 19 Aug 2026</span>
+            </div>
+            <div class="fhero"><b>8.52&times;</b><span>RoDD &middot; best window</span></div>
+          </div>
+          <p class="desc">Audited against its own worst stretch: the April tariff week cost −$11.3k and the edge still closed the sample ahead — no outlier dependence.</p>
+          <div class="fstats"><div class="fstat"><b>8.52</b><span>RoDD</span></div><div class="fstat"><b>1.33</b><span>PF</span></div><div class="fstat"><b>51.7%</b><span>Win</span></div><div class="fstat"><b>$71.4k</b><span>Net</span></div><div class="fstat"><b>$8.4k</b><span>Max DD</span></div><div class="fstat fstat-star"><b>633</b><span>n</span><i class="star-tag">SIGNATURE</i></div></div>
+          <div class="price-row">
+            <div class="price"><span class="now">$239</span><span class="per">/MO</span></div>
+          </div>
+          <input type="checkbox" id="add-afternoon-reversion" class="add-cb"><label for="add-afternoon-reversion" class="add-btn add-btn-card"><span class="add-ico" aria-hidden="true"></span><span class="add-txt">Add</span><span class="sr-only"> The Pendulum to selection</span></label>
+          <div class="cta-row">
+            <a class="btn" href="/strategies/afternoon-reversion.html">View full data<svg class="ic-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" vector-effect="non-scaling-stroke"/><path d="M7 17 17 7" vector-effect="non-scaling-stroke"/></svg></a>
+            <!-- WHOP: replace this product-page link with the Whop checkout link -->
+            <a class="btn btn-buy" href="/strategies/afternoon-reversion.html" rel="noopener">Get access</a>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="tier-head" id="tier-2">
+        <span class="tier-tag">TIER 2</span>
+        <h3>Core systems</h3>
+        <span class="note">$149&ndash;$199/mo &middot; 8 systems</span>
+      </div>
+
+      <p class="scroll-hint" aria-hidden="true">scroll &rarr;</p>
+      <!-- a11y: unconditional tabindex is an accepted trade-off on this zero-JS page -->
+      <div class="screener" tabindex="0" role="region" aria-label="Core systems table, scrolls horizontally">
+        <table class="stable">
+          <caption class="sr-only">Core systems: validated best-window stats and pricing</caption>
+          <thead>
+            <tr>
+              <th scope="col">System</th>
+              <th scope="col"><abbr title="Return over max drawdown">RoDD</abbr></th>
+              <th scope="col">PF</th>
+              <th scope="col">Win</th>
+              <th scope="col">Net</th>
+              <th scope="col">Max DD</th>
+              <th scope="col">n</th>
+              <th scope="col">Price</th>
+              <th scope="col"><span class="sr-only">Purchase or add to selection</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"><div class="sys"><span class="gcell" aria-hidden="true"><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 4h15"/><path d="M12 4v5"/><path d="M8 9h8"/><path d="M9.8 13.5h4.4v2.6H9.8z"/><path d="M4.5 20h15"/></svg></span><div class="sys-txt"><div class="sys-name-row"><a class="sys-link" href="/strategies/30m-structure-reclaim.html"><span class="sys-name">The Press</span></a><span class="sys-real">NQ 30m Structure Sweep-Reclaim</span><span class="chip chip-mkt">NQ</span><span class="chip chip-verified">VERIFIED</span></div><span class="sys-desc">Metrics are TradingView-run and binding. $423.5k net over the full sample — the largest net figure in the cata</span></div></div></th>
+              <td class="pf">8.33</td><td>1.70</td><td>44.7%</td><td class="lead">$423.5k</td><td>$50.8k</td><td>161</td>
+              <td class="price-cell">$199<span class="per">/mo</span></td>
+              <td class="act-cell"><!-- WHOP: replace this product-page link with the Whop checkout link --><a class="btn btn-buy btn-row" href="/strategies/30m-structure-reclaim.html" rel="noopener">Get access</a><input type="checkbox" id="add-30m-structure-reclaim" class="add-cb"><label for="add-30m-structure-reclaim" class="add-btn"><span class="add-ico" aria-hidden="true"></span><span class="add-txt">Add</span><span class="sr-only"> The Press to selection</span></label></td>
+            </tr>
+            <tr>
+              <th scope="row"><div class="sys"><span class="gcell" aria-hidden="true"><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="14.2" r="5.3"/><path d="M8.9 10.1a4.4 4.4 0 0 1 6.2 0"/></svg></span><div class="sys-txt"><div class="sys-name-row"><a class="sys-link" href="/strategies/es-pullback-fade.html"><span class="sys-name">Counterweight</span></a><span class="sys-real">ES 4H Pullback Fade</span><span class="chip chip-mkt">ES</span><span class="chip chip-verified">VERIFIED</span></div><span class="sys-desc">The S&amp;P port of the 4H pullback fade — same construction, ES clock.</span></div></div></th>
+              <td class="pf">6.60</td><td>1.51</td><td>59.2%</td><td>$49.2k</td><td>$7.4k</td><td>228</td>
+              <td class="price-cell">$189<span class="per">/mo</span></td>
+              <td class="act-cell"><!-- WHOP: replace this product-page link with the Whop checkout link --><a class="btn btn-buy btn-row" href="/strategies/es-pullback-fade.html" rel="noopener">Get access</a><input type="checkbox" id="add-es-pullback-fade" class="add-cb"><label for="add-es-pullback-fade" class="add-btn"><span class="add-ico" aria-hidden="true"></span><span class="add-txt">Add</span><span class="sr-only"> Counterweight to selection</span></label></td>
+            </tr>
+            <tr>
+              <th scope="row"><div class="sys"><span class="gcell" aria-hidden="true"><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="7" width="17" height="10" rx="1"/><circle cx="12" cy="12" r="2.5"/><path d="M6.6 10.6v2.8M17.4 10.6v2.8"/></svg></span><div class="sys-txt"><div class="sys-name-row"><a class="sys-link" href="/strategies/lunch-break-fade.html"><span class="sys-name">Lunch Money</span></a><span class="sys-real">NQ 13:00 Confirmed Fade</span><span class="chip chip-mkt">NQ</span><span class="chip chip-verified">VERIFIED</span></div><span class="sys-desc">The program’s first honest edge, and still deployed. The published 1.38 profit factor is the reconciled, hones</span></div></div></th>
+              <td class="pf">6.66</td><td>1.58</td><td>39.4%</td><td>$62.1k</td><td>$9.3k</td><td>221</td>
+              <td class="price-cell">$189<span class="per">/mo</span></td>
+              <td class="act-cell"><!-- WHOP: replace this product-page link with the Whop checkout link --><a class="btn btn-buy btn-row" href="/strategies/lunch-break-fade.html" rel="noopener">Get access</a><input type="checkbox" id="add-lunch-break-fade" class="add-cb"><label for="add-lunch-break-fade" class="add-btn"><span class="add-ico" aria-hidden="true"></span><span class="add-txt">Add</span><span class="sr-only"> Lunch Money to selection</span></label></td>
+            </tr>
+            <tr>
+              <th scope="row"><div class="sys"><span class="gcell" aria-hidden="true"><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h2.2M8 12h2.2M13 12h2.2M18 12h2.2" opacity=".55"/><path d="M3.5 12c2.1-5.4 4.6-5.4 6.7 0s4.6 5.4 6.7 0 3.1-4 3.6-2.6"/></svg></span><div class="sys-txt"><div class="sys-name-row"><a class="sys-link" href="/strategies/vwap-band-fade.html"><span class="sys-name">Mean Machine</span></a><span class="sys-real">NQ VWAP Band Fade</span><span class="chip chip-mkt">NQ</span><span class="chip chip-verified">VERIFIED</span></div><span class="sys-desc">A 36% win rate that still clears PF 1.46 — wins are engineered larger than losses. Asymmetry is the edge.</span></div></div></th>
+              <td class="pf">6.02</td><td>1.46</td><td>37.3%</td><td>$42.8k</td><td>$7.1k</td><td>236</td>
+              <td class="price-cell">$179<span class="per">/mo</span></td>
+              <td class="act-cell"><!-- WHOP: replace this product-page link with the Whop checkout link --><a class="btn btn-buy btn-row" href="/strategies/vwap-band-fade.html" rel="noopener">Get access</a><input type="checkbox" id="add-vwap-band-fade" class="add-cb"><label for="add-vwap-band-fade" class="add-btn"><span class="add-ico" aria-hidden="true"></span><span class="add-txt">Add</span><span class="sr-only"> Mean Machine to selection</span></label></td>
+            </tr>
+            <tr>
+              <th scope="row"><div class="sys"><span class="gcell" aria-hidden="true"><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4.5 18 10l-6 9.5L6 10z"/><path d="M6.6 10h10.8"/><path d="M9.6 10 12 4.5 14.4 10"/></svg></span><div class="sys-txt"><div class="sys-name-row"><a class="sys-link" href="/strategies/silver-midday-range-fade.html"><span class="sys-name">Argent</span></a><span class="sys-real">SI 13:00 Range Fade</span><span class="chip chip-mkt">SI</span><span class="chip chip-verified">VERIFIED</span></div><span class="sys-desc">Silver’s 13:00 range reversion — 75.9% of trades in the window closed green.</span></div></div></th>
+              <td class="pf">4.18</td><td>1.48</td><td>75.9%</td><td>$92.7k</td><td>$22.2k</td><td>482</td>
+              <td class="price-cell">$159<span class="per">/mo</span></td>
+              <td class="act-cell"><!-- WHOP: replace this product-page link with the Whop checkout link --><a class="btn btn-buy btn-row" href="/strategies/silver-midday-range-fade.html" rel="noopener">Get access</a><input type="checkbox" id="add-silver-midday-range-fade" class="add-cb"><label for="add-silver-midday-range-fade" class="add-btn"><span class="add-ico" aria-hidden="true"></span><span class="add-txt">Add</span><span class="sr-only"> Argent to selection</span></label></td>
+            </tr>
+            <tr>
+              <th scope="row"><div class="sys"><span class="gcell" aria-hidden="true"><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="6" width="16" height="13.5" rx="1"/><path d="M8.4 3.8V8M15.6 3.8V8"/><path d="M4 10.6h16"/><circle cx="15.7" cy="15.9" r="1.5"/></svg></span><div class="sys-txt"><div class="sys-name-row"><a class="sys-link" href="/strategies/friday-orb.html"><span class="sys-name">The Weekender</span></a><span class="sys-real">NQ Friday ORB</span><span class="chip chip-mkt">NQ</span><span class="chip chip-verified">VERIFIED</span></div><span class="sys-desc">One session a week. The Friday opening range, and nothing else.</span></div></div></th>
+              <td class="pf">6.00</td><td>1.61</td><td>64.9%</td><td>$64.0k</td><td>$10.7k</td><td>134</td>
+              <td class="price-cell">$159<span class="per">/mo</span></td>
+              <td class="act-cell"><!-- WHOP: replace this product-page link with the Whop checkout link --><a class="btn btn-buy btn-row" href="/strategies/friday-orb.html" rel="noopener">Get access</a><input type="checkbox" id="add-friday-orb" class="add-cb"><label for="add-friday-orb" class="add-btn"><span class="add-ico" aria-hidden="true"></span><span class="add-txt">Add</span><span class="sr-only"> The Weekender to selection</span></label></td>
+            </tr>
+            <tr>
+              <th scope="row"><div class="sys"><span class="gcell" aria-hidden="true"><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 14.5h3.4l2-8.2 3 12.4 2.4-9 1.6 4.8H21"/></svg></span><div class="sys-txt"><div class="sys-name-row"><a class="sys-link" href="/strategies/830-range-fade.html"><span class="sys-name">Aftershock</span></a><span class="sys-real">NQ 08:30 Range Fade</span><span class="chip chip-mkt">NQ</span><span class="chip chip-verified">VERIFIED</span></div><span class="sys-desc">Post-release reversion on the 08:30 range — the counterpart to the news fade.</span></div></div></th>
+              <td class="pf">3.86</td><td>1.22</td><td>47.9%</td><td class="hot">$158.3k</td><td>$41.0k</td><td>662</td>
+              <td class="price-cell">$159<span class="per">/mo</span></td>
+              <td class="act-cell"><!-- WHOP: replace this product-page link with the Whop checkout link --><a class="btn btn-buy btn-row" href="/strategies/830-range-fade.html" rel="noopener">Get access</a><input type="checkbox" id="add-830-range-fade" class="add-cb"><label for="add-830-range-fade" class="add-btn"><span class="add-ico" aria-hidden="true"></span><span class="add-txt">Add</span><span class="sr-only"> Aftershock to selection</span></label></td>
+            </tr>
+            <tr>
+              <th scope="row"><div class="sys"><span class="gcell" aria-hidden="true"><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.6 20 11.2 4M16.4 20 12.8 4"/><path d="M12 18.4v-2.4M12 12.9v-2.4M12 7.4V5.4" opacity=".7"/></svg></span><div class="sys-txt"><div class="sys-name-row"><a class="sys-link" href="/strategies/frankfurt-continuation.html"><span class="sys-name">Autobahn</span></a><span class="sys-real">NQ Frankfurt Continuation</span><span class="chip chip-mkt">NQ</span><span class="chip chip-verified">VERIFIED</span></div><span class="sys-desc">European-open momentum, taken at the Frankfurt bell.</span></div></div></th>
+              <td class="pf">4.70</td><td>1.58</td><td>55.4%</td><td>$39.1k</td><td>$8.3k</td><td>193</td>
+              <td class="price-cell">$149<span class="per">/mo</span></td>
+              <td class="act-cell"><!-- WHOP: replace this product-page link with the Whop checkout link --><a class="btn btn-buy btn-row" href="/strategies/frankfurt-continuation.html" rel="noopener">Get access</a><input type="checkbox" id="add-frankfurt-continuation" class="add-cb"><label for="add-frankfurt-continuation" class="add-btn"><span class="add-ico" aria-hidden="true"></span><span class="add-txt">Add</span><span class="sr-only"> Autobahn to selection</span></label></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tier-head" id="tier-3">
+        <span class="tier-tag">TIER 3</span>
+        <h3>Session specialists</h3>
+        <span class="note">$119&ndash;$139/mo &middot; 6 systems</span>
+      </div>
+
+      <p class="scroll-hint" aria-hidden="true">scroll &rarr;</p>
+      <!-- a11y: unconditional tabindex is an accepted trade-off on this zero-JS page -->
+      <div class="screener" tabindex="0" role="region" aria-label="Session specialists table, scrolls horizontally">
+        <table class="stable">
+          <caption class="sr-only">Session specialists: validated best-window stats and pricing</caption>
+          <thead>
+            <tr>
+              <th scope="col">System</th>
+              <th scope="col"><abbr title="Return over max drawdown">RoDD</abbr></th>
+              <th scope="col">PF</th>
+              <th scope="col">Win</th>
+              <th scope="col">Net</th>
+              <th scope="col">Max DD</th>
+              <th scope="col">n</th>
+              <th scope="col">Price</th>
+              <th scope="col"><span class="sr-only">Purchase or add to selection</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"><div class="sys"><span class="gcell" aria-hidden="true"><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14.6h16"/><path d="M7 14.6v-2.6a1.5 1.5 0 0 1 3 0v2.6M10.5 14.6v-3.2a1.5 1.5 0 0 1 3 0v3.2M14 14.6v-2.6a1.5 1.5 0 0 1 3 0v2.6"/></svg></span><div class="sys-txt"><div class="sys-name-row"><a class="sys-link" href="/strategies/1030-fade.html"><span class="sys-name">The Grip</span></a><span class="sys-real">NQ 10:30 Fade</span><span class="chip chip-mkt">NQ</span><span class="chip chip-verified">VERIFIED</span></div><span class="sys-desc">Mid-morning reversion with an 80.1% win rate over the published window.</span></div></div></th>
+              <td class="pf">3.86</td><td>1.47</td><td class="hot">80.1%</td><td>$26.9k</td><td>$7.0k</td><td>186</td>
+              <td class="price-cell">$139<span class="per">/mo</span></td>
+              <td class="act-cell"><!-- WHOP: replace this product-page link with the Whop checkout link --><a class="btn btn-buy btn-row" href="/strategies/1030-fade.html" rel="noopener">Get access</a><input type="checkbox" id="add-1030-fade" class="add-cb"><label for="add-1030-fade" class="add-btn"><span class="add-ico" aria-hidden="true"></span><span class="add-txt">Add</span><span class="sr-only"> The Grip to selection</span></label></td>
+            </tr>
+            <tr>
+              <th scope="row"><div class="sys"><span class="gcell" aria-hidden="true"><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 5v14M6.5 5h3.4M6.5 19h3.4"/><path d="M17.5 5v14M17.5 5h-3.4M17.5 19h-3.4"/><circle cx="10.5" cy="12" r="1.25"/><circle cx="13.5" cy="12" r="1.25"/></svg></span><div class="sys-txt"><div class="sys-name-row"><a class="sys-link" href="/strategies/the-vise-25.html"><span class="sys-name">The Clamp · 25pt</span></a><span class="sys-real">NQ LVL-5M v2 tight-stop (25pt)</span><span class="chip chip-mkt">NQ</span><span class="chip chip-verified">VERIFIED</span></div><span class="sys-desc">Tight-stop structure sweep-reclaim, breakeven at 1R. The 25pt geometry — widest stop, deepest sample of the fa</span></div></div></th>
+              <td class="pf">3.05</td><td>1.29</td><td>53.4%</td><td>$98.4k</td><td>$32.2k</td><td>751</td>
+              <td class="price-cell">$139<span class="per">/mo</span></td>
+              <td class="act-cell"><!-- WHOP: replace this product-page link with the Whop checkout link --><a class="btn btn-buy btn-row" href="/strategies/the-vise-25.html" rel="noopener">Get access</a><input type="checkbox" id="add-the-vise-25" class="add-cb"><label for="add-the-vise-25" class="add-btn"><span class="add-ico" aria-hidden="true"></span><span class="add-txt">Add</span><span class="sr-only"> The Clamp · 25pt to selection</span></label></td>
+            </tr>
+            <tr>
+              <th scope="row"><div class="sys"><span class="gcell" aria-hidden="true"><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.6 4h6.8v2.6c2 1.7 2.6 3.2 2.6 5.6a6 6 0 0 1-12 0c0-2.4.6-3.9 2.6-5.6z"/><circle cx="10.6" cy="13.4" r="1.3"/><circle cx="13.7" cy="15.6" r="1.3"/></svg></span><div class="sys-txt"><div class="sys-name-row"><a class="sys-link" href="/strategies/pool-milestone-pullback.html"><span class="sys-name">The Collector</span></a><span class="sys-real">NQ Pool Milestone Pullback</span><span class="chip chip-mkt">NQ</span><span class="chip chip-verified">VERIFIED</span></div><span class="sys-desc">First pool-draw construction to survive a pre-declared split AND TradingView validation — engine and TV matche</span></div></div></th>
+              <td class="pf">3.80</td><td class="hot">2.06</td><td class="lead">92.2%</td><td>$53.2k</td><td>$14.0k</td><td>103</td>
+              <td class="price-cell">$129<span class="per">/mo</span></td>
+              <td class="act-cell"><!-- WHOP: replace this product-page link with the Whop checkout link --><a class="btn btn-buy btn-row" href="/strategies/pool-milestone-pullback.html" rel="noopener">Get access</a><input type="checkbox" id="add-pool-milestone-pullback" class="add-cb"><label for="add-pool-milestone-pullback" class="add-btn"><span class="add-ico" aria-hidden="true"></span><span class="add-txt">Add</span><span class="sr-only"> The Collector to selection</span></label></td>
+            </tr>
+            <tr>
+              <th scope="row"><div class="sys"><span class="gcell" aria-hidden="true"><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="1"/><rect x="7" y="8" width="5.6" height="4"/><path d="M15.4 8.8h1.8M15.4 11.4h1.8M7 15.8h10"/></svg></span><div class="sys-txt"><div class="sys-name-row"><a class="sys-link" href="/strategies/830-news-fade.html"><span class="sys-name">Headline Risk</span></a><span class="sys-real">NQ 08:30 News Fade</span><span class="chip chip-mkt">NQ</span><span class="chip chip-verified">VERIFIED</span></div><span class="sys-desc">Fades the 08:30 data release; 77.7% of trades in the published window closed green.</span></div></div></th>
+              <td class="pf">2.57</td><td>1.42</td><td>77.7%</td><td>$22.7k</td><td>$8.8k</td><td>220</td>
+              <td class="price-cell">$129<span class="per">/mo</span></td>
+              <td class="act-cell"><!-- WHOP: replace this product-page link with the Whop checkout link --><a class="btn btn-buy btn-row" href="/strategies/830-news-fade.html" rel="noopener">Get access</a><input type="checkbox" id="add-830-news-fade" class="add-cb"><label for="add-830-news-fade" class="add-btn"><span class="add-ico" aria-hidden="true"></span><span class="add-txt">Add</span><span class="sr-only"> Headline Risk to selection</span></label></td>
+            </tr>
+            <tr>
+              <th scope="row"><div class="sys"><span class="gcell" aria-hidden="true"><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15.8 5.2a7.2 7.2 0 1 0 0 13.6"/><path d="M15.8 5.2h3.4M15.8 18.8h3.4"/><path d="M19.4 8.4v7.2"/><path d="M17.6 8.4h3.6"/></svg></span><div class="sys-txt"><div class="sys-name-row"><a class="sys-link" href="/strategies/cme-reopen-snap.html"><span class="sys-name">The Vise</span></a><span class="sys-real">NQ CME 18:00 Reopen</span><span class="chip chip-mkt">NQ</span><span class="chip chip-verified">VERIFIED</span></div><span class="sys-desc">The 18:00 Globex reopen, faded with a 77.5% win rate over the window.</span></div></div></th>
+              <td class="pf">1.99</td><td>1.56</td><td>77.5%</td><td>$8.5k</td><td class="dd-neon">$4.3k</td><td>142</td>
+              <td class="price-cell">$119<span class="per">/mo</span></td>
+              <td class="act-cell"><!-- WHOP: replace this product-page link with the Whop checkout link --><a class="btn btn-buy btn-row" href="/strategies/cme-reopen-snap.html" rel="noopener">Get access</a><input type="checkbox" id="add-cme-reopen-snap" class="add-cb"><label for="add-cme-reopen-snap" class="add-btn"><span class="add-ico" aria-hidden="true"></span><span class="add-txt">Add</span><span class="sr-only"> The Vise to selection</span></label></td>
+            </tr>
+            <tr>
+              <th scope="row"><div class="sys"><span class="gcell" aria-hidden="true"><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 5v14M7.5 5h3.6M7.5 19h3.6"/><path d="M16.5 5v14M16.5 5h-3.6M16.5 19h-3.6"/><circle cx="12" cy="12" r="1.4"/></svg></span><div class="sys-txt"><div class="sys-name-row"><a class="sys-link" href="/strategies/the-vise.html"><span class="sys-name">The Clamp</span></a><span class="sys-real">NQ LVL-5M v2 tight-stop (12pt + 15pt)</span><span class="chip chip-mkt">NQ</span><span class="chip chip-verified">VERIFIED</span></div><span class="sys-desc">Tight-stop structure sweep-reclaim, breakeven at 1R. Two stop geometries included — 12pt and 15pt — one engine</span></div></div></th>
+              <td class="pf">2.31</td><td>1.51</td><td>55.9%</td><td>$23.4k</td><td>$10.1k</td><td>177</td>
+              <td class="price-cell">$119<span class="per">/mo</span></td>
+              <td class="act-cell"><!-- WHOP: replace this product-page link with the Whop checkout link --><a class="btn btn-buy btn-row" href="/strategies/the-vise.html" rel="noopener">Get access</a><input type="checkbox" id="add-the-vise" class="add-cb"><label for="add-the-vise" class="add-btn"><span class="add-ico" aria-hidden="true"></span><span class="add-txt">Add</span><span class="sr-only"> The Clamp to selection</span></label></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sec-footnote">
+        <p class="delivery-line">Every product: TradingView invite-only script, activated within 24h.</p>
+        <p class="disclaim-sm">All performance figures are backtested or validation-run results at one-contract scale, shown with commissions and slippage modeled. Backtested performance is hypothetical, does not represent live trading results, and is not a guarantee or projection of future returns. Futures trading involves substantial risk of loss and is not suitable for all investors. Nothing on this site is financial advice. Access provides the strategy tool only; you are responsible for your own trading decisions.</p>
+      </div>
+
+      <!-- ── selection cart: pure CSS (counters + :has), zero JS ─────────
+           Counters accumulate from the checkboxes above, so this block must
+           stay the LAST child of #strategies. Fixed-positioned for display. -->
+      <input type="checkbox" id="cart-collapse" class="cart-cb">
+      <aside class="cart" aria-label="Your selection" aria-live="polite">
+        <div class="cart-top">
+          <span class="cart-title">Selection</span>
+          <span class="cart-count" aria-hidden="true"></span>
+          <label for="cart-collapse" class="cart-toggle"><span class="sr-only">Collapse or expand your selection</span><span class="cart-chev" aria-hidden="true"></span></label>
+        </div>
+        <ul class="cart-lines"><li class="cl cl-spartacus"><span class="cl-name">Spartacus</span><span class="cl-price">$509</span></li><li class="cl cl-the-alloy"><span class="cl-name">The Alloy</span><span class="cl-price">$469</span></li><li class="cl cl-silver-830-reversal"><span class="cl-name">Sterling</span><span class="cl-price">$249</span></li><li class="cl cl-china-orb"><span class="cl-name">The Abacus</span><span class="cl-price">$249</span></li><li class="cl cl-afternoon-reversion"><span class="cl-name">The Pendulum</span><span class="cl-price">$239</span></li><li class="cl cl-30m-structure-reclaim"><span class="cl-name">The Press</span><span class="cl-price">$199</span></li><li class="cl cl-es-pullback-fade"><span class="cl-name">Counterweight</span><span class="cl-price">$189</span></li><li class="cl cl-lunch-break-fade"><span class="cl-name">Lunch Money</span><span class="cl-price">$189</span></li><li class="cl cl-vwap-band-fade"><span class="cl-name">Mean Machine</span><span class="cl-price">$179</span></li><li class="cl cl-silver-midday-range-fade"><span class="cl-name">Argent</span><span class="cl-price">$159</span></li><li class="cl cl-friday-orb"><span class="cl-name">The Weekender</span><span class="cl-price">$159</span></li><li class="cl cl-830-range-fade"><span class="cl-name">Aftershock</span><span class="cl-price">$159</span></li><li class="cl cl-frankfurt-continuation"><span class="cl-name">Autobahn</span><span class="cl-price">$149</span></li><li class="cl cl-pool-milestone-pullback"><span class="cl-name">The Collector</span><span class="cl-price">$129</span></li><li class="cl cl-830-news-fade"><span class="cl-name">Headline Risk</span><span class="cl-price">$129</span></li><li class="cl cl-1030-fade"><span class="cl-name">The Grip</span><span class="cl-price">$139</span></li><li class="cl cl-the-vise-25"><span class="cl-name">The Clamp · 25pt</span><span class="cl-price">$139</span></li><li class="cl cl-cme-reopen-snap"><span class="cl-name">The Vise</span><span class="cl-price">$119</span></li><li class="cl cl-ny-open-pro"><span class="cl-name">The Market Maker</span><span class="cl-price">$349</span></li><li class="cl cl-the-vise"><span class="cl-name">The Clamp</span><span class="cl-price">$119</span></li></ul>
+        <div class="cart-foot">
+          <div class="cart-total"><span class="cart-tlabel">Total</span><span class="cart-sum"></span><span class="cart-per">/mo</span></div>
+          <p class="cart-hint">Three or more? <a href="/strategies/pick-3.html">Pick-3 is $499/mo</a>. Want the catalog? <a href="/strategies/all-access.html">All-Access is $999/mo</a> &mdash; combined list $4,220.</p>
+          <a class="btn btn-buy cart-go" href="#packages">Compare bundles</a>
+          <span class="cart-note">Selections are local to this page &mdash; nothing is stored or sent.</span>
+        </div>
+      </aside>
+
+    </div>
+  </section>
+
+  <!-- ── bundles ──────────────────────────────────────────── -->
+  <section id="packages">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="idx">02 /</span>
+        <h2>Bundles</h2>
+        <span class="note">cancel anytime through whop &middot; annual = 2 months free</span>
+      </div>
+
+      <article class="pack pack-books" id="books">
+        <div class="books-head">
+          <h3><a class="sys-link" href="/strategies/the-books.html">The Books</a></h3>
+          <span class="chip chip-mkt">IN-HOUSE ENGINES</span>
+        </div>
+        <p class="sub">The four engines we run ourselves &mdash; multi-leg routers, live-validated, both windows published. Sold separately from $589/mo; all four together under the price of any two.</p>
+        <ul class="bookdeck"><li class="bookcard bk-midas"><svg class="bk-emblem" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="bk-art"><path d="M9 33.5 12.5 17l7.5 7.5L24 12l4 12.5L35.5 17 39 33.5z"/><path d="M9 37.5h30"/><path class="bk-ray" d="M24 4.5v4M12.8 7.2l2 3M35.2 7.2l-2 3"/><circle cx="16" cy="29.5" r="1.2"/><circle cx="24" cy="28.5" r="1.2"/><circle cx="32" cy="29.5" r="1.2"/></g></svg><a class="sys-link bk-name" href="/strategies/the-midas.html">Midas</a><span class="bk-epithet">Everything it touches</span><span class="bk-int">MGC GOLD BOOK</span><span class="bk-price">$1,189<small>/MO SOLO</small></span></li><li class="bookcard bk-continuum"><svg class="bk-emblem" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="bk-art"><circle cx="24" cy="24" r="19" stroke-dasharray="2.4 5.2" opacity=".55"/><circle cx="24" cy="24" r="11.5"/><path d="M24 24V16M24 24l5.4 3.6"/><path d="M24 13.4v1.8M34.6 24h-1.8M24 34.6v-1.8M13.4 24h1.8" opacity=".7"/><g class="bk-orbit"><circle cx="24" cy="5" r="2"/></g></g></svg><a class="sys-link bk-name" href="/strategies/the-continuum.html">Continuum</a><span class="bk-epithet">Around the clock</span><span class="bk-int">MNQ 24H BOOK</span><span class="bk-price">$989<small>/MO SOLO</small></span></li><li class="bookcard bk-daylight"><svg class="bk-emblem" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="bk-art"><circle cx="24" cy="24" r="8"/><g class="bk-rays"><path d="M24 4.5v5.5M24 38v5.5M4.5 24H10M38 24h5.5M10.2 10.2l3.9 3.9M33.9 33.9l3.9 3.9M37.8 10.2l-3.9 3.9M14.1 33.9l-3.9 3.9"/></g></g></svg><a class="sys-link bk-name" href="/strategies/the-daylight.html">Daylight</a><span class="bk-epithet">One session, settled</span><span class="bk-int">NQ SINGLEDAY BOOK</span><span class="bk-price">$889<small>/MO SOLO</small></span></li><li class="bookcard bk-vault"><svg class="bk-emblem" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="bk-art"><circle cx="24" cy="24" r="18.5"/><circle cx="24" cy="24" r="14.5" stroke-dasharray="1.6 6.05" opacity=".6"/><g class="bk-wheel"><circle cx="24" cy="24" r="7"/><path d="M24 13.5v21M14.9 18.75l18.2 10.5M33.1 18.75l-18.2 10.5"/></g></g></svg><a class="sys-link bk-name" href="/strategies/the-ledger.html">The Vault</a><span class="bk-epithet">Validated legs only</span><span class="bk-int">MNQ VALIDATED BOOK</span><span class="bk-price">$589<small>/MO SOLO</small></span></li></ul>
+        <div class="books-foot">
+          <div class="amount"><s class="was">$3,656<span class="sr-only"> combined solo price,</span></s>$2,999<small>/mo</small></div>
+          <div class="books-ctas">
+            <a class="btn" href="/strategies/the-books.html">View details<svg class="ic-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" vector-effect="non-scaling-stroke"/><path d="M7 17 17 7" vector-effect="non-scaling-stroke"/></svg></a>
+            <!-- WHOP: replace this product-page link with the Whop checkout link -->
+            <a class="btn btn-buy" href="/strategies/the-books.html" rel="noopener">Get the books</a>
+          </div>
+        </div>
+      </article>
+
+      <div class="packs-3">
+
+        <div class="pack pack-starter">
+          <span class="badge-special">STARTER SPECIAL</span>
+          <h3><a class="sys-link" href="/strategies/the-starter.html">The Starter</a></h3>
+          <div class="amount"><s class="was">$387<span class="sr-only"> combined solo price,</span></s>$149<small>/mo</small></div>
+          <p class="sub">Three structure systems, one price. The entry point to the catalog.</p>
+          <ul>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>The Vise &middot; NQ CME 18:00 Reopen</span></li><li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>The Grip &middot; NQ 10:30 Fade</span></li><li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Headline Risk &middot; NQ 08:30 News Fade</span></li>
+          </ul>
+          <!-- WHOP: replace this product-page link with the Whop checkout link -->
+          <a class="btn btn-buy" href="/strategies/the-starter.html" rel="noopener">Get the starter</a>
+        </div>
+
+        <div class="pack popular">
+          <span class="flag">BEST VALUE</span>
+          <h3><a class="sys-link" href="/strategies/all-access.html">All-Access</a></h3>
+          <div class="amount"><s class="was">$4,220<span class="sr-only"> combined list price,</span></s>$999<small>/mo</small></div>
+          <p class="sub">Every validated strategy in the catalog.</p>
+          <ul>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>All 20 live-validated systems, every tier included</span></li>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>New systems included as they clear validation</span></li>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>TradingView invite-only scripts, activated within 24h</span></li>
+            <li class="li-note"><span>The Books not included &mdash; separate premium tier</span></li>
+          </ul>
+          <!-- WHOP: replace this product-page link with the Whop checkout link -->
+          <a class="btn btn-buy" href="/strategies/all-access.html" rel="noopener">Get all-access</a>
+        </div>
+
+        <div class="pack">
+          <h3><a class="sys-link" href="/strategies/pick-3.html">Pick-3</a></h3>
+          <div class="amount"><s class="was">$1,327<span class="sr-only"> worth up to,</span></s>$499<small>/mo</small></div>
+          <p class="sub">Any three systems of your choice &mdash; worth up to $1,327/mo solo.</p>
+          <ul>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Any 3 validated systems from any tier</span></li>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Swap your picks monthly</span></li>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>TradingView invite-only scripts, activated within 24h</span></li>
+          </ul>
+          <!-- WHOP: replace this product-page link with the Whop checkout link -->
+          <a class="btn btn-buy" href="/strategies/pick-3.html" rel="noopener">Get pick-3</a>
+        </div>
+
+      </div>
+
+      <p class="banner">Annual on anything = <b>2 months free</b></p>
+
+      <!-- starter special pop-up: pure CSS, dismissible, bottom-left -->
+      <input type="checkbox" id="pop-dismiss" class="pop-cb">
+      <aside class="special-pop" aria-label="Starter special offer">
+        <label for="pop-dismiss" class="pop-close"><span class="sr-only">Dismiss offer</span><span class="pop-x" aria-hidden="true"></span></label>
+        <span class="badge-special">STARTER SPECIAL</span>
+        <p class="pop-line"><b>3 systems &middot; $149/mo</b></p>
+        <p class="pop-sub">The Vise + The Grip + Headline Risk &mdash; the lowest published drawdowns in the value tiers. Worth <s class="was">$387</s> solo.</p>
+        <!-- WHOP: replace this product-page link with the Whop checkout link -->
+        <a class="btn btn-buy pop-go" href="/strategies/the-starter.html" rel="noopener">Get 3 for $149</a>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ── plan finder ──────────────────────────────────────── -->
+  <!-- pure HTML+CSS quiz: bare radios + labels only — no <form>, nothing submits
+       (CSP form-action 'none'). The four recommendation cards are pre-rendered and
+       gated with body:has(): all four groups must have a checked radio, then exactly
+       one card shows per combination (funded-prop maps with retail). On browsers
+       without :has() the cards stay hidden and the prompt line below remains. -->
+    <section class="creed" aria-label="Data integrity statement">
+    <div class="wrap">
+      <div class="creed-frame">
+      <span class="creed-tag">THE STANDARD</span>
+      <p class="creed-text">Every number on this site comes straight from <span class="hl">verified broker backtests</span>, <span class="hl-strong">commissions and slippage modeled</span>, and is published <span class="hl">exactly as the run produced it</span>.</p>
+      <p class="creed-nots"><span>Nothing smoothed.</span><span>Nothing cherry-picked.</span><span>Nothing inflated.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── why systematic ───────────────────────────────────── -->
+  <section id="why">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="idx">03 /</span>
+        <h2>Why systematic</h2>
+        <span class="note">the case against trading by hand</span>
+      </div>
+
+      <div class="versus">
+        <div class="vs-col vs-manual">
+          <div class="vs-head"><span class="vs-tag">Discretionary</span><h3>By hand</h3></div>
+          <ul>
+            <li>The setup you skip is the one that pays</li>
+            <li>Size creeps up after a loss, down after a win</li>
+            <li>You are awake for one session out of four</li>
+            <li>Rules drift, and you never notice the drift</li>
+            <li>No sample &mdash; every trade feels like the first</li>
+          </ul>
+        </div>
+        <div class="vs-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" vector-effect="non-scaling-stroke"/><path d="m13 6 6 6-6 6" vector-effect="non-scaling-stroke"/></svg>
+        </div>
+        <div class="vs-col vs-system">
+          <div class="vs-head"><span class="vs-tag vs-tag-on">Systematic</span><h3>By rule</h3></div>
+          <ul>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Every qualifying setup taken, or none &mdash; no vetoes</span></li>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Position size is a parameter, not a mood</span></li>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Alerts fire on the Sydney open whether or not you do</span></li>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>The rules are the rules &mdash; readable, fixed, testable</span></li>
+            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>A published sample you can audit before you pay</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pillars">
+        <div class="pillar">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18" vector-effect="non-scaling-stroke"/><path d="m7 14 4-4 3 3 5-6" vector-effect="non-scaling-stroke"/></svg>
+          <h3>Ranked by drawdown, not hype</h3>
+          <p>Every system is ordered by return over max drawdown, backed by its sample size. The metric that survives contact with a real account.</p>
+        </div>
+        <div class="pillar">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18" vector-effect="non-scaling-stroke"/><path d="M3 12h18" vector-effect="non-scaling-stroke"/><circle cx="12" cy="12" r="9" vector-effect="non-scaling-stroke"/></svg>
+          <h3>Sessions, not screen time</h3>
+          <p>Sydney through New York, four markets, thirty-two systems. Alerts arrive on schedule whether you are at the desk or asleep.</p>
+        </div>
+        <div class="pillar">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 12 2 2 4-4" vector-effect="non-scaling-stroke"/><path d="M12 3a9 9 0 1 0 9 9" vector-effect="non-scaling-stroke"/><path d="M21 3 12 12" vector-effect="non-scaling-stroke"/></svg>
+          <h3>Sample size published</h3>
+          <p>Trade counts sit next to every figure, because a profit factor on thirty trades is not the same claim as one on eight hundred. You get to tell the difference.</p>
+        </div>
+        <div class="pillar">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" vector-effect="non-scaling-stroke"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" vector-effect="non-scaling-stroke"/></svg>
+          <h3>Automate it or trade it</h3>
+          <p>Standard TradingView alerts. Route them to your own execution tooling for hands-off operation, or take the signals manually. Same system either way.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── how access works ─────────────────────────────────── -->
+  <section id="how">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="idx">04 /</span>
+        <h2>How access works</h2>
+        <span class="note">whop checkout · tradingview integration</span>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-top">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 3 7.07 16.97 2.51-7.39 7.39-2.51L3 3z" vector-effect="non-scaling-stroke"/><path d="m13 13 6 6" vector-effect="non-scaling-stroke"/></svg>
+            <span class="n">01</span>
+          </div>
+          <h3>Choose a system</h3>
+          <p>Pick a single strategy or a bundle. Every listing shows the market and the stats from its validation sample.</p>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="5" rx="2" vector-effect="non-scaling-stroke"/><line x1="2" x2="22" y1="10" y2="10" vector-effect="non-scaling-stroke"/></svg>
+            <span class="n">02</span>
+          </div>
+          <h3>Check out on Whop</h3>
+          <p>Payment runs through Whop&rsquo;s checkout &mdash; card, Apple Pay, whatever Whop supports. We never see or store your payment details.</p>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" vector-effect="non-scaling-stroke"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" vector-effect="non-scaling-stroke"/></svg>
+            <span class="n">03</span>
+          </div>
+          <h3>Link TradingView</h3>
+          <p>After checkout, Whop asks for your TradingView username. Every product is a TradingView invite-only script, activated within 24h.</p>
+        </div>
+        <div class="step">
+          <div class="step-top">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2" vector-effect="non-scaling-stroke"/></svg>
+            <span class="n">04</span>
+          </div>
+          <h3>Trade with it</h3>
+          <p>Scripts appear under &ldquo;Invite-only&rdquo; in TradingView and fire standard TradingView alerts. Automate those with your own execution tooling, or use them as an aid to manual trading. Cancel anytime; access revokes automatically when a plan lapses.</p>
+        </div>
+      </div>
+
+      <div class="dial-home">
+        <p class="dial-cap">THE SESSION CLOCK &middot; SYDNEY &rarr; SHANGHAI &rarr; FRANKFURT &rarr; NEW YORK &mdash; the futures day never closes; every system owns one slice of it</p>
+      <!-- session rotation dial — purely decorative; no numbers, no performance implication -->
+      <div class="dial-wrap" aria-hidden="true">
+        <svg class="dial" viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg" focusable="false">
+          <!-- outer hairline ring -->
+          <circle class="dial-outer" cx="210" cy="210" r="164" fill="none" stroke="#2A423E" stroke-width="1"/>
+          <!-- fine tick marks: dashed-stroke circle -->
+          <circle class="dial-tickring" cx="210" cy="210" r="152" fill="none" stroke="#2A423E" stroke-width="7" stroke-dasharray="1.5 8.45"/>
+          <!-- session handoff: four arc segments (dasharray quarters), mint at stepped opacities -->
+          <circle class="dial-arc dial-arc-a" cx="210" cy="210" r="118" fill="none" stroke="#56C8A2" stroke-width="2" stroke-dasharray="172 570" stroke-opacity=".9" transform="rotate(3.3 210 210)"/>
+          <circle class="dial-arc dial-arc-b" cx="210" cy="210" r="118" fill="none" stroke="#56C8A2" stroke-width="2" stroke-dasharray="172 570" stroke-opacity=".62" transform="rotate(93.3 210 210)"/>
+          <circle class="dial-arc dial-arc-c" cx="210" cy="210" r="118" fill="none" stroke="#56C8A2" stroke-width="2" stroke-dasharray="172 570" stroke-opacity=".42" transform="rotate(183.3 210 210)"/>
+          <circle class="dial-arc dial-arc-d" cx="210" cy="210" r="118" fill="none" stroke="#56C8A2" stroke-width="2" stroke-dasharray="172 570" stroke-opacity=".26" transform="rotate(273.3 210 210)"/>
+          <!-- session labels -->
+          <text class="dial-label" x="210" y="30" text-anchor="middle" fill="#738D85">SYDNEY</text>
+          <text class="dial-label" x="210" y="30" text-anchor="middle" fill="#738D85" transform="rotate(90 210 210)">SHANGHAI</text>
+          <text class="dial-label" x="210" y="398" text-anchor="middle" fill="#738D85">FRANKFURT</text>
+          <text class="dial-label" x="210" y="30" text-anchor="middle" fill="#738D85" transform="rotate(-90 210 210)">NEW YORK</text>
+          <!-- sweep hand -->
+          <g class="dial-hand">
+            <line x1="210" y1="210" x2="210" y2="74" fill="none" stroke="#56C8A2" stroke-width="1.5"/>
+            <circle class="dial-hub" cx="210" cy="210" r="4.5" fill="#56C8A2"/>
+          </g>
+        </svg>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── security ─────────────────────────────────────────── -->
+  <section id="security">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="idx">05 /</span>
+        <h2>Security by subtraction</h2>
+        <span class="note">a storefront can&rsquo;t leak what it never holds</span>
+      </div>
+
+      <div class="sec-grid">
+        <div class="fact">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" vector-effect="non-scaling-stroke"/><path d="m4.9 4.9 14.2 14.2" vector-effect="non-scaling-stroke"/></svg>
+          <h3>No accounts here</h3>
+          <p>This site is a static page: no logins, no database, no cookies, no analytics, no trackers. There is nothing on it to steal.</p>
+        </div>
+        <div class="fact">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" vector-effect="non-scaling-stroke"/></svg>
+          <h3>Payments handled by Whop</h3>
+          <p>All checkout and billing run on Whop&rsquo;s PCI-compliant infrastructure. Your card details never touch our systems, because we don&rsquo;t have any.</p>
+        </div>
+        <div class="fact">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" vector-effect="non-scaling-stroke"/><path d="M7 11V7a5 5 0 0 1 10 0v4" vector-effect="non-scaling-stroke"/></svg>
+          <h3>Invite-only scripts</h3>
+          <p>Strategies ship as protected, invite-only TradingView scripts. Source code is never distributed; access is per TradingView username.</p>
+        </div>
+        <div class="fact">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" vector-effect="non-scaling-stroke"/><path d="M21 3v5h-5" vector-effect="non-scaling-stroke"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" vector-effect="non-scaling-stroke"/><path d="M8 16H3v5" vector-effect="non-scaling-stroke"/></svg>
+          <h3>Automatic access control</h3>
+          <p>The Whop-to-TradingView integration grants access on purchase and revokes it on cancellation. No manual lists, no forgotten leaks. Served over HTTPS with a strict Content-Security-Policy and zero third-party scripts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── faq ──────────────────────────────────────────────── -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="idx">06 /</span>
+        <h2>FAQ</h2>
+      </div>
+
+      <div class="faq">
+        <details>
+          <summary>Why do you publish two windows &mdash; and why is the best window better than the full 2024+ run?</summary>
+          <p>Because they answer different questions. The best window is the validated configuration run over
+          the period it was built and tuned for &mdash; that is the engine as it ships. The full 2024+ window
+          pushes the same rules across every market regime since January 2024, including ones the engine was
+          never designed for, and that number is usually worse. We publish both anyway: if an edge only
+          exists in its best stretch, the two figures side by side make that visible instead of hidden.
+          Size and judge from the full-window numbers; treat the best window as the ceiling, not the promise.
+          Every figure is from the validation runs &mdash; nothing smoothed, nothing cherry-picked.</p>
+        </details>
+        <details>
+          <summary>Do I need a paid TradingView plan?</summary>
+          <p>No. Invite-only scripts work on every TradingView tier, including the free plan. Higher tiers just give you more simultaneous alerts and charts.</p>
+        </details>
+        <details>
+          <summary>How fast do I get access after buying?</summary>
+          <p>Every purchase is delivered as a TradingView invite-only script, activated within 24h. Whop collects your TradingView username at checkout and the invite is issued to that account.</p>
+        </details>
+        <details>
+          <summary>What exactly do I receive?</summary>
+          <p>The invite-only script itself, activated within 24h, plus alert templates and setup docs. Updates are included for as long as you&rsquo;re subscribed.</p>
+        </details>
+        <details>
+          <summary>Can I automate these strategies?</summary>
+          <p>Yes. Every system fires standard TradingView alerts. Wire them into your own webhook or execution tooling to automate, or trade them manually alongside the signals &mdash; the strategy works either way.</p>
+        </details>
+        <details>
+          <summary>Is every system verified?</summary>
+          <p>Yes. Every system goes through the research program&rsquo;s validation runs before it gets listed, and the published stats come from those runs. Every number on this site comes straight from verified broker backtests, commissions and slippage modeled, and is published exactly as the run produced it. Nothing smoothed, nothing cherry-picked, nothing inflated.</p>
+        </details>
+        <details>
+          <summary>What does one-contract scale mean?</summary>
+          <p>Every Net figure on this site is the net backtest profit over the validation sample at 1-contract NQ/ES/SI/GC scale, shown with commissions and slippage modeled. See the full disclaimer at the bottom of this page.</p>
+        </details>
+        <details>
+          <summary>Can I cancel?</summary>
+          <p>Anytime, in one click, from your Whop account. You keep access until the end of the billing period, then it&rsquo;s revoked automatically.</p>
+        </details>
+        <details>
+          <summary>Are the results guaranteed?</summary>
+          <p>No. All published figures are backtested or validation-run results, and past performance, real or simulated, never guarantees future results. Futures trading carries substantial risk of loss. Read the full risk disclosure at the bottom of this page before purchasing.</p>
+        </details>
+        <details>
+          <summary>Can I share the scripts with someone else?</summary>
+          <p>Licenses are per TradingView username. Access granted to your account is for your use only; shared or resold access is revoked without refund.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── footer ─────────────────────────────────────────────── -->
+<footer>
+  <div class="wrap">
+    <div class="foot-community">
+      <!-- DISCORD: replace this href with the community invite link -->
+      <a class="btn-discord-big" href="#" rel="noopener"><svg class="ic-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.7 17.4c-3.2-.1-4.9-1.7-4.9-1.7.3-4 1.4-6.6 2.7-8.3C7.8 6.4 9.2 6 9.2 6l.5 1.1c1.5-.3 3.1-.3 4.6 0L14.8 6s1.4.4 2.7 1.4c1.3 1.7 2.4 4.3 2.7 8.3 0 0-1.7 1.6-4.9 1.7l-.8-1.1c-1.6.3-3.4.3-5 0z"/><circle cx="9.6" cy="12.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.6" r="1.15" fill="currentColor" stroke="none"/></svg><span>Join the Community!</span></a>
+    </div>
+    <div class="foot-links">
+      <a href="#strategies">Strategies</a>
+      <a href="#packages">Bundles</a>
+      <a href="#how">How access works</a>
+      <a href="/terms.html">Terms</a>
+      <a href="/privacy.html">Privacy</a>
+      <!-- DISCORD: replace this href with the community invite link -->
+      <a href="#" rel="noopener">Discord</a>
+      <!--email_off--><a href="mailto:support@goal33systems.com">support@goal33systems.com</a><!--/email_off-->
+    </div>
+
+    <p class="disclaimer">All performance figures are backtested or validation-run results at one-contract scale, shown with commissions and slippage modeled. Backtested performance is hypothetical, does not represent live trading results, and is not a guarantee or projection of future returns. Futures trading involves substantial risk of loss and is not suitable for all investors. Nothing on this site is financial advice. Access provides the strategy tool only; you are responsible for your own trading decisions.</p>
+
+    <p class="disclaimer">
+      <strong>Risk disclosure.</strong> Futures and derivatives trading involves substantial risk of loss
+      and is not suitable for every investor. You may lose more than your initial investment. Only risk
+      capital should be used for trading, and only those with sufficient risk capital should consider trading.
+      <strong>Hypothetical performance disclaimer.</strong> Performance figures displayed on this site are
+      hypothetical or simulated. Hypothetical performance results have many inherent limitations. No
+      representation is being made that any account will or is likely to achieve profits or losses similar
+      to those shown; in fact, there are frequently sharp differences between hypothetical performance
+      results and the actual results subsequently achieved by any particular trading program. One of the
+      limitations of hypothetical performance results is that they are generally prepared with the benefit
+      of hindsight. Goal33 Systems is a software publisher. Nothing on this site constitutes financial,
+      investment, legal, or tax advice, or a solicitation to buy or sell any financial instrument. Purchases,
+      billing, and subscription management are processed by Whop; TradingView is a trademark of TradingView, Inc.
+    </p>
+
+    <div class="copyright">© 2026 GOAL33 SYSTEMS · GOAL33SYSTEMS.COM</div>
+  </div>
+</footer>
+
+</body>
+</html>

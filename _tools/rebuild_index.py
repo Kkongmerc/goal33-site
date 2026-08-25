@@ -32,7 +32,7 @@ def market_chips(meta):
 doc = open(os.path.join(BASE, "index.html"), encoding="utf-8").read()
 
 # ── preserve hand-written blocks inside #strategies ─────────────
-gl = re.search(r'(<div class="glossary">.*?)(?=\n\s*(?:<article|<div class="tier-head"|<div class="collections"))', doc, re.S)
+gl = re.search(r'(<div class="glossary">.*?)(?=\n\s*(?:<article|<div class="tier-head"|<div class="collections"|<div class="prelaunch"))', doc, re.S)
 GLOSSARY = re.sub(r'(?:\s*<!--[^>]*-->)+\s*$', '', gl.group(1)).rstrip() if gl else ""
 fn = re.search(r'(<div class="sec-footnote">.*?</div>)\s*\n', doc, re.S)
 FOOTNOTE = fn.group(1) if fn else ""
@@ -49,11 +49,14 @@ ACTCELL = lambda slug, name: (
     f'<label for="add-{slug}" class="add-btn"><span class="add-ico" aria-hidden="true"></span>'
     f'<span class="add-txt">Add</span><span class="sr-only"> {esc(name)} to selection</span></label></td>')
 
+# PRE-LAUNCH: no published products -> placeholder band instead of catalog
+PRELAUNCH = not S
+
 LEAD_KEYS = ["RoDD", "PF", "Win", "Net", "Trades"]
-LEADERS = {k: max(S, key=lambda p: num(bs(p, k)))["slug"] for k in LEAD_KEYS}
+LEADERS = {} if PRELAUNCH else {k: max(S, key=lambda p: num(bs(p, k)))["slug"] for k in LEAD_KEYS}
 def val_cls(p, k):
     v = bs(p, k)
-    if k in LEAD_KEYS and LEADERS[k] == p["slug"]:
+    if k in LEAD_KEYS and LEADERS.get(k) == p["slug"]:
         return "lead"
     return "hot" if is_hot(k, v) else ""
 
@@ -72,11 +75,18 @@ for _k in RANK_KEYS:
         RANKS[(_p["slug"], _k)] = _i + 1
 STAR_PRIORITY = ["RoDD", "Net", "Win", "Max DD", "PF", "Trades"]
 def star_key(p):
-    best = min(RANK_KEYS, key=lambda k: (RANKS[(p["slug"], k)], STAR_PRIORITY.index(k)))
+    best = min(RANK_KEYS, key=lambda k: (RANKS.get((p["slug"], k), 99), STAR_PRIORITY.index(k)))
     return best
 
 srt = sorted(S, key=lambda x: -x["price"])
 TIER1, TIER2, TIER3 = srt[:6], [x for x in srt[6:] if x["price"] >= 149], [x for x in srt[6:] if x["price"] < 149]
+_D = {"slug": "tbd", "name": "TBD", "actual": "TBD", "meta": "TBD", "window": "TBD",
+      "price": 0, "sep": ["TBD"], "legs": [],
+      "best": {"label": "TBD", "stats": {k: "0" for k in
+               ["RoDD", "PF", "Win", "Net", "Max DD", "Trades", "$/trade", "Months", "RoDD/mo"]}},
+      "full": {"label": "TBD", "stats": {}}}
+if PRELAUNCH:
+    TIER1 = TIER2 = TIER3 = [_D]   # placeholder-evaluated, then overridden
 
 # ── flagship cards ──────────────────────────────────────────────
 def fcard(p):
@@ -89,7 +99,7 @@ def fcard(p):
         hot = f' class="{" ".join(cls)}"' if cls else ""
         tile_cls = "fstat fstat-star" if k == star else "fstat"
         if k == star:
-            r = RANKS[(p["slug"], k)]
+            r = RANKS.get((p["slug"], k), 99)
             lab_tag = f"#{r} {'MAX DD' if k == 'Max DD' else k.upper()}" if r <= 3 else "SIGNATURE"
             tag = f'<i class="star-tag">{lab_tag}</i>'
         else:
@@ -145,7 +155,7 @@ def table(tier, label, items, anchor):
     return f"""<div class="tier-head" id="{anchor}">
         <span class="tier-tag">{tier}</span>
         <h3>{label}</h3>
-        <span class="note">${min(p['price'] for p in items)}&ndash;${max(p['price'] for p in items)}/mo &middot; {len(items)} systems</span>
+        <span class="note">${min((p['price'] for p in items), default=0)}&ndash;${max((p['price'] for p in items), default=0)}/mo &middot; {len(items)} systems</span>
       </div>
 
       <p class="scroll-hint" aria-hidden="true">scroll &rarr;</p>
@@ -259,6 +269,67 @@ strategies = f"""<section id="strategies">
     </div>
   </section>"""
 
+
+# ── PRE-LAUNCH overrides: keep every template, publish a landing ────
+if PRELAUNCH:
+    slots = "".join(
+        f'<li class="slot"><span class="slot-n">{i:02d}</span>'
+        f'<span class="slot-lab">FLAGSHIP {i:02d}</span>'
+        f'<span class="slot-sub">in validation</span></li>'
+        for i in range(1, 6))
+    strategies = f"""<section id="strategies">
+    <div class="wrap">
+      <div class="sec-head sec-head-dial">
+        <span class="idx">01 /</span>
+        <h2>Strategies</h2>
+        <span class="note">new lineup in validation &middot; top five first</span>
+        <!-- session rotation dial — purely decorative; no numbers, no performance implication --> <div class="dial-wrap sec-dial" aria-hidden="true"> <svg class="dial" viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg" focusable="false"> <!-- outer hairline ring --> <circle class="dial-outer" cx="210" cy="210" r="164" fill="none" stroke="#2A423E" stroke-width="1"/> <!-- fine tick marks: dashed-stroke circle --> <circle class="dial-tickring" cx="210" cy="210" r="152" fill="none" stroke="#2A423E" stroke-width="7" stroke-dasharray="1.5 8.45"/> <!-- session handoff: four arc segments (dasharray quarters), mint at stepped opacities --> <circle class="dial-arc dial-arc-a" cx="210" cy="210" r="118" fill="none" stroke="#56C8A2" stroke-width="2" stroke-dasharray="172 570" stroke-opacity=".9" transform="rotate(3.3 210 210)"/> <circle class="dial-arc dial-arc-b" cx="210" cy="210" r="118" fill="none" stroke="#56C8A2" stroke-width="2" stroke-dasharray="172 570" stroke-opacity=".62" transform="rotate(93.3 210 210)"/> <circle class="dial-arc dial-arc-c" cx="210" cy="210" r="118" fill="none" stroke="#56C8A2" stroke-width="2" stroke-dasharray="172 570" stroke-opacity=".42" transform="rotate(183.3 210 210)"/> <circle class="dial-arc dial-arc-d" cx="210" cy="210" r="118" fill="none" stroke="#56C8A2" stroke-width="2" stroke-dasharray="172 570" stroke-opacity=".26" transform="rotate(273.3 210 210)"/> <!-- session labels --> <text class="dial-label" x="210" y="30" text-anchor="middle" fill="#738D85">SYDNEY</text> <text class="dial-label" x="210" y="30" text-anchor="middle" fill="#738D85" transform="rotate(90 210 210)">SHANGHAI</text> <text class="dial-label" x="210" y="398" text-anchor="middle" fill="#738D85">FRANKFURT</text> <text class="dial-label" x="210" y="30" text-anchor="middle" fill="#738D85" transform="rotate(-90 210 210)">NEW YORK</text> <!-- sweep hand --> <g class="dial-hand"> <line x1="210" y1="210" x2="210" y2="74" fill="none" stroke="#56C8A2" stroke-width="1.5"/> <circle class="dial-hub" cx="210" cy="210" r="4.5" fill="#56C8A2"/> </g> </svg> </div>
+      </div>
+
+      {GLOSSARY}
+
+      <div class="prelaunch" id="flagships">
+        <span class="pl-tag">NEW LINEUP LOADING</span>
+        <h3>The catalog is being rebuilt from scratch.</h3>
+        <p>Every system that ships here goes through the same gate: validated runs,
+        commissions and slippage modeled, both windows published, priced by the same
+        RoDD formula. The previous catalog is retired; the first five flagships land
+        as they clear validation.</p>
+        <ul class="pl-slots" id="tier-2">{slots}</ul>
+        <div class="pl-ctas" id="tier-3">
+          <!-- DISCORD: replace this href with the community invite link -->
+          <a class="btn btn-buy" href="#" rel="noopener">Get told the day they land</a>
+          <a class="btn" href="/#how">How access will work</a>
+        </div>
+        <div id="edge"></div>
+      </div>
+
+      {FOOTNOTE}
+    </div>
+  </section>"""
+    packages_prelaunch = f"""<section id="packages">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="idx">02 /</span>
+        <h2>Bundles</h2>
+        <span class="note">return with the new lineup</span>
+      </div>
+      <div class="prelaunch" id="books">
+        <span class="pl-tag">PRICING HOLDS</span>
+        <h3>Bundles come back the day the catalog does.</h3>
+        <p>The structure is already set &mdash; a Starter trio, Pick&#8209;3, All&#8209;Access,
+        and the in&#8209;house Books &mdash; and every bundle will show its combined solo
+        worth struck through, same as before. Numbers publish when the systems do.</p>
+      </div>
+    </div>
+  </section>"""
+    cf_panes_override = "".join(
+        f'<div class="cf-pane"><a class="cf-link" href="/#strategies">'
+        f'<b class="cf-name">FLAGSHIP {i:02d}</b>'
+        f'<span class="cf-stat">IN VALIDATION</span></a>'
+        f'<label class="cf-pick" for="cf-{i}"><span class="sr-only">Bring slot {i} to the front</span></label></div>'
+        for i in range(1, 7))
+
 doc = re.sub(r'<section id="strategies">.*?</section>', strategies, doc, count=1, flags=re.S)
 
 # ── bundles section ─────────────────────────────────────────────
@@ -289,7 +360,7 @@ packages = f"""<section id="packages">
           <h3><a class="sys-link" href="/strategies/the-books.html">The Books</a></h3>
           <span class="chip chip-mkt">IN-HOUSE ENGINES</span>
         </div>
-        <p class="sub">The four engines we run ourselves &mdash; multi-leg routers, live-validated, both windows published. Sold separately from ${min(b['price'] for b in B):,}/mo; all four together under the price of any two.</p>
+        <p class="sub">The four engines we run ourselves &mdash; multi-leg routers, live-validated, both windows published. Sold separately from ${min((b['price'] for b in B), default=0):,}/mo; all four together under the price of any two.</p>
         <ul class="bookdeck">{book_lis}</ul>
         <div class="books-foot">
           <div class="amount"><s class="was">${BN['books_all']['combined']:,}<span class="sr-only"> combined solo price,</span></s>${BN['books_all']['price']:,}<small>/mo</small></div>
@@ -309,7 +380,7 @@ packages = f"""<section id="packages">
           <div class="amount"><s class="was">${BN['starter']['combined']}<span class="sr-only"> combined solo price,</span></s>${BN['starter']['price']}<small>/mo</small></div>
           <p class="sub">Three structure systems, one price. The entry point to the catalog.</p>
           <ul>
-            {"".join(f'<li>{inc_check}<span>{esc(next(s for s in S if s["slug"] == sl)["name"])} &middot; {esc(next(s for s in S if s["slug"] == sl)["actual"])}</span></li>' for sl in BN['starter']['slugs'])}
+            {"".join(f'<li>{inc_check}<span>{esc(next((s for s in S if s["slug"] == sl), _D)["name"])} &middot; {esc(next((s for s in S if s["slug"] == sl), _D)["actual"])}</span></li>' for sl in BN['starter']['slugs'])}
           </ul>
           <!-- WHOP: replace this product-page link with the Whop checkout link -->
           <a class="btn btn-buy" href="/strategies/the-starter.html" rel="noopener">Get the starter</a>
@@ -353,19 +424,27 @@ packages = f"""<section id="packages">
         <label for="pop-dismiss" class="pop-close"><span class="sr-only">Dismiss offer</span><span class="pop-x" aria-hidden="true"></span></label>
         <span class="badge-special">STARTER SPECIAL</span>
         <p class="pop-line"><b>3 systems &middot; ${BN['starter']['price']}/mo</b></p>
-        <p class="pop-sub">{" + ".join(esc(next(s for s in S if s["slug"] == sl)["name"]) for sl in BN['starter']['slugs'])} &mdash; the lowest published drawdowns in the value tiers. Worth <s class="was">${BN['starter']['combined']}</s> solo.</p>
+        <p class="pop-sub">{" + ".join(esc(next((s for s in S if s["slug"] == sl), _D)["name"]) for sl in BN['starter']['slugs'])} &mdash; the lowest published drawdowns in the value tiers. Worth <s class="was">${BN['starter']['combined']}</s> solo.</p>
         <!-- WHOP: replace this product-page link with the Whop checkout link -->
         <a class="btn btn-buy pop-go" href="/strategies/the-starter.html" rel="noopener">Get 3 for ${BN['starter']['price']}</a>
       </aside>
     </div>
   </section>"""
 
+if PRELAUNCH:
+    packages = packages_prelaunch
 doc = re.sub(r'<section id="packages">.*?</section>', packages, doc, count=1, flags=re.S)
 
 # ── ticker, stats strip, hero lede, finder prices, counts ───────
-tick_names = [(p["name"].upper()) for p in sorted(S, key=lambda x: -num(bs(x, "RoDD")))[:7]]
+tick_names = [] if PRELAUNCH else [(p["name"].upper()) for p in sorted(S, key=lambda x: -num(bs(x, "RoDD")))[:7]]
 tick = "".join(f"<span>{esc(n)} · VERIFIED</span>" for n in tick_names)
-half = (f"<span>{len(S)} SYSTEMS · 4 BOOKS</span>"
+if PRELAUNCH:
+    half = ("<span>NEW LINEUP IN VALIDATION</span>"
+            "<span>SESSION: SYDNEY → SHANGHAI → FRANKFURT → NEW YORK</span>"
+            "<span>TOP FIVE FLAGSHIPS FIRST</span>"
+            "<span>DELIVERY: TRADINGVIEW INVITE-ONLY · ACTIVATED WITHIN 24H</span>")
+else:
+    half = (f"<span>{len(S)} SYSTEMS · 4 BOOKS</span>"
         f"<span>SESSION: SYDNEY → SHANGHAI → FRANKFURT → NEW YORK</span>"
         + tick +
         f"<span>MARKETS: MNQ · NQ · MGC · SI · ES</span>"
@@ -374,31 +453,37 @@ doc = re.sub(r'(<div class="ticker-track">\s*).*?(\s*</div>\s*</div>\s*</div>)',
              lambda m: m.group(1) + half + half + m.group(2), doc, count=1, flags=re.S)
 
 stats_strip = f"""<ul class="stats wrap">
-    <li><b>{len(S) + len(B)}</b><span>Validated products</span></li>
+    <li><b>{'5' if PRELAUNCH else len(S) + len(B)}</b><span>{'Flagship slots reserved' if PRELAUNCH else 'Validated products'}</span></li>
     <li><b>5</b><span class="oneline">MNQ·NQ·MGC·SI·ES</span></li>
     <li><b>2&times;</b><span>Windows published</span></li>
     <li><b>24h</b><span>Activation window</span></li>
   </ul>"""
 doc = re.sub(r'<ul class="stats wrap">.*?</ul>', stats_strip, doc, count=1, flags=re.S)
 
+LEDE = ("""<p class="lede">
+          The catalog is being rebuilt. Every system that publishes here is live-validated
+          &mdash; best window and full 2024+ window, both shown, commissions and slippage modeled.
+          The top five flagships land first; nothing is listed before it clears the gate.
+          TradingView invite-only scripts, activated within 24h. Checkout runs through Whop.
+        </p>""" if PRELAUNCH else f"""<p class="lede">""")
 doc = re.sub(r'<p class="lede">.*?</p>',
-    f"""<p class="lede">
+    LEDE if PRELAUNCH else f"""<p class="lede">
           FuturesTradingBots sells the session systems we actually run: {len(S)} live-validated strategies and four
           in-house books across MNQ, NQ, MGC, SI, and ES futures. Every figure comes from the validation
           playbook &mdash; best window and full 2024+ window, both published. TradingView invite-only
           scripts, activated within 24h. Checkout runs through Whop.
         </p>""", doc, count=1, flags=re.S)
 
-for old, new in [("$4,999", "$2,999"), ("all four in-house engines · each also solo at $1,499/mo", f"all four in-house engines · solo from ${min(b['price'] for b in B)}/mo"),
-                 ("each also solo at $1,499/mo", f"solo from ${min(b['price'] for b in B)}/mo"),
-                 ("Start with one system from $59/mo", f"Start with one system from ${min(p['price'] for p in S)}/mo"),
-                 ("from $59/mo", f"from ${min(p['price'] for p in S)}/mo")]:
+for old, new in [("$4,999", "$2,999"), ("all four in-house engines · each also solo at $1,499/mo", f"all four in-house engines · solo from ${min((b['price'] for b in B), default=0)}/mo"),
+                 ("each also solo at $1,499/mo", f"solo from ${min((b['price'] for b in B), default=0)}/mo"),
+                 ("Start with one system from $59/mo", f"Start with one system from ${min((p['price'] for p in S), default=0)}/mo"),
+                 ("from $59/mo", f"from ${min((p['price'] for p in S), default=0)}/mo")]:
     doc = doc.replace(old, new)
 
 cf_radios = ('<input class="cf-r" type="radio" name="cf-sel" id="cf-0" checked>'
              + "".join(f'<input class="cf-r" type="radio" name="cf-sel" id="cf-{i+1}">'
                        for i in range(len(TIER1))))
-cf_panes = "".join(
+cf_panes = cf_panes_override if PRELAUNCH else "".join(
     f'<div class="cf-pane fc-{p["slug"]}">'
     f'<a class="cf-link" href="/strategies/{p["slug"]}.html">'
     + glyph(p["slug"], "glyph cf-glyph")
@@ -407,7 +492,10 @@ cf_panes = "".join(
     f'<label class="cf-pick" for="cf-{i+1}"><span class="sr-only">Bring {esc(p["name"])} to the front</span></label>'
     f'</div>'
     for i, p in enumerate(TIER1))
-cf_dots = "".join(
+cf_dots_prelaunch = "".join(
+    f'<label class="cf-dot" for="cf-{i}"><span class="sr-only">Flagship slot {i}</span></label>'
+    for i in range(1, 7))
+cf_dots = cf_dots_prelaunch if PRELAUNCH else "".join(
     f'<label class="cf-dot fc-{p["slug"]}" for="cf-{i+1}"><span class="sr-only">{esc(p["name"])}</span></label>'
     for i, p in enumerate(TIER1))
 cf_html = (cf_radios + f'<div class="cf-stage">{cf_panes}</div>'
@@ -429,6 +517,8 @@ incs = NL.join(
     f"#add-{p['slug']}:checked + .add-btn {{ counter-increment: cart 1 total {p['price']}; }}"
     for p in S)
 reveals = ("," + NL).join(f"#strategies:has(#add-{p['slug']}:checked) .cl-{p['slug']}" for p in S)
+if PRELAUNCH:
+    S_rules = []
 block = ("/* CARTGEN:rules " + chr(8212) + " generated from catalog2.json; do not hand-edit */" + NL
          + incs + NL
          + reveals + " {" + NL

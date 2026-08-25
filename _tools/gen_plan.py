@@ -19,6 +19,8 @@ _HERE = os.path.dirname(os.path.abspath(__file__))
 BASE = os.path.dirname(_HERE)
 CAT = json.load(open(os.path.join(_HERE, "catalog2.json"), encoding="utf-8"))
 S, B, BN = CAT["strategies"], CAT["books"], CAT["bundles"]
+# PRE-LAUNCH: an empty catalog cannot honestly recommend anything
+PRELAUNCH = not S
 SITE = "https://futurestradingbots.com"
 CSSV = hashlib.md5(open(os.path.join(BASE, "assets", "main.css"), "rb").read()).hexdigest()[:8]
 
@@ -150,7 +152,7 @@ def trio_block(trio, tkey):
 
 # build all combo panels
 panels = ""
-for bkey, blab, bdesc, cap in BUDGETS:
+for bkey, blab, bdesc, cap in ([] if PRELAUNCH else BUDGETS):
     pool = eligible(cap)
     for tkey, tlab, tdesc in TEMPS:
         ranked = sorted(pool, key=sort_key(tkey))
@@ -160,7 +162,7 @@ for bkey, blab, bdesc, cap in BUDGETS:
 
 # fleet (all-access) panels — budget-aware
 starter_slugs = BN["starter"]["slugs"]
-starter_names = [p["name"] for p in S if p["slug"] in starter_slugs]
+starter_names = [p["name"] for p in S if p["slug"] in starter_slugs] or ["TBD"]
 fleet_small = f"""<div class="pr" id="r-s3-small">
   <div class="pr-card">
     <div class="pr-head"><div class="pr-id"><span class="pr-name">The Starter</span>
@@ -193,7 +195,7 @@ fleet_big = f"""<div class="pr" id="r-s3-big">
 # books panel — mini deck, same skins as the index band
 BOOK_SKIN = {"the-midas": "bk-midas", "the-continuum": "bk-continuum",
              "the-daylight": "bk-daylight", "the-ledger": "bk-vault"}
-book_cards = "".join(
+book_cards = "" if PRELAUNCH else "".join(
     f'<li class="bookcard {BOOK_SKIN[b["slug"]]}">{emblem(b["slug"])}'
     f'<a class="sys-link bk-name" href="/strategies/{b["slug"]}.html">{esc(b["name"])}</a>'
     f'<span class="bk-int">{esc(b["actual"]).upper()}</span>'
@@ -205,7 +207,7 @@ books_panel = f"""<div class="pr" id="r-s4">
       <div class="pr-price"><s class="was">${BN['books_all']['combined']:,}</s>${BN['books_all']['price']:,}<small>/MO</small></div>
     </div>
     <ul class="bookdeck bookdeck-mini">{book_cards}</ul>
-    <p class="pr-why">Multi-leg routers, live-validated, both windows published. Solo from ${min(b['price'] for b in B):,}/mo; all four together under the price of any two.</p>
+    <p class="pr-why">Multi-leg routers, live-validated, both windows published. Solo from ${min((b['price'] for b in B), default=0):,}/mo; all four together under the price of any two.</p>
     <div class="pr-ctas">
       <a class="btn" href="/strategies/the-books.html">See The Books</a>
       <!-- WHOP: replace with checkout link (The Books) -->
@@ -295,6 +297,22 @@ pmt_panel = """<aside class="pr pr-exec" id="r-e2">
           the product page, and take every signal: the published stats assume no cherry-picking.</p>
         </div>
       </aside>"""
+
+if PRELAUNCH:
+    qs = """      <div class="prelaunch">
+        <span class="pl-tag">FINDER OFFLINE</span>
+        <h3>The plan finder returns with the new lineup.</h3>
+        <p>This page matches you to a system by drawdown budget and temperament &mdash; it
+        needs a published catalog to do that honestly, and the new one is still in
+        validation. Nothing here will guess. It switches back on the day the first
+        flagship lands.</p>
+        <div class="pl-ctas">
+          <a class="btn btn-buy" href="/#strategies">See what is coming</a>
+          <!-- DISCORD: replace this href with the community invite link -->
+          <a class="btn" href="#" rel="noopener">Get told when it lands</a>
+        </div>
+      </div>"""
+    panels = fleet_small = fleet_big = books_panel = pmt_panel = ""
 
 page = f"""<!DOCTYPE html>
 <html lang="en">
