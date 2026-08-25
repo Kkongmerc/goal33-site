@@ -75,18 +75,30 @@ recommends the cheaper path instead (The Starter if it IS that trio, otherwise
 
 ## TOP-5 LAUNCH STATE (current)
 
-The five RoDD-board leaders are PUBLISHED in `catalog2.json` -> `strategies[]`:
-continuum ($909) / midas ($759) / aftershock ($699) / strongbox ($699) /
-slipstream ($649) — prices formula-driven from replayed best-window RoDD x n.
+Five RoDD-board rows are PUBLISHED in `catalog2.json` -> `strategies[]`:
+continuum ($909) / midas ($759) / aftershock ($699) / slipstream ($649) /
+bellwether ($299) — board rows 1, 2, 3, 5 and 6. **Row 4 (MNQ Strong Book) was
+pulled by the owners**; its glyph, `fc-strongbox` skin and archive entry are all
+intact, so republishing is one tuple away. Prices are formula-driven from
+replayed best-window RoDD x n — bellwether is cheap because n=66, which is the
+formula working, not a discount.
 Every number is a closed-trade replay of the committed TradingView export the
 owners' validation board used (verified digit-for-digit against the board).
 **Real trade data lives in `_tools/trades/<slug>.json`** (equity points, daily
 P&L, full closed-trade list — derived numbers only, never settings or research
 identifiers): it powers the real equity curves, the filled daily calendars,
-and the product pages' List-of-trades tab. Books/bundles stay pending
-(`books[]` empty -> the #packages section renders a 'books are next' band and
-bundle pages are skipped). The hero carousel runs 5 slots. Cool names are
-lineage picks and renameable anytime — slugs never change.
+and the product pages' List-of-trades tab.
+
+Bundle pages generate on their own guards, NOT on one flag: `HAS_BUNDLES`
+(strategies exist) writes all-access + pick-3; `HAS_BOOKS_BUNDLE` writes
+the-books; `HAS_STARTER` writes the-starter only while every member slug is
+still in the catalog. Struck "combined" prices are summed from the live catalog
+at build time — never stored constants. Books stay pending (`books[]` empty ->
+#packages renders a 'books are next' band, the plan finder's books panel becomes
+a pending band, and the small-budget branch recommends the cheapest real
+strategy instead of the retired Starter). The ticker's market list and product
+counts are derived from the catalog too. The hero carousel runs 5 slots. Cool
+names are lineage picks and renameable anytime — slugs never change.
 
 ## PRE-LAUNCH MODE (dormant machinery)
 
@@ -113,6 +125,16 @@ UI (cards, tables, cart, carousel, plan finder, bundles) comes back by itself.
 2. **Never take performance numbers from Pine script headers** (stale pre-audit
    figures). Only current TradingView runs, window stated. The owners' vetted
    playbook export is the source for stat updates.
+3b. **Product-page chart is real, and hoverable without JS**: `real_chart()`
+   bakes ~110 invisible hover strips (`.hp` > `.hp-hit`) into the SVG, each
+   revealing its own crosshair line, dot and value tag on `:hover` — the
+   zero-JS equivalent of a charting library's crosshair. Calendar day values
+   are compacted (k-format, minus sign kept so colour is never the only
+   signal) with the exact figure in a native `title`; the calendar renders in
+   a full-width `.pdp-wide` band BELOW `.pdp-cols`, because inside the 611px
+   main column its day cells crowd their borders. List-of-trades publishes a
+   duration BUCKET ("< 10m", "1-2h"), never clock times.
+
 3. **The RoDD sizing menu is the centerpiece of every product page** — radios
    styled as a slider; undersized budgets tint the menu amber/red. Red threshold
    for The Collector includes its $12.3k worst session (sizing guard).

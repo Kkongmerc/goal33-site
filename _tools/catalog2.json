@@ -156,48 +156,6 @@
    "warn": ""
   },
   {
-   "slug": "strongbox",
-   "name": "Strongbox",
-   "actual": "MNQ Strong Book (3-Leg)",
-   "meta": "MNQ · 3 legs — only legs that reproduced the reference tapes 100%",
-   "window": "01 Feb 2026 - 21 Aug 2026",
-   "best": {
-    "label": "Best window — 01 Feb 2026 - 21 Aug 2026 (validation-board method)",
-    "stats": {
-     "RoDD": "29.98",
-     "PF": "2.34",
-     "Win": "76.1%",
-     "Net": "$79.7k",
-     "Max DD": "$2.7k",
-     "Trades": "1,025",
-     "$/trade": "$78",
-     "Months": "7",
-     "RoDD/mo": "4.54"
-    }
-   },
-   "full": {
-    "label": "Full record (02 Jan 2024 - 21 Aug 2026)",
-    "stats": {
-     "RoDD": "4.47",
-     "PF": "1.35",
-     "Win": "67.6%",
-     "Net": "$94.8k",
-     "Max DD": "$21.2k",
-     "Trades": "3,467",
-     "$/trade": "$27",
-     "Months": "32",
-     "RoDD/mo": "0.14"
-    }
-   },
-   "price": 699,
-   "legs": [],
-   "sep": [
-    "Three legs, each admitted only after reproducing its reference run exactly - then composed under one interaction policy.",
-    "76% wins across 1,025 best-window trades at 2.34 profit factor."
-   ],
-   "warn": ""
-  },
-  {
    "slug": "slipstream",
    "name": "Slipstream",
    "actual": "MNQ FVG Continuation 10m",
@@ -238,6 +196,48 @@
     "77.1% wins across 878 best-window trades."
    ],
    "warn": ""
+  },
+  {
+   "slug": "bellwether",
+   "name": "Bellwether",
+   "actual": "NQ 09:30 Opening Range Breakout",
+   "meta": "NQ · 09:30 ET - the opening range the New York bell prints",
+   "window": "02 Jan 2026 - 29 Jun 2026",
+   "best": {
+    "label": "Best window — 02 Jan 2026 - 29 Jun 2026 (validation-board method)",
+    "stats": {
+     "RoDD": "24.23",
+     "PF": "5.44",
+     "Win": "81.8%",
+     "Net": "$102.0k",
+     "Max DD": "$4.2k",
+     "Trades": "66",
+     "$/trade": "$1,545",
+     "Months": "6",
+     "RoDD/mo": "4.18"
+    }
+   },
+   "full": {
+    "label": "Full record (03 Jan 2024 - 17 Aug 2026)",
+    "stats": {
+     "RoDD": "3.90",
+     "PF": "1.59",
+     "Win": "62.8%",
+     "Net": "$134.9k",
+     "Max DD": "$34.6k",
+     "Trades": "392",
+     "$/trade": "$344",
+     "Months": "31",
+     "RoDD/mo": "0.12"
+    }
+   },
+   "price": 299,
+   "legs": [],
+   "sep": [
+    "Takes the break of the range the New York open prints - the first structure of the session, traded in its direction.",
+    "82% wins at 5.44 profit factor: the highest win rate and the highest profit factor on our board's top five."
+   ],
+   "warn": "Selective by design: the published best window holds 66 trades - a far smaller sample than our high-frequency legs, and the pricing formula discounts it accordingly. Treat it as a low-frequency, high-conviction leg, not a volume engine."
   }
  ],
  "books": [],

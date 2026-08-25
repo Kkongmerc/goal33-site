@@ -12,7 +12,11 @@ CAT = json.load(open(os.path.join(_HERE, "catalog2.json"), encoding="utf-8"))
 SITE = "https://futurestradingbots.com"
 # PRE-LAUNCH: no published products -> skip product + bundle pages entirely
 PRELAUNCH = not CAT["strategies"] and not CAT["books"]
-HAS_BUNDLES = bool(CAT["books"])
+HAS_BUNDLES = bool(CAT["strategies"])          # Pick-3 / All-Access need strategies only
+HAS_BOOKS_BUNDLE = bool(CAT["books"])         # The Books needs books
+HAS_STARTER = bool(CAT["bundles"].get("starter", {}).get("slugs")) and all(
+    s in {x["slug"] for x in CAT["strategies"]}
+    for s in CAT["bundles"].get("starter", {}).get("slugs", []))
 TODAY = "2026-08-20"
 CSSV = hashlib.md5(open(os.path.join(BASE, "assets", "main.css"), "rb").read()).hexdigest()[:8]
 
@@ -214,23 +218,31 @@ def tvt_val(stats, key, best=False):
         cls += " dd-gold" if n2 <= 2000 else (" dd-neon" if n2 <= 5000 else "")
     return f'<td class="{cls}">{esc(v)}</td>'
 
+HELD_FULL = {
+    "< 10m": "held less than 10 minutes", "< 30m": "held less than 30 minutes",
+    "< 1h": "held less than an hour", "1-2h": "held approx. 1-2 hours",
+    "2-4h": "held approx. 2-4 hours", "4-12h": "held approx. 4-12 hours",
+    "12h+": "held over 12 hours",
+}
+
 def trades_table(tr, slug):
     rows = ""
-    for i, (xt, side, et, epx, xpx, pnl) in enumerate(reversed(tr["trades"])):
+    for i, (day, side, held, epx, xpx, pnl) in enumerate(reversed(tr["trades"])):
         cls = "tv-pos" if pnl > 0 else ("tv-neg" if pnl < 0 else "")
-        rows += (f'<tr><td>{len(tr["trades"]) - i}</td><td class="lt-side lt-{side}">{side}</td>'
-                 f'<td>{esc(et)}</td><td>{esc(xt)}</td>'
+        rows += (f'<tr><td>{len(tr["trades"]) - i}</td><td>{esc(day)}</td>'
+                 f'<td class="lt-side lt-{side}">{side}</td>'
+                 f'<td class="lt-held" title="{esc(HELD_FULL.get(held, held))}">{esc(held)}</td>'
                  f'<td>{epx if epx is not None else "&mdash;"}</td><td>{xpx if xpx is not None else "&mdash;"}</td>'
                  f'<td class="{cls}">${pnl:,.2f}</td></tr>')
     return f"""<div class="tvt-pane tvt-lt">
     <div class="screener lt-scroll" tabindex="0" role="region" aria-label="List of trades, scrolls">
     <table class="tvt-table lt-table">
       <caption class="sr-only">Every closed trade in the validated record, newest first</caption>
-      <thead><tr><th scope="col">#</th><th scope="col">Side</th><th scope="col">Entry time</th><th scope="col">Exit time</th><th scope="col">Entry</th><th scope="col">Exit</th><th scope="col">Net P&amp;L</th></tr></thead>
+      <thead><tr><th scope="col">#</th><th scope="col">Day</th><th scope="col">Side</th><th scope="col">Held</th><th scope="col">Entry</th><th scope="col">Exit</th><th scope="col">Net P&amp;L</th></tr></thead>
       <tbody>{rows}</tbody>
     </table>
     </div>
-    <p class="tvt-note">Newest first &middot; times exchange-local.</p>
+    <p class="tvt-note">Newest first.</p>
   </div>"""
 
 def calendar_real(tr):
@@ -243,6 +255,7 @@ def calendar_real(tr):
         first = _dt.date(y, m, 1)
         start_off = first.weekday()  # Mon=0
         ndays = ((_dt.date(y + (m == 12), (m % 12) + 1, 1)) - first).days
+        mon_lbl = first.strftime("%b %Y")
         cells = '<span class="rc-e"></span>' * start_off
         mtot = 0.0
         for day in range(1, ndays + 1):
@@ -254,8 +267,9 @@ def calendar_real(tr):
                 mtot += v
                 cls = "rc-p" if v > 0 else ("rc-n" if v < 0 else "rc-d")
                 val = f"{abs(v)/1000:.1f}k" if abs(v) >= 1000 else f"{abs(v):.0f}"
-                sign = "+" if v > 0 else ("-" if v < 0 else "")
-                cells += f'<span class="rc-d {cls}"><i>{day}</i><b>{sign}${val}</b></span>'
+                sign = "" if v > 0 else "\u2212"
+                cells += (f'<span class="rc-d {cls}" title="{day} {mon_lbl} &middot; {"+" if v > 0 else "-"}${abs(v):,.0f}">'
+                          f'<i>{day}</i><b>{sign}{val}</b></span>')
         mname = first.strftime("%B %Y")
         tcls = "tv-pos" if mtot > 0 else ("tv-neg" if mtot < 0 else "")
         out += f"""<div class="rc-month">
@@ -425,6 +439,28 @@ def real_chart(p, tr):
 
     net = p["best"]["stats"].get("Net", "")
     dd_min = _fmt_usd(min(dd))
+
+    # CSS-only crosshair: one invisible hover strip per sampled point; each
+    # reveals its own line + dot + label. ~110 points keeps pages light.
+    hstep = max(1, len(ts) // 110)
+    hidx = list(range(0, len(ts), hstep))
+    if hidx[-1] != len(ts) - 1: hidx.append(len(ts) - 1)
+    hover = ""
+    for pos, i in enumerate(hidx):
+        x = X(ts[i]); y = Y(ys[i])
+        x_prev = X(ts[hidx[pos-1]]) if pos > 0 else L
+        x_next = X(ts[hidx[pos+1]]) if pos < len(hidx)-1 else L + PW
+        x0 = (x_prev + x) / 2; x1 = (x + x_next) / 2
+        lab = ts[i].strftime("%d %b %y") + " · " + ("-" if ys[i] < 0 else "") + "${:,.0f}".format(abs(ys[i]))
+        wlab = 7.0 * len(lab) + 14
+        flip = x + 10 + wlab > L + PW
+        lx = (x - 10 - wlab) if flip else (x + 10)
+        ly = max(T + 4, min(y - 22, T + PH - 26))
+        hover += (f'<g class="hp"><rect class="hp-hit" x="{x0:.1f}" y="{T:.0f}" width="{max(0.5, x1-x0):.1f}" height="{PH:.1f}"/>'
+                  f'<g class="hv"><line class="hv-line" x1="{x:.1f}" y1="{T:.0f}" x2="{x:.1f}" y2="{T+PH:.1f}"/>'
+                  f'<circle class="hv-dot" cx="{x:.1f}" cy="{y:.1f}" r="3.2"/>'
+                  f'<rect class="hv-tag" x="{lx:.1f}" y="{ly:.1f}" width="{wlab:.1f}" height="20" rx="3"/>'
+                  f'<text class="hv-txt" x="{lx+7:.1f}" y="{ly+13.5:.1f}">{lab}</text></g></g>')
     return f"""<figure class="chart-panel tvx">
     <div class="tvx-legend">
       <span class="tvx-key"><i class="tvx-dot tvx-dot-eq"></i>Equity <b>{_fmt_usd(ys[-1])}</b></span>
@@ -447,6 +483,7 @@ def real_chart(p, tr):
       <path class="tvx-ddline" d="M{dd_pts}" fill="none"/>
       <path class="tvx-eqarea" d="{eq_area}" fill="url(#tvxg-{p["slug"]})"/>
       <path class="tvx-eqline" d="M{eq_pts}" fill="none"/>
+      {hover}
     </svg>
   </figure>"""
 
@@ -594,9 +631,10 @@ def product_page(p, is_book):
                   else '<a href="/#strategies">Strategies</a>')
     _tr = load_trades_data(p["slug"])
     main_col = rodd_menu(p) + "\n" + tester_block(p) + "\n" + (
-        engines_block(p) if p.get("engines") else "") + "\n" + (
-        calendar_real(_tr) if _tr else calendar_panel())
+        engines_block(p) if p.get("engines") else "")
     main_col += "\n" + warn_block(p) + "\n" + legs_block(p)
+    # the calendar wants the whole page width, not the narrow main column
+    cal_col = calendar_real(_tr) if _tr else calendar_panel()
     xsell = None
     struck = None
     if is_book:
@@ -630,6 +668,8 @@ def product_page(p, is_book):
         {sep_block(p)}
         </div>
       </div>
+
+      <div class="pdp-wide">{cal_col}</div>
 
       <div class="pdp-disclaim">
         <p class="disclaim-sm">{esc(DISCLAIMER)}</p>
@@ -681,21 +721,27 @@ def bundle_page(slug, name, price, struck, desc, extra, xsell):
     page += FOOTER
     open(os.path.join(BASE, "strategies", slug + ".html"), "w", encoding="utf-8").write(page)
 
+_prices = sorted((s["price"] for s in CAT["strategies"]), reverse=True)
+COMBINED_ALL = sum(_prices)
+COMBINED_TOP3 = sum(_prices[:3])
+
 inc_rows = "".join(
     f'<li><a class="sys-link" href="/strategies/{s["slug"]}.html"><span class="inc-name">{esc(s["name"])}</span></a>'
     f'<span class="inc-price">${s["price"]}/mo</span></li>'
     for s in sorted(CAT["strategies"], key=lambda x: -x["price"]))
 if not PRELAUNCH and HAS_BUNDLES:
-    bundle_page("all-access", "All-Access", BN["all_access"]["price"], BN["all_access"]["combined"],
+    bundle_page("all-access", "All-Access", BN["all_access"]["price"], COMBINED_ALL,
         "Every validated strategy in the catalog. The Books are not included.",
         f"""<div class="record">
-            <div class="record-title">Included — all {len(CAT["strategies"])} validated systems (combined ${BN["all_access"]["combined"]:,}/mo)</div>
+            <div class="record-title">Included — all {len(CAT["strategies"])} validated systems (combined ${COMBINED_ALL:,}/mo)</div>
             <div class="included included-scroll" tabindex="0" role="region" aria-label="All included systems"><ul>{inc_rows}</ul></div>
             <p class="record-note">The Books are not included in All-Access. The four in-house engines are a separate premium tier, from $589/mo each or $2,999/mo together.</p>
           </div>""",
-        'Want the engines themselves? <a href="/strategies/the-books.html">The Books — $2,999/mo</a>')
+        ('Want the engines themselves? <a href="/strategies/the-books.html">The Books — $2,999/mo</a>'
+         if HAS_BOOKS_BUNDLE else
+         'Prefer a smaller commitment? <a href="/strategies/pick-3.html">Pick-3 — $499/mo</a>'))
 
-    bundle_page("pick-3", "Pick-3", BN["pick3"]["price"], BN["pick3"]["top3"],
+    bundle_page("pick-3", "Pick-3", BN["pick3"]["price"], COMBINED_TOP3,
         "Any three validated systems, swap monthly.",
         """<div class="record">
             <div class="record-title">How Pick-3 works</div>
@@ -707,6 +753,7 @@ if not PRELAUNCH and HAS_BUNDLES:
           </div>""",
         'Want everything? <a href="/strategies/all-access.html">All-Access — $999/mo</a>')
 
+if not PRELAUNCH and HAS_BOOKS_BUNDLE:
     book_rows = "".join(
         f'<li><a class="sys-link" href="/strategies/{b["slug"]}.html"><span class="inc-name">{esc(b["name"])}</span></a>'
         f'<span class="inc-price">{esc(b["actual"])} · ${b["price"]:,}/mo solo</span></li>'
@@ -720,6 +767,7 @@ if not PRELAUNCH and HAS_BUNDLES:
           </div>""",
         'Not ready for the engines? <a href="/strategies/all-access.html">All-Access — $999/mo</a>')
 
+if not PRELAUNCH and HAS_STARTER:
     ST = BN["starter"]
     by_slug = {s["slug"]: s for s in CAT["strategies"]}
     starter_rows = "".join(
@@ -736,7 +784,8 @@ if not PRELAUNCH and HAS_BUNDLES:
           </div>""",
         'Outgrow it? <a href="/strategies/pick-3.html">Pick-3 — $499/mo</a> · <a href="/strategies/all-access.html">All-Access — $999/mo</a>')
 
-    # ── success page ────────────────────────────────────────────────
+# ── success page ────────────────────────────────────────────────
+if True:
     psucc = head("Order Confirmed — FuturesTradingBots",
                  "Purchase confirmed. Your TradingView invite-only script activates within 24h.",
                  "/success.html").replace(

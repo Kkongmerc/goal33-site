@@ -462,17 +462,25 @@ if PRELAUNCH:
             "<span>TOP FIVE FLAGSHIPS FIRST</span>"
             "<span>DELIVERY: TRADINGVIEW INVITE-ONLY · ACTIVATED WITHIN 24H</span>")
 else:
-    half = (f"<span>{len(S)} SYSTEMS · 4 BOOKS</span>"
+    # markets and book count come from the catalog, never a hardcoded list
+    _seen = []
+    for _p in S + B:
+        _m = _p["meta"].split("·")[0].strip().split()[0].strip()
+        if _m and _m not in _seen: _seen.append(_m)
+    MARKETS = " · ".join(_seen)
+    MARKETS_TIGHT = "·".join(_seen)
+    _books = f"{len(B)} BOOKS" if B else "BOOKS IN VALIDATION"
+    half = (f"<span>{len(S)} SYSTEMS · {_books}</span>"
         f"<span>SESSION: SYDNEY → SHANGHAI → FRANKFURT → NEW YORK</span>"
         + tick +
-        f"<span>MARKETS: MNQ · NQ · MGC · SI · ES</span>"
+        f"<span>MARKETS: {MARKETS}</span>"
         f"<span>DELIVERY: TRADINGVIEW INVITE-ONLY · ACTIVATED WITHIN 24H</span>")
 doc = re.sub(r'(<div class="ticker-track">\s*).*?(\s*</div>\s*</div>\s*</div>)',
              lambda m: m.group(1) + half + half + m.group(2), doc, count=1, flags=re.S)
 
 stats_strip = f"""<ul class="stats wrap">
     <li><b>{'5' if PRELAUNCH else len(S) + len(B)}</b><span>{'Flagship slots reserved' if PRELAUNCH else 'Validated products'}</span></li>
-    <li><b>5</b><span class="oneline">MNQ·NQ·MGC·SI·ES</span></li>
+    <li><b>{'5' if PRELAUNCH else len(_seen)}</b><span class="oneline">{'MNQ·NQ·MGC·SI·ES' if PRELAUNCH else MARKETS_TIGHT}</span></li>
     <li><b>2&times;</b><span>Windows published</span></li>
     <li><b>24h</b><span>Activation window</span></li>
   </ul>"""

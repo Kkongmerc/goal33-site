@@ -19,6 +19,13 @@ _HERE = os.path.dirname(os.path.abspath(__file__))
 BASE = os.path.dirname(_HERE)
 CAT = json.load(open(os.path.join(_HERE, "catalog2.json"), encoding="utf-8"))
 S, B, BN = CAT["strategies"], CAT["books"], CAT["bundles"]
+_pr = sorted((s["price"] for s in S), reverse=True)
+COMBINED_ALL = sum(_pr)
+_mk = []
+for _p in S:
+    _i = _p["meta"].split("\u00b7")[0].strip().split()[0].strip()
+    if _i and _i not in _mk: _mk.append(_i)
+MARKETS_PROSE = (", ".join(_mk[:-1]) + " and " + _mk[-1]) if len(_mk) > 1 else (_mk[0] if _mk else "")
 # PRE-LAUNCH: an empty catalog cannot honestly recommend anything
 PRELAUNCH = not S
 SITE = "https://futurestradingbots.com"
@@ -179,14 +186,31 @@ fleet_small = f"""<div class="pr" id="r-s3-small">
   </div>
 </div>"""
 if not STARTER_OK:
-    fleet_small = fleet_small.replace('id="r-s3-small"', 'id="r-s3-small" hidden')
+    # The Starter's members are not in the published catalog, so recommend the
+    # real cheapest way in rather than hiding this branch entirely.
+    _cheap = min(S, key=lambda x: x["price"]) if S else None
+    fleet_small = f"""<div class="pr" id="r-s3-small">
+  <div class="pr-card">
+    <div class="pr-head"><div class="pr-id"><span class="pr-name">Start with one</span>
+      <span class="pr-real">{esc(_cheap["name"]) if _cheap else "TBD"} &mdash; the smallest step onto the shelf</span></div>
+      <div class="pr-price">${_cheap["price"] if _cheap else 0}<small>/MO</small></div>
+    </div>
+    <p class="pr-why">At this budget, run one system properly before you run several. {esc(_cheap["name"]) if _cheap else ""} is the
+    lowest-priced published strategy &mdash; live with its drawdown for a month, then step up to Pick-3 at ${BN['pick3']['price']}/mo.</p>
+    <div class="pr-ctas">
+      <a class="btn" href="/strategies/{_cheap["slug"] if _cheap else ""}.html">See {esc(_cheap["name"]) if _cheap else ""}</a>
+      <!-- WHOP: replace with checkout link ({_cheap["name"] if _cheap else "TBD"}) -->
+      <a class="btn btn-buy" href="/strategies/{_cheap["slug"] if _cheap else ""}.html" rel="noopener">Get it for ${_cheap["price"] if _cheap else 0}/mo</a>
+    </div>
+  </div>
+</div>"""
 fleet_big = f"""<div class="pr" id="r-s3-big">
   <div class="pr-card">
     <div class="pr-head"><div class="pr-id"><span class="pr-name">All-Access</span>
       <span class="pr-real">every strategy on the shelf — {len(S)} systems, books excluded</span></div>
-      <div class="pr-price"><s class="was">${BN['all_access']['combined']:,}</s>${BN['all_access']['price']}<small>/MO</small></div>
+      <div class="pr-price"><s class="was">${COMBINED_ALL:,}</s>${BN['all_access']['price']}<small>/MO</small></div>
     </div>
-    <p class="pr-why">The whole catalog under one subscription: all {len(S)} live-validated systems across MNQ, NQ, MGC, SI, and ES, worth ${BN['all_access']['combined']:,}/mo solo. Diversify across sessions instead of picking one.</p>
+    <p class="pr-why">The whole catalog under one subscription: all {len(S)} live-validated systems across {MARKETS_PROSE}, worth ${COMBINED_ALL:,}/mo solo. Diversify across sessions instead of picking one.</p>
     <div class="pr-ctas">
       <a class="btn" href="/strategies/all-access.html">See All-Access</a>
       <!-- WHOP: replace with checkout link (All-Access) -->
@@ -204,6 +228,18 @@ book_cards = "" if PRELAUNCH else "".join(
     f'<span class="bk-int">{esc(b["actual"]).upper()}</span>'
     f'<span class="bk-price">${b["price"]:,}<small>/MO SOLO</small></span></li>' for b in B)
 books_panel = f"""<div class="pr" id="r-s4">
+  <div class="pr-card">
+    <div class="pr-head"><div class="pr-id"><span class="pr-name">The Books are next</span>
+      <span class="pr-real">our four in-house multi-leg engines</span></div>
+    </div>
+    <p class="pr-why">The engines we run ourselves are still in validation. When they publish, both windows go up with
+    them &mdash; same standard as everything else on this page. Until then, All-Access at ${BN['all_access']['price']}/mo
+    is the widest coverage we sell.</p>
+    <div class="pr-ctas">
+      <a class="btn btn-buy" href="/strategies/all-access.html">See All-Access</a>
+    </div>
+  </div>
+</div>""" if not B else f"""<div class="pr" id="r-s4">
   <div class="pr-card pr-card-books">
     <div class="pr-head"><div class="pr-id"><span class="pr-name">The Books</span>
       <span class="pr-real">the four in-house engines we run ourselves</span></div>
