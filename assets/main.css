@@ -2366,15 +2366,18 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
 }
 .fstat-star .star-tag {
   position: absolute;
-  top: -8px; right: 6px;
+  top: -10px; right: 6px;
   font-style: normal;
   font-family: var(--mono);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: .08em;
+  line-height: 1.4;
   color: var(--fc, var(--accent));
   background: var(--panel);
-  padding: 0 5px;
+  border: 1px solid var(--fc-line, rgba(86, 200, 162, .45));
+  border-radius: 3px;
+  padding: 0 6px;
 }
 @media (prefers-reduced-motion: no-preference) {
   @keyframes fg-breathe {
@@ -3840,7 +3843,12 @@ section:hover .sec-head h2::after { width: 48px; }
 }
 .cf-star i {
   font-style: normal; font-family: var(--mono); font-size: 12px;
-  letter-spacing: .1em; color: var(--muted);
+  letter-spacing: .1em; line-height: 1.4;
+  color: var(--fc, var(--accent));
+  background: rgba(10, 26, 31, .72);
+  border: 1px solid var(--fc-line, rgba(86, 200, 162, .45));
+  border-radius: 3px;
+  padding: 0 6px;
 }
 .cf-foot { left: var(--sp-4); right: var(--sp-4); bottom: var(--sp-4); display: flex; flex-direction: column; gap: 4px; }
 .cf-gain {
