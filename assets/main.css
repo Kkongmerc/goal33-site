@@ -984,29 +984,7 @@ section { border-bottom: 1px solid var(--line); padding: var(--sp-6) 0; }
    ABOVE .fstats (never mid-card), so stats/price/CTA rows align
    across the row of cards */
 .flagships .fcard .fstats { margin-top: auto; }
-/* orphan card (odd count): span the full row with a horizontal
-   variant so it never stretches awkwardly at card width */
-/* the last odd card used to stretch full width; every card is equal now */
-@media (min-width: 769px) {
-  .flagships .fcard:last-child:nth-child(odd) {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-areas:
-      "top   top"
-      "desc  spark"
-      "desc  note"
-      "stats stats"
-      "price cta";
-    column-gap: var(--sp-6);
-  }
-  .flagships .fcard:last-child:nth-child(odd) .fcard-top   { grid-area: top; }
-  .flagships .fcard:last-child:nth-child(odd) .desc        { grid-area: desc; margin-bottom: 0; }
-  .flagships .fcard:last-child:nth-child(odd) .spark       { grid-area: spark; margin-top: 0; align-self: end; }
-  .flagships .fcard:last-child:nth-child(odd) .spark-note  { grid-area: note; }
-  .flagships .fcard:last-child:nth-child(odd) .fstats      { grid-area: stats; margin-top: var(--sp-4); }
-  .flagships .fcard:last-child:nth-child(odd) .price-row   { grid-area: price; align-self: center; }
-  .flagships .fcard:last-child:nth-child(odd) .cta-row     { grid-area: cta; align-self: center; }
-}
+/* every flagship card renders identically - no orphan variant */
 
 /* ── homepage sparklines (decorative, aria-hidden) ─────────── */
 .spark {
