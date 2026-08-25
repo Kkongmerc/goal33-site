@@ -687,9 +687,12 @@ on this site &mdash; you get a full refund of your first month on request. Reque
 your first 30 days end; one per customer per product. The measure is the strategy&rsquo;s signal record,
 not any individual account&rsquo;s fills, sizing, or discretionary deviations &mdash; that keeps the test
 objective and checkable by both of us.</p>
-<p><strong>Referrals.</strong> Referral codes give the buyer 10% off at checkout and pay the referrer a
-commission through Whop&rsquo;s affiliate system. Referral rewards may be withheld where self-referral or
-abuse is evident. Billing disputes should be raised through Whop first so they reach us fastest.</p>
+<p><strong>Referrals.</strong> Referral links give the buyer 10% off at checkout and pay the referrer a
+recurring commission through Whop&rsquo;s affiliate system at the rate shown in their Whop affiliate
+dashboard (currently 30% for founding members; rates for later-joining affiliates may differ, and
+existing referral relationships keep the rate they were earned under). Referral rewards may be withheld
+where self-referral or abuse is evident. Billing disputes should be raised through Whop first so they
+reach us fastest.</p>
 
 <h2><span class="n">04</span> Access and your TradingView username</h2>
 <p>Delivery requires a valid TradingView username, which you provide at checkout. We grant invite-only
