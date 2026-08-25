@@ -163,6 +163,7 @@ for bkey, blab, bdesc, cap in ([] if PRELAUNCH else BUDGETS):
 # fleet (all-access) panels — budget-aware
 starter_slugs = BN["starter"]["slugs"]
 starter_names = [p["name"] for p in S if p["slug"] in starter_slugs] or ["TBD"]
+STARTER_OK = set(starter_slugs) <= {p["slug"] for p in S}
 fleet_small = f"""<div class="pr" id="r-s3-small">
   <div class="pr-card">
     <div class="pr-head"><div class="pr-id"><span class="pr-name">The Starter</span>
@@ -177,6 +178,8 @@ fleet_small = f"""<div class="pr" id="r-s3-small">
     </div>
   </div>
 </div>"""
+if not STARTER_OK:
+    fleet_small = fleet_small.replace('id="r-s3-small"', 'id="r-s3-small" hidden')
 fleet_big = f"""<div class="pr" id="r-s3-big">
   <div class="pr-card">
     <div class="pr-head"><div class="pr-id"><span class="pr-name">All-Access</span>

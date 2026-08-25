@@ -258,9 +258,9 @@ strategies = f"""<section id="strategies">
 
       </div>
 
-      {table("TIER 2", "Core systems", TIER2, "tier-2")}
+      {table("TIER 2", "Core systems", TIER2, "tier-2") if TIER2 and not PRELAUNCH else '<div id="tier-2"></div>'}
 
-      {table("TIER 3", "Session specialists", TIER3, "tier-3")}
+      {table("TIER 3", "Session specialists", TIER3, "tier-3") if TIER3 and not PRELAUNCH else '<div id="tier-3"></div>'}
 
       {FOOTNOTE}
 
@@ -328,7 +328,7 @@ if PRELAUNCH:
         f'<b class="cf-name">{"FLAGSHIP %02d" % i if i <= 5 else "MORE"}</b>'
         f'<span class="cf-stat">{"IN VALIDATION" if i <= 5 else "AFTER THE TOP FIVE"}</span></a>'
         f'<label class="cf-pick" for="cf-{i}"><span class="sr-only">Bring slot {i} to the front</span></label></div>'
-        for i in range(1, 7))
+        for i in range(1, 6))
 
 doc = re.sub(r'<section id="strategies">.*?</section>', strategies, doc, count=1, flags=re.S)
 
@@ -431,6 +431,24 @@ packages = f"""<section id="packages">
     </div>
   </section>"""
 
+BOOKS_PENDING = (not B) and (not PRELAUNCH)
+if BOOKS_PENDING:
+    packages = f"""<section id="packages">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="idx">02 /</span>
+        <h2>Bundles</h2>
+        <span class="note">books and bundles return as they clear validation</span>
+      </div>
+      <div class="prelaunch" id="books">
+        <span class="pl-tag">IN VALIDATION</span>
+        <h3>The Books and bundles are next.</h3>
+        <p>The five flagships shipped first. The multi&#8209;leg Books and the bundle tiers
+        (Starter &middot; Pick&#8209;3 &middot; All&#8209;Access) return as each clears the same
+        validation gate &mdash; combined solo worth struck through, same as always.</p>
+      </div>
+    </div>
+  </section>"""
 if PRELAUNCH:
     packages = packages_prelaunch
 doc = re.sub(r'<section id="packages">.*?</section>', packages, doc, count=1, flags=re.S)

@@ -12,6 +12,7 @@ CAT = json.load(open(os.path.join(_HERE, "catalog2.json"), encoding="utf-8"))
 SITE = "https://futurestradingbots.com"
 # PRE-LAUNCH: no published products -> skip product + bundle pages entirely
 PRELAUNCH = not CAT["strategies"] and not CAT["books"]
+HAS_BUNDLES = bool(CAT["books"])
 TODAY = "2026-08-20"
 CSSV = hashlib.md5(open(os.path.join(BASE, "assets", "main.css"), "rb").read()).hexdigest()[:8]
 
@@ -23,6 +24,14 @@ DISCLAIMER = ("All performance figures are backtested or validation-run results 
               "own trading decisions.")
 
 NOTCHES = [1000, 2500, 5000, 10000, 25000, 50000]
+
+def load_trades_data(slug):
+    """Real closed-trade data ingested from the validation archive (derived
+    numbers only — no settings, no research identifiers)."""
+    p = os.path.join(_HERE, "trades", slug + ".json")
+    if not os.path.exists(p):
+        return None
+    return json.load(open(p, encoding="utf-8"))
 
 def esc(s): return html.escape(str(s), quote=False)
 
@@ -152,8 +161,9 @@ FOOTER = f"""</main>
 
 def buybox(name, price, whop_note, xsell=None, struck=None):
     was = f'<s class="was">${struck}<span class="sr-only"> combined value,</span></s>' if struck else ""
-    xs = xsell or ('Bundles: <a href="/strategies/all-access.html">All-Access — $999/mo</a> · '
-                   '<a href="/strategies/pick-3.html">Pick-3 — $499/mo</a>')
+    xs = xsell or (('Bundles: <a href="/strategies/all-access.html">All-Access — $999/mo</a> · '
+                    '<a href="/strategies/pick-3.html">Pick-3 — $499/mo</a>') if HAS_BUNDLES else
+                   'More systems join the shelf as they clear validation.')
     return f"""<aside class="buybox" aria-label="Purchase {html.escape(name)}">
   <div class="price">{was}<span class="now">${price}</span><span class="per">/MO</span></div>
   <span class="annual">Annual = 2 months free</span>
@@ -204,9 +214,71 @@ def tvt_val(stats, key, best=False):
         cls += " dd-gold" if n2 <= 2000 else (" dd-neon" if n2 <= 5000 else "")
     return f'<td class="{cls}">{esc(v)}</td>'
 
+def trades_table(tr, slug):
+    rows = ""
+    for i, (xt, side, et, epx, xpx, pnl) in enumerate(reversed(tr["trades"])):
+        cls = "tv-pos" if pnl > 0 else ("tv-neg" if pnl < 0 else "")
+        rows += (f'<tr><td>{len(tr["trades"]) - i}</td><td class="lt-side lt-{side}">{side}</td>'
+                 f'<td>{esc(et)}</td><td>{esc(xt)}</td>'
+                 f'<td>{epx if epx is not None else "&mdash;"}</td><td>{xpx if xpx is not None else "&mdash;"}</td>'
+                 f'<td class="{cls}">${pnl:,.2f}</td></tr>')
+    return f"""<div class="tvt-pane tvt-lt">
+    <div class="screener lt-scroll" tabindex="0" role="region" aria-label="List of trades, scrolls">
+    <table class="tvt-table lt-table">
+      <caption class="sr-only">Every closed trade in the validated record, newest first</caption>
+      <thead><tr><th scope="col">#</th><th scope="col">Side</th><th scope="col">Entry time</th><th scope="col">Exit time</th><th scope="col">Entry</th><th scope="col">Exit</th><th scope="col">Net P&amp;L</th></tr></thead>
+      <tbody>{rows}</tbody>
+    </table>
+    </div>
+    <p class="tvt-note">All {len(tr["trades"]):,} closed trades from the verbatim TradingView export, newest first. Times are exchange-local as exported.</p>
+  </div>"""
+
+def calendar_real(tr):
+    import datetime as _dt
+    daily = tr["daily"]
+    months = sorted({d[:7] for d in daily})[-6:]
+    out = ""
+    for ym in months:
+        y, m = int(ym[:4]), int(ym[5:7])
+        first = _dt.date(y, m, 1)
+        start_off = first.weekday()  # Mon=0
+        ndays = ((_dt.date(y + (m == 12), (m % 12) + 1, 1)) - first).days
+        cells = '<span class="rc-e"></span>' * start_off
+        mtot = 0.0
+        for day in range(1, ndays + 1):
+            key = f"{ym}-{day:02d}"
+            v = daily.get(key)
+            if v is None:
+                cells += f'<span class="rc-d"><i>{day}</i></span>'
+            else:
+                mtot += v
+                cls = "rc-p" if v > 0 else ("rc-n" if v < 0 else "rc-d")
+                val = f"{abs(v)/1000:.1f}k" if abs(v) >= 1000 else f"{abs(v):.0f}"
+                sign = "+" if v > 0 else ("-" if v < 0 else "")
+                cells += f'<span class="rc-d {cls}"><i>{day}</i><b>{sign}${val}</b></span>'
+        mname = first.strftime("%B %Y")
+        tcls = "tv-pos" if mtot > 0 else ("tv-neg" if mtot < 0 else "")
+        out += f"""<div class="rc-month">
+      <div class="rc-h"><span>{mname}</span><b class="{tcls}">{'+' if mtot > 0 else ''}${mtot:,.0f}</b></div>
+      <div class="rc-wd"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+      <div class="rc-g">{cells}</div>
+    </div>"""
+    return f"""<div class="record rcal">
+  <div class="record-title">Daily results &mdash; last {len(months)} months of the record</div>
+  <div class="rc-wrap">{out}</div>
+  <p class="tvt-note">Realized P&amp;L by exit day, from the same closed-trade record as everything above.</p>
+</div>"""
+
 def tester_block(p):
     b, f = p["best"]["stats"], (p.get("full") or {}).get("stats", {})
     slug = p["slug"]
+    tr = load_trades_data(slug)
+    if tr:
+        lt_tab = f'<label for="tvt-{slug}-lt" class="tvt-tab tvt-tab-lt">List of trades</label>'
+        lt_pane = trades_table(tr, slug)
+    else:
+        lt_tab = '<span class="tvt-tab tvt-tab-off" title="Activates when the trade-level export lands">List of trades &middot; soon</span>'
+        lt_pane = ""
     tiles = ""
     for lab, key, cls in [("Net profit", "Net", "tv-pos"), ("Total trades", "Trades", ""),
                           ("Profitable", "Win", "tv-pos"), ("Profit factor", "PF", "tv-pos"),
@@ -223,10 +295,11 @@ def tester_block(p):
   </div>
   <input type="radio" name="tvt-{slug}" id="tvt-{slug}-ov" class="tvt-r" checked>
   <input type="radio" name="tvt-{slug}" id="tvt-{slug}-ps" class="tvt-r">
+  <input type="radio" name="tvt-{slug}" id="tvt-{slug}-lt" class="tvt-r">
   <div class="tvt-tabs">
     <label for="tvt-{slug}-ov" class="tvt-tab tvt-tab-ov">Overview</label>
     <label for="tvt-{slug}-ps" class="tvt-tab tvt-tab-ps">Performance summary</label>
-    <span class="tvt-tab tvt-tab-off" title="Activates when the trade-level export lands">List of trades &middot; soon</span>
+    {lt_tab}
   </div>
   <div class="tvt-pane tvt-ov">
     {chart_figure(p)}
@@ -243,6 +316,7 @@ def tester_block(p):
     </div>
     <p class="tvt-note">{esc(p["best"].get("label", ""))}</p>
   </div>
+  {lt_pane}
 </div>"""
 
 def windows_block(p, label_prefix=""):
@@ -277,7 +351,41 @@ def engines_block(p):
   </div>'''
     return out
 
+def real_chart(p, tr):
+    eq = tr["equity"]
+    ys = [v for _, v in eq]
+    lo, hi = min(0.0, min(ys)), max(ys)
+    span = (hi - lo) or 1.0
+    W, H, PAD = 640.0, 180.0, 10.0
+    pts = []
+    n = len(eq)
+    for i, (_, v) in enumerate(eq):
+        x = (i / max(1, n - 1)) * W
+        y = PAD + (1 - (v - lo) / span) * (H - 2 * PAD)
+        pts.append(f"{x:.1f},{y:.1f}")
+    line = "M" + " L".join(pts)
+    area = line + f" L{W:.0f},{H:.0f} L0,{H:.0f} Z"
+    y0 = PAD + (1 - (0 - lo) / span) * (H - 2 * PAD)
+    zero = f'<line class="czero" x1="0" y1="{y0:.1f}" x2="640" y2="{y0:.1f}"/>' if lo < 0 else ""
+    net = p["best"]["stats"].get("Net", "")
+    return f"""<figure class="chart-panel">
+    <div class="chart-head"><span class="chart-title">Cumulative net &middot; real closed-trade record</span><span class="chart-end">{esc(net)}</span></div>
+    <svg viewBox="0 0 640 180" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <defs><linearGradient id="cg-{p["slug"]}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#56C8A2" stop-opacity=".22"/>
+        <stop offset="1" stop-color="#56C8A2" stop-opacity="0"/>
+      </linearGradient></defs>
+      {zero}
+      <path class="carea" d="{area}" fill="url(#cg-{p["slug"]})"/>
+      <path class="cline" d="{line}"/>
+    </svg>
+    <figcaption class="chart-note">Every point is a closed trade from the validated run &mdash; {tr["full"]["n"]:,} trades, {esc(tr["full"]["start"])} &rarr; {esc(tr["full"]["end"])}.</figcaption>
+  </figure>"""
+
 def chart_figure(p):
+    tr = load_trades_data(p["slug"])
+    if tr:
+        return real_chart(p, tr)
     b = p["best"]["stats"]
     net, dd, n, win, pf = b.get("Net"), b.get("Max DD"), b.get("Trades"), b.get("Win"), b.get("PF")
     if not net: return ""
@@ -416,8 +524,10 @@ def product_page(p, is_book):
              f"TradingView invite-only script, activated within 24h.")
     crumb_root = ('<a href="/strategies/the-books.html">The Books</a>' if is_book
                   else '<a href="/#strategies">Strategies</a>')
+    _tr = load_trades_data(p["slug"])
     main_col = rodd_menu(p) + "\n" + tester_block(p) + "\n" + (
-        engines_block(p) if p.get("engines") else "") + "\n" + calendar_panel()
+        engines_block(p) if p.get("engines") else "") + "\n" + (
+        calendar_real(_tr) if _tr else calendar_panel())
     main_col += "\n" + warn_block(p) + "\n" + legs_block(p)
     xsell = None
     struck = None
@@ -507,7 +617,7 @@ inc_rows = "".join(
     f'<li><a class="sys-link" href="/strategies/{s["slug"]}.html"><span class="inc-name">{esc(s["name"])}</span></a>'
     f'<span class="inc-price">${s["price"]}/mo</span></li>'
     for s in sorted(CAT["strategies"], key=lambda x: -x["price"]))
-if not PRELAUNCH:
+if not PRELAUNCH and HAS_BUNDLES:
     bundle_page("all-access", "All-Access", BN["all_access"]["price"], BN["all_access"]["combined"],
         "Every validated strategy in the catalog. The Books are not included.",
         f"""<div class="record">

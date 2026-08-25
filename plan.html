@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/assets/main.css?v=d3c1382e">
+<link rel="stylesheet" href="/assets/main.css?v=42ac7031">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -80,26 +80,447 @@
     <div id="plan">
       <div class="plan-prog" aria-hidden="true"><span class="pp pp-1"></span><span class="pp pp-2"></span><span class="pp pp-3"></span><span class="pp pp-4"></span></div>
       <div class="plan-qs">
-            <div class="prelaunch">
-        <span class="pl-tag">FINDER OFFLINE</span>
-        <h3>The plan finder returns with the new lineup.</h3>
-        <p>This page matches you to a system by drawdown budget and temperament &mdash; it
-        needs a published catalog to do that honestly, and the new one is still in
-        validation. Nothing here will guess. It switches back on the day the first
-        flagship lands.</p>
-        <div class="pl-ctas">
-          <a class="btn btn-buy" href="/#strategies">See what is coming</a>
-          <!-- DISCORD: replace this href with the community invite link -->
-          <a class="btn" href="#" rel="noopener">Get told when it lands</a>
-        </div>
-      </div>
+      
+      <input type="checkbox" id="ed-scope" class="pq-edit">
+      <fieldset class="pq pq-scope">
+        <legend><span class="pq-n">STEP 01</span> <span class="pq-q">What are you shopping for?</span></legend>
+        <div class="pq-opts"><input class="pq-radio" type="radio" name="q-scope" id="s1"><label class="pq-opt" for="s1"><b>One system</b><span>Start focused — a single edge, run properly</span></label><input class="pq-radio" type="radio" name="q-scope" id="s2"><label class="pq-opt" for="s2"><b>Three systems</b><span>A custom Pick-3, named by you at checkout</span></label><input class="pq-radio" type="radio" name="q-scope" id="s3"><label class="pq-opt" for="s3"><b>The whole shelf</b><span>All-Access — every strategy at once</span></label><input class="pq-radio" type="radio" name="q-scope" id="s4"><label class="pq-opt" for="s4"><b>The in-house Books</b><span>The four engines we run ourselves</span></label></div>
+      <label class="pq-editlab" for="ed-scope"><span class="sr-only">Change this answer</span></label>
+        <label class="pq-close" for="ed-scope">done</label>
+      </fieldset>
+
+      <input type="checkbox" id="ed-budget" class="pq-edit">
+      <fieldset class="pq pq-budget">
+        <legend><span class="pq-n">STEP 02</span> <span class="pq-q">What drawdown budget are you sizing?</span></legend>
+        <p class="pq-hint">Not your account size — the open drawdown you could genuinely sit through without pulling the plug. The same number the sizing menu on every product page runs on.</p>
+        <div class="pq-opts"><input class="pq-radio" type="radio" name="q-budget" id="b1"><label class="pq-opt" for="b1"><b>$1k–$5k</b><span>Room for a ~$4.5k drawdown</span></label><input class="pq-radio" type="radio" name="q-budget" id="b2"><label class="pq-opt" for="b2"><b>$5k–$10k</b><span>Room for a ~$9.5k drawdown</span></label><input class="pq-radio" type="radio" name="q-budget" id="b3"><label class="pq-opt" for="b3"><b>$10k–$25k</b><span>Room for a ~$22.5k drawdown</span></label><input class="pq-radio" type="radio" name="q-budget" id="b4"><label class="pq-opt" for="b4"><b>$25k+</b><span>Deep book — any published drawdown</span></label></div>
+      <label class="pq-editlab" for="ed-budget"><span class="sr-only">Change this answer</span></label>
+        <label class="pq-close" for="ed-budget">done</label>
+      </fieldset>
+
+      <input type="checkbox" id="ed-temp" class="pq-edit">
+      <fieldset class="pq pq-temp">
+        <legend><span class="pq-n">STEP 03</span> <span class="pq-q">What kind of ride can you stomach?</span></legend>
+        <div class="pq-opts"><input class="pq-radio" type="radio" name="q-temp" id="t1"><label class="pq-opt" for="t1"><b>Steady grind</b><span>High win rate. Long green streaks, shallow pain.</span></label><input class="pq-radio" type="radio" name="q-temp" id="t2"><label class="pq-opt" for="t2"><b>Best math</b><span>Maximum return per dollar of drawdown. The RoDD play.</span></label><input class="pq-radio" type="radio" name="q-temp" id="t3"><label class="pq-opt" for="t3"><b>Big swings ok</b><span>Chase the biggest published net. Deeper holes en route.</span></label></div>
+      <label class="pq-editlab" for="ed-temp"><span class="sr-only">Change this answer</span></label>
+        <label class="pq-close" for="ed-temp">done</label>
+      </fieldset>
+
+      <input type="checkbox" id="ed-exec" class="pq-edit">
+      <fieldset class="pq pq-exec">
+        <legend><span class="pq-n">STEP 04</span> <span class="pq-q">How will you run it?</span></legend>
+        <div class="pq-opts"><input class="pq-radio" type="radio" name="q-exec" id="e1"><label class="pq-opt" for="e1"><b>Manually</b><span>I take the alerts myself</span></label><input class="pq-radio" type="radio" name="q-exec" id="e2"><label class="pq-opt" for="e2"><b>Automated</b><span>Hands-free, alerts execute at my broker</span></label></div>
+      <label class="pq-editlab" for="ed-exec"><span class="sr-only">Change this answer</span></label>
+        <label class="pq-close" for="ed-exec">done</label>
+      </fieldset>
+
       </div>
       <section class="plan-results" aria-live="polite">
-        
-        
-        
-        
-        
+        <div class="pr" id="r-s1-b1-t1"><div class="pr-card fc-slipstream">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8h11a2.8 2.8 0 1 0-2.6-3.8"/><path d="M3.5 12.5H18a3 3 0 1 1-2.8 4"/><path d="M3.5 17h7"/></svg></span><div class="pr-id">
+        <a class="pr-name" href="/strategies/slipstream.html">Slipstream</a>
+        <span class="pr-real">MNQ FVG Continuation 10m</span></div>
+        <div class="pr-price">$649<small>/MO</small></div>
+      </div>
+      <p class="pr-why">Highest win rate that fits this budget: 77.1% across 878 trades.</p>
+      <div class="pr-stats"><div class="prs"><b>27.78</b><span>RoDD</span></div><div class="prs"><b>$1.8k</b><span>Max DD</span></div><div class="prs"><b>77.1%</b><span>Win</span></div><div class="prs"><b>878</b><span>n</span></div></div>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/slipstream.html">View full data</a>
+        <!-- WHOP: replace with checkout link (Slipstream) -->
+        <a class="btn btn-buy" href="/strategies/slipstream.html" rel="noopener">Get access</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s2-b1-t1"><div class="pr-card">
+      <div class="pr-head"><div class="pr-id"><span class="pr-name">Your custom Pick-3</span>
+        <span class="pr-real">named at checkout — this exact trio</span></div>
+        <div class="pr-price"><s class="was">$2,257</s>$499<small>/MO</small></div>
+      </div>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8h11a2.8 2.8 0 1 0-2.6-3.8"/><path d="M3.5 12.5H18a3 3 0 1 1-2.8 4"/><path d="M3.5 17h7"/></svg><a class="pr-name" href="/strategies/slipstream.html">Slipstream</a><span class="pr-real">MNQ FVG Continuation 10m</span><span class="pr-mini">27.78&times; RoDD · 77.1% win · $1.8k DD</span><span class="pr-solo">$649</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7" width="16" height="12" rx="1.2"/><path d="M4 11h16"/><path d="M9 7v12M15 7v12" opacity=".6"/><circle cx="12" cy="14.8" r="1.5"/></svg><a class="pr-name" href="/strategies/strongbox.html">Strongbox</a><span class="pr-real">MNQ Strong Book (3-Leg)</span><span class="pr-mini">29.98&times; RoDD · 76.1% win · $2.7k DD</span><span class="pr-solo">$699</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg><a class="pr-name" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">39.20&times; RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li></ul>
+      <p class="pr-why">Chosen by the same rule the shelf is ranked by: the highest win rates that fit your drawdown
+      budget. Worth $2,257/mo solo.</p>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/pick-3.html">How Pick-3 works</a>
+        <!-- WHOP: replace with checkout link (Pick-3) -->
+        <a class="btn btn-buy" href="/strategies/pick-3.html" rel="noopener">Get Pick-3 — $499/mo</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s1-b1-t2"><div class="pr-card fc-continuum">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg></span><div class="pr-id">
+        <a class="pr-name" href="/strategies/continuum.html">Continuum</a>
+        <span class="pr-real">MNQ 24H Multi-Leg Book</span></div>
+        <div class="pr-price">$909<small>/MO</small></div>
+      </div>
+      <p class="pr-why">Best return-on-drawdown that fits: 39.20&times; RoDD on 1,877 trades.</p>
+      <div class="pr-stats"><div class="prs"><b>39.20</b><span>RoDD</span></div><div class="prs"><b>$1.8k</b><span>Max DD</span></div><div class="prs"><b>73.9%</b><span>Win</span></div><div class="prs"><b>1,877</b><span>n</span></div></div>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/continuum.html">View full data</a>
+        <!-- WHOP: replace with checkout link (Continuum) -->
+        <a class="btn btn-buy" href="/strategies/continuum.html" rel="noopener">Get access</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s2-b1-t2"><div class="pr-card">
+      <div class="pr-head"><div class="pr-id"><span class="pr-name">Your custom Pick-3</span>
+        <span class="pr-real">named at checkout — this exact trio</span></div>
+        <div class="pr-price"><s class="was">$2,367</s>$499<small>/MO</small></div>
+      </div>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg><a class="pr-name" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">39.20&times; RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5 6 7.5l4 3.6L12 5.6l2 5.5 4-3.6 1.5 9z"/><path d="M4.5 19h15"/><circle cx="8.4" cy="14.6" r=".9"/><circle cx="12" cy="14" r=".9"/><circle cx="15.6" cy="14.6" r=".9"/></svg><a class="pr-name" href="/strategies/midas.html">Midas</a><span class="pr-real">MGC 24H Gold Book</span><span class="pr-mini">32.44&times; RoDD · 70.5% win · $3.7k DD</span><span class="pr-solo">$759</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 14.5h3.4l2-8.2 3 12.4 2.4-9 1.6 4.8H21"/></svg><a class="pr-name" href="/strategies/aftershock.html">Aftershock</a><span class="pr-real">MNQ 08:30 Range Fade V4</span><span class="pr-mini">31.59&times; RoDD · 60.4% win · $1.7k DD</span><span class="pr-solo">$699</span></li></ul>
+      <p class="pr-why">Chosen by the same rule the shelf is ranked by: the highest RoDD that fit your drawdown
+      budget. Worth $2,367/mo solo.</p>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/pick-3.html">How Pick-3 works</a>
+        <!-- WHOP: replace with checkout link (Pick-3) -->
+        <a class="btn btn-buy" href="/strategies/pick-3.html" rel="noopener">Get Pick-3 — $499/mo</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s1-b1-t3"><div class="pr-card fc-midas">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5 6 7.5l4 3.6L12 5.6l2 5.5 4-3.6 1.5 9z"/><path d="M4.5 19h15"/><circle cx="8.4" cy="14.6" r=".9"/><circle cx="12" cy="14" r=".9"/><circle cx="15.6" cy="14.6" r=".9"/></svg></span><div class="pr-id">
+        <a class="pr-name" href="/strategies/midas.html">Midas</a>
+        <span class="pr-real">MGC 24H Gold Book</span></div>
+        <div class="pr-price">$759<small>/MO</small></div>
+      </div>
+      <p class="pr-why">Biggest published net that fits: $119.5k — budget for the full $3.7k drawdown en route.</p>
+      <div class="pr-stats"><div class="prs"><b>32.44</b><span>RoDD</span></div><div class="prs"><b>$3.7k</b><span>Max DD</span></div><div class="prs"><b>70.5%</b><span>Win</span></div><div class="prs"><b>1,317</b><span>n</span></div></div>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/midas.html">View full data</a>
+        <!-- WHOP: replace with checkout link (Midas) -->
+        <a class="btn btn-buy" href="/strategies/midas.html" rel="noopener">Get access</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s2-b1-t3"><div class="pr-card">
+      <div class="pr-head"><div class="pr-id"><span class="pr-name">Your custom Pick-3</span>
+        <span class="pr-real">named at checkout — this exact trio</span></div>
+        <div class="pr-price"><s class="was">$2,367</s>$499<small>/MO</small></div>
+      </div>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5 6 7.5l4 3.6L12 5.6l2 5.5 4-3.6 1.5 9z"/><path d="M4.5 19h15"/><circle cx="8.4" cy="14.6" r=".9"/><circle cx="12" cy="14" r=".9"/><circle cx="15.6" cy="14.6" r=".9"/></svg><a class="pr-name" href="/strategies/midas.html">Midas</a><span class="pr-real">MGC 24H Gold Book</span><span class="pr-mini">32.44&times; RoDD · 70.5% win · $3.7k DD</span><span class="pr-solo">$759</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7" width="16" height="12" rx="1.2"/><path d="M4 11h16"/><path d="M9 7v12M15 7v12" opacity=".6"/><circle cx="12" cy="14.8" r="1.5"/></svg><a class="pr-name" href="/strategies/strongbox.html">Strongbox</a><span class="pr-real">MNQ Strong Book (3-Leg)</span><span class="pr-mini">29.98&times; RoDD · 76.1% win · $2.7k DD</span><span class="pr-solo">$699</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg><a class="pr-name" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">39.20&times; RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li></ul>
+      <p class="pr-why">Chosen by the same rule the shelf is ranked by: the largest published nets that fit your drawdown
+      budget. Worth $2,367/mo solo.</p>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/pick-3.html">How Pick-3 works</a>
+        <!-- WHOP: replace with checkout link (Pick-3) -->
+        <a class="btn btn-buy" href="/strategies/pick-3.html" rel="noopener">Get Pick-3 — $499/mo</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s1-b2-t1"><div class="pr-card fc-slipstream">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8h11a2.8 2.8 0 1 0-2.6-3.8"/><path d="M3.5 12.5H18a3 3 0 1 1-2.8 4"/><path d="M3.5 17h7"/></svg></span><div class="pr-id">
+        <a class="pr-name" href="/strategies/slipstream.html">Slipstream</a>
+        <span class="pr-real">MNQ FVG Continuation 10m</span></div>
+        <div class="pr-price">$649<small>/MO</small></div>
+      </div>
+      <p class="pr-why">Highest win rate that fits this budget: 77.1% across 878 trades.</p>
+      <div class="pr-stats"><div class="prs"><b>27.78</b><span>RoDD</span></div><div class="prs"><b>$1.8k</b><span>Max DD</span></div><div class="prs"><b>77.1%</b><span>Win</span></div><div class="prs"><b>878</b><span>n</span></div></div>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/slipstream.html">View full data</a>
+        <!-- WHOP: replace with checkout link (Slipstream) -->
+        <a class="btn btn-buy" href="/strategies/slipstream.html" rel="noopener">Get access</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s2-b2-t1"><div class="pr-card">
+      <div class="pr-head"><div class="pr-id"><span class="pr-name">Your custom Pick-3</span>
+        <span class="pr-real">named at checkout — this exact trio</span></div>
+        <div class="pr-price"><s class="was">$2,257</s>$499<small>/MO</small></div>
+      </div>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8h11a2.8 2.8 0 1 0-2.6-3.8"/><path d="M3.5 12.5H18a3 3 0 1 1-2.8 4"/><path d="M3.5 17h7"/></svg><a class="pr-name" href="/strategies/slipstream.html">Slipstream</a><span class="pr-real">MNQ FVG Continuation 10m</span><span class="pr-mini">27.78&times; RoDD · 77.1% win · $1.8k DD</span><span class="pr-solo">$649</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7" width="16" height="12" rx="1.2"/><path d="M4 11h16"/><path d="M9 7v12M15 7v12" opacity=".6"/><circle cx="12" cy="14.8" r="1.5"/></svg><a class="pr-name" href="/strategies/strongbox.html">Strongbox</a><span class="pr-real">MNQ Strong Book (3-Leg)</span><span class="pr-mini">29.98&times; RoDD · 76.1% win · $2.7k DD</span><span class="pr-solo">$699</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg><a class="pr-name" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">39.20&times; RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li></ul>
+      <p class="pr-why">Chosen by the same rule the shelf is ranked by: the highest win rates that fit your drawdown
+      budget. Worth $2,257/mo solo.</p>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/pick-3.html">How Pick-3 works</a>
+        <!-- WHOP: replace with checkout link (Pick-3) -->
+        <a class="btn btn-buy" href="/strategies/pick-3.html" rel="noopener">Get Pick-3 — $499/mo</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s1-b2-t2"><div class="pr-card fc-continuum">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg></span><div class="pr-id">
+        <a class="pr-name" href="/strategies/continuum.html">Continuum</a>
+        <span class="pr-real">MNQ 24H Multi-Leg Book</span></div>
+        <div class="pr-price">$909<small>/MO</small></div>
+      </div>
+      <p class="pr-why">Best return-on-drawdown that fits: 39.20&times; RoDD on 1,877 trades.</p>
+      <div class="pr-stats"><div class="prs"><b>39.20</b><span>RoDD</span></div><div class="prs"><b>$1.8k</b><span>Max DD</span></div><div class="prs"><b>73.9%</b><span>Win</span></div><div class="prs"><b>1,877</b><span>n</span></div></div>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/continuum.html">View full data</a>
+        <!-- WHOP: replace with checkout link (Continuum) -->
+        <a class="btn btn-buy" href="/strategies/continuum.html" rel="noopener">Get access</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s2-b2-t2"><div class="pr-card">
+      <div class="pr-head"><div class="pr-id"><span class="pr-name">Your custom Pick-3</span>
+        <span class="pr-real">named at checkout — this exact trio</span></div>
+        <div class="pr-price"><s class="was">$2,367</s>$499<small>/MO</small></div>
+      </div>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg><a class="pr-name" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">39.20&times; RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5 6 7.5l4 3.6L12 5.6l2 5.5 4-3.6 1.5 9z"/><path d="M4.5 19h15"/><circle cx="8.4" cy="14.6" r=".9"/><circle cx="12" cy="14" r=".9"/><circle cx="15.6" cy="14.6" r=".9"/></svg><a class="pr-name" href="/strategies/midas.html">Midas</a><span class="pr-real">MGC 24H Gold Book</span><span class="pr-mini">32.44&times; RoDD · 70.5% win · $3.7k DD</span><span class="pr-solo">$759</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 14.5h3.4l2-8.2 3 12.4 2.4-9 1.6 4.8H21"/></svg><a class="pr-name" href="/strategies/aftershock.html">Aftershock</a><span class="pr-real">MNQ 08:30 Range Fade V4</span><span class="pr-mini">31.59&times; RoDD · 60.4% win · $1.7k DD</span><span class="pr-solo">$699</span></li></ul>
+      <p class="pr-why">Chosen by the same rule the shelf is ranked by: the highest RoDD that fit your drawdown
+      budget. Worth $2,367/mo solo.</p>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/pick-3.html">How Pick-3 works</a>
+        <!-- WHOP: replace with checkout link (Pick-3) -->
+        <a class="btn btn-buy" href="/strategies/pick-3.html" rel="noopener">Get Pick-3 — $499/mo</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s1-b2-t3"><div class="pr-card fc-midas">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5 6 7.5l4 3.6L12 5.6l2 5.5 4-3.6 1.5 9z"/><path d="M4.5 19h15"/><circle cx="8.4" cy="14.6" r=".9"/><circle cx="12" cy="14" r=".9"/><circle cx="15.6" cy="14.6" r=".9"/></svg></span><div class="pr-id">
+        <a class="pr-name" href="/strategies/midas.html">Midas</a>
+        <span class="pr-real">MGC 24H Gold Book</span></div>
+        <div class="pr-price">$759<small>/MO</small></div>
+      </div>
+      <p class="pr-why">Biggest published net that fits: $119.5k — budget for the full $3.7k drawdown en route.</p>
+      <div class="pr-stats"><div class="prs"><b>32.44</b><span>RoDD</span></div><div class="prs"><b>$3.7k</b><span>Max DD</span></div><div class="prs"><b>70.5%</b><span>Win</span></div><div class="prs"><b>1,317</b><span>n</span></div></div>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/midas.html">View full data</a>
+        <!-- WHOP: replace with checkout link (Midas) -->
+        <a class="btn btn-buy" href="/strategies/midas.html" rel="noopener">Get access</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s2-b2-t3"><div class="pr-card">
+      <div class="pr-head"><div class="pr-id"><span class="pr-name">Your custom Pick-3</span>
+        <span class="pr-real">named at checkout — this exact trio</span></div>
+        <div class="pr-price"><s class="was">$2,367</s>$499<small>/MO</small></div>
+      </div>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5 6 7.5l4 3.6L12 5.6l2 5.5 4-3.6 1.5 9z"/><path d="M4.5 19h15"/><circle cx="8.4" cy="14.6" r=".9"/><circle cx="12" cy="14" r=".9"/><circle cx="15.6" cy="14.6" r=".9"/></svg><a class="pr-name" href="/strategies/midas.html">Midas</a><span class="pr-real">MGC 24H Gold Book</span><span class="pr-mini">32.44&times; RoDD · 70.5% win · $3.7k DD</span><span class="pr-solo">$759</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7" width="16" height="12" rx="1.2"/><path d="M4 11h16"/><path d="M9 7v12M15 7v12" opacity=".6"/><circle cx="12" cy="14.8" r="1.5"/></svg><a class="pr-name" href="/strategies/strongbox.html">Strongbox</a><span class="pr-real">MNQ Strong Book (3-Leg)</span><span class="pr-mini">29.98&times; RoDD · 76.1% win · $2.7k DD</span><span class="pr-solo">$699</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg><a class="pr-name" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">39.20&times; RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li></ul>
+      <p class="pr-why">Chosen by the same rule the shelf is ranked by: the largest published nets that fit your drawdown
+      budget. Worth $2,367/mo solo.</p>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/pick-3.html">How Pick-3 works</a>
+        <!-- WHOP: replace with checkout link (Pick-3) -->
+        <a class="btn btn-buy" href="/strategies/pick-3.html" rel="noopener">Get Pick-3 — $499/mo</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s1-b3-t1"><div class="pr-card fc-slipstream">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8h11a2.8 2.8 0 1 0-2.6-3.8"/><path d="M3.5 12.5H18a3 3 0 1 1-2.8 4"/><path d="M3.5 17h7"/></svg></span><div class="pr-id">
+        <a class="pr-name" href="/strategies/slipstream.html">Slipstream</a>
+        <span class="pr-real">MNQ FVG Continuation 10m</span></div>
+        <div class="pr-price">$649<small>/MO</small></div>
+      </div>
+      <p class="pr-why">Highest win rate that fits this budget: 77.1% across 878 trades.</p>
+      <div class="pr-stats"><div class="prs"><b>27.78</b><span>RoDD</span></div><div class="prs"><b>$1.8k</b><span>Max DD</span></div><div class="prs"><b>77.1%</b><span>Win</span></div><div class="prs"><b>878</b><span>n</span></div></div>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/slipstream.html">View full data</a>
+        <!-- WHOP: replace with checkout link (Slipstream) -->
+        <a class="btn btn-buy" href="/strategies/slipstream.html" rel="noopener">Get access</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s2-b3-t1"><div class="pr-card">
+      <div class="pr-head"><div class="pr-id"><span class="pr-name">Your custom Pick-3</span>
+        <span class="pr-real">named at checkout — this exact trio</span></div>
+        <div class="pr-price"><s class="was">$2,257</s>$499<small>/MO</small></div>
+      </div>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8h11a2.8 2.8 0 1 0-2.6-3.8"/><path d="M3.5 12.5H18a3 3 0 1 1-2.8 4"/><path d="M3.5 17h7"/></svg><a class="pr-name" href="/strategies/slipstream.html">Slipstream</a><span class="pr-real">MNQ FVG Continuation 10m</span><span class="pr-mini">27.78&times; RoDD · 77.1% win · $1.8k DD</span><span class="pr-solo">$649</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7" width="16" height="12" rx="1.2"/><path d="M4 11h16"/><path d="M9 7v12M15 7v12" opacity=".6"/><circle cx="12" cy="14.8" r="1.5"/></svg><a class="pr-name" href="/strategies/strongbox.html">Strongbox</a><span class="pr-real">MNQ Strong Book (3-Leg)</span><span class="pr-mini">29.98&times; RoDD · 76.1% win · $2.7k DD</span><span class="pr-solo">$699</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg><a class="pr-name" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">39.20&times; RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li></ul>
+      <p class="pr-why">Chosen by the same rule the shelf is ranked by: the highest win rates that fit your drawdown
+      budget. Worth $2,257/mo solo.</p>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/pick-3.html">How Pick-3 works</a>
+        <!-- WHOP: replace with checkout link (Pick-3) -->
+        <a class="btn btn-buy" href="/strategies/pick-3.html" rel="noopener">Get Pick-3 — $499/mo</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s1-b3-t2"><div class="pr-card fc-continuum">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg></span><div class="pr-id">
+        <a class="pr-name" href="/strategies/continuum.html">Continuum</a>
+        <span class="pr-real">MNQ 24H Multi-Leg Book</span></div>
+        <div class="pr-price">$909<small>/MO</small></div>
+      </div>
+      <p class="pr-why">Best return-on-drawdown that fits: 39.20&times; RoDD on 1,877 trades.</p>
+      <div class="pr-stats"><div class="prs"><b>39.20</b><span>RoDD</span></div><div class="prs"><b>$1.8k</b><span>Max DD</span></div><div class="prs"><b>73.9%</b><span>Win</span></div><div class="prs"><b>1,877</b><span>n</span></div></div>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/continuum.html">View full data</a>
+        <!-- WHOP: replace with checkout link (Continuum) -->
+        <a class="btn btn-buy" href="/strategies/continuum.html" rel="noopener">Get access</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s2-b3-t2"><div class="pr-card">
+      <div class="pr-head"><div class="pr-id"><span class="pr-name">Your custom Pick-3</span>
+        <span class="pr-real">named at checkout — this exact trio</span></div>
+        <div class="pr-price"><s class="was">$2,367</s>$499<small>/MO</small></div>
+      </div>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg><a class="pr-name" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">39.20&times; RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5 6 7.5l4 3.6L12 5.6l2 5.5 4-3.6 1.5 9z"/><path d="M4.5 19h15"/><circle cx="8.4" cy="14.6" r=".9"/><circle cx="12" cy="14" r=".9"/><circle cx="15.6" cy="14.6" r=".9"/></svg><a class="pr-name" href="/strategies/midas.html">Midas</a><span class="pr-real">MGC 24H Gold Book</span><span class="pr-mini">32.44&times; RoDD · 70.5% win · $3.7k DD</span><span class="pr-solo">$759</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 14.5h3.4l2-8.2 3 12.4 2.4-9 1.6 4.8H21"/></svg><a class="pr-name" href="/strategies/aftershock.html">Aftershock</a><span class="pr-real">MNQ 08:30 Range Fade V4</span><span class="pr-mini">31.59&times; RoDD · 60.4% win · $1.7k DD</span><span class="pr-solo">$699</span></li></ul>
+      <p class="pr-why">Chosen by the same rule the shelf is ranked by: the highest RoDD that fit your drawdown
+      budget. Worth $2,367/mo solo.</p>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/pick-3.html">How Pick-3 works</a>
+        <!-- WHOP: replace with checkout link (Pick-3) -->
+        <a class="btn btn-buy" href="/strategies/pick-3.html" rel="noopener">Get Pick-3 — $499/mo</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s1-b3-t3"><div class="pr-card fc-midas">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5 6 7.5l4 3.6L12 5.6l2 5.5 4-3.6 1.5 9z"/><path d="M4.5 19h15"/><circle cx="8.4" cy="14.6" r=".9"/><circle cx="12" cy="14" r=".9"/><circle cx="15.6" cy="14.6" r=".9"/></svg></span><div class="pr-id">
+        <a class="pr-name" href="/strategies/midas.html">Midas</a>
+        <span class="pr-real">MGC 24H Gold Book</span></div>
+        <div class="pr-price">$759<small>/MO</small></div>
+      </div>
+      <p class="pr-why">Biggest published net that fits: $119.5k — budget for the full $3.7k drawdown en route.</p>
+      <div class="pr-stats"><div class="prs"><b>32.44</b><span>RoDD</span></div><div class="prs"><b>$3.7k</b><span>Max DD</span></div><div class="prs"><b>70.5%</b><span>Win</span></div><div class="prs"><b>1,317</b><span>n</span></div></div>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/midas.html">View full data</a>
+        <!-- WHOP: replace with checkout link (Midas) -->
+        <a class="btn btn-buy" href="/strategies/midas.html" rel="noopener">Get access</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s2-b3-t3"><div class="pr-card">
+      <div class="pr-head"><div class="pr-id"><span class="pr-name">Your custom Pick-3</span>
+        <span class="pr-real">named at checkout — this exact trio</span></div>
+        <div class="pr-price"><s class="was">$2,367</s>$499<small>/MO</small></div>
+      </div>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5 6 7.5l4 3.6L12 5.6l2 5.5 4-3.6 1.5 9z"/><path d="M4.5 19h15"/><circle cx="8.4" cy="14.6" r=".9"/><circle cx="12" cy="14" r=".9"/><circle cx="15.6" cy="14.6" r=".9"/></svg><a class="pr-name" href="/strategies/midas.html">Midas</a><span class="pr-real">MGC 24H Gold Book</span><span class="pr-mini">32.44&times; RoDD · 70.5% win · $3.7k DD</span><span class="pr-solo">$759</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7" width="16" height="12" rx="1.2"/><path d="M4 11h16"/><path d="M9 7v12M15 7v12" opacity=".6"/><circle cx="12" cy="14.8" r="1.5"/></svg><a class="pr-name" href="/strategies/strongbox.html">Strongbox</a><span class="pr-real">MNQ Strong Book (3-Leg)</span><span class="pr-mini">29.98&times; RoDD · 76.1% win · $2.7k DD</span><span class="pr-solo">$699</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg><a class="pr-name" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">39.20&times; RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li></ul>
+      <p class="pr-why">Chosen by the same rule the shelf is ranked by: the largest published nets that fit your drawdown
+      budget. Worth $2,367/mo solo.</p>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/pick-3.html">How Pick-3 works</a>
+        <!-- WHOP: replace with checkout link (Pick-3) -->
+        <a class="btn btn-buy" href="/strategies/pick-3.html" rel="noopener">Get Pick-3 — $499/mo</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s1-b4-t1"><div class="pr-card fc-slipstream">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8h11a2.8 2.8 0 1 0-2.6-3.8"/><path d="M3.5 12.5H18a3 3 0 1 1-2.8 4"/><path d="M3.5 17h7"/></svg></span><div class="pr-id">
+        <a class="pr-name" href="/strategies/slipstream.html">Slipstream</a>
+        <span class="pr-real">MNQ FVG Continuation 10m</span></div>
+        <div class="pr-price">$649<small>/MO</small></div>
+      </div>
+      <p class="pr-why">Highest win rate that fits this budget: 77.1% across 878 trades.</p>
+      <div class="pr-stats"><div class="prs"><b>27.78</b><span>RoDD</span></div><div class="prs"><b>$1.8k</b><span>Max DD</span></div><div class="prs"><b>77.1%</b><span>Win</span></div><div class="prs"><b>878</b><span>n</span></div></div>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/slipstream.html">View full data</a>
+        <!-- WHOP: replace with checkout link (Slipstream) -->
+        <a class="btn btn-buy" href="/strategies/slipstream.html" rel="noopener">Get access</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s2-b4-t1"><div class="pr-card">
+      <div class="pr-head"><div class="pr-id"><span class="pr-name">Your custom Pick-3</span>
+        <span class="pr-real">named at checkout — this exact trio</span></div>
+        <div class="pr-price"><s class="was">$2,257</s>$499<small>/MO</small></div>
+      </div>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8h11a2.8 2.8 0 1 0-2.6-3.8"/><path d="M3.5 12.5H18a3 3 0 1 1-2.8 4"/><path d="M3.5 17h7"/></svg><a class="pr-name" href="/strategies/slipstream.html">Slipstream</a><span class="pr-real">MNQ FVG Continuation 10m</span><span class="pr-mini">27.78&times; RoDD · 77.1% win · $1.8k DD</span><span class="pr-solo">$649</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7" width="16" height="12" rx="1.2"/><path d="M4 11h16"/><path d="M9 7v12M15 7v12" opacity=".6"/><circle cx="12" cy="14.8" r="1.5"/></svg><a class="pr-name" href="/strategies/strongbox.html">Strongbox</a><span class="pr-real">MNQ Strong Book (3-Leg)</span><span class="pr-mini">29.98&times; RoDD · 76.1% win · $2.7k DD</span><span class="pr-solo">$699</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg><a class="pr-name" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">39.20&times; RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li></ul>
+      <p class="pr-why">Chosen by the same rule the shelf is ranked by: the highest win rates that fit your drawdown
+      budget. Worth $2,257/mo solo.</p>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/pick-3.html">How Pick-3 works</a>
+        <!-- WHOP: replace with checkout link (Pick-3) -->
+        <a class="btn btn-buy" href="/strategies/pick-3.html" rel="noopener">Get Pick-3 — $499/mo</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s1-b4-t2"><div class="pr-card fc-continuum">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg></span><div class="pr-id">
+        <a class="pr-name" href="/strategies/continuum.html">Continuum</a>
+        <span class="pr-real">MNQ 24H Multi-Leg Book</span></div>
+        <div class="pr-price">$909<small>/MO</small></div>
+      </div>
+      <p class="pr-why">Best return-on-drawdown that fits: 39.20&times; RoDD on 1,877 trades.</p>
+      <div class="pr-stats"><div class="prs"><b>39.20</b><span>RoDD</span></div><div class="prs"><b>$1.8k</b><span>Max DD</span></div><div class="prs"><b>73.9%</b><span>Win</span></div><div class="prs"><b>1,877</b><span>n</span></div></div>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/continuum.html">View full data</a>
+        <!-- WHOP: replace with checkout link (Continuum) -->
+        <a class="btn btn-buy" href="/strategies/continuum.html" rel="noopener">Get access</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s2-b4-t2"><div class="pr-card">
+      <div class="pr-head"><div class="pr-id"><span class="pr-name">Your custom Pick-3</span>
+        <span class="pr-real">named at checkout — this exact trio</span></div>
+        <div class="pr-price"><s class="was">$2,367</s>$499<small>/MO</small></div>
+      </div>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg><a class="pr-name" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">39.20&times; RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5 6 7.5l4 3.6L12 5.6l2 5.5 4-3.6 1.5 9z"/><path d="M4.5 19h15"/><circle cx="8.4" cy="14.6" r=".9"/><circle cx="12" cy="14" r=".9"/><circle cx="15.6" cy="14.6" r=".9"/></svg><a class="pr-name" href="/strategies/midas.html">Midas</a><span class="pr-real">MGC 24H Gold Book</span><span class="pr-mini">32.44&times; RoDD · 70.5% win · $3.7k DD</span><span class="pr-solo">$759</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 14.5h3.4l2-8.2 3 12.4 2.4-9 1.6 4.8H21"/></svg><a class="pr-name" href="/strategies/aftershock.html">Aftershock</a><span class="pr-real">MNQ 08:30 Range Fade V4</span><span class="pr-mini">31.59&times; RoDD · 60.4% win · $1.7k DD</span><span class="pr-solo">$699</span></li></ul>
+      <p class="pr-why">Chosen by the same rule the shelf is ranked by: the highest RoDD that fit your drawdown
+      budget. Worth $2,367/mo solo.</p>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/pick-3.html">How Pick-3 works</a>
+        <!-- WHOP: replace with checkout link (Pick-3) -->
+        <a class="btn btn-buy" href="/strategies/pick-3.html" rel="noopener">Get Pick-3 — $499/mo</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s1-b4-t3"><div class="pr-card fc-midas">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5 6 7.5l4 3.6L12 5.6l2 5.5 4-3.6 1.5 9z"/><path d="M4.5 19h15"/><circle cx="8.4" cy="14.6" r=".9"/><circle cx="12" cy="14" r=".9"/><circle cx="15.6" cy="14.6" r=".9"/></svg></span><div class="pr-id">
+        <a class="pr-name" href="/strategies/midas.html">Midas</a>
+        <span class="pr-real">MGC 24H Gold Book</span></div>
+        <div class="pr-price">$759<small>/MO</small></div>
+      </div>
+      <p class="pr-why">Biggest published net that fits: $119.5k — budget for the full $3.7k drawdown en route.</p>
+      <div class="pr-stats"><div class="prs"><b>32.44</b><span>RoDD</span></div><div class="prs"><b>$3.7k</b><span>Max DD</span></div><div class="prs"><b>70.5%</b><span>Win</span></div><div class="prs"><b>1,317</b><span>n</span></div></div>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/midas.html">View full data</a>
+        <!-- WHOP: replace with checkout link (Midas) -->
+        <a class="btn btn-buy" href="/strategies/midas.html" rel="noopener">Get access</a>
+      </div>
+    </div></div>
+<div class="pr" id="r-s2-b4-t3"><div class="pr-card">
+      <div class="pr-head"><div class="pr-id"><span class="pr-name">Your custom Pick-3</span>
+        <span class="pr-real">named at checkout — this exact trio</span></div>
+        <div class="pr-price"><s class="was">$2,367</s>$499<small>/MO</small></div>
+      </div>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5 6 7.5l4 3.6L12 5.6l2 5.5 4-3.6 1.5 9z"/><path d="M4.5 19h15"/><circle cx="8.4" cy="14.6" r=".9"/><circle cx="12" cy="14" r=".9"/><circle cx="15.6" cy="14.6" r=".9"/></svg><a class="pr-name" href="/strategies/midas.html">Midas</a><span class="pr-real">MGC 24H Gold Book</span><span class="pr-mini">32.44&times; RoDD · 70.5% win · $3.7k DD</span><span class="pr-solo">$759</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7" width="16" height="12" rx="1.2"/><path d="M4 11h16"/><path d="M9 7v12M15 7v12" opacity=".6"/><circle cx="12" cy="14.8" r="1.5"/></svg><a class="pr-name" href="/strategies/strongbox.html">Strongbox</a><span class="pr-real">MNQ Strong Book (3-Leg)</span><span class="pr-mini">29.98&times; RoDD · 76.1% win · $2.7k DD</span><span class="pr-solo">$699</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg><a class="pr-name" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">39.20&times; RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li></ul>
+      <p class="pr-why">Chosen by the same rule the shelf is ranked by: the largest published nets that fit your drawdown
+      budget. Worth $2,367/mo solo.</p>
+      <div class="pr-ctas">
+        <a class="btn" href="/strategies/pick-3.html">How Pick-3 works</a>
+        <!-- WHOP: replace with checkout link (Pick-3) -->
+        <a class="btn btn-buy" href="/strategies/pick-3.html" rel="noopener">Get Pick-3 — $499/mo</a>
+      </div>
+    </div></div>
+
+        <div class="pr" id="r-s3-small" hidden>
+  <div class="pr-card">
+    <div class="pr-head"><div class="pr-id"><span class="pr-name">The Starter</span>
+      <span class="pr-real">TBD</span></div>
+      <div class="pr-price"><s class="was">$387</s>$149<small>/MO</small></div>
+    </div>
+    <p class="pr-why">At this budget, run the three lowest-drawdown systems first — every one holds under a $9k published max drawdown — then step up to the full shelf once you have lived with them.</p>
+    <div class="pr-ctas">
+      <a class="btn" href="/strategies/the-starter.html">See The Starter</a>
+      <!-- WHOP: replace with checkout link (The Starter) -->
+      <a class="btn btn-buy" href="/strategies/the-starter.html" rel="noopener">Start for $149/mo</a>
+    </div>
+  </div>
+</div>
+        <div class="pr" id="r-s3-big">
+  <div class="pr-card">
+    <div class="pr-head"><div class="pr-id"><span class="pr-name">All-Access</span>
+      <span class="pr-real">every strategy on the shelf — 5 systems, books excluded</span></div>
+      <div class="pr-price"><s class="was">$4,220</s>$999<small>/MO</small></div>
+    </div>
+    <p class="pr-why">The whole catalog under one subscription: all 5 live-validated systems across MNQ, NQ, MGC, SI, and ES, worth $4,220/mo solo. Diversify across sessions instead of picking one.</p>
+    <div class="pr-ctas">
+      <a class="btn" href="/strategies/all-access.html">See All-Access</a>
+      <!-- WHOP: replace with checkout link (All-Access) -->
+      <a class="btn btn-buy" href="/strategies/all-access.html" rel="noopener">Get All-Access — $999/mo</a>
+    </div>
+  </div>
+</div>
+        <div class="pr" id="r-s4">
+  <div class="pr-card pr-card-books">
+    <div class="pr-head"><div class="pr-id"><span class="pr-name">The Books</span>
+      <span class="pr-real">the four in-house engines we run ourselves</span></div>
+      <div class="pr-price"><s class="was">$3,656</s>$2,999<small>/MO</small></div>
+    </div>
+    <ul class="bookdeck bookdeck-mini"></ul>
+    <p class="pr-why">Multi-leg routers, live-validated, both windows published. Solo from $0/mo; all four together under the price of any two.</p>
+    <div class="pr-ctas">
+      <a class="btn" href="/strategies/the-books.html">See The Books</a>
+      <!-- WHOP: replace with checkout link (The Books) -->
+      <a class="btn btn-buy" href="/strategies/the-books.html" rel="noopener">Get the Books — $2,999/mo</a>
+    </div>
+  </div>
+</div>
+        <aside class="pr pr-exec" id="r-e2">
+        <div class="pmt">
+          <div class="pmt-title">PARTNERED WITH PICKMYTRADE</div>
+          <p class="pmt-copy">Every system here fires standard TradingView alerts. Through our partner
+          PickMyTrade, those alerts route straight to your broker &mdash; Tradovate, NinjaTrader, and more &mdash;
+          and execute hands-free. Setup takes minutes, no code.</p>
+          <ol class="pmt-steps">
+            <li>Connect your broker to PickMyTrade</li>
+            <li>Paste our alert template into TradingView</li>
+            <li>Alerts fire &rarr; orders execute &mdash; you supervise</li>
+          </ol>
+          <div class="pmt-cta">
+            <a class="btn btn-solid" href="https://pickmytrade.trade/?referral=XcWQwlL2tzFDqd1lxaJDtw" target="_blank" rel="noopener sponsored">Set up PickMyTrade</a>
+            <span class="pmt-disc">partner link</span>
+          </div>
+        </div>
+      </aside>
+      <aside class="pr pr-exec" id="r-e1">
+        <div class="pmt pmt-manual">
+          <div class="pmt-title">RUNNING IT BY HAND</div>
+          <p class="pmt-copy">Every product page lists its session window and bar time &mdash; most systems fire
+          inside one narrow slot per day. Treat the alert as your entry checklist, size with the RoDD menu on
+          the product page, and take every signal: the published stats assume no cherry-picking.</p>
+        </div>
+      </aside>
       </section>
       <p class="plan-update">change any answer &mdash; the recommendation updates instantly</p>
     </div>

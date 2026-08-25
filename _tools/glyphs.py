@@ -7,6 +7,16 @@ SW = 1.6  # stroke width for 24px strategy glyphs
 
 # slug -> inner SVG content (24x24 viewBox, stroke=currentColor set on <svg>)
 STRAT = {
+    # Continuum — the 24h book: clock in orbit
+    "continuum": '<circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/>',
+    # Midas — the gold book: crown
+    "midas": '<path d="M4.5 16.5 6 7.5l4 3.6L12 5.6l2 5.5 4-3.6 1.5 9z"/><path d="M4.5 19h15"/><circle cx="8.4" cy="14.6" r=".9"/><circle cx="12" cy="14" r=".9"/><circle cx="15.6" cy="14.6" r=".9"/>',
+    # Aftershock — 08:30 data burst: seismograph
+    "aftershock": '<path d="M3 14.5h3.4l2-8.2 3 12.4 2.4-9 1.6 4.8H21"/>',
+    # Strongbox — three-leg book: banded chest
+    "strongbox": '<rect x="4" y="7" width="16" height="12" rx="1.2"/><path d="M4 11h16"/><path d="M9 7v12M15 7v12" opacity=".6"/><circle cx="12" cy="14.8" r="1.5"/>',
+    # Slipstream — FVG continuation: layered flow
+    "slipstream": '<path d="M3.5 8h11a2.8 2.8 0 1 0-2.6-3.8"/><path d="M3.5 12.5H18a3 3 0 1 1-2.8 4"/><path d="M3.5 17h7"/>',
     # Spartacus — gladiator helm: dome, T-visor, crest
     "spartacus": '<path d="M6 20v-7a6 6 0 0 1 12 0v7"/><path d="M12 10v10"/><path d="M7.5 13.5h9"/><path d="M8 4.2c2.6-1.9 5.4-1.9 8 0"/>',
     # The Alloy — two metals fused: overlapping ingot diamonds

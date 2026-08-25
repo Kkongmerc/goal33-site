@@ -73,7 +73,22 @@ trio for a Pick-3 seeker is worth less than the $499 bundle price, the page
 recommends the cheaper path instead (The Starter if it IS that trio, otherwise
 "buy the three solo") — never delete this branch to make Pick-3 sell better.
 
-## PRE-LAUNCH MODE (current state)
+## TOP-5 LAUNCH STATE (current)
+
+The five RoDD-board leaders are PUBLISHED in `catalog2.json` -> `strategies[]`:
+continuum ($909) / midas ($759) / aftershock ($699) / strongbox ($699) /
+slipstream ($649) — prices formula-driven from replayed best-window RoDD x n.
+Every number is a closed-trade replay of the committed TradingView export the
+owners' validation board used (verified digit-for-digit against the board).
+**Real trade data lives in `_tools/trades/<slug>.json`** (equity points, daily
+P&L, full closed-trade list — derived numbers only, never settings or research
+identifiers): it powers the real equity curves, the filled daily calendars,
+and the product pages' List-of-trades tab. Books/bundles stay pending
+(`books[]` empty -> the #packages section renders a 'books are next' band and
+bundle pages are skipped). The hero carousel runs 5 slots. Cool names are
+lineage picks and renameable anytime — slugs never change.
+
+## PRE-LAUNCH MODE (dormant machinery)
 
 The published catalog is intentionally EMPTY while the new lineup is validated:
 `catalog2.json` has `strategies: []` and `books: []`, and all three generators
