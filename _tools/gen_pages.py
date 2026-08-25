@@ -12,6 +12,10 @@ CAT = json.load(open(os.path.join(_HERE, "catalog2.json"), encoding="utf-8"))
 SITE = "https://futurestradingbots.com"
 # PRE-LAUNCH: no published products -> skip product + bundle pages entirely
 PRELAUNCH = not CAT["strategies"] and not CAT["books"]
+WHOP_STORE = CAT.get("whop_store") or "/#packages"
+def buy_href(p):
+    """The product's Whop page when it has one, else its own page."""
+    return p.get("whop") or f"/strategies/{p['slug']}.html"
 HAS_BUNDLES = bool(CAT["strategies"])          # Pick-3 / All-Access need strategies only
 HAS_BOOKS_BUNDLE = bool(CAT["books"])         # The Books needs books
 HAS_STARTER = bool(CAT["bundles"].get("starter", {}).get("slugs")) and all(
@@ -97,8 +101,8 @@ def head(title, desc, path, bodycls=""):
       <a href="/#how">How access works</a>
       <a href="/#faq">FAQ</a>
     </nav>
-    <!-- WHOP: replace this link with the Whop storefront URL -->
-    <a class="btn btn-sm btn-buy" href="/#packages" rel="noopener">Get access</a>
+    <!-- WHOP: storefront -->
+    <a class="btn btn-sm btn-buy" href="{WHOP_STORE}" rel="noopener">Get access</a>
     <!-- DISCORD: community invite -->
     <a class="btn btn-sm btn-discord" href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener"><svg class="ic-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.7 17.4c-3.2-.1-4.9-1.7-4.9-1.7.3-4 1.4-6.6 2.7-8.3C7.8 6.4 9.2 6 9.2 6l.5 1.1c1.5-.3 3.1-.3 4.6 0L14.8 6s1.4.4 2.7 1.4c1.3 1.7 2.4 4.3 2.7 8.3 0 0-1.7 1.6-4.9 1.7l-.8-1.1c-1.6.3-3.4.3-5 0z"/><circle cx="9.6" cy="12.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.6" r="1.15" fill="currentColor" stroke="none"/></svg><span>Discord</span></a>
     <details class="nav-mob">
@@ -159,7 +163,7 @@ FOOTER = f"""</main>
 </html>
 """
 
-def buybox(name, price, whop_note, xsell=None, struck=None):
+def buybox(name, price, whop_note, xsell=None, struck=None, href="#"):
     was = f'<s class="was">${struck}<span class="sr-only"> combined value,</span></s>' if struck else ""
     xs = xsell or (('Bundles: <a href="/strategies/all-access.html">All-Access — $999/mo</a> · '
                     '<a href="/strategies/pick-3.html">Pick-3 — $499/mo</a>') if HAS_BUNDLES else
@@ -167,8 +171,8 @@ def buybox(name, price, whop_note, xsell=None, struck=None):
     return f"""<aside class="buybox" aria-label="Purchase {html.escape(name)}">
   <div class="price">{was}<span class="now">${price}</span><span class="per">/MO</span></div>
   <span class="annual">Annual = 2 months free</span>
-  <!-- WHOP: paste checkout link ({whop_note}) -->
-  <a class="btn btn-buy" href="#" rel="noopener">Get access</a>
+  <!-- WHOP: checkout ({whop_note}) -->
+  <a class="btn btn-buy" href="{href}" rel="noopener">Get access</a>
   <div class="guar">
     <span class="guar-line"><b>7-day</b> money-back &mdash; no questions</span>
     <span class="guar-line"><b>First month not profitable?</b> Full refund</span>
@@ -665,7 +669,7 @@ def product_page(p, is_book):
         {main_col}
         </div>
         <div class="pdp-side">
-        {buybox(p['name'], f"{p['price']:,}", p['name'] + " / " + p['actual'], xsell=xsell)}
+        {buybox(p['name'], f"{p['price']:,}", p['name'] + " / " + p['actual'], xsell=xsell, href=buy_href(p))}
         {sep_block(p)}
         </div>
       </div>

@@ -19,6 +19,9 @@ _HERE = os.path.dirname(os.path.abspath(__file__))
 BASE = os.path.dirname(_HERE)
 CAT = json.load(open(os.path.join(_HERE, "catalog2.json"), encoding="utf-8"))
 S, B, BN = CAT["strategies"], CAT["books"], CAT["bundles"]
+WHOP_STORE = CAT.get("whop_store") or "/#packages"
+def buy_href(p):
+    return p.get("whop") or f"/strategies/{p['slug']}.html"
 _pr = sorted((s["price"] for s in S), reverse=True)
 COMBINED_ALL = sum(_pr)
 _mk = []
@@ -96,7 +99,7 @@ def single_card(p, tkey, alt):
       <div class="pr-ctas">
         <a class="btn" href="/strategies/{p['slug']}.html">View full data</a>
         <!-- WHOP: replace with checkout link ({esc(p['name'])}) -->
-        <a class="btn btn-buy" href="/strategies/{p['slug']}.html" rel="noopener">Get access</a>
+        <a class="btn btn-buy" href="{buy_href(p)}" rel="noopener">Get access</a>
       </div>
     </div>"""
 
@@ -205,7 +208,7 @@ if not STARTER_OK:
     <div class="pr-ctas">
       <a class="btn" href="/strategies/{_cheap["slug"] if _cheap else ""}.html">See {esc(_cheap["name"]) if _cheap else ""}</a>
       <!-- WHOP: replace with checkout link ({_cheap["name"] if _cheap else "TBD"}) -->
-      <a class="btn btn-buy" href="/strategies/{_cheap["slug"] if _cheap else ""}.html" rel="noopener">Get it for ${_cheap["price"] if _cheap else 0}/mo</a>
+      <a class="btn btn-buy" href="{buy_href(_cheap) if _cheap else "#"}" rel="noopener">Get it for ${_cheap["price"] if _cheap else 0}/mo</a>
     </div>
   </div>
 </div>"""
@@ -400,8 +403,8 @@ page = f"""<!DOCTYPE html>
       <a href="/#how">How access works</a>
       <a href="/#faq">FAQ</a>
     </nav>
-    <!-- WHOP: replace this link with the Whop storefront URL -->
-    <a class="btn btn-sm btn-buy" href="/#packages" rel="noopener">Get access</a>
+    <!-- WHOP: storefront -->
+    <a class="btn btn-sm btn-buy" href="{WHOP_STORE}" rel="noopener">Get access</a>
     <!-- DISCORD: community invite -->
     <a class="btn btn-sm btn-discord" href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener"><svg class="ic-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.7 17.4c-3.2-.1-4.9-1.7-4.9-1.7.3-4 1.4-6.6 2.7-8.3C7.8 6.4 9.2 6 9.2 6l.5 1.1c1.5-.3 3.1-.3 4.6 0L14.8 6s1.4.4 2.7 1.4c1.3 1.7 2.4 4.3 2.7 8.3 0 0-1.7 1.6-4.9 1.7l-.8-1.1c-1.6.3-3.4.3-5 0z"/><circle cx="9.6" cy="12.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.6" r="1.15" fill="currentColor" stroke="none"/></svg><span>Discord</span></a>
     <details class="nav-mob">

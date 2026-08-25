@@ -905,24 +905,40 @@ section { border-bottom: 1px solid var(--line); padding: var(--sp-6) 0; }
   letter-spacing: .06em; text-transform: uppercase; color: var(--muted);
 }
 .fcard-top {
-  display: flex; align-items: flex-start; justify-content: space-between;
-  gap: var(--sp-4);
+  display: flex; align-items: flex-start; justify-content: flex-start;
+  gap: var(--sp-3);
   margin-bottom: var(--sp-3);
 }
-.fcard-id { min-width: 0; }
+.fcard-id { min-width: 0; flex: 1 1 auto; }
 .fcard h4 {
   display: flex;
   align-items: center;
   gap: var(--sp-2);
   font-family: var(--display);
-  font-size: var(--fs-xl);
+  font-size: var(--fs-2xl);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: .02em;
-  line-height: 1.1;
-  margin-bottom: var(--sp-2);
+  letter-spacing: .01em;
+  line-height: 1.05;
+  margin-bottom: 6px;
 }
-.fmeta { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-bottom: var(--sp-1); }
+.fmeta { display: inline-flex; flex-wrap: nowrap; gap: var(--sp-2); flex: none; }
+/* subtitle, chips and window on one row; the subtitle yields first */
+.fline {
+  display: flex; align-items: center; gap: var(--sp-2);
+  flex-wrap: nowrap; min-width: 0; overflow: hidden;
+}
+.fline .card-real {
+  margin: 0; min-width: 0;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.fline .fmeta-note { white-space: nowrap; flex: none; }
+.fline-sep { color: var(--line-bright); flex: none; }
+@media (max-width: 900px) {
+  .fline { flex-wrap: wrap; overflow: visible; }
+  .fline .card-real { white-space: normal; }
+  .fline-sep { display: none; }
+}
 .fmeta-note {
   font-family: var(--mono);
   font-size: var(--fs-2xs);
@@ -933,6 +949,7 @@ section { border-bottom: 1px solid var(--line); padding: var(--sp-6) 0; }
   display: flex; flex-direction: column; align-items: flex-end;
   text-align: right;
   flex-shrink: 0;
+  margin-left: auto;
 }
 .fhero b {
   font-family: var(--mono);
@@ -2336,7 +2353,7 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
   align-self: stretch;      /* height = the name + chips + dates block */
   aspect-ratio: 1;
   width: auto;
-  min-width: 76px;
+  min-width: 84px;
   max-width: 132px;
 }
 .g-flag {

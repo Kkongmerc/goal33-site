@@ -8,6 +8,10 @@ _HERE = os.path.dirname(os.path.abspath(__file__))
 BASE = os.path.dirname(_HERE)
 CAT = json.load(open(os.path.join(_HERE, "catalog2.json"), encoding="utf-8"))
 S = CAT["strategies"]
+WHOP_STORE = CAT.get("whop_store") or "/#packages"
+WHOP_BY_SLUG = {s["slug"]: s.get("whop") for s in S}
+def buy_href(p):
+    return p.get("whop") or f"/strategies/{p['slug']}.html"
 COMBINED_ALL = sum(s["price"] for s in S)   # struck bundle price, never a constant
 COMBINED_TOP3 = sum(sorted((s["price"] for s in S), reverse=True)[:3])
 B = CAT["books"]
@@ -46,7 +50,7 @@ ADD = lambda slug, name: (
     f'<span class="add-txt">Add</span><span class="sr-only"> {esc(name)} to selection</span></label>')
 ACTCELL = lambda slug, name: (
     f'<td class="act-cell"><!-- WHOP: replace this product-page link with the Whop checkout link -->'
-    f'<a class="btn btn-buy btn-row" href="/strategies/{slug}.html" rel="noopener">Get access</a>'
+    f'<a class="btn btn-buy btn-row" href="{WHOP_BY_SLUG.get(slug) or ("/strategies/" + slug + ".html")}" rel="noopener">Get access</a>'
     f'<input type="checkbox" id="add-{slug}" class="add-cb">'
     f'<label for="add-{slug}" class="add-btn"><span class="add-ico" aria-hidden="true"></span>'
     f'<span class="add-txt">Add</span><span class="sr-only"> {esc(name)} to selection</span></label></td>')
@@ -175,9 +179,11 @@ def fcard(p):
             <span class="fglyph" aria-hidden="true">{glyph(p['slug'], 'glyph g-flag')}</span>
             <div class="fcard-id">
               <h4><a class="sys-link" href="/strategies/{p['slug']}.html">{esc(p['name'])}</a></h4>
-          <div class="card-real">{esc(p['actual'])}</div>
-              <div class="fmeta">{market_chips(p['meta'])}<span class="chip chip-verified">VERIFIED</span></div>
-              <span class="fmeta-note">{esc(p['window'])}</span>
+              <div class="fline">
+                <span class="card-real">{esc(p['actual'])}</span>
+                <span class="fline-sep" aria-hidden="true">&middot;</span>
+                <span class="fmeta">{market_chips(p['meta'])}<span class="chip chip-verified">VERIFIED</span></span>
+              </div>
             </div>
             <div class="fhero"><b>{esc(bs(p,'RoDD'))}&times;</b><span>RoDD &middot; best window</span></div>
           </div>
@@ -191,7 +197,7 @@ def fcard(p):
           <div class="cta-row">
             <a class="btn" href="/strategies/{p['slug']}.html">View full data<svg class="ic-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" vector-effect="non-scaling-stroke"/></svg></a>
             <!-- WHOP: replace this product-page link with the Whop checkout link -->
-            <a class="btn btn-buy" href="/strategies/{p['slug']}.html" rel="noopener">Get access</a>
+            <a class="btn btn-buy" href="{buy_href(p)}" rel="noopener">Get access</a>
           </div>
         </article>"""
 

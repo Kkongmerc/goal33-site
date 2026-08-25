@@ -146,8 +146,12 @@ UI (cards, tables, cart, carousel, plan finder, bundles) comes back by itself.
    The same goes for the owners' personal names — published copy says
    "our team", never an individual (a first-name "ruling" label leaked
    once through the catalog window labels; curate.py now scrubs names).
-7. Every buy CTA keeps its adjacent `<!-- WHOP: ... -->` comment. Buy links point
-   at product pages until real Whop checkout links replace them (grep `WHOP:`).
+7. Every buy CTA keeps its adjacent `<!-- WHOP: ... -->` comment. **Whop is
+   LIVE**: the store is `whop_store` in catalog2.json and each strategy carries
+   a `whop` field, both consumed by `buy_href()` in all three generators — so
+   swapping a product-page link for a direct checkout link is a one-field edit,
+   never a code change. Bundle CTAs (All-Access, Pick-3, Starter, Books) have no
+   Whop product yet and still point at their own pages (grep `WHOP:`).
 8. Warnings that survived owner review (Pendulum tariff week, Collector sizing
    guard) are published as trust devices — do not remove them.
 

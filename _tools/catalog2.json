@@ -69,7 +69,8 @@
     "Every validated session leg, routed through one 24-hour book: one product, one subscription, the whole clock.",
     "The #1 strategy on our validation board: 39.20x return on max drawdown across 1,877 trades."
    ],
-   "warn": ""
+   "warn": "",
+   "whop": "https://whop.com/goal33systems/continuum-mnq"
   },
   {
    "slug": "midas",
@@ -111,7 +112,8 @@
     "Five gold session legs — overnight structure, London, Tokyo, NY data, FVG continuation — run as one book.",
     "$119.5k best-window net on 1,317 trades at 70.5% wins."
    ],
-   "warn": "The full 2024+ record includes the book's development period; the published best window is the current configuration's run."
+   "warn": "The full 2024+ record includes the book's development period; the published best window is the current configuration's run.",
+   "whop": "https://whop.com/goal33systems/midas-mgc"
   },
   {
    "slug": "aftershock",
@@ -153,7 +155,8 @@
     "Fades the 08:30 economic-data burst back into the pre-release range - the session's most violent minutes, traded with structure.",
     "Runs Monday/Wednesday/Friday only: the days the release schedule concentrates the edge."
    ],
-   "warn": ""
+   "warn": "",
+   "whop": "https://whop.com/goal33systems/aftershock-mnq"
   },
   {
    "slug": "slipstream",
@@ -195,7 +198,8 @@
     "Rides the continuation after a fair-value gap is defended - entering with the imbalance, not against it.",
     "77.1% wins across 878 best-window trades."
    ],
-   "warn": ""
+   "warn": "",
+   "whop": "https://whop.com/goal33systems/slipstream-mnq"
   },
   {
    "slug": "ignition",
@@ -237,7 +241,8 @@
     "Takes the break of the range the New York open prints - the first structure of the session, traded in its direction.",
     "82% wins at 5.44 profit factor: the highest win rate and the highest profit factor on our board's top five."
    ],
-   "warn": "Selective by design: the published best window holds 66 trades - a far smaller sample than our high-frequency legs, and the pricing formula discounts it accordingly. Treat it as a low-frequency, high-conviction leg, not a volume engine."
+   "warn": "Selective by design: the published best window holds 66 trades - a far smaller sample than our high-frequency legs, and the pricing formula discounts it accordingly. Treat it as a low-frequency, high-conviction leg, not a volume engine.",
+   "whop": "https://whop.com/goal33systems/ignition-nq"
   }
  ],
  "books": [],
@@ -629,5 +634,6 @@
     "book": true
    }
   ]
- }
+ },
+ "whop_store": "https://whop.com/goal33systems/"
 }
