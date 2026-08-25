@@ -905,9 +905,9 @@ section { border-bottom: 1px solid var(--line); padding: var(--sp-6) 0; }
   letter-spacing: .06em; text-transform: uppercase; color: var(--muted);
 }
 .fcard-top {
-  display: flex; align-items: flex-start; justify-content: flex-start;
-  gap: var(--sp-3);
-  margin-bottom: var(--sp-3);
+  display: flex; align-items: center; justify-content: flex-start;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-4);
 }
 .fcard-id { min-width: 0; flex: 1 1 auto; }
 .fcard h4 {
@@ -915,18 +915,23 @@ section { border-bottom: 1px solid var(--line); padding: var(--sp-6) 0; }
   align-items: center;
   gap: var(--sp-2);
   font-family: var(--display);
-  font-size: var(--fs-2xl);
+  font-size: var(--fs-3xl);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .01em;
-  line-height: 1.05;
-  margin-bottom: 6px;
+  line-height: 1;
+  margin-bottom: 7px;
 }
 .fmeta { display: inline-flex; flex-wrap: nowrap; gap: var(--sp-2); flex: none; }
 /* subtitle, chips and window on one row; the subtitle yields first */
 .fline {
   display: flex; align-items: center; gap: var(--sp-2);
   flex-wrap: nowrap; min-width: 0; overflow: hidden;
+  line-height: 1;
+}
+.fline .card-real {
+  font-family: var(--mono); font-size: var(--fs-2xs);
+  letter-spacing: .06em; text-transform: uppercase; color: var(--muted);
 }
 .fline .card-real {
   margin: 0; min-width: 0;
@@ -950,6 +955,7 @@ section { border-bottom: 1px solid var(--line); padding: var(--sp-6) 0; }
   text-align: right;
   flex-shrink: 0;
   margin-left: auto;
+  align-self: center;
 }
 .fhero b {
   font-family: var(--mono);
@@ -980,7 +986,7 @@ section { border-bottom: 1px solid var(--line); padding: var(--sp-6) 0; }
 .flagships .fcard .fstats { margin-top: auto; }
 /* orphan card (odd count): span the full row with a horizontal
    variant so it never stretches awkwardly at card width */
-.flagships .fcard:last-child:nth-child(odd) { grid-column: 1 / -1; }
+/* the last odd card used to stretch full width; every card is equal now */
 @media (min-width: 769px) {
   .flagships .fcard:last-child:nth-child(odd) {
     display: grid;
@@ -2350,11 +2356,9 @@ a.sys-link:hover .sys-name { text-decoration: underline; text-underline-offset: 
 .stable tbody tr:hover .g-row { color: var(--buy); filter: drop-shadow(0 0 5px rgba(237, 155, 64, .45)); }
 .fglyph {
   flex: none;
-  align-self: stretch;      /* height = the name + chips + dates block */
-  aspect-ratio: 1;
-  width: auto;
-  min-width: 84px;
-  max-width: 132px;
+  width: 76px; height: 76px;   /* fixed square: a stretched glyph towered over
+                                  the two-line name block and read as unaligned */
+  align-self: center;
 }
 .g-flag {
   width: 100%; height: 100%;
