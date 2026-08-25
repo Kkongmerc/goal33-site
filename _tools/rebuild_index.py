@@ -99,7 +99,7 @@ def load_trades(slug):
 
 SPARK_W, SPARK_H = 1200.0, 300.0
 
-def sparkline(slug):
+def sparkline(slug, cls="fspark", pfx="fsg", maxpts=0):
     """Full-bleed equity curve for a flagship card. preserveAspectRatio is
     'none' so it stretches edge to edge - safe here because the sparkline
     carries no text (unlike the product-page chart, which must not distort)."""
@@ -107,6 +107,10 @@ def sparkline(slug):
     pts = (tr or {}).get("equity") or []
     if len(pts) < 2:
         return ""
+    if maxpts and len(pts) > maxpts:
+        step = len(pts) / float(maxpts)
+        idx = sorted({int(i * step) for i in range(maxpts)} | {len(pts) - 1})
+        pts = [pts[i] for i in idx]
     ys = [v for _, v in pts]
     lo, hi = min(ys), max(ys)
     span = (hi - lo) or 1.0
@@ -116,13 +120,13 @@ def sparkline(slug):
     def Y(v): return PAD + (SPARK_H - 2 * PAD) * (1.0 - (v - lo) / span)
     line = " ".join(f"{X(i):.1f} {Y(v):.1f}" for i, (_, v) in enumerate(pts))
     return (
-        f'<svg class="fspark" viewBox="0 0 {SPARK_W:.0f} {SPARK_H:.0f}" preserveAspectRatio="none" '
+        f'<svg class="{cls}" viewBox="0 0 {SPARK_W:.0f} {SPARK_H:.0f}" preserveAspectRatio="none" '
         f'aria-hidden="true" focusable="false">'
-        f'<defs><linearGradient id="fsg-{slug}" x1="0" y1="0" x2="0" y2="1">'
-        f'<stop class="fsg-a" offset="0"/><stop class="fsg-b" offset="1"/></linearGradient></defs>'
-        f'<path class="fspark-area" fill="url(#fsg-{slug})" d="M{PAD:.1f} {SPARK_H:.1f} L{line} '
+        f'<defs><linearGradient id="{pfx}-{slug}" x1="0" y1="0" x2="0" y2="1">'
+        f'<stop class="{pfx}-a" offset="0"/><stop class="{pfx}-b" offset="1"/></linearGradient></defs>'
+        f'<path class="{cls}-area" fill="url(#{pfx}-{slug})" d="M{PAD:.1f} {SPARK_H:.1f} L{line} '
         f'L{SPARK_W - PAD:.1f} {SPARK_H:.1f} Z"/>'
-        f'<path class="fspark-line" fill="none" d="M{line}"/></svg>')
+        f'<path class="{cls}-line" fill="none" d="M{line}"/></svg>')
 
 def gain_figure(p):
     """The published best-window net, shown as a gain. Traceable: the window
@@ -142,37 +146,50 @@ def card_star(p):
     keys = [k for k in RANK_KEYS if k != "Net"]
     return min(keys, key=lambda k: (RANKS.get((p["slug"], k), 99), STAR_PRIORITY.index(k)))
 
+def card_star_tag(p):
+    k = card_star(p)
+    rk = RANKS.get((p["slug"], k), 99)
+    lab = "MAX DD" if k == "Max DD" else k.upper()
+    return f"#{rk} {lab}" if rk <= 3 else lab
+
 def fcard(p):
-    star = card_star(p)
-    sval = bs(p, star)
-    scls = [c for c in (val_cls(p, star),) if c]
-    if star == "Max DD" and dd_cls(sval): scls.append(dd_cls(sval))
-    scls_attr = f' class="{" ".join(scls)}"' if scls else ""
-    srank = RANKS.get((p["slug"], star), 99)
-    slabel = ("MAX DD" if star == "Max DD" else star.upper())
-    srank_tag = f'#{srank} {slabel}' if srank <= 3 else slabel
-    gain, gwin = gain_figure(p)
-    sub = ""
-    for k, lab in [("PF", "PF"), ("Win", "Win"), ("Trades", "n")]:
-        if k == star: continue
+    stats = ""
+    star = star_key(p)
+    for k, lab in [("RoDD", "RoDD"), ("PF", "PF"), ("Win", "Win"), ("Net", "Net"), ("Max DD", "Max DD"), ("Trades", "n")]:
         v = bs(p, k)
-        c = val_cls(p, k)
-        battr = ' class="%s"' % c if c else ''
-        sub += f'<span class="fsub"><b{battr}>{esc(v)}</b>{lab}</span>'
+        cls = [c for c in (val_cls(p, k),) if c]
+        if k == "Max DD" and dd_cls(v): cls.append(dd_cls(v))
+        hot = f' class="{" ".join(cls)}"' if cls else ""
+        tile_cls = "fstat fstat-star" if k == star else "fstat"
+        if k == star:
+            rk = RANKS.get((p["slug"], k), 99)
+            lab_tag = f"#{rk} {'MAX DD' if k == 'Max DD' else k.upper()}" if rk <= 3 else "SIGNATURE"
+            tag = f'<i class="star-tag">{lab_tag}</i>'
+        else:
+            tag = ""
+        stats += f'<div class="{tile_cls}"><b{hot}>{esc(v)}</b><span>{lab}</span>{tag}</div>'
+    gain, gwin = gain_figure(p)
+    gainrow = f'<div class="fgainrow"><b>{gain}</b><span>net &middot; {gwin}</span></div>' if gwin else ""
     return f"""<article class="fcard fc-{p['slug']}">
-          <a class="fcard-face" href="/strategies/{p['slug']}.html" aria-label="{esc(p['name'])} — full data">
-            {sparkline(p['slug'])}
+          <div class="fcard-top">
             <span class="fglyph" aria-hidden="true">{glyph(p['slug'], 'glyph g-flag')}</span>
-            <span class="fstar"><b{scls_attr}>{esc(sval)}</b><i>{srank_tag}</i></span>
-            <span class="fcard-foot">
-              <span class="fname">{esc(p['name'])}<em>{esc(p['actual'])}</em></span>
-              <span class="fgain"><b>{gain}</b><em>{gwin}</em></span>
-            </span>
-          </a>
-          <div class="fbar">
-            <span class="fsubs">{sub}</span>
-            <span class="fprice"><span class="now">${p['price']}</span><span class="per">/MO</span></span>
-            {ADD(p['slug'], p['name'])}
+            <div class="fcard-id">
+              <h4><a class="sys-link" href="/strategies/{p['slug']}.html">{esc(p['name'])}</a></h4>
+          <div class="card-real">{esc(p['actual'])}</div>
+              <div class="fmeta">{market_chips(p['meta'])}<span class="chip chip-verified">VERIFIED</span></div>
+              <span class="fmeta-note">{esc(p['window'])}</span>
+            </div>
+            <div class="fhero"><b>{esc(bs(p,'RoDD'))}&times;</b><span>RoDD &middot; best window</span></div>
+          </div>
+          <p class="desc">{esc(p['sep'][0]) if p['sep'] else ''}</p>
+          {gainrow}
+          <div class="fstats">{stats}</div>
+          <div class="price-row">
+            <div class="price"><span class="now">${p['price']}</span><span class="per">/MO</span></div>
+          </div>
+          {ADD(p['slug'], p['name'])}
+          <div class="cta-row">
+            <a class="btn" href="/strategies/{p['slug']}.html">View full data<svg class="ic-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" vector-effect="non-scaling-stroke"/></svg></a>
             <!-- WHOP: replace this product-page link with the Whop checkout link -->
             <a class="btn btn-buy" href="/strategies/{p['slug']}.html" rel="noopener">Get access</a>
           </div>
@@ -583,9 +600,12 @@ cf_radios = ('<input class="cf-r" type="radio" name="cf-sel" id="cf-0" checked>'
 cf_panes = cf_panes_override if PRELAUNCH else "".join(
     f'<div class="cf-pane fc-{p["slug"]}">'
     f'<a class="cf-link" href="/strategies/{p["slug"]}.html">'
-    + glyph(p["slug"], "glyph cf-glyph")
-    + f'<b class="cf-name">{esc(p["name"])}</b>'
-    + f'<span class="cf-stat">{esc(bs(p, "RoDD"))}&times; RoDD &middot; best window</span></a>'
+    + sparkline(p["slug"], cls="cf-spark", pfx="cf-sg", maxpts=64)
+    + f'<span class="cf-glyphwrap" aria-hidden="true">{glyph(p["slug"], "glyph cf-glyph")}</span>'
+    + f'<span class="cf-star"><b>{esc(bs(p, card_star(p)))}</b><i>{card_star_tag(p)}</i></span>'
+    + f'<span class="cf-foot"><b class="cf-name">{esc(p["name"])}</b>'
+    + f'<span class="cf-gain">{gain_figure(p)[0]}</span>'
+    + f'<span class="cf-win">{gain_figure(p)[1]}</span></span></a>'
     f'<label class="cf-pick" for="cf-{i+1}"><span class="sr-only">Bring {esc(p["name"])} to the front</span></label>'
     f'</div>'
     for i, p in enumerate(TIER1))
