@@ -90,42 +90,89 @@ _D = {"slug": "tbd", "name": "TBD", "actual": "TBD", "meta": "TBD", "window": "T
 if PRELAUNCH:
     TIER1 = TIER2 = TIER3 = [_D]   # placeholder-evaluated, then overridden
 
+# ── real equity sparkline, precomputed (zero-JS rule: never a chart lib) ──
+def load_trades(slug):
+    p = os.path.join(_HERE, "trades", slug + ".json")
+    if not os.path.exists(p):
+        return None
+    return json.load(open(p, encoding="utf-8"))
+
+SPARK_W, SPARK_H = 1200.0, 300.0
+
+def sparkline(slug):
+    """Full-bleed equity curve for a flagship card. preserveAspectRatio is
+    'none' so it stretches edge to edge - safe here because the sparkline
+    carries no text (unlike the product-page chart, which must not distort)."""
+    tr = load_trades(slug)
+    pts = (tr or {}).get("equity") or []
+    if len(pts) < 2:
+        return ""
+    ys = [v for _, v in pts]
+    lo, hi = min(ys), max(ys)
+    span = (hi - lo) or 1.0
+    n = len(pts)
+    PAD = 6.0
+    def X(i): return PAD + (SPARK_W - 2 * PAD) * i / (n - 1)
+    def Y(v): return PAD + (SPARK_H - 2 * PAD) * (1.0 - (v - lo) / span)
+    line = " ".join(f"{X(i):.1f} {Y(v):.1f}" for i, (_, v) in enumerate(pts))
+    return (
+        f'<svg class="fspark" viewBox="0 0 {SPARK_W:.0f} {SPARK_H:.0f}" preserveAspectRatio="none" '
+        f'aria-hidden="true" focusable="false">'
+        f'<defs><linearGradient id="fsg-{slug}" x1="0" y1="0" x2="0" y2="1">'
+        f'<stop class="fsg-a" offset="0"/><stop class="fsg-b" offset="1"/></linearGradient></defs>'
+        f'<path class="fspark-area" fill="url(#fsg-{slug})" d="M{PAD:.1f} {SPARK_H:.1f} L{line} '
+        f'L{SPARK_W - PAD:.1f} {SPARK_H:.1f} Z"/>'
+        f'<path class="fspark-line" fill="none" d="M{line}"/></svg>')
+
+def gain_figure(p):
+    """The published best-window net, shown as a gain. Traceable: the window
+    is printed directly beneath it on the card."""
+    tr = load_trades(p["slug"])
+    v = (tr or {}).get("best", {}).get("net")
+    if v is None:
+        return esc(bs(p, "Net")), ""
+    return f"+${v:,.0f}", esc(p.get("window", ""))
+
 # ── flagship cards ──────────────────────────────────────────────
+def card_star(p):
+    """Corner stat for a chart card. Net is excluded: the green gain figure at
+    the bottom of the card already IS the net, so showing it twice wastes the
+    corner. RoDD wins by default; a product whose real strength is drawdown or
+    win rate shows that instead."""
+    keys = [k for k in RANK_KEYS if k != "Net"]
+    return min(keys, key=lambda k: (RANKS.get((p["slug"], k), 99), STAR_PRIORITY.index(k)))
+
 def fcard(p):
-    stats = ""
-    star = star_key(p)
-    for k, lab in [("RoDD", "RoDD"), ("PF", "PF"), ("Win", "Win"), ("Net", "Net"), ("Max DD", "Max DD"), ("Trades", "n")]:
+    star = card_star(p)
+    sval = bs(p, star)
+    scls = [c for c in (val_cls(p, star),) if c]
+    if star == "Max DD" and dd_cls(sval): scls.append(dd_cls(sval))
+    scls_attr = f' class="{" ".join(scls)}"' if scls else ""
+    srank = RANKS.get((p["slug"], star), 99)
+    slabel = ("MAX DD" if star == "Max DD" else star.upper())
+    srank_tag = f'#{srank} {slabel}' if srank <= 3 else slabel
+    gain, gwin = gain_figure(p)
+    sub = ""
+    for k, lab in [("PF", "PF"), ("Win", "Win"), ("Trades", "n")]:
+        if k == star: continue
         v = bs(p, k)
-        cls = [c for c in (val_cls(p, k),) if c]
-        if k == "Max DD" and dd_cls(v): cls.append(dd_cls(v))
-        hot = f' class="{" ".join(cls)}"' if cls else ""
-        tile_cls = "fstat fstat-star" if k == star else "fstat"
-        if k == star:
-            r = RANKS.get((p["slug"], k), 99)
-            lab_tag = f"#{r} {'MAX DD' if k == 'Max DD' else k.upper()}" if r <= 3 else "SIGNATURE"
-            tag = f'<i class="star-tag">{lab_tag}</i>'
-        else:
-            tag = ""
-        stats += f'<div class="{tile_cls}"><b{hot}>{esc(v)}</b><span>{lab}</span>{tag}</div>'
+        c = val_cls(p, k)
+        battr = ' class="%s"' % c if c else ''
+        sub += f'<span class="fsub"><b{battr}>{esc(v)}</b>{lab}</span>'
     return f"""<article class="fcard fc-{p['slug']}">
-          <div class="fcard-top">
+          <a class="fcard-face" href="/strategies/{p['slug']}.html" aria-label="{esc(p['name'])} — full data">
+            {sparkline(p['slug'])}
             <span class="fglyph" aria-hidden="true">{glyph(p['slug'], 'glyph g-flag')}</span>
-            <div class="fcard-id">
-              <h4><a class="sys-link" href="/strategies/{p['slug']}.html">{esc(p['name'])}</a></h4>
-          <div class="card-real">{esc(p['actual'])}</div>
-              <div class="fmeta">{market_chips(p['meta'])}<span class="chip chip-verified">VERIFIED</span></div>
-              <span class="fmeta-note">{esc(p['window'])}</span>
-            </div>
-            <div class="fhero"><b>{esc(bs(p,'RoDD'))}&times;</b><span>RoDD &middot; best window</span></div>
-          </div>
-          <p class="desc">{esc(p['sep'][0]) if p['sep'] else ''}</p>
-          <div class="fstats">{stats}</div>
-          <div class="price-row">
-            <div class="price"><span class="now">${p['price']}</span><span class="per">/MO</span></div>
-          </div>
-          {ADD(p['slug'], p['name'])}
-          <div class="cta-row">
-            <a class="btn" href="/strategies/{p['slug']}.html">View full data<svg class="ic-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10" vector-effect="non-scaling-stroke"/><path d="M7 17 17 7" vector-effect="non-scaling-stroke"/></svg></a>
+            <span class="fstar"><b{scls_attr}>{esc(sval)}</b><i>{srank_tag}</i></span>
+            <span class="fcard-foot">
+              <span class="fname">{esc(p['name'])}<em>{esc(p['actual'])}</em></span>
+              <span class="fgain"><b>{gain}</b><em>{gwin}</em></span>
+            </span>
+          </a>
+          <div class="fbar">
+            <span class="fsubs">{sub}</span>
+            <span class="fprice"><span class="now">${p['price']}</span><span class="per">/MO</span></span>
+            {ADD(p['slug'], p['name'])}
             <!-- WHOP: replace this product-page link with the Whop checkout link -->
             <a class="btn btn-buy" href="/strategies/{p['slug']}.html" rel="noopener">Get access</a>
           </div>

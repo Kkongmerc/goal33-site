@@ -1,7 +1,7 @@
 """Generate product pages, bundle pages, success, 404, and sitemap from catalog2.json.
 catalog2.json is curated from the owners' validation playbook — every figure on every
 page traces to it. Never hand-edit generated pages; edit the catalog or this template."""
-import json, html, os, sys, hashlib
+import json, html, os, re, sys, hashlib
 _HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, _HERE)
 import charts
@@ -874,13 +874,33 @@ if True:
     # ── legal pages ─────────────────────────────────────────────────
 
 
+def legal_toc(body):
+    """Build a section index from the body's own numbered h2s, and stamp
+    matching ids on them so the links resolve."""
+    secs = re.findall(r'<h2><span class="n">(\d+)</span>\s*(.*?)</h2>', body, re.S)
+    if not secs:
+        return body, ""
+    for n, _t in secs:
+        body = body.replace(f'<h2><span class="n">{n}</span>',
+                            f'<h2 id="s{n}"><span class="n">{n}</span>', 1)
+    items = "".join(
+        f'<li><a href="#s{n}"><span class="toc-n">{n}</span>'
+        f'<span class="toc-t">{re.sub(r"<[^>]+>", "", t).strip()}</span></a></li>'
+        for n, t in secs)
+    toc = f'<nav class="legal-toc" aria-label="Sections"><span class="toc-h">Sections</span><ol>{items}</ol></nav>'
+    return body, toc
+
 def legal_page(fname, title, body):
     page = head(f"{title} — FuturesTradingBots",
                 f"{title} for FuturesTradingBots — TradingView invite-only strategy subscriptions sold through Whop.",
                 f"/{fname}")
+    body, toc = legal_toc(body)
     page += f"""
-  <div class="wrap legal">
+  <div class="wrap legal-wrap">
+    {toc}
+    <div class="legal">
     {body}
+    </div>
   </div>
 """
     page += FOOTER
