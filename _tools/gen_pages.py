@@ -16,7 +16,7 @@ WHOP_STORE = CAT.get("whop_store") or "/#packages"
 def buy_href(p):
     """The product's Whop page when it has one, else its own page."""
     return p.get("whop") or f"/strategies/{p['slug']}.html"
-HAS_BUNDLES = bool(CAT["strategies"])          # Pick-3 / All-Access need strategies only
+HAS_BUNDLES = bool(CAT["strategies"])          # All-Access needs strategies only
 HAS_BOOKS_BUNDLE = bool(CAT["books"])         # The Books needs books
 HAS_STARTER = bool(CAT["bundles"].get("starter", {}).get("slugs")) and all(
     s in {x["slug"] for x in CAT["strategies"]}
@@ -164,8 +164,7 @@ FOOTER = f"""</main>
 
 def buybox(name, price, whop_note, xsell=None, struck=None, href="#"):
     was = f'<s class="was">${struck}<span class="sr-only"> combined value,</span></s>' if struck else ""
-    xs = xsell or (('Bundles: <a href="/strategies/all-access.html">All-Access — $999/mo</a> · '
-                    '<a href="/strategies/pick-3.html">Pick-3 — $499/mo</a>') if HAS_BUNDLES else
+    xs = xsell or (('Everything at once: <a href="/strategies/all-access.html">All-Access — $999/mo</a>') if HAS_BUNDLES else
                    'More systems join the shelf as they clear validation.')
     return f"""<aside class="buybox" aria-label="Purchase {html.escape(name)}">
   <div class="price">{was}<span class="now">${price}</span><span class="per">/MO</span></div>
@@ -743,19 +742,9 @@ if not PRELAUNCH and HAS_BUNDLES:
           </div>""",
         ('Want the engines themselves? <a href="/strategies/the-books.html">The Books — $2,999/mo</a>'
          if HAS_BOOKS_BUNDLE else
-         'Prefer a smaller commitment? <a href="/strategies/pick-3.html">Pick-3 — $499/mo</a>'))
+         'Not ready for everything? Subscribe to the systems you want one at a time.'))
 
-    bundle_page("pick-3", "Pick-3", BN["pick3"]["price"], COMBINED_TOP3,
-        "Any three validated systems, swap monthly.",
-        """<div class="record">
-            <div class="record-title">How Pick-3 works</div>
-            <ul class="included">
-              <li><span class="inc-name">Choose any 3 validated systems</span></li>
-              <li><span class="inc-name">Swap your picks monthly</span></li>
-              <li><span class="inc-name">Each pick delivered as a TradingView invite-only script, activated within 24h</span></li>
-            </ul>
-          </div>""",
-        'Want everything? <a href="/strategies/all-access.html">All-Access — $999/mo</a>')
+    # Pick-3 retired: the plan finder recommends three solo subscriptions instead
 
 if not PRELAUNCH and HAS_BOOKS_BUNDLE:
     book_rows = "".join(
@@ -786,7 +775,7 @@ if not PRELAUNCH and HAS_STARTER:
             <ul class="included">{starter_rows}</ul>
             <p class="record-note">{starter_names}: the three smallest published drawdowns in the value tiers, every one winning over 77% of its trades on the published window. Worth ${ST["combined"]}/mo solo.</p>
           </div>""",
-        'Outgrow it? <a href="/strategies/pick-3.html">Pick-3 — $499/mo</a> · <a href="/strategies/all-access.html">All-Access — $999/mo</a>')
+        'Outgrow it? <a href="/strategies/all-access.html">All-Access — $999/mo</a>')
 
 # ── success page ────────────────────────────────────────────────
 if True:

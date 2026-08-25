@@ -4490,42 +4490,86 @@ html { scroll-padding-top: calc(var(--header-h) + 58px); }
 #ticker-pause:checked ~ * .lead,
 #ticker-pause:checked ~ * .stable tbody td.lead { animation-play-state: paused; }
 
-/* ── plan-finder pop-up: appears after 20s, dismissible ──
-   One-shot animation (finite), keyframing opacity/transform only. visibility
-   keeps it out of the hit-testing layer during the wait, so it cannot eat
-   clicks in the corner while invisible. */
-.plan-pop {
-  position: fixed; right: var(--sp-5); bottom: var(--sp-5); z-index: 61;
-  width: min(21rem, calc(100vw - 2 * var(--sp-5)));
+/* ── plan-finder modal: covers the screen after 20s, dismissible ──
+   Three finite one-shot animations (visibility / opacity / transform only).
+   visibility keeps the whole layer out of hit-testing during the wait, so it
+   cannot swallow clicks across the page before it appears. */
+.plan-modal {
+  position: fixed; inset: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  padding: var(--sp-5);
+  visibility: hidden;
+  animation: pm-show 0s linear 20s forwards;
+}
+@keyframes pm-show { to { visibility: visible; } }
+
+.plan-scrim {
+  position: absolute; inset: 0; cursor: pointer;
+  background: rgba(3, 10, 13, .78);
+  opacity: 0;
+  animation: pm-fade .35s var(--ease) 20s forwards;
+}
+@keyframes pm-fade { to { opacity: 1; } }
+
+.plan-card {
+  position: relative;
+  width: min(34rem, 100%);
+  max-height: calc(100vh - 2 * var(--sp-5));
+  overflow-y: auto;
   border: 1px solid var(--accent);
   background: var(--panel);
-  padding: var(--sp-4);
-  box-shadow: 0 18px 50px -12px rgba(0, 0, 0, .85), 0 0 24px rgba(86, 200, 162, .16);
-  visibility: hidden; opacity: 0; transform: translateY(14px);
-  animation: plan-pop-in .45s var(--ease) 20s forwards;
+  padding: var(--sp-6);
+  text-align: center;
+  box-shadow: 0 30px 90px -20px rgba(0, 0, 0, .9), 0 0 40px rgba(86, 200, 162, .16);
+  opacity: 0; transform: translateY(18px);
+  animation: pm-rise .4s var(--ease) 20s forwards;
 }
-@keyframes plan-pop-in {
-  from { visibility: visible; opacity: 0; transform: translateY(14px); }
-  to   { visibility: visible; opacity: 1; transform: translateY(0); }
-}
+@keyframes pm-rise { to { opacity: 1; transform: translateY(0); } }
+
 @media (prefers-reduced-motion: reduce) {
-  .plan-pop { animation-duration: .01s; }
+  .plan-scrim, .plan-card { animation-duration: .01s; }
 }
-#plan-dismiss:checked ~ .plan-pop { display: none; }
-#plan-dismiss:focus-visible ~ .plan-pop .pop-close { outline: 2px solid var(--accent); outline-offset: -2px; }
-.plan-pop .pb-tag {
-  display: inline-block; margin-bottom: var(--sp-3);
+#plan-dismiss:checked ~ .plan-modal { display: none; }
+#plan-dismiss:focus-visible ~ .plan-modal .pop-close { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.plan-card .pb-tag {
+  display: inline-block; margin-bottom: var(--sp-4);
   font-family: var(--mono); font-size: var(--fs-2xs); font-weight: 700;
   letter-spacing: .14em; color: var(--accent);
-  border: 1px solid rgba(86, 200, 162, .45); border-radius: 3px; padding: 2px 7px;
+  border: 1px solid rgba(86, 200, 162, .45); border-radius: 3px; padding: 3px 9px;
 }
-.plan-pop .pop-go {
+.pm-line {
+  font-family: var(--display); font-size: var(--fs-3xl); font-weight: 700;
+  text-transform: uppercase; line-height: 1.05; margin-bottom: var(--sp-3);
+}
+.pm-sub {
+  font-size: var(--fs-md); color: var(--muted);
+  max-width: 30rem; margin: 0 auto var(--sp-5); line-height: 1.55;
+}
+.plan-card .pop-go {
   width: 100%; justify-content: center;
   border-color: var(--accent); color: var(--accent);
+  font-size: var(--fs-lg); padding: var(--sp-4);
 }
-.plan-pop .pop-go:hover { background: rgba(86, 200, 162, .12); }
+.plan-card .pop-go:hover { background: rgba(86, 200, 162, .12); }
+.pm-skip {
+  display: inline-block; margin-top: var(--sp-4); cursor: pointer;
+  font-family: var(--mono); font-size: var(--fs-2xs);
+  letter-spacing: .06em; color: var(--faint);
+}
+.pm-skip:hover { color: var(--muted); }
+
+/* a trio slot with no qualifying strategy - blank on purpose, not broken */
+.pr-empty {
+  border-style: dashed !important;
+  opacity: .5;
+}
+.pr-empty .pr-name { color: var(--faint); }
+.pr-empty .pr-real { color: var(--faint); }
 @media (max-width: 620px) {
-  .plan-pop { right: var(--sp-3); left: var(--sp-3); bottom: var(--sp-3); width: auto; }
+  .plan-modal { padding: var(--sp-4); }
+  .plan-card { padding: var(--sp-5); }
+  .pm-line { font-size: var(--fs-2xl); }
 }
 
 /* ── starter special pop-up (index): bottom-left, dismissible ── */

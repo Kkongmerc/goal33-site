@@ -297,7 +297,7 @@ cart = f"""<!-- ── selection cart: pure CSS (counters + :has), zero JS ─�
         <ul class="cart-lines">{cart_lines}</ul>
         <div class="cart-foot">
           <div class="cart-total"><span class="cart-tlabel">Total</span><span class="cart-sum"></span><span class="cart-per">/mo</span></div>
-          <p class="cart-hint">Three or more? <a href="/strategies/pick-3.html">Pick-3 is $499/mo</a>. Want the catalog? <a href="/strategies/all-access.html">All-Access is $999/mo</a> &mdash; combined list ${COMBINED_ALL:,}.</p>
+          <p class="cart-hint">Want the catalog? <a href="/strategies/all-access.html">All-Access is $999/mo</a> &mdash; combined list ${COMBINED_ALL:,}.</p>
           <a class="btn btn-buy cart-go" href="#packages">Compare bundles</a>
           <span class="cart-note">Selections are local to this page &mdash; nothing is stored or sent.</span>
         </div>
@@ -468,18 +468,6 @@ packages = f"""<section id="packages">
           <a class="btn btn-buy" href="/strategies/all-access.html" rel="noopener">Get all-access</a>
         </div>
 
-        <div class="pack">
-          <h3><a class="sys-link" href="/strategies/pick-3.html">Pick-3</a></h3>
-          <div class="amount"><s class="was">${BN['pick3']['top3']:,}<span class="sr-only"> worth up to,</span></s>$499<small>/mo</small></div>
-          <p class="sub">Any three systems of your choice &mdash; worth up to ${BN['pick3']['top3']:,}/mo solo.</p>
-          <ul>
-            <li>{inc_check}<span>Any 3 validated systems from any tier</span></li>
-            <li>{inc_check}<span>Swap your picks monthly</span></li>
-            <li>{inc_check}<span>TradingView invite-only scripts, activated within 24h</span></li>
-          </ul>
-          <!-- WHOP: replace this product-page link with the Whop checkout link -->
-          <a class="btn btn-buy" href="/strategies/pick-3.html" rel="noopener">Get pick-3</a>
-        </div>
 
       </div>
 
@@ -506,7 +494,7 @@ if BOOKS_PENDING:
         <span class="idx">02 /</span>
         <h2>Bundles</h2>
       </div>
-      <div class="packs-2">
+      <div class="packs-1">
 
         <div class="pack popular">
           <span class="flag">BEST VALUE</span>
@@ -522,17 +510,6 @@ if BOOKS_PENDING:
           <a class="btn btn-buy" href="/strategies/all-access.html" rel="noopener">Get All-Access</a>
         </div>
 
-        <div class="pack">
-          <h3><a class="sys-link" href="/strategies/pick-3.html">Pick-3</a></h3>
-          <div class="amount"><s class="was">${COMBINED_TOP3:,}<span class="sr-only"> top three combined,</span></s>$499<small>/mo</small></div>
-          <p class="sub">Any three of the {len(S)} published systems, swapped monthly.</p>
-          <ul>
-            <li>{inc_check}<span>Choose any three; swap your picks monthly</span></li>
-            <li>{inc_check}<span>Each delivered as a TradingView invite-only script</span></li>
-          </ul>
-          <!-- WHOP: replace this product-page link with the Whop checkout link -->
-          <a class="btn btn-buy" href="/strategies/pick-3.html" rel="noopener">Get Pick-3</a>
-        </div>
 
       </div>
       <div class="prelaunch" id="books">

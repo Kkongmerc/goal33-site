@@ -9,7 +9,7 @@ fixed rules (no hand-picked favourites, no invented numbers):
   temperament t2 balanced-> highest RoDD   among eligible
   temperament t3 swings  -> highest Net    among eligible
 
-Pick-3 trios are the top three of the same sort. Nav/footer mirror
+Trios are the top three of the same sort, bought solo. Nav/footer mirror
 gen_pages.py — keep them in sync when either changes.
 """
 import json, os, sys, html, hashlib
@@ -103,65 +103,40 @@ def single_card(p, tkey, alt):
       </div>
     </div>"""
 
-def trio_rows(trio):
+def trio_rows(trio, slots=3):
+    """Renders up to `slots` rows; any slot with no qualifying strategy is
+    left visibly blank rather than filled with something that does not fit."""
     rows = ""
     for p in trio:
         rows += (f'<li>{glyph(p["slug"], "glyph g-row")}<a class="pr-name" href="/strategies/{p["slug"]}.html">{esc(p["name"])}</a>'
                  f'<span class="pr-real">{esc(p["actual"])}</span>'
                  f'<span class="pr-mini">{bs(p,"RoDD")}&times; RoDD · {bs(p,"Win")} win · {bs(p,"Max DD")} DD</span>'
                  f'<span class="pr-solo">${p["price"]}</span></li>')
+    for _ in range(max(0, slots - len(trio))):
+        rows += ('<li class="pr-empty"><span class="pr-name">Slot open</span>'
+                 '<span class="pr-real">nothing else clears this drawdown budget yet</span></li>')
     return rows
 
 RULE_LINE = {"t1": "highest win rates", "t2": "highest RoDD", "t3": "largest published nets"}
 
 def trio_block(trio, tkey):
-    """Three honest outcomes: the trio is worth more than Pick-3 (sell Pick-3),
-    it IS the Starter bundle (sell the cheaper Starter), or it's worth less
-    than $499 (tell them to buy solo — no bundle)."""
+    """Three strategies for this kind of trader, bought solo. Pick-3 is
+    retired, so there is no bundle to weigh against - the recommendation is
+    simply the three that fit, and what they cost together."""
     worth = sum(p["price"] for p in trio)
-    slugs = {p["slug"] for p in trio}
     rule = RULE_LINE[tkey]
-    if slugs == set(BN["starter"]["slugs"]):
-        return f"""<div class="pr-card">
-      <div class="pr-head"><div class="pr-id"><span class="pr-name">The Starter</span>
-        <span class="pr-real">your exact trio, already a bundle — for less</span></div>
-        <div class="pr-price"><s class="was">${worth:,}</s>${BN['starter']['price']}<small>/MO</small></div>
-      </div>
-      <ul class="pr-trio">{trio_rows(trio)}</ul>
-      <p class="pr-why">The three {rule} that fit your drawdown budget are exactly The Starter bundle
-      — so skip Pick-3 at ${BN['pick3']['price']} and take the same trio for ${BN['starter']['price']}. That is the honest math.</p>
-      <div class="pr-ctas">
-        <a class="btn" href="/strategies/the-starter.html">See The Starter</a>
-        <!-- WHOP: replace with checkout link (The Starter) -->
-        <a class="btn btn-buy" href="/strategies/the-starter.html" rel="noopener">Start for ${BN['starter']['price']}/mo</a>
-      </div>
-    </div>"""
-    if worth <= BN["pick3"]["price"]:
-        return f"""<div class="pr-card">
-      <div class="pr-head"><div class="pr-id"><span class="pr-name">Buy these three solo</span>
-        <span class="pr-real">no bundle — it would cost you more</span></div>
+    n = len(trio)
+    return f"""<div class="pr-card">
+      <div class="pr-head"><div class="pr-id"><span class="pr-name">Your three</span>
+        <span class="pr-real">{'the ' + rule + ' that fit your drawdown budget' if n == 3 else f'only {n} clear your drawdown budget'}</span></div>
         <div class="pr-price">${worth:,}<small>/MO TOTAL</small></div>
       </div>
       <ul class="pr-trio">{trio_rows(trio)}</ul>
-      <p class="pr-why">The three {rule} that fit your budget add up to ${worth:,}/mo solo — under the
-      ${BN['pick3']['price']} Pick-3 price. A bundle would be a worse deal, so we are not selling you one:
-      subscribe to the three directly.</p>
+      <p class="pr-why">Chosen by the same rule the shelf is ranked by: the {rule} whose deeper published
+      drawdown still fits what you said you can hold. Each is its own subscription &mdash; add or drop any
+      of them month to month.</p>
       <div class="pr-ctas">
         <a class="btn btn-buy" href="/#strategies">Open the catalog</a>
-      </div>
-    </div>"""
-    return f"""<div class="pr-card">
-      <div class="pr-head"><div class="pr-id"><span class="pr-name">Your custom Pick-3</span>
-        <span class="pr-real">named at checkout — this exact trio</span></div>
-        <div class="pr-price"><s class="was">${worth:,}</s>${BN['pick3']['price']}<small>/MO</small></div>
-      </div>
-      <ul class="pr-trio">{trio_rows(trio)}</ul>
-      <p class="pr-why">Chosen by the same rule the shelf is ranked by: the {rule} that fit your drawdown
-      budget. Worth ${worth:,}/mo solo.</p>
-      <div class="pr-ctas">
-        <a class="btn" href="/strategies/pick-3.html">How Pick-3 works</a>
-        <!-- WHOP: replace with checkout link (Pick-3) -->
-        <a class="btn btn-buy" href="/strategies/pick-3.html" rel="noopener">Get Pick-3 — ${BN['pick3']['price']}/mo</a>
       </div>
     </div>"""
 
@@ -204,7 +179,7 @@ if not STARTER_OK:
       <div class="pr-price">${_cheap["price"] if _cheap else 0}<small>/MO</small></div>
     </div>
     <p class="pr-why">At this budget, run one system properly before you run several. {esc(_cheap["name"]) if _cheap else ""} is the
-    lowest-priced published strategy &mdash; live with its drawdown for a month, then step up to Pick-3 at ${BN['pick3']['price']}/mo.</p>
+    lowest-priced published strategy &mdash; live with its drawdown for a month, then add a second when you have lived with its drawdown.</p>
     <div class="pr-ctas">
       <a class="btn" href="/strategies/{_cheap["slug"] if _cheap else ""}.html">See {esc(_cheap["name"]) if _cheap else ""}</a>
       <!-- WHOP: replace with checkout link ({_cheap["name"] if _cheap else "TBD"}) -->
@@ -273,7 +248,7 @@ def chips(name, opts):
 
 scope_opts = [
     ("s1", "One system", "Start focused — a single edge, run properly"),
-    ("s2", "Three systems", "A custom Pick-3, named by you at checkout"),
+    ("s2", "Three systems", "Three that fit together, each its own subscription"),
     ("s3", "The whole shelf", "All-Access — every strategy at once"),
     ("s4", "The in-house Books", "The four engines we run ourselves"),
 ]
@@ -369,7 +344,7 @@ page = f"""<!DOCTYPE html>
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Find your plan — FuturesTradingBots</title>
-<meta name="description" content="Answer four questions — drawdown budget, temperament, scope, execution — and get a specific recommendation: named systems or a custom Pick-3, sized to a drawdown you can actually hold.">
+<meta name="description" content="Answer four questions — drawdown budget, temperament, scope, execution — and get a specific recommendation: named systems sized to a drawdown you can actually hold.">
 <meta name="theme-color" content="#051014">
 <meta property="og:title" content="Find your plan — FuturesTradingBots">
 <meta property="og:site_name" content="FuturesTradingBots">
@@ -429,7 +404,7 @@ page = f"""<!DOCTYPE html>
       <p class="plan-kicker">PLAN FINDER</p>
       <h1>Find your <span class="mint">plan</span></h1>
       <p class="plan-sub">Four answers. One specific recommendation &mdash; named systems, or a custom
-      Pick-3 built for you &mdash; sized to the drawdown you can actually hold, chosen by the same math
+      three named systems &mdash; sized to the drawdown you can actually hold, chosen by the same math
       that ranks the shelf. Runs entirely in your browser: this page ships zero script, so your answers
       never leave it.</p>
     </div>

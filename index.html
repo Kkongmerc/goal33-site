@@ -24,7 +24,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
 
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="assets/main.css?v=d4a80046">
+<link rel="stylesheet" href="assets/main.css?v=a2e054f7">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -342,7 +342,7 @@
         <ul class="cart-lines"><li class="cl cl-continuum"><span class="cl-name">Continuum</span><span class="cl-price">$909</span></li><li class="cl cl-midas"><span class="cl-name">Midas</span><span class="cl-price">$759</span></li><li class="cl cl-aftershock"><span class="cl-name">Aftershock</span><span class="cl-price">$699</span></li><li class="cl cl-slipstream"><span class="cl-name">Slipstream</span><span class="cl-price">$649</span></li><li class="cl cl-ignition"><span class="cl-name">Ignition</span><span class="cl-price">$299</span></li></ul>
         <div class="cart-foot">
           <div class="cart-total"><span class="cart-tlabel">Total</span><span class="cart-sum"></span><span class="cart-per">/mo</span></div>
-          <p class="cart-hint">Three or more? <a href="/strategies/pick-3.html">Pick-3 is $499/mo</a>. Want the catalog? <a href="/strategies/all-access.html">All-Access is $999/mo</a> &mdash; combined list $3,315.</p>
+          <p class="cart-hint">Want the catalog? <a href="/strategies/all-access.html">All-Access is $999/mo</a> &mdash; combined list $3,315.</p>
           <a class="btn btn-buy cart-go" href="#packages">Compare bundles</a>
           <span class="cart-note">Selections are local to this page &mdash; nothing is stored or sent.</span>
         </div>
@@ -358,7 +358,7 @@
         <span class="idx">02 /</span>
         <h2>Bundles</h2>
       </div>
-      <div class="packs-2">
+      <div class="packs-1">
 
         <div class="pack popular">
           <span class="flag">BEST VALUE</span>
@@ -374,17 +374,6 @@
           <a class="btn btn-buy" href="/strategies/all-access.html" rel="noopener">Get All-Access</a>
         </div>
 
-        <div class="pack">
-          <h3><a class="sys-link" href="/strategies/pick-3.html">Pick-3</a></h3>
-          <div class="amount"><s class="was">$2,367<span class="sr-only"> top three combined,</span></s>$499<small>/mo</small></div>
-          <p class="sub">Any three of the 5 published systems, swapped monthly.</p>
-          <ul>
-            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Choose any three; swap your picks monthly</span></li>
-            <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Each delivered as a TradingView invite-only script</span></li>
-          </ul>
-          <!-- WHOP: replace this product-page link with the Whop checkout link -->
-          <a class="btn btn-buy" href="/strategies/pick-3.html" rel="noopener">Get Pick-3</a>
-        </div>
 
       </div>
       <div class="prelaunch" id="books">
@@ -641,13 +630,17 @@
 </main>
 
 <input type="checkbox" id="plan-dismiss" class="pop-cb">
-<aside class="plan-pop" aria-label="Plan finder">
-  <label for="plan-dismiss" class="pop-close" title="Dismiss"><span class="pop-x" aria-hidden="true"></span><span class="sr-only">Dismiss</span></label>
-  <span class="pb-tag">PLAN FINDER</span>
-  <p class="pop-line">Not sure where to start?</p>
-  <p class="pop-sub">Four questions to a named recommendation &mdash; sized to the drawdown you can actually hold.</p>
-  <a class="btn pop-go" href="/plan.html">Find your plan &rarr;</a>
-</aside>
+<div class="plan-modal" role="dialog" aria-modal="true" aria-label="Plan finder">
+  <label for="plan-dismiss" class="plan-scrim"><span class="sr-only">Dismiss</span></label>
+  <div class="plan-card">
+    <label for="plan-dismiss" class="pop-close" title="Dismiss"><span class="pop-x" aria-hidden="true"></span><span class="sr-only">Dismiss</span></label>
+    <span class="pb-tag">PLAN FINDER</span>
+    <p class="pm-line">Not sure where to start?</p>
+    <p class="pm-sub">Four questions to a named recommendation &mdash; sized to the drawdown you can actually hold, and honest enough to tell you when the cheaper path wins.</p>
+    <a class="btn pop-go" href="/plan.html">Find your plan &rarr;</a>
+    <label for="plan-dismiss" class="pm-skip">No thanks, I&rsquo;ll browse</label>
+  </div>
+</div>
 
 
 <!-- ── footer ─────────────────────────────────────────────── -->
