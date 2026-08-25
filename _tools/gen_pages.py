@@ -230,7 +230,7 @@ def trades_table(tr, slug):
       <tbody>{rows}</tbody>
     </table>
     </div>
-    <p class="tvt-note">All {len(tr["trades"]):,} closed trades from the verbatim TradingView export, newest first. Times are exchange-local as exported.</p>
+    <p class="tvt-note">Newest first &middot; times exchange-local.</p>
   </div>"""
 
 def calendar_real(tr):
@@ -266,7 +266,6 @@ def calendar_real(tr):
     return f"""<div class="record rcal">
   <div class="record-title">Daily results &mdash; last {len(months)} months of the record</div>
   <div class="rc-wrap">{out}</div>
-  <p class="tvt-note">Realized P&amp;L by exit day, from the same closed-trade record as everything above.</p>
 </div>"""
 
 def tester_block(p):
@@ -314,7 +313,6 @@ def tester_block(p):
       <tbody>{rows}</tbody>
     </table>
     </div>
-    <p class="tvt-note">{esc(p["best"].get("label", ""))}</p>
   </div>
   {lt_pane}
 </div>"""
@@ -450,7 +448,6 @@ def real_chart(p, tr):
       <path class="tvx-eqarea" d="{eq_area}" fill="url(#tvxg-{p["slug"]})"/>
       <path class="tvx-eqline" d="M{eq_pts}" fill="none"/>
     </svg>
-    <figcaption class="chart-note">Cumulative net and running drawdown on one dollar scale &mdash; every point a closed trade from the validated record.</figcaption>
   </figure>"""
 
 def chart_figure(p):
