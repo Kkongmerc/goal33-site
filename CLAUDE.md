@@ -77,10 +77,10 @@ recommends the cheaper path instead (The Starter if it IS that trio, otherwise
 
 Five RoDD-board rows are PUBLISHED in `catalog2.json` -> `strategies[]`:
 continuum ($909) / midas ($759) / aftershock ($699) / slipstream ($649) /
-bellwether ($299) — board rows 1, 2, 3, 5 and 6. **Row 4 (MNQ Strong Book) was
+ignition ($299) — board rows 1, 2, 3, 5 and 6. **Row 4 (MNQ Strong Book) was
 pulled by the owners**; its glyph, `fc-strongbox` skin and archive entry are all
 intact, so republishing is one tuple away. Prices are formula-driven from
-replayed best-window RoDD x n — bellwether is cheap because n=66, which is the
+replayed best-window RoDD x n — ignition is cheap because n=66, which is the
 formula working, not a discount.
 Every number is a closed-trade replay of the committed TradingView export the
 owners' validation board used (verified digit-for-digit against the board).

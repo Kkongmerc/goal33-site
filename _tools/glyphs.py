@@ -16,9 +16,10 @@ STRAT = {
     # Strongbox — three-leg book: banded chest
     "strongbox": '<rect x="4" y="7" width="16" height="12" rx="1.2"/><path d="M4 11h16"/><path d="M9 7v12M15 7v12" opacity=".6"/><circle cx="12" cy="14.8" r="1.5"/>',
     # Slipstream — FVG continuation: layered flow
-    # Bellwether - the opening bell over a broken range
-    "bellwether": '<path d="M12 5.6a5.2 5.2 0 0 0-5.2 5.2c0 4-1.3 5.3-2.1 6.2h14.6c-.8-.9-2.1-2.2-2.1-6.2A5.2 5.2 0 0 0 12 5.6z"/>'
-                  '<path d="M10.3 19a1.8 1.8 0 0 0 3.4 0"/><circle cx="12" cy="4" r="1"/>',
+    # Ignition - the break clearing the opening range
+    "ignition": '<path d="M3.5 17.5h7M3.5 11h6"/>'
+                '<path d="M14.5 20V6.5"/><path d="M10.6 10.4 14.5 6.5l3.9 3.9"/>'
+                '<path d="M19.5 17.5h1.2M17.8 20h2.9" opacity=".55"/>',
     "slipstream": '<path d="M3.5 8h11a2.8 2.8 0 1 0-2.6-3.8"/><path d="M3.5 12.5H18a3 3 0 1 1-2.8 4"/><path d="M3.5 17h7"/>',
     # Spartacus — gladiator helm: dome, T-visor, crest
     "spartacus": '<path d="M6 20v-7a6 6 0 0 1 12 0v7"/><path d="M12 10v10"/><path d="M7.5 13.5h9"/><path d="M8 4.2c2.6-1.9 5.4-1.9 8 0"/>',

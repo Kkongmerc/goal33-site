@@ -41,7 +41,7 @@
        continuum cyan #5CC8E8 on panel 9.2 / raised 8.6 (AA)
        daylight sun-orange #FF9142 on panel 7.9 / raised 7.4 (AA)
        vault silver #C7D3DC on panel 11.7 / raised 10.9 (AA)
-       bellwether rose #FF8FB1 on panel 8.3 / raised 7.8 (AA)
+       ignition rose #FF8FB1 on panel 8.3 / raised 7.8 (AA)
      flagship identity colors (same exception; name/emblem/chrome
        only — all ≥ 7.6 on panel): spartacus bronze #E3A857 8.5,
        alloy copper #F0907A 7.6, market-maker blue #7FB2FF 8.2,
@@ -3662,7 +3662,7 @@ section:hover .sec-head h2::after { width: 48px; }
 .fc-midas                { --fc: #E8C15C; --fc-hi: #F5DFA6; --fc-soft: rgba(232, 193, 92, .14); --fc-line: rgba(232, 193, 92, .40); --fc-glow: rgba(232, 193, 92, .32); }
 .fc-aftershock           { --fc: #FF9142; --fc-hi: #FFB27E; --fc-soft: rgba(255, 145, 66, .14); --fc-line: rgba(255, 145, 66, .40); --fc-glow: rgba(255, 145, 66, .32); }
 .fc-strongbox            { --fc: #C7D3DC; --fc-hi: #E6EDF2; --fc-soft: rgba(199, 211, 220, .12); --fc-line: rgba(199, 211, 220, .36); --fc-glow: rgba(199, 211, 220, .30); }
-.fc-bellwether           { --fc: #FF8FB1; --fc-hi: #FFC2D5; --fc-soft: rgba(255, 143, 177, .13); --fc-line: rgba(255, 143, 177, .38); --fc-glow: rgba(255, 143, 177, .32); }
+.fc-ignition             { --fc: #FF8FB1; --fc-hi: #FFC2D5; --fc-soft: rgba(255, 143, 177, .13); --fc-line: rgba(255, 143, 177, .38); --fc-glow: rgba(255, 143, 177, .32); }
 .fc-slipstream           { --fc: #7FB2FF; --fc-hi: #A8CBFF; --fc-soft: rgba(127, 178, 255, .13); --fc-line: rgba(127, 178, 255, .38); --fc-glow: rgba(127, 178, 255, .34); }
 .fc-the-midas            { --fc: #E8C15C; --fc-hi: #F5DFA6; --fc-soft: rgba(232, 193, 92, .14); --fc-line: rgba(232, 193, 92, .40); --fc-glow: rgba(232, 193, 92, .32); }
 .fc-the-continuum        { --fc: #5CC8E8; --fc-hi: #9ADFF2; --fc-soft: rgba(92, 200, 232, .13); --fc-line: rgba(92, 200, 232, .38); --fc-glow: rgba(92, 200, 232, .32); }
@@ -4478,12 +4478,12 @@ html { scroll-padding-top: calc(var(--header-h) + 58px); }
 #add-midas:checked + .add-btn { counter-increment: cart 1 total 759; }
 #add-aftershock:checked + .add-btn { counter-increment: cart 1 total 699; }
 #add-slipstream:checked + .add-btn { counter-increment: cart 1 total 649; }
-#add-bellwether:checked + .add-btn { counter-increment: cart 1 total 299; }
+#add-ignition:checked + .add-btn { counter-increment: cart 1 total 299; }
 #strategies:has(#add-continuum:checked) .cl-continuum,
 #strategies:has(#add-midas:checked) .cl-midas,
 #strategies:has(#add-aftershock:checked) .cl-aftershock,
 #strategies:has(#add-slipstream:checked) .cl-slipstream,
-#strategies:has(#add-bellwether:checked) .cl-bellwether {
+#strategies:has(#add-ignition:checked) .cl-ignition {
   display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3);
   padding: var(--sp-2) var(--sp-4); border-bottom: 1px solid var(--line);
 }

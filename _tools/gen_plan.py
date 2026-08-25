@@ -38,6 +38,11 @@ def num(v):
     try: return float(s.rstrip("k")) * m
     except ValueError: return 0.0
 def bs(p, k): return p["best"]["stats"].get(k, "—")
+def fs(p, k): return (p.get("full") or {}).get("stats", {}).get(k, "—")
+def worst_dd(p):
+    """Size against the deeper of the two published windows - the site tells
+    buyers to judge from the full-window numbers, so the finder must too."""
+    return max(num(bs(p, "Max DD")), num(fs(p, "Max DD")))
 
 DISCLAIMER = ("Trading futures involves substantial risk of loss and is not suitable for all investors. "
               "Past performance is not indicative of future results. All published statistics are from "
@@ -62,7 +67,7 @@ def sort_key(tkey):
     return lambda p: (-num(bs(p, "Net")), -num(bs(p, "RoDD")))
 
 def eligible(cap):
-    return [p for p in S if num(bs(p, "Max DD")) <= cap]
+    return [p for p in S if worst_dd(p) <= cap]
 
 def why_line(p, tkey):
     if tkey == "t1":

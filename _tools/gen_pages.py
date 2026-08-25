@@ -433,7 +433,9 @@ def real_chart(p, tr):
         xticks += f'<text class="tvx-xlab" x="{xx:.1f}" y="{H-9:.1f}" text-anchor="{anchor}">{lab}</text>'
 
     net = p["best"]["stats"].get("Net", "")
-    dd_min = _fmt_usd(min(dd))
+    # the audited full-record Max DD, NOT a trough over the downsampled
+    # equity array - sampling misses the exact bottom and understates risk
+    dd_min = _fmt_usd(-abs(tr["full"]["dd"]))
 
     # CSS-only crosshair: one invisible hover strip per sampled point; each
     # reveals its own line + dot + label. ~110 points keeps pages light.
