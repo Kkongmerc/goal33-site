@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /_tools/
+Disallow: /CLAUDE.md
+Disallow: /README.md
 
 Sitemap: https://futurestradingbots.com/sitemap.xml

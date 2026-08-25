@@ -8,6 +8,8 @@ _HERE = os.path.dirname(os.path.abspath(__file__))
 BASE = os.path.dirname(_HERE)
 CAT = json.load(open(os.path.join(_HERE, "catalog2.json"), encoding="utf-8"))
 S = CAT["strategies"]
+COMBINED_ALL = sum(s["price"] for s in S)   # struck bundle price, never a constant
+COMBINED_TOP3 = sum(sorted((s["price"] for s in S), reverse=True)[:3])
 B = CAT["books"]
 BN = CAT["bundles"]
 
@@ -226,7 +228,7 @@ cart = f"""<!-- ── selection cart: pure CSS (counters + :has), zero JS ─�
         <ul class="cart-lines">{cart_lines}</ul>
         <div class="cart-foot">
           <div class="cart-total"><span class="cart-tlabel">Total</span><span class="cart-sum"></span><span class="cart-per">/mo</span></div>
-          <p class="cart-hint">Three or more? <a href="/strategies/pick-3.html">Pick-3 is $499/mo</a>. Want the catalog? <a href="/strategies/all-access.html">All-Access is $999/mo</a> &mdash; combined list ${BN["all_access"]["combined"]:,}.</p>
+          <p class="cart-hint">Three or more? <a href="/strategies/pick-3.html">Pick-3 is $499/mo</a>. Want the catalog? <a href="/strategies/all-access.html">All-Access is $999/mo</a> &mdash; combined list ${COMBINED_ALL:,}.</p>
           <a class="btn btn-buy cart-go" href="#packages">Compare bundles</a>
           <span class="cart-note">Selections are local to this page &mdash; nothing is stored or sent.</span>
         </div>
@@ -238,7 +240,7 @@ strategies = f"""<section id="strategies">
       <div class="sec-head sec-head-dial">
         <span class="idx">01 /</span>
         <h2>Strategies</h2>
-        <span class="note">{len(S)} live-validated systems &middot; best window and full 2024+ window published</span>
+        <span class="note">{len(S)} live-validated systems &middot; both validation windows published</span>
         <!-- session rotation dial — purely decorative; no numbers, no performance implication --> <div class="dial-wrap sec-dial" aria-hidden="true"> <svg class="dial" viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg" focusable="false"> <!-- outer hairline ring --> <circle class="dial-outer" cx="210" cy="210" r="164" fill="none" stroke="#2A423E" stroke-width="1"/> <!-- fine tick marks: dashed-stroke circle --> <circle class="dial-tickring" cx="210" cy="210" r="152" fill="none" stroke="#2A423E" stroke-width="7" stroke-dasharray="1.5 8.45"/> <!-- session handoff: four arc segments (dasharray quarters), mint at stepped opacities --> <circle class="dial-arc dial-arc-a" cx="210" cy="210" r="118" fill="none" stroke="#56C8A2" stroke-width="2" stroke-dasharray="172 570" stroke-opacity=".9" transform="rotate(3.3 210 210)"/> <circle class="dial-arc dial-arc-b" cx="210" cy="210" r="118" fill="none" stroke="#56C8A2" stroke-width="2" stroke-dasharray="172 570" stroke-opacity=".62" transform="rotate(93.3 210 210)"/> <circle class="dial-arc dial-arc-c" cx="210" cy="210" r="118" fill="none" stroke="#56C8A2" stroke-width="2" stroke-dasharray="172 570" stroke-opacity=".42" transform="rotate(183.3 210 210)"/> <circle class="dial-arc dial-arc-d" cx="210" cy="210" r="118" fill="none" stroke="#56C8A2" stroke-width="2" stroke-dasharray="172 570" stroke-opacity=".26" transform="rotate(273.3 210 210)"/> <!-- session labels --> <text class="dial-label" x="210" y="30" text-anchor="middle" fill="#738D85">SYDNEY</text> <text class="dial-label" x="210" y="30" text-anchor="middle" fill="#738D85" transform="rotate(90 210 210)">SHANGHAI</text> <text class="dial-label" x="210" y="398" text-anchor="middle" fill="#738D85">FRANKFURT</text> <text class="dial-label" x="210" y="30" text-anchor="middle" fill="#738D85" transform="rotate(-90 210 210)">NEW YORK</text> <!-- sweep hand --> <g class="dial-hand"> <line x1="210" y1="210" x2="210" y2="74" fill="none" stroke="#56C8A2" stroke-width="1.5"/> <circle class="dial-hub" cx="210" cy="210" r="4.5" fill="#56C8A2"/> </g> </svg> </div>
       </div>
 
@@ -389,7 +391,7 @@ packages = f"""<section id="packages">
         <div class="pack popular">
           <span class="flag">BEST VALUE</span>
           <h3><a class="sys-link" href="/strategies/all-access.html">All-Access</a></h3>
-          <div class="amount"><s class="was">${BN['all_access']['combined']:,}<span class="sr-only"> combined list price,</span></s>$999<small>/mo</small></div>
+          <div class="amount"><s class="was">${COMBINED_ALL:,}<span class="sr-only"> combined list price,</span></s>$999<small>/mo</small></div>
           <p class="sub">Every validated strategy in the catalog.</p>
           <ul>
             <li>{inc_check}<span>All {len(S)} live-validated systems, every tier included</span></li>
@@ -438,14 +440,43 @@ if BOOKS_PENDING:
       <div class="sec-head">
         <span class="idx">02 /</span>
         <h2>Bundles</h2>
-        <span class="note">books and bundles return as they clear validation</span>
+        <span class="note">two bundles live &middot; the Books are still in validation</span>
+      </div>
+      <div class="packs-2">
+
+        <div class="pack popular">
+          <span class="flag">BEST VALUE</span>
+          <h3><a class="sys-link" href="/strategies/all-access.html">All-Access</a></h3>
+          <div class="amount"><s class="was">${COMBINED_ALL:,}<span class="sr-only"> combined list price,</span></s>$999<small>/mo</small></div>
+          <p class="sub">Every published system under one subscription.</p>
+          <ul>
+            <li>{inc_check}<span>All {len(S)} live-validated systems included</span></li>
+            <li>{inc_check}<span>New systems included as they clear validation</span></li>
+            <li>{inc_check}<span>TradingView invite-only scripts, activated within 24h</span></li>
+          </ul>
+          <!-- WHOP: replace this product-page link with the Whop checkout link -->
+          <a class="btn btn-buy" href="/strategies/all-access.html" rel="noopener">Get All-Access</a>
+        </div>
+
+        <div class="pack">
+          <h3><a class="sys-link" href="/strategies/pick-3.html">Pick-3</a></h3>
+          <div class="amount"><s class="was">${COMBINED_TOP3:,}<span class="sr-only"> top three combined,</span></s>$499<small>/mo</small></div>
+          <p class="sub">Any three of the {len(S)} published systems, swapped monthly.</p>
+          <ul>
+            <li>{inc_check}<span>Choose any three; swap your picks monthly</span></li>
+            <li>{inc_check}<span>Each delivered as a TradingView invite-only script</span></li>
+          </ul>
+          <!-- WHOP: replace this product-page link with the Whop checkout link -->
+          <a class="btn btn-buy" href="/strategies/pick-3.html" rel="noopener">Get Pick-3</a>
+        </div>
+
       </div>
       <div class="prelaunch" id="books">
         <span class="pl-tag">IN VALIDATION</span>
-        <h3>The Books and bundles are next.</h3>
-        <p>The five flagships shipped first. The multi&#8209;leg Books and the bundle tiers
-        (Starter &middot; Pick&#8209;3 &middot; All&#8209;Access) return as each clears the same
-        validation gate &mdash; combined solo worth struck through, same as always.</p>
+        <h3>The Books are next.</h3>
+        <p>The five flagships shipped first. The multi&#8209;leg Books &mdash; the in-house engines we
+        run ourselves &mdash; publish when they clear the same validation gate, with both windows
+        shown like everything else here.</p>
       </div>
     </div>
   </section>"""
@@ -469,6 +500,7 @@ else:
         if _m and _m not in _seen: _seen.append(_m)
     MARKETS = " · ".join(_seen)
     MARKETS_TIGHT = "·".join(_seen)
+    MARKETS_PROSE = (", ".join(_seen[:-1]) + " and " + _seen[-1]) if len(_seen) > 1 else (_seen[0] if _seen else "")
     _books = f"{len(B)} BOOKS" if B else "BOOKS IN VALIDATION"
     half = (f"<span>{len(S)} SYSTEMS · {_books}</span>"
         f"<span>SESSION: SYDNEY → SHANGHAI → FRANKFURT → NEW YORK</span>"
@@ -494,9 +526,9 @@ LEDE = ("""<p class="lede">
         </p>""" if PRELAUNCH else f"""<p class="lede">""")
 doc = re.sub(r'<p class="lede">.*?</p>',
     LEDE if PRELAUNCH else f"""<p class="lede">
-          FuturesTradingBots sells the session systems we actually run: {len(S)} live-validated strategies and four
-          in-house books across MNQ, NQ, MGC, SI, and ES futures. Every figure comes from the validation
-          playbook &mdash; best window and full 2024+ window, both published. TradingView invite-only
+          FuturesTradingBots sells the session systems we actually run: {len(S)} live-validated strategies
+          across {MARKETS_PROSE} futures{f", plus the {len(B)} in-house books" if B else ""}. Every figure comes from the
+          validation playbook &mdash; best window and full record, both published. TradingView invite-only
           scripts, activated within 24h. Checkout runs through Whop.
         </p>""", doc, count=1, flags=re.S)
 

@@ -17,7 +17,7 @@ HAS_BOOKS_BUNDLE = bool(CAT["books"])         # The Books needs books
 HAS_STARTER = bool(CAT["bundles"].get("starter", {}).get("slugs")) and all(
     s in {x["slug"] for x in CAT["strategies"]}
     for s in CAT["bundles"].get("starter", {}).get("slugs", []))
-TODAY = "2026-08-20"
+TODAY = __import__("datetime").date.today().isoformat()
 CSSV = hashlib.md5(open(os.path.join(BASE, "assets", "main.css"), "rb").read()).hexdigest()[:8]
 
 DISCLAIMER = ("All performance figures are backtested or validation-run results shown with commissions and "
@@ -88,8 +88,6 @@ def head(title, desc, path, bodycls=""):
         <a href="/#strategies">Strategies<svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
         <div class="nav-menu">
           <a href="/#flagships"><b>Tier 1</b> Flagships</a>
-          <a href="/#tier-2"><b>Tier 2</b> Core systems</a>
-          <a href="/#tier-3"><b>Tier 3</b> Session specialists</a>
           <a href="/#edge">Browse by edge</a>
           <a href="/#packages">Bundles &amp; deals</a>
         </div>
@@ -108,8 +106,6 @@ def head(title, desc, path, bodycls=""):
       <nav class="nav-mob-panel" aria-label="Mobile">
         <a href="/#strategies">Strategies</a>
         <a href="/#flagships">Tier 1 &middot; Flagships</a>
-        <a href="/#tier-2">Tier 2 &middot; Core systems</a>
-        <a href="/#tier-3">Tier 3 &middot; Session specialists</a>
         <a class="mob-books" href="/#packages">Books and Bundles</a>
         <a href="/plan.html">Find your plan</a>
         <a href="/#how">How access works</a>
@@ -176,7 +172,7 @@ def buybox(name, price, whop_note, xsell=None, struck=None):
   <div class="guar">
     <span class="guar-line"><b>7-day</b> money-back &mdash; no questions</span>
     <span class="guar-line"><b>First month not profitable?</b> Full refund</span>
-    <span class="guar-note">per the strategy&rsquo;s own published signals &middot; <a href="/terms.html">terms</a></span>
+    <span class="guar-note">per the strategy&rsquo;s own published signals &middot; claim within 7 days of day 30 &middot; <a href="/terms.html">terms</a></span>
   </div>
   <ul>
     <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>TradingView invite-only script, activated within 24h</span></li>
@@ -227,22 +223,21 @@ HELD_FULL = {
 
 def trades_table(tr, slug):
     rows = ""
-    for i, (day, side, held, epx, xpx, pnl) in enumerate(reversed(tr["trades"])):
+    for i, (day, side, held, pnl) in enumerate(reversed(tr["trades"])):
         cls = "tv-pos" if pnl > 0 else ("tv-neg" if pnl < 0 else "")
         rows += (f'<tr><td>{len(tr["trades"]) - i}</td><td>{esc(day)}</td>'
                  f'<td class="lt-side lt-{side}">{side}</td>'
                  f'<td class="lt-held" title="{esc(HELD_FULL.get(held, held))}">{esc(held)}</td>'
-                 f'<td>{epx if epx is not None else "&mdash;"}</td><td>{xpx if xpx is not None else "&mdash;"}</td>'
                  f'<td class="{cls}">${pnl:,.2f}</td></tr>')
     return f"""<div class="tvt-pane tvt-lt">
     <div class="screener lt-scroll" tabindex="0" role="region" aria-label="List of trades, scrolls">
     <table class="tvt-table lt-table">
       <caption class="sr-only">Every closed trade in the validated record, newest first</caption>
-      <thead><tr><th scope="col">#</th><th scope="col">Day</th><th scope="col">Side</th><th scope="col">Held</th><th scope="col">Entry</th><th scope="col">Exit</th><th scope="col">Net P&amp;L</th></tr></thead>
+      <thead><tr><th scope="col">#</th><th scope="col">Day</th><th scope="col">Side</th><th scope="col">Held</th><th scope="col">Net P&amp;L</th></tr></thead>
       <tbody>{rows}</tbody>
     </table>
     </div>
-    <p class="tvt-note">Newest first.</p>
+    <p class="tvt-note">Newest first &middot; entry and exit prices are withheld by policy.</p>
   </div>"""
 
 def calendar_real(tr):
@@ -317,13 +312,13 @@ def tester_block(p):
   <div class="tvt-pane tvt-ov">
     {chart_figure(p)}
     <div class="tvt-tiles">{tiles}</div>
-    <p class="tvt-note">Best window &middot; {esc(p.get("window", ""))}.{'' if tr else ' Equity curve is illustrative, fitted to the published stats, until the trade-level export replaces it.'}</p>
+    <p class="tvt-note">{f'Curve: the full record. Figures: best window &middot; {esc(p.get("window", ""))}.' if tr else f'Best window &middot; {esc(p.get("window", ""))}. Equity curve is illustrative, fitted to the published stats, until the trade-level export replaces it.'}</p>
   </div>
   <div class="tvt-pane tvt-ps">
     <div class="screener" tabindex="0" role="region" aria-label="Performance summary table, scrolls horizontally">
     <table class="tvt-table">
       <caption class="sr-only">Performance summary: best window vs full 2024+ window</caption>
-      <thead><tr><th scope="col">Metric</th><th scope="col">Best window</th><th scope="col">Full 2024+</th></tr></thead>
+      <thead><tr><th scope="col">Metric</th><th scope="col">Best window</th><th scope="col">Full record</th></tr></thead>
       <tbody>{rows}</tbody>
     </table>
     </div>
@@ -465,7 +460,7 @@ def real_chart(p, tr):
     <div class="tvx-legend">
       <span class="tvx-key"><i class="tvx-dot tvx-dot-eq"></i>Equity <b>{_fmt_usd(ys[-1])}</b></span>
       <span class="tvx-key"><i class="tvx-dot tvx-dot-dd"></i>Drawdown <b class="tv-neg">{dd_min}</b></span>
-      <span class="tvx-src">{tr["full"]["n"]:,} closed trades &middot; {esc(tr["full"]["start"])} &rarr; {esc(tr["full"]["end"])}</span>
+      <span class="tvx-src">Full record &middot; {tr["full"]["n"]:,} closed trades &middot; {esc(tr["full"]["start"])} &rarr; {esc(tr["full"]["end"])}</span>
     </div>
     <svg viewBox="0 0 720 300" role="img" aria-label="Equity and drawdown, {tr['full']['n']} closed trades" focusable="false">
       <defs>
@@ -735,7 +730,7 @@ if not PRELAUNCH and HAS_BUNDLES:
         f"""<div class="record">
             <div class="record-title">Included — all {len(CAT["strategies"])} validated systems (combined ${COMBINED_ALL:,}/mo)</div>
             <div class="included included-scroll" tabindex="0" role="region" aria-label="All included systems"><ul>{inc_rows}</ul></div>
-            <p class="record-note">The Books are not included in All-Access. The four in-house engines are a separate premium tier, from $589/mo each or $2,999/mo together.</p>
+            <p class="record-note">{"The Books are not included in All-Access. The four in-house engines are a separate premium tier." if HAS_BOOKS_BUNDLE else "The in-house Books are still in validation; when they publish they will be a separate tier, not part of All-Access."}</p>
           </div>""",
         ('Want the engines themselves? <a href="/strategies/the-books.html">The Books — $2,999/mo</a>'
          if HAS_BOOKS_BUNDLE else
