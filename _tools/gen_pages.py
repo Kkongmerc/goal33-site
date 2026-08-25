@@ -99,8 +99,8 @@ def head(title, desc, path, bodycls=""):
     </nav>
     <!-- WHOP: replace this link with the Whop storefront URL -->
     <a class="btn btn-sm btn-buy" href="/#packages" rel="noopener">Get access</a>
-    <!-- DISCORD: replace this href with the community invite link -->
-    <a class="btn btn-sm btn-discord" href="#" rel="noopener"><svg class="ic-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.7 17.4c-3.2-.1-4.9-1.7-4.9-1.7.3-4 1.4-6.6 2.7-8.3C7.8 6.4 9.2 6 9.2 6l.5 1.1c1.5-.3 3.1-.3 4.6 0L14.8 6s1.4.4 2.7 1.4c1.3 1.7 2.4 4.3 2.7 8.3 0 0-1.7 1.6-4.9 1.7l-.8-1.1c-1.6.3-3.4.3-5 0z"/><circle cx="9.6" cy="12.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.6" r="1.15" fill="currentColor" stroke="none"/></svg><span>Discord</span></a>
+    <!-- DISCORD: community invite -->
+    <a class="btn btn-sm btn-discord" href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener"><svg class="ic-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.7 17.4c-3.2-.1-4.9-1.7-4.9-1.7.3-4 1.4-6.6 2.7-8.3C7.8 6.4 9.2 6 9.2 6l.5 1.1c1.5-.3 3.1-.3 4.6 0L14.8 6s1.4.4 2.7 1.4c1.3 1.7 2.4 4.3 2.7 8.3 0 0-1.7 1.6-4.9 1.7l-.8-1.1c-1.6.3-3.4.3-5 0z"/><circle cx="9.6" cy="12.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.6" r="1.15" fill="currentColor" stroke="none"/></svg><span>Discord</span></a>
     <details class="nav-mob">
       <summary aria-label="Menu"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span></summary>
       <nav class="nav-mob-panel" aria-label="Mobile">
@@ -110,8 +110,8 @@ def head(title, desc, path, bodycls=""):
         <a href="/plan.html">Find your plan</a>
         <a href="/#how">How access works</a>
         <a href="/#faq">FAQ</a>
-        <!-- DISCORD: replace this href with the community invite link -->
-        <a href="#" rel="noopener">Join the community Discord</a>
+        <!-- DISCORD: community invite -->
+        <a href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener">Join the community Discord</a>
       </nav>
     </details>
   </div>
@@ -133,8 +133,8 @@ FOOTER = f"""</main>
       <a href="/privacy.html">Privacy</a>
 
       <!--email_off--><a href="mailto:support@futurestradingbots.com">support@futurestradingbots.com</a><!--/email_off-->
-      <!-- DISCORD: replace this href with the community invite link -->
-      <a class="foot-discord" href="#" rel="noopener"><svg class="ic-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.7 17.4c-3.2-.1-4.9-1.7-4.9-1.7.3-4 1.4-6.6 2.7-8.3C7.8 6.4 9.2 6 9.2 6l.5 1.1c1.5-.3 3.1-.3 4.6 0L14.8 6s1.4.4 2.7 1.4c1.3 1.7 2.4 4.3 2.7 8.3 0 0-1.7 1.6-4.9 1.7l-.8-1.1c-1.6.3-3.4.3-5 0z"/><circle cx="9.6" cy="12.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.6" r="1.15" fill="currentColor" stroke="none"/></svg><span>Join the Community!</span></a>
+      <!-- DISCORD: community invite -->
+      <a class="foot-discord" href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener"><svg class="ic-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.7 17.4c-3.2-.1-4.9-1.7-4.9-1.7.3-4 1.4-6.6 2.7-8.3C7.8 6.4 9.2 6 9.2 6l.5 1.1c1.5-.3 3.1-.3 4.6 0L14.8 6s1.4.4 2.7 1.4c1.3 1.7 2.4 4.3 2.7 8.3 0 0-1.7 1.6-4.9 1.7l-.8-1.1c-1.6.3-3.4.3-5 0z"/><circle cx="9.6" cy="12.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.6" r="1.15" fill="currentColor" stroke="none"/></svg><span>Join the Community!</span></a>
     </div>
     <p class="disclaimer">{esc(DISCLAIMER)}</p>
     <p class="disclaimer">
@@ -230,7 +230,7 @@ def trades_table(tr, slug):
                  f'<td class="lt-held" title="{esc(HELD_FULL.get(held, held))}">{esc(held)}</td>'
                  f'<td class="{cls}">${pnl:,.2f}</td></tr>')
     return f"""<div class="tvt-pane tvt-lt">
-    <div class="screener lt-scroll" tabindex="0" role="region" aria-label="List of trades, scrolls">
+    <div class="screener lt-scroll" tabindex="0" role="region" aria-label="Trade log, scrolls">
     <table class="tvt-table lt-table">
       <caption class="sr-only">Every closed trade in the validated record, newest first</caption>
       <thead><tr><th scope="col">#</th><th scope="col">Day</th><th scope="col">Side</th><th scope="col">Held</th><th scope="col">Net P&amp;L</th></tr></thead>
@@ -282,10 +282,10 @@ def tester_block(p):
     slug = p["slug"]
     tr = load_trades_data(slug)
     if tr:
-        lt_tab = f'<label for="tvt-{slug}-lt" class="tvt-tab tvt-tab-lt">List of trades</label>'
+        lt_tab = f'<label for="tvt-{slug}-lt" class="tvt-tab tvt-tab-lt">Trade log</label>'
         lt_pane = trades_table(tr, slug)
     else:
-        lt_tab = '<span class="tvt-tab tvt-tab-off" title="Activates when the trade-level export lands">List of trades &middot; soon</span>'
+        lt_tab = '<span class="tvt-tab tvt-tab-off" title="Activates when the trade-level export lands">Trade log &middot; soon</span>'
         lt_pane = ""
     tiles = ""
     for lab, key, cls in [("Net profit", "Net", "tv-pos"), ("Total trades", "Trades", ""),
@@ -442,22 +442,26 @@ def real_chart(p, tr):
     hstep = max(1, len(ts) // 110)
     hidx = list(range(0, len(ts), hstep))
     if hidx[-1] != len(ts) - 1: hidx.append(len(ts) - 1)
-    hover = ""
+    # ONE static readout box, top-left of the plot. Only the value text inside
+    # it changes as the cursor moves, so nothing re-renders or repositions -
+    # the vertical line and the tracing circle are the only moving parts.
+    labels = [ts[i].strftime("%d %b %y") + " · " + ("-" if ys[i] < 0 else "") + "${:,.0f}".format(abs(ys[i]))
+              for i in hidx]
+    box_w = 7.0 * max(len(t) for t in labels) + 16
+    box_x, box_y = L + 8, T + 6
+    txt_x, txt_y = box_x + 8, box_y + 14.5
+    hover = f'<rect class="hv-box" x="{box_x:.1f}" y="{box_y:.1f}" width="{box_w:.1f}" height="21" rx="3"/>'
     for pos, i in enumerate(hidx):
         x = X(ts[i]); y = Y(ys[i])
         x_prev = X(ts[hidx[pos-1]]) if pos > 0 else L
         x_next = X(ts[hidx[pos+1]]) if pos < len(hidx)-1 else L + PW
         x0 = (x_prev + x) / 2; x1 = (x + x_next) / 2
-        lab = ts[i].strftime("%d %b %y") + " · " + ("-" if ys[i] < 0 else "") + "${:,.0f}".format(abs(ys[i]))
-        wlab = 7.0 * len(lab) + 14
-        flip = x + 10 + wlab > L + PW
-        lx = (x - 10 - wlab) if flip else (x + 10)
-        ly = max(T + 4, min(y - 22, T + PH - 26))
         hover += (f'<g class="hp"><rect class="hp-hit" x="{x0:.1f}" y="{T:.0f}" width="{max(0.5, x1-x0):.1f}" height="{PH:.1f}"/>'
                   f'<g class="hv"><line class="hv-line" x1="{x:.1f}" y1="{T:.0f}" x2="{x:.1f}" y2="{T+PH:.1f}"/>'
-                  f'<circle class="hv-dot" cx="{x:.1f}" cy="{y:.1f}" r="3.2"/>'
-                  f'<rect class="hv-tag" x="{lx:.1f}" y="{ly:.1f}" width="{wlab:.1f}" height="20" rx="3"/>'
-                  f'<text class="hv-txt" x="{lx+7:.1f}" y="{ly+13.5:.1f}">{lab}</text></g></g>')
+                  f'<circle class="hv-ring" cx="{x:.1f}" cy="{y:.1f}" r="6"/>'
+                  f'<circle class="hv-dot" cx="{x:.1f}" cy="{y:.1f}" r="3.6"/>'
+                  f'<text class="hv-txt" x="{txt_x:.1f}" y="{txt_y:.1f}">{labels[pos]}</text></g></g>')
+    hover = f'<g class="hp-all">{hover}</g>'
     return f"""<figure class="chart-panel tvx">
     <div class="tvx-legend">
       <span class="tvx-key"><i class="tvx-dot tvx-dot-eq"></i>Equity <b>{_fmt_usd(ys[-1])}</b></span>

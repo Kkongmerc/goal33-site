@@ -201,7 +201,6 @@ def top_by(key, fmt, n=4, rev=True):
 collections = f"""<div class="tier-head">
         <span class="tier-tag">BROWSE</span>
         <h3>By edge</h3>
-        <span class="note">every figure from the validation playbook &middot; best window</span>
       </div>
 
       <div class="collections" id="edge">
@@ -240,7 +239,6 @@ strategies = f"""<section id="strategies">
       <div class="sec-head sec-head-dial">
         <span class="idx">01 /</span>
         <h2>Strategies</h2>
-        <span class="note">{len(S)} live-validated systems &middot; both validation windows published</span>
         <!-- session rotation dial — purely decorative; no numbers, no performance implication --> <div class="dial-wrap sec-dial" aria-hidden="true"> <svg class="dial" viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg" focusable="false"> <!-- outer hairline ring --> <circle class="dial-outer" cx="210" cy="210" r="164" fill="none" stroke="#2A423E" stroke-width="1"/> <!-- fine tick marks: dashed-stroke circle --> <circle class="dial-tickring" cx="210" cy="210" r="152" fill="none" stroke="#2A423E" stroke-width="7" stroke-dasharray="1.5 8.45"/> <!-- session handoff: four arc segments (dasharray quarters), mint at stepped opacities --> <circle class="dial-arc dial-arc-a" cx="210" cy="210" r="118" fill="none" stroke="#56C8A2" stroke-width="2" stroke-dasharray="172 570" stroke-opacity=".9" transform="rotate(3.3 210 210)"/> <circle class="dial-arc dial-arc-b" cx="210" cy="210" r="118" fill="none" stroke="#56C8A2" stroke-width="2" stroke-dasharray="172 570" stroke-opacity=".62" transform="rotate(93.3 210 210)"/> <circle class="dial-arc dial-arc-c" cx="210" cy="210" r="118" fill="none" stroke="#56C8A2" stroke-width="2" stroke-dasharray="172 570" stroke-opacity=".42" transform="rotate(183.3 210 210)"/> <circle class="dial-arc dial-arc-d" cx="210" cy="210" r="118" fill="none" stroke="#56C8A2" stroke-width="2" stroke-dasharray="172 570" stroke-opacity=".26" transform="rotate(273.3 210 210)"/> <!-- session labels --> <text class="dial-label" x="210" y="30" text-anchor="middle" fill="#738D85">SYDNEY</text> <text class="dial-label" x="210" y="30" text-anchor="middle" fill="#738D85" transform="rotate(90 210 210)">SHANGHAI</text> <text class="dial-label" x="210" y="398" text-anchor="middle" fill="#738D85">FRANKFURT</text> <text class="dial-label" x="210" y="30" text-anchor="middle" fill="#738D85" transform="rotate(-90 210 210)">NEW YORK</text> <!-- sweep hand --> <g class="dial-hand"> <line x1="210" y1="210" x2="210" y2="74" fill="none" stroke="#56C8A2" stroke-width="1.5"/> <circle class="dial-hub" cx="210" cy="210" r="4.5" fill="#56C8A2"/> </g> </svg> </div>
       </div>
 
@@ -284,7 +282,6 @@ if PRELAUNCH:
       <div class="sec-head sec-head-dial">
         <span class="idx">01 /</span>
         <h2>Strategies</h2>
-        <span class="note">new lineup in validation &middot; top five first</span>
         <!-- session rotation dial — purely decorative; no numbers, no performance implication --> <div class="dial-wrap sec-dial" aria-hidden="true"> <svg class="dial" viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg" focusable="false"> <!-- outer hairline ring --> <circle class="dial-outer" cx="210" cy="210" r="164" fill="none" stroke="#2A423E" stroke-width="1"/> <!-- fine tick marks: dashed-stroke circle --> <circle class="dial-tickring" cx="210" cy="210" r="152" fill="none" stroke="#2A423E" stroke-width="7" stroke-dasharray="1.5 8.45"/> <!-- session handoff: four arc segments (dasharray quarters), mint at stepped opacities --> <circle class="dial-arc dial-arc-a" cx="210" cy="210" r="118" fill="none" stroke="#56C8A2" stroke-width="2" stroke-dasharray="172 570" stroke-opacity=".9" transform="rotate(3.3 210 210)"/> <circle class="dial-arc dial-arc-b" cx="210" cy="210" r="118" fill="none" stroke="#56C8A2" stroke-width="2" stroke-dasharray="172 570" stroke-opacity=".62" transform="rotate(93.3 210 210)"/> <circle class="dial-arc dial-arc-c" cx="210" cy="210" r="118" fill="none" stroke="#56C8A2" stroke-width="2" stroke-dasharray="172 570" stroke-opacity=".42" transform="rotate(183.3 210 210)"/> <circle class="dial-arc dial-arc-d" cx="210" cy="210" r="118" fill="none" stroke="#56C8A2" stroke-width="2" stroke-dasharray="172 570" stroke-opacity=".26" transform="rotate(273.3 210 210)"/> <!-- session labels --> <text class="dial-label" x="210" y="30" text-anchor="middle" fill="#738D85">SYDNEY</text> <text class="dial-label" x="210" y="30" text-anchor="middle" fill="#738D85" transform="rotate(90 210 210)">SHANGHAI</text> <text class="dial-label" x="210" y="398" text-anchor="middle" fill="#738D85">FRANKFURT</text> <text class="dial-label" x="210" y="30" text-anchor="middle" fill="#738D85" transform="rotate(-90 210 210)">NEW YORK</text> <!-- sweep hand --> <g class="dial-hand"> <line x1="210" y1="210" x2="210" y2="74" fill="none" stroke="#56C8A2" stroke-width="1.5"/> <circle class="dial-hub" cx="210" cy="210" r="4.5" fill="#56C8A2"/> </g> </svg> </div>
       </div>
 
@@ -299,8 +296,8 @@ if PRELAUNCH:
         as they clear validation.</p>
         <ul class="pl-slots" id="tier-2">{slots}</ul>
         <div class="pl-ctas" id="tier-3">
-          <!-- DISCORD: replace this href with the community invite link -->
-          <a class="btn btn-buy" href="#" rel="noopener">Get told the day they land</a>
+          <!-- DISCORD: community invite -->
+          <a class="btn btn-buy" href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener">Get told the day they land</a>
           <a class="btn" href="/#how">How access will work</a>
         </div>
         <div id="edge"></div>
@@ -314,7 +311,6 @@ if PRELAUNCH:
       <div class="sec-head">
         <span class="idx">02 /</span>
         <h2>Bundles</h2>
-        <span class="note">return with the new lineup</span>
       </div>
       <div class="prelaunch" id="books">
         <span class="pl-tag">PRICING HOLDS</span>
@@ -354,7 +350,6 @@ packages = f"""<section id="packages">
       <div class="sec-head">
         <span class="idx">02 /</span>
         <h2>Bundles</h2>
-        <span class="note">cancel anytime through whop &middot; annual = 2 months free</span>
       </div>
 
       <article class="pack pack-books" id="books">
@@ -440,7 +435,6 @@ if BOOKS_PENDING:
       <div class="sec-head">
         <span class="idx">02 /</span>
         <h2>Bundles</h2>
-        <span class="note">two bundles live &middot; the Books are still in validation</span>
       </div>
       <div class="packs-2">
 
@@ -526,10 +520,8 @@ LEDE = ("""<p class="lede">
         </p>""" if PRELAUNCH else f"""<p class="lede">""")
 doc = re.sub(r'<p class="lede">.*?</p>',
     LEDE if PRELAUNCH else f"""<p class="lede">
-          FuturesTradingBots sells the session systems we actually run: {len(S)} live-validated strategies
-          across {MARKETS_PROSE} futures{f", plus the {len(B)} in-house books" if B else ""}. Every figure comes from the
-          validation playbook &mdash; best window and full record, both published. TradingView invite-only
-          scripts, activated within 24h. Checkout runs through Whop.
+          {len(S)} session strategies for {MARKETS_PROSE} futures. Every number replayed from the
+          validated trade record &mdash; both windows published.
         </p>""", doc, count=1, flags=re.S)
 
 for old, new in [("$4,999", "$2,999"), ("all four in-house engines · each also solo at $1,499/mo", f"all four in-house engines · solo from ${min((b['price'] for b in B), default=0)}/mo"),

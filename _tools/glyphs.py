@@ -10,16 +10,16 @@ STRAT = {
     # Continuum — the 24h book: clock in orbit
     "continuum": '<circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/>',
     # Midas — the gold book: crown
-    "midas": '<path d="M4.5 16.5 6 7.5l4 3.6L12 5.6l2 5.5 4-3.6 1.5 9z"/><path d="M4.5 19h15"/><circle cx="8.4" cy="14.6" r=".9"/><circle cx="12" cy="14" r=".9"/><circle cx="15.6" cy="14.6" r=".9"/>',
+    "midas": '<path d="M4.4 16.8 5.9 7.6l4 3.5L12 5.4l2.1 5.7 4-3.5 1.5 9.2z"/>'
+             '<path d="M5.6 19.9h12.8"/>',
     # Aftershock — 08:30 data burst: seismograph
     "aftershock": '<path d="M3 14.5h3.4l2-8.2 3 12.4 2.4-9 1.6 4.8H21"/>',
     # Strongbox — three-leg book: banded chest
     "strongbox": '<rect x="4" y="7" width="16" height="12" rx="1.2"/><path d="M4 11h16"/><path d="M9 7v12M15 7v12" opacity=".6"/><circle cx="12" cy="14.8" r="1.5"/>',
     # Slipstream — FVG continuation: layered flow
-    # Ignition - the break clearing the opening range
-    "ignition": '<path d="M3.5 17.5h7M3.5 11h6"/>'
-                '<path d="M14.5 20V6.5"/><path d="M10.6 10.4 14.5 6.5l3.9 3.9"/>'
-                '<path d="M19.5 17.5h1.2M17.8 20h2.9" opacity=".55"/>',
+    # Ignition - the 09:30 open lighting the session: flame
+    "ignition": '<path d="M12 3.4c-.5 2.5-2 3.8-3.4 5.3-1.5 1.6-2.4 3.2-2.4 5.2a5.8 5.8 0 0 0 11.6 0c0-2.5-1.3-4.3-2.9-6-1.2-1.3-2.4-2.6-2.9-4.5z"/>'
+                '<path d="M12 12.6c-1 1.3-2 2.2-2 3.6a2 2 0 0 0 4 0c0-1.4-1-2.3-2-3.6z"/>',
     "slipstream": '<path d="M3.5 8h11a2.8 2.8 0 1 0-2.6-3.8"/><path d="M3.5 12.5H18a3 3 0 1 1-2.8 4"/><path d="M3.5 17h7"/>',
     # Spartacus — gladiator helm: dome, T-visor, crest
     "spartacus": '<path d="M6 20v-7a6 6 0 0 1 12 0v7"/><path d="M12 10v10"/><path d="M7.5 13.5h9"/><path d="M8 4.2c2.6-1.9 5.4-1.9 8 0"/>',
