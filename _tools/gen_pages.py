@@ -282,7 +282,7 @@ def tester_block(p):
     tiles = ""
     for lab, key, cls in [("Net profit", "Net", "tv-pos"), ("Total trades", "Trades", ""),
                           ("Profitable", "Win", "tv-pos"), ("Profit factor", "PF", "tv-pos"),
-                          ("Max drawdown", "Max DD", "tv-neg"), ("Avg / trade", "$/trade", "tv-pos")]:
+                          ("Max drawdown", "Max DD", "tv-neg"), ("Avg trade", "$/trade", "tv-pos")]:
         v = b.get(key, "")
         tiles += f'<div class="tvt-tile"><span class="tvt-k">{lab}</span><b class="{cls}">{esc(v) or "&mdash;"}</b></div>'
     rows = ""
@@ -304,7 +304,7 @@ def tester_block(p):
   <div class="tvt-pane tvt-ov">
     {chart_figure(p)}
     <div class="tvt-tiles">{tiles}</div>
-    <p class="tvt-note">Best window &middot; {esc(p.get("window", ""))}. Equity curve is illustrative, fitted to the published stats, until the trade-level export replaces it.</p>
+    <p class="tvt-note">Best window &middot; {esc(p.get("window", ""))}.{'' if tr else ' Equity curve is illustrative, fitted to the published stats, until the trade-level export replaces it.'}</p>
   </div>
   <div class="tvt-pane tvt-ps">
     <div class="screener" tabindex="0" role="region" aria-label="Performance summary table, scrolls horizontally">
@@ -351,35 +351,106 @@ def engines_block(p):
   </div>'''
     return out
 
+def _nice_step(span, target=4):
+    import math as _m
+    raw = span / max(1, target)
+    mag = 10 ** _m.floor(_m.log10(raw)) if raw > 0 else 1
+    for mult in (1, 2, 2.5, 5, 10):
+        if raw <= mult * mag:
+            return mult * mag
+    return 10 * mag
+
+def _fmt_usd(v):
+    a = abs(v)
+    s = "-" if v < 0 else ""
+    if a >= 1000:
+        return f"{s}${a/1000:,.0f}k" if a >= 10000 else f"{s}${a/1000:,.1f}k"
+    return f"{s}${a:,.0f}"
+
 def real_chart(p, tr):
-    eq = tr["equity"]
+    """TradingView-Strategy-Tester-style equity panel: time x-axis with date
+    ticks, right-side $ scale, gridlines, equity area/line, and the running
+    drawdown hanging below the zero baseline. Drawn from the real record."""
+    from datetime import datetime as _dt
+    eq = tr["equity"]                       # [(YYYY-MM-DD, cum), ...]
+    ts = [_dt.strptime(d, "%Y-%m-%d") for d, _ in eq]
     ys = [v for _, v in eq]
-    lo, hi = min(0.0, min(ys)), max(ys)
-    span = (hi - lo) or 1.0
-    W, H, PAD = 640.0, 180.0, 10.0
-    pts = []
-    n = len(eq)
-    for i, (_, v) in enumerate(eq):
-        x = (i / max(1, n - 1)) * W
-        y = PAD + (1 - (v - lo) / span) * (H - 2 * PAD)
-        pts.append(f"{x:.1f},{y:.1f}")
-    line = "M" + " L".join(pts)
-    area = line + f" L{W:.0f},{H:.0f} L0,{H:.0f} Z"
-    y0 = PAD + (1 - (0 - lo) / span) * (H - 2 * PAD)
-    zero = f'<line class="czero" x1="0" y1="{y0:.1f}" x2="640" y2="{y0:.1f}"/>' if lo < 0 else ""
+    # running drawdown (<= 0) on the same $ scale — TV's lower red area
+    dd = []
+    peak = 0.0
+    for v in ys:
+        peak = max(peak, v)
+        dd.append(v - peak)
+    t0, t1 = ts[0], ts[-1]
+    tspan = max(1.0, (t1 - t0).total_seconds())
+    y_hi = max(max(ys), 0.0)
+    y_lo = min(min(dd), 0.0)
+    pad = 0.06 * (y_hi - y_lo or 1.0)
+    y_hi += pad; y_lo -= pad
+
+    # geometry (viewBox units; aspect preserved so text stays crisp)
+    W, H = 720.0, 300.0
+    L, R, T, B = 10.0, 62.0, 14.0, 30.0   # plot margins (right holds $ scale)
+    PW, PH = W - L - R, H - T - B
+    def X(t): return L + PW * ((t - t0).total_seconds() / tspan)
+    def Y(v): return T + PH * (1 - (v - y_lo) / (y_hi - y_lo))
+
+    eq_pts = " L".join(f"{X(t):.1f},{Y(v):.1f}" for t, v in zip(ts, ys))
+    dd_pts = " L".join(f"{X(t):.1f},{Y(v):.1f}" for t, v in zip(ts, dd))
+    y_zero = Y(0.0)
+    eq_area = f"M{X(t0):.1f},{y_zero:.1f} L" + eq_pts + f" L{X(t1):.1f},{y_zero:.1f} Z"
+    dd_area = f"M{X(t0):.1f},{y_zero:.1f} L" + dd_pts + f" L{X(t1):.1f},{y_zero:.1f} Z"
+
+    # y gridlines at nice $ steps
+    step = _nice_step(y_hi - y_lo)
+    grid = ""
+    v = step * int(y_lo // step)
+    while v <= y_hi:
+        if y_lo <= v <= y_hi:
+            yy = Y(v)
+            cls = "tvx-zero" if abs(v) < 1e-9 else "tvx-grid"
+            grid += f'<line class="{cls}" x1="{L:.0f}" y1="{yy:.1f}" x2="{L+PW:.1f}" y2="{yy:.1f}"/>'
+            grid += f'<text class="tvx-ylab" x="{L+PW+8:.1f}" y="{yy+3.5:.1f}">{_fmt_usd(v)}</text>'
+        v += step
+
+    # x ticks: ~6 evenly spaced dates; label style adapts to span
+    months_span = (t1.year - t0.year) * 12 + (t1.month - t0.month)
+    xticks = ""
+    N = 6
+    for i in range(N + 1):
+        t = t0 + (t1 - t0) * i / N
+        xx = X(t)
+        lab = t.strftime("%b %y") if months_span >= 10 else t.strftime("%d %b")
+        anchor = "start" if i == 0 else ("end" if i == N else "middle")
+        xticks += f'<line class="tvx-grid tvx-vgrid" x1="{xx:.1f}" y1="{T:.0f}" x2="{xx:.1f}" y2="{T+PH:.1f}"/>'
+        xticks += f'<text class="tvx-xlab" x="{xx:.1f}" y="{H-9:.1f}" text-anchor="{anchor}">{lab}</text>'
+
     net = p["best"]["stats"].get("Net", "")
-    return f"""<figure class="chart-panel">
-    <div class="chart-head"><span class="chart-title">Cumulative net &middot; real closed-trade record</span><span class="chart-end">{esc(net)}</span></div>
-    <svg viewBox="0 0 640 180" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-      <defs><linearGradient id="cg-{p["slug"]}" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#56C8A2" stop-opacity=".22"/>
-        <stop offset="1" stop-color="#56C8A2" stop-opacity="0"/>
-      </linearGradient></defs>
-      {zero}
-      <path class="carea" d="{area}" fill="url(#cg-{p["slug"]})"/>
-      <path class="cline" d="{line}"/>
+    dd_min = _fmt_usd(min(dd))
+    return f"""<figure class="chart-panel tvx">
+    <div class="tvx-legend">
+      <span class="tvx-key"><i class="tvx-dot tvx-dot-eq"></i>Equity <b>{_fmt_usd(ys[-1])}</b></span>
+      <span class="tvx-key"><i class="tvx-dot tvx-dot-dd"></i>Drawdown <b class="tv-neg">{dd_min}</b></span>
+      <span class="tvx-src">{tr["full"]["n"]:,} closed trades &middot; {esc(tr["full"]["start"])} &rarr; {esc(tr["full"]["end"])}</span>
+    </div>
+    <svg viewBox="0 0 720 300" role="img" aria-label="Equity and drawdown, {tr['full']['n']} closed trades" focusable="false">
+      <defs>
+        <linearGradient id="tvxg-{p["slug"]}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#56C8A2" stop-opacity=".26"/>
+          <stop offset="1" stop-color="#56C8A2" stop-opacity=".02"/>
+        </linearGradient>
+        <linearGradient id="tvxr-{p["slug"]}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#E88585" stop-opacity=".04"/>
+          <stop offset="1" stop-color="#E88585" stop-opacity=".30"/>
+        </linearGradient>
+      </defs>
+      {grid}{xticks}
+      <path class="tvx-ddarea" d="{dd_area}" fill="url(#tvxr-{p["slug"]})"/>
+      <path class="tvx-ddline" d="M{dd_pts}" fill="none"/>
+      <path class="tvx-eqarea" d="{eq_area}" fill="url(#tvxg-{p["slug"]})"/>
+      <path class="tvx-eqline" d="M{eq_pts}" fill="none"/>
     </svg>
-    <figcaption class="chart-note">Every point is a closed trade from the validated run &mdash; {tr["full"]["n"]:,} trades, {esc(tr["full"]["start"])} &rarr; {esc(tr["full"]["end"])}.</figcaption>
+    <figcaption class="chart-note">Cumulative net and running drawdown on one dollar scale &mdash; every point a closed trade from the validated record.</figcaption>
   </figure>"""
 
 def chart_figure(p):

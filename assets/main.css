@@ -4085,31 +4085,95 @@ html { scroll-padding-top: calc(var(--header-h) + 58px); }
 .lt-side { text-transform: uppercase; font-family: var(--mono); font-size: var(--fs-2xs); letter-spacing: .08em; }
 .lt-long { color: var(--accent); }
 .lt-short { color: #E88585; }
-/* real daily calendar */
-.rcal .rc-wrap { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-4); padding: var(--sp-4); }
-.rc-month { border: 1px solid var(--line); background: var(--panel); padding: var(--sp-3); }
-.rc-h { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: var(--sp-2);
-        font-family: var(--display); font-size: var(--fs-sm); font-weight: 700; text-transform: uppercase; }
-.rc-h b { font-family: var(--mono); }
-.rc-wd, .rc-g { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px; }
-.rc-wd span { font-family: var(--mono); font-size: 11px; color: var(--faint); text-align: center; padding-bottom: 2px; }
-.rc-d, .rc-e { min-height: 34px; background: var(--raised); border: 1px solid var(--line);
-               display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; }
-.rc-e { background: transparent; border-color: transparent; }
-.rc-d i { font-style: normal; font-family: var(--mono); font-size: 10px; color: var(--faint); }
-.rc-d b { font-family: var(--mono); font-size: 11px; font-weight: 700; }
-.rc-p { border-color: rgba(86, 200, 162, .45); background: rgba(86, 200, 162, .10); }
-.rc-p b { color: var(--accent); }
-.rc-n { border-color: rgba(232, 133, 133, .40); background: rgba(232, 133, 133, .08); }
-.rc-n b { color: #E88585; }
-@media (max-width: 700px) { .rcal .rc-wrap { grid-template-columns: minmax(0, 1fr); } }
-.tvt-tiles { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--sp-2); margin-top: var(--sp-3); }
-.tvt-tile { border: 1px solid var(--line-bright); background: var(--raised); padding: var(--sp-3); }
-.tvt-tile .tvt-k {
-  display: block; font-family: var(--mono); font-size: var(--fs-2xs);
-  color: var(--faint); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 3px;
+/* ── TV-style tester chart (axes, grid, legend) ── */
+.tvx { padding: 0; }
+.tvx svg { display: block; width: 100%; height: auto; }
+.tvx-legend {
+  display: flex; align-items: baseline; gap: var(--sp-4); flex-wrap: wrap;
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--line);
 }
-.tvt-tile b { font-family: var(--mono); font-size: var(--fs-lg); font-weight: 700; }
+.tvx-key { font-family: var(--mono); font-size: var(--fs-2xs); letter-spacing: .06em; color: var(--muted); text-transform: uppercase; }
+.tvx-key b { color: var(--text); margin-left: 4px; letter-spacing: 0; }
+.tvx-key b.tv-neg { color: #E88585; }
+.tvx-dot { display: inline-block; width: 8px; height: 8px; margin-right: 6px; vertical-align: baseline; }
+.tvx-dot-eq { background: var(--accent); }
+.tvx-dot-dd { background: #E88585; }
+.tvx-src { margin-left: auto; font-family: var(--mono); font-size: var(--fs-2xs); color: var(--faint); letter-spacing: .05em; }
+.tvx-grid { stroke: rgba(86, 200, 162, .10); stroke-width: 1; }
+.tvx-vgrid { stroke: rgba(233, 242, 238, .05); }
+.tvx-zero { stroke: rgba(233, 242, 238, .28); stroke-width: 1; stroke-dasharray: 2 3; }
+.tvx-ylab { font-family: var(--mono); font-size: 11px; fill: #738D85; }
+.tvx-xlab { font-family: var(--mono); font-size: 11px; fill: #738D85; }
+.tvx-eqline { stroke: #56C8A2; stroke-width: 1.6; stroke-linejoin: round; }
+.tvx-ddline { stroke: rgba(232, 133, 133, .8); stroke-width: 1.1; stroke-linejoin: round; }
+.tvx .chart-note { padding: var(--sp-2) var(--sp-4) var(--sp-3); }
+
+/* ── daily calendar, cleaned up ── */
+.rcal .rc-wrap { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-3); padding: var(--sp-4); }
+.rc-month { border: 1px solid var(--line); background: var(--raised); padding: var(--sp-3); }
+.rc-h {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: var(--sp-2); padding-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--display); font-size: var(--fs-xs); font-weight: 700;
+  text-transform: uppercase; letter-spacing: .05em;
+}
+.rc-h b { font-family: var(--mono); font-size: var(--fs-sm); font-variant-numeric: tabular-nums; }
+.rc-wd, .rc-g { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; }
+.rc-wd span { font-family: var(--mono); font-size: 10px; color: var(--faint); text-align: center; padding-bottom: 3px; letter-spacing: .04em; }
+.rc-d, .rc-e {
+  position: relative;
+  min-height: 30px;
+  border-radius: 3px;
+  background: var(--panel);
+  display: flex; align-items: center; justify-content: center;
+}
+.rc-e { background: transparent; }
+.rc-d i {
+  position: absolute; top: 2px; left: 4px;
+  font-style: normal; font-family: var(--mono); font-size: 8.5px; color: var(--faint); line-height: 1;
+}
+.rc-d b {
+  font-family: var(--mono); font-size: 10.5px; font-weight: 700;
+  font-variant-numeric: tabular-nums; margin-top: 5px; color: var(--muted);
+}
+.rc-p { background: rgba(86, 200, 162, .13); }
+.rc-p b { color: var(--accent); }
+.rc-n { background: rgba(232, 133, 133, .11); }
+.rc-n b { color: #E88585; }
+@media (max-width: 980px) { .rcal .rc-wrap { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .rcal .rc-wrap { grid-template-columns: minmax(0, 1fr); } }
+.tvt-tiles { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--sp-2); margin-top: var(--sp-3); }
+.tvt-tile {
+  border: 1px solid var(--line-bright);
+  background: var(--raised);
+  padding: var(--sp-2) var(--sp-3);
+  min-height: 62px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 3px;
+  min-width: 0;
+}
+.tvt-tile .tvt-k {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  line-height: 1.25;
+  color: var(--faint);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.tvt-tile b {
+  font-family: var(--mono);
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  line-height: 1;
+}
+@media (max-width: 1150px) { .tvt-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .tv-pos { color: var(--accent); }
 .tv-neg { color: #E88585; }
 .tv-mut { color: var(--faint); }
