@@ -4273,7 +4273,7 @@ html { scroll-padding-top: calc(var(--header-h) + 58px); }
 }
 .rc-h b { font-family: var(--mono); font-size: var(--fs-sm); font-variant-numeric: tabular-nums; }
 .rc-wd, .rc-g { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; }
-.rc-wd span { font-family: var(--mono); font-size: 10px; color: var(--faint); text-align: center; padding-bottom: 3px; letter-spacing: .04em; }
+.rc-wd span { font-family: var(--mono); font-size: 11px; color: var(--faint); text-align: center; padding-bottom: 3px; letter-spacing: .04em; }
 .rc-d, .rc-e {
   position: relative;
   min-height: 40px;
@@ -4286,10 +4286,10 @@ html { scroll-padding-top: calc(var(--header-h) + 58px); }
 .rc-e { background: transparent; }
 .rc-d i {
   position: absolute; top: 2px; left: 4px;
-  font-style: normal; font-family: var(--mono); font-size: 8.5px; color: var(--faint); line-height: 1;
+  font-style: normal; font-family: var(--mono); font-size: 10px; color: var(--faint); line-height: 1;
 }
 .rc-d b {
-  font-family: var(--mono); font-size: 10.5px; font-weight: 700;
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
   font-variant-numeric: tabular-nums; margin-top: 7px; color: var(--muted);
   letter-spacing: 0; white-space: nowrap; max-width: 100%;
 }
@@ -4299,6 +4299,12 @@ html { scroll-padding-top: calc(var(--header-h) + 58px); }
 .rc-n b { color: #E88585; }
 @media (max-width: 900px) { .rcal .rc-wrap { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 520px) { .rcal .rc-wrap { grid-template-columns: minmax(0, 1fr); } }
+/* one column on a phone puts 7 day cells in ~270px, so the figures step down
+   there; the exact value is in each cell's tooltip either way */
+@media (max-width: 620px) {
+  .rc-d b { font-size: 10px; }
+  .rc-d i { font-size: 9px; }
+}
 .tvt-tiles { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--sp-2); margin-top: var(--sp-3); }
 .tvt-tile {
   border: 1px solid var(--line-bright);
@@ -4314,7 +4320,7 @@ html { scroll-padding-top: calc(var(--header-h) + 58px); }
 .tvt-tile .tvt-k {
   display: block;
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 11px;
   line-height: 1.25;
   color: var(--faint);
   text-transform: uppercase;
