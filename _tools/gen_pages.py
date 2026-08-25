@@ -136,7 +136,6 @@ FOOTER = f"""</main>
       <a href="/terms.html">Terms</a>
       <a href="/privacy.html">Privacy</a>
 
-      <!--email_off--><a href="mailto:support@futurestradingbots.com">support@futurestradingbots.com</a><!--/email_off-->
       <!-- DISCORD: community invite -->
       <a class="foot-discord" href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener"><svg class="ic-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.7 17.4c-3.2-.1-4.9-1.7-4.9-1.7.3-4 1.4-6.6 2.7-8.3C7.8 6.4 9.2 6 9.2 6l.5 1.1c1.5-.3 3.1-.3 4.6 0L14.8 6s1.4.4 2.7 1.4c1.3 1.7 2.4 4.3 2.7 8.3 0 0-1.7 1.6-4.9 1.7l-.8-1.1c-1.6.3-3.4.3-5 0z"/><circle cx="9.6" cy="12.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.6" r="1.15" fill="currentColor" stroke="none"/></svg><span>Join the Community!</span></a>
     </div>
@@ -826,7 +825,7 @@ if True:
 
             <aside class="buybox" aria-label="Support">
               <span class="annual">Need a hand?</span>
-              <!--email_off--><a class="btn btn-buy" href="mailto:support@futurestradingbots.com">Email support</a><!--/email_off-->
+              <!-- DISCORD: community invite --><a class="btn btn-discord" href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener">Ask in Discord</a>
               <ul>
                 <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Manual activation fallback within the 24h window</span></li>
                 <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Cancel anytime from your Whop dashboard</span></li>
@@ -992,7 +991,7 @@ conflict-of-law rules.</p>
 <!-- LEGAL: set the specific state of organization here once the entity is formed -->
 
 <h2><span class="n">10</span> Contact</h2>
-<p>Questions about these terms: <!--email_off--><a href="mailto:support@futurestradingbots.com">support@futurestradingbots.com</a><!--/email_off-->.</p>"""
+<p>Questions about these terms: ask in our <!-- DISCORD: community invite --><a href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener">Discord</a>, where support runs.</p>"""
 
 PRIVACY_BODY = """<h1>Privacy Policy</h1>
 <p class="updated">Last updated: 21 August 2026</p>
@@ -1046,8 +1045,7 @@ deletion of anything we are not legally required to keep.</p>
 <p>This site and our products are not directed at anyone under 18, and futures trading is not either.</p>
 
 <h2><span class="n">08</span> Changes and contact</h2>
-<p>If this policy changes, the date above changes with it. Questions:
-<!--email_off--><a href="mailto:support@futurestradingbots.com">support@futurestradingbots.com</a><!--/email_off-->.</p>"""
+<p>If this policy changes, the date above changes with it. Questions: ask in our <!-- DISCORD: community invite --><a href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener">Discord</a>.</p>"""
 
 legal_page("terms.html", "Terms of Service", TERMS_BODY)
 legal_page("privacy.html", "Privacy Policy", PRIVACY_BODY)
