@@ -3863,6 +3863,12 @@ section:hover .sec-head h2::after { width: 48px; }
   padding: 0 6px;
 }
 .cf-foot { left: var(--sp-4); right: var(--sp-4); bottom: var(--sp-4); display: flex; flex-direction: column; gap: 4px; }
+.cf-titlerow { display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-2); }
+.cf-price {
+  font-family: var(--mono); font-size: var(--fs-lg); font-weight: 700;
+  color: var(--text); font-variant-numeric: tabular-nums; flex: none;
+}
+.cf-price small { font-size: 11px; color: var(--muted); font-weight: 400; }
 .cf-gain {
   font-family: var(--mono); font-size: var(--fs-2xl); font-weight: 700; line-height: 1;
   color: var(--accent); font-variant-numeric: tabular-nums;

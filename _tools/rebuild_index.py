@@ -586,7 +586,8 @@ cf_panes = cf_panes_override if PRELAUNCH else "".join(
     + sparkline(p["slug"], cls="cf-spark", pfx="cf-sg", maxpts=64)
     + f'<span class="cf-glyphwrap" aria-hidden="true">{glyph(p["slug"], "glyph cf-glyph")}</span>'
     + f'<span class="cf-star"><b>{esc(bs(p, card_star(p)))}</b><i>{card_star_tag(p)}</i></span>'
-    + f'<span class="cf-foot"><b class="cf-name">{esc(p["name"])}</b>'
+    + f'<span class="cf-foot"><span class="cf-titlerow"><b class="cf-name">{esc(p["name"])}</b>'
+    + f'<span class="cf-price">${p["price"]}<small>/mo</small></span></span>'
     + f'<span class="cf-gain">{gain_figure(p)[0]}</span>'
     + f'<span class="cf-win">{gain_figure(p)[1]}</span></span></a>'
     f'<label class="cf-pick" for="cf-{i+1}"><span class="sr-only">Bring {esc(p["name"])} to the front</span></label>'

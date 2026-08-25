@@ -714,7 +714,7 @@ def bundle_page(slug, name, price, struck, desc, extra, xsell):
         <div class="pdp-main">
         {extra}
         </div>
-        {buybox(name, f"{price:,}", name + " bundle", xsell=xsell, struck=f"{struck:,}" if struck else None)}
+        {buybox(name, f"{price:,}", name + " bundle", xsell=xsell, struck=f"{struck:,}" if struck else None, href=WHOP_STORE)}
       </div>
       <div class="pdp-disclaim"><p class="disclaim-sm">{esc(DISCLAIMER)}</p></div>
       <a class="backlink" href="/#packages">&larr; Bundles</a>
