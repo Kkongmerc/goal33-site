@@ -614,7 +614,7 @@ def rodd_menu(p):
 def legs_block(p):
     if not p.get("legs"): return ""
     cells = "".join(
-        f'<!-- LEG-LINK: swap this span for <a href="/strategies/SLUG.html"> when this leg publishes -->'
+        f'<!-- LEG-LINK: wrap leg-name in an anchor to its own product page when this leg publishes -->'
         f'<div class="leg"><span class="leg-n">{i:02d}</span><span class="leg-name">{esc(l)}</span></div>'
         for i, l in enumerate(p["legs"], 1))
     return f"""<div class="record">
