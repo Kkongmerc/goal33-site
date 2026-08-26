@@ -536,6 +536,15 @@ def calendar_panel():
   <p class="record-note">Awaiting daily P&amp;L export &mdash; each trading day fills green or red with its result.</p>
 </div>"""
 
+BASE_DD = CAT.get("baseline_dd", 5000)
+
+def baseline(p, stats_key="best"):
+    """Net normalised to a fixed drawdown, so products are comparable to each
+    other. Raw net is not: it mixes drawdown depth AND position size."""
+    s = (p.get(stats_key) or {}).get("stats", {})
+    r = num(s.get("RoDD", 0))
+    return r * BASE_DD if r else 0
+
 def rodd_menu(p):
     b = p["best"]["stats"]
     f = (p.get("full") or {}).get("stats", {})
@@ -604,12 +613,15 @@ def rodd_menu(p):
 
 def legs_block(p):
     if not p.get("legs"): return ""
-    cells = "".join(f'<div class="leg"><span class="leg-n">{i:02d}</span><span class="leg-name">{esc(l)}</span></div>'
-                    for i, l in enumerate(p["legs"], 1))
+    cells = "".join(
+        f'<!-- LEG-LINK: swap this span for <a href="/strategies/SLUG.html"> when this leg publishes -->'
+        f'<div class="leg"><span class="leg-n">{i:02d}</span><span class="leg-name">{esc(l)}</span></div>'
+        for i, l in enumerate(p["legs"], 1))
     return f"""<div class="record">
   <div class="record-title">The legs &middot; {len(p["legs"])} engines, one router</div>
   <div class="legs">{cells}</div>
-  <p class="record-note">Each leg is a standalone engine; the router allocates them across the session. Composition dials are proprietary.</p>
+  <p class="record-note">Each leg is a standalone engine trading its own session; the router allocates between them.
+  Every figure on this page is the book as a whole, not any single leg. Composition dials are proprietary.</p>
 </div>"""
 
 def sep_block(p):
@@ -681,7 +693,8 @@ def product_page(p, is_book):
           <div class="pdp-meta">{market_chips(p['meta'])}<span class="chip chip-verified">LIVE-VALIDATED</span>{'<span class="chip chip-mkt">IN-HOUSE BOOK</span>' if is_book else ''}</div>
           <span class="pdp-note">{esc(p['meta'])}</span>
         </div>
-        <div class="pdp-hero"><b>{esc(b.get('RoDD',''))}&times;</b><span>Return on drawdown &middot; best window</span></div>
+        <div class="pdp-hero"><b>{usd(baseline(p))}</b><span>on a {usd(BASE_DD)} drawdown &middot; best window</span>
+          <em class="pdp-hero-sub">{esc(b.get('RoDD',''))}&times; return on drawdown</em></div>
       </div>
 
       <div class="pdp-cols">

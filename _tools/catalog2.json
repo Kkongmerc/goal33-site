@@ -64,7 +64,17 @@
     }
    },
    "price": 909,
-   "legs": [],
+   "legs": [
+    "08:30 failed-break fade",
+    "08:30 range fade",
+    "18:00 CME reopen",
+    "19:00 Sydney open drive",
+    "20:00 Tokyo drive",
+    "21:30 China open",
+    "London sweep of Asia",
+    "13:00 fade",
+    "15:30 PM fade"
+   ],
    "sep": [
     "Every validated session leg, routed through one 24-hour book: one product, one subscription, the whole clock.",
     "The #1 strategy on our validation board: 39.20x return on max drawdown across 1,877 trades."
@@ -107,7 +117,13 @@
     }
    },
    "price": 759,
-   "legs": [],
+   "legs": [
+    "Tokyo breakout",
+    "London breakout",
+    "New York FVG continuation",
+    "Overnight structure",
+    "08:30 data-release fade"
+   ],
    "sep": [
     "Five gold session legs — overnight structure, London, Tokyo, NY data, FVG continuation — run as one book.",
     "$119.5k best-window net on 1,317 trades at 70.5% wins."
@@ -631,5 +647,6 @@
    }
   ]
  },
- "whop_store": "https://whop.com/goal33systems/"
+ "whop_store": "https://whop.com/goal33systems/",
+ "baseline_dd": 5000
 }

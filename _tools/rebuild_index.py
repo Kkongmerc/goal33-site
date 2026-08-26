@@ -132,6 +132,12 @@ def sparkline(slug, cls="fspark", pfx="fsg", maxpts=0):
         f'L{SPARK_W - PAD:.1f} {SPARK_H:.1f} Z"/>'
         f'<path class="{cls}-line" fill="none" d="M{line}"/></svg>')
 
+BASE_DD = CAT.get("baseline_dd", 5000)
+
+def baseline(p):
+    """Net normalised to a fixed drawdown so the five are comparable."""
+    return num(bs(p, "RoDD")) * BASE_DD
+
 def gain_figure(p):
     """The published best-window net, shown as a gain. Traceable: the window
     is printed directly beneath it on the card."""
@@ -181,7 +187,8 @@ def fcard(p):
                                          for k, lab in [("RoDD", "RoDD"), ("PF", "PF"),
                                                         ("Max DD", "max DD"), ("Trades", "trades")])
                      + '</p>')
-    gainrow = f'<div class="fgainrow"><b>{gain}</b><span>net &middot; {gwin}</span></div>' if gwin else ""
+    gainrow = (f'<div class="fgainrow"><b>${baseline(p):,.0f}</b>'
+               f'<span>on a ${BASE_DD:,} drawdown &middot; best window</span></div>')
     return f"""<article class="fcard fc-{p['slug']}">
           <div class="fcard-top">
             <span class="fglyph" aria-hidden="true">{glyph(p['slug'], 'glyph g-flag')}</span>
