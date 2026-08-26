@@ -871,6 +871,30 @@ section { border-bottom: 1px solid var(--line); padding: var(--sp-6) 0; }
 .feat-price .per { font-size: var(--fs-2xs); color: var(--faint); letter-spacing: .06em; }
 .feat .btn-buy { width: 100%; }
 
+/* risk reversal at the decision point rather than 16 screens down in the FAQ */
+.hero-guar {
+  margin: var(--sp-4) 0 0;
+  font-family: var(--mono); font-size: var(--fs-2xs);
+  letter-spacing: .03em; color: var(--muted); line-height: 1.7;
+}
+.hero-guar b { color: var(--text); }
+.mini-guar {
+  margin: var(--sp-3) 0 0;
+  font-family: var(--mono); font-size: var(--fs-2xs);
+  letter-spacing: .03em; color: var(--muted); text-align: center; line-height: 1.6;
+}
+/* the worse window, given equal footing with the headline stats */
+.ffull {
+  margin: var(--sp-3) 0 0;
+  padding-top: var(--sp-3); border-top: 1px solid var(--line);
+  font-family: var(--mono); font-size: var(--fs-2xs);
+  letter-spacing: .03em; color: var(--muted); line-height: 1.6;
+}
+.ffull span {
+  color: var(--faint); text-transform: uppercase; letter-spacing: .12em;
+  margin-right: var(--sp-2);
+}
+
 /* ── tier 1: flagship cards ────────────────────────────────── */
 .flagships {
   display: grid;
@@ -4217,6 +4241,8 @@ html { scroll-padding-top: calc(var(--header-h) + 58px); }
 .lt-side { text-transform: uppercase; font-family: var(--mono); font-size: var(--fs-2xs); letter-spacing: .08em; }
 .lt-long { color: var(--accent); }
 .lt-short { color: #E88585; }
+.lt-acc { font-weight: 700; }
+.lt-table td:last-child { border-left: 1px solid var(--line); }
 .lt-held {
   color: var(--faint); font-size: var(--fs-2xs); font-family: var(--mono);
   letter-spacing: .02em; width: 1%; text-align: right;

@@ -173,6 +173,14 @@ def fcard(p):
             tag = ""
         stats += f'<div class="{tile_cls}"><b{hot}>{esc(v)}</b><span>{lab}</span>{tag}</div>'
     gain, gwin = gain_figure(p)
+    fstats = (p.get("full") or {}).get("stats", {})
+    full_line = ""
+    if fstats:
+        full_line = ('<p class="ffull"><span>Full record</span> '
+                     + ' &middot; '.join(f'{fstats.get(k, "&mdash;")} {lab}'
+                                         for k, lab in [("RoDD", "RoDD"), ("PF", "PF"),
+                                                        ("Max DD", "max DD"), ("Trades", "trades")])
+                     + '</p>')
     gainrow = f'<div class="fgainrow"><b>{gain}</b><span>net &middot; {gwin}</span></div>' if gwin else ""
     return f"""<article class="fcard fc-{p['slug']}">
           <div class="fcard-top">
@@ -190,6 +198,7 @@ def fcard(p):
           <p class="desc">{esc(p['sep'][0]) if p['sep'] else ''}</p>
           {gainrow}
           <div class="fstats">{stats}</div>
+          {full_line}
           <div class="price-row">
             <div class="price"><span class="now">${p['price']}</span><span class="per">/MO</span></div>
           </div>
@@ -199,6 +208,7 @@ def fcard(p):
             <!-- WHOP: replace this product-page link with the Whop checkout link -->
             <a class="btn btn-buy" href="{buy_href(p)}" rel="noopener">Get access</a>
           </div>
+          <p class="mini-guar">7-day money-back &middot; first month refunded if the signals lose &middot; cancel anytime</p>
         </article>"""
 
 # ── screener tables ─────────────────────────────────────────────
@@ -508,6 +518,7 @@ if BOOKS_PENDING:
           </ul>
           <!-- WHOP: replace this product-page link with the Whop checkout link -->
           <a class="btn btn-buy" href="/strategies/all-access.html" rel="noopener">Get All-Access</a>
+          <p class="mini-guar">7-day money-back &middot; first month refunded if the signals lose &middot; cancel anytime</p>
         </div>
 
 

@@ -224,22 +224,35 @@ HELD_FULL = {
 }
 
 def trades_table(tr, slug):
+    """Entries, exits, the trade's net, and a running account ledger.
+    The ledger is cumulative net from zero - the record carries no opening
+    balance, so starting anywhere else would be inventing a number."""
     rows = ""
-    for i, (day, side, held, pnl) in enumerate(reversed(tr["trades"])):
+    n = len(tr["trades"])
+    # walk forward to accumulate, then render newest-first
+    running, ledger = 0.0, []
+    for day, epx, xpx, pnl in tr["trades"]:
+        running += pnl
+        ledger.append(running)
+    for i in range(n - 1, -1, -1):
+        day, epx, xpx, pnl = tr["trades"][i]
         cls = "tv-pos" if pnl > 0 else ("tv-neg" if pnl < 0 else "")
-        rows += (f'<tr><td>{len(tr["trades"]) - i}</td><td>{esc(day)}</td>'
-                 f'<td class="lt-side lt-{side}">{side}</td>'
-                 f'<td class="lt-held" title="{esc(HELD_FULL.get(held, held))}">{esc(held)}</td>'
-                 f'<td class="{cls}">${pnl:,.2f}</td></tr>')
+        acc = ledger[i]
+        acls = "tv-pos" if acc > 0 else ("tv-neg" if acc < 0 else "")
+        rows += (f'<tr><td>{i + 1}</td><td>{esc(day)}</td>'
+                 f'<td>{epx if epx is not None else "&mdash;"}</td>'
+                 f'<td>{xpx if xpx is not None else "&mdash;"}</td>'
+                 f'<td class="{cls}">${pnl:,.2f}</td>'
+                 f'<td class="lt-acc {acls}">${acc:,.2f}</td></tr>')
     return f"""<div class="tvt-pane tvt-lt">
     <div class="screener lt-scroll" tabindex="0" role="region" aria-label="Trade log, scrolls">
     <table class="tvt-table lt-table">
-      <caption class="sr-only">Every closed trade in the validated record, newest first</caption>
-      <thead><tr><th scope="col">#</th><th scope="col">Day</th><th scope="col">Side</th><th scope="col">Held</th><th scope="col">Net P&amp;L</th></tr></thead>
+      <caption class="sr-only">Every closed trade in the validated record, newest first, with a running account ledger</caption>
+      <thead><tr><th scope="col">#</th><th scope="col">Day</th><th scope="col">Entry</th><th scope="col">Exit</th><th scope="col">Net P&amp;L</th><th scope="col">Account</th></tr></thead>
       <tbody>{rows}</tbody>
     </table>
     </div>
-    <p class="tvt-note">Newest first &middot; entry and exit prices are withheld by policy.</p>
+    <p class="tvt-note">Newest first &middot; Account is cumulative net from zero.</p>
   </div>"""
 
 def calendar_real(tr):
@@ -525,13 +538,19 @@ def calendar_panel():
 
 def rodd_menu(p):
     b = p["best"]["stats"]
+    f = (p.get("full") or {}).get("stats", {})
     rodd, dd = num(b.get("RoDD", 0)), num(b.get("Max DD", 0))
+    rodd_full = num(f.get("RoDD", 0))
+    dd_full = num(f.get("Max DD", 0))
     months = num(b.get("Months", 0))
     net = b.get("Net", "")
     if not rodd or not dd: return ""
-    red_at = dd
+    # the guard trips on the WORSE window, never the flattering one: sizing to a
+    # best-window drawdown is how a buyer gets wiped by the full record
+    red_at = max(dd, dd_full)
+    guard_src = "full record" if dd_full > dd else "this window"
     if p["slug"] == "pool-milestone-pullback":
-        red_at = max(dd, 12300)  # unfilterable worst session — sizing guard
+        red_at = max(red_at, 12300)  # unfilterable worst session — sizing guard
     slug = p["slug"]
     radios, labels, outs = "", "", ""
     default_set = False
@@ -550,18 +569,21 @@ def rodd_menu(p):
         labels += (f'<label for="ro-{slug}-{i}" class="ro-notch{" ro-notch-rec" if rec else ""}">{rec_tag}<span class="ro-tick" aria-hidden="true"></span>'
                    f'<span class="ro-amt">{lab}</span></label>')
         if state == "red":
-            body = (f'<span class="ro-flag">NOT BUILT FOR THIS SIZE</span> The published max drawdown on this window '
-                    f'({usd(red_at)}) exceeds a {lab} budget &mdash; this sizing would not have survived the sample. '
-                    f'Some systems are not meant to run this small.')
+            body = (f'<span class="ro-flag">NOT BUILT FOR THIS SIZE</span> The deepest published max drawdown '
+                    f'({usd(red_at)}, {guard_src}) exceeds a {lab} budget &mdash; this sizing would not have '
+                    f'survived the sample. Some systems are not meant to run this small.')
         else:
-            body = (f'A drawdown budget of <b>{lab}</b> historically returned <b class="ro-ret">~{usd(proj)}</b> over this window'
-                    + (f' (&asymp;{usd(permo)}/mo average)' if permo else '') + '.')
+            proj_full = rodd_full * C
+            both = (f' Over the full record, <b>{usd(proj_full)}</b>.' if rodd_full and abs(rodd_full - rodd) > 0.01 else '')
+            body = (f'A drawdown budget of <b>{lab}</b> historically returned <b class="ro-ret">~{usd(proj)}</b> '
+                    f'over the best window.{both} Past results, not a forecast.')
             if rec:
-                body = ('<span class="ro-flag ro-flag-rec">RECOMMENDED SIZE</span> The smallest budget with a '
-                        'full cushion over the published drawdown. ' + body)
+                body = ('<span class="ro-flag ro-flag-rec">RECOMMENDED SIZE</span> The smallest budget that clears '
+                        f'the deepest published drawdown ({usd(red_at)}, {guard_src}). ' + body)
             if state == "amb":
-                body = ('<span class="ro-flag">THIN CUSHION</span> The published drawdown is more than half this '
-                        'budget &mdash; one bad stretch uses most of your room. ' + body)
+                body = (f'<span class="ro-flag">THIN CUSHION</span> The deepest published drawdown ({usd(red_at)}, '
+                        f'{guard_src}) is more than half this budget &mdash; one bad stretch uses most of your '
+                        'room. ' + body)
         outs += f'<div class="ro-out ro-out-{i}">{body}</div>'
     if not default_set:  # everything red/amber — check the last notch
         radios = radios.replace(f'id="ro-{slug}-{len(NOTCHES)}" class', f'id="ro-{slug}-{len(NOTCHES)}" checked class', 1)
@@ -929,7 +951,7 @@ not any individual account&rsquo;s fills, sizing, or discretionary deviations &m
 objective and checkable by both of us.</p>
 <p><strong>Referrals.</strong> Referral links give the buyer 10% off at checkout and pay the referrer a
 recurring commission through Whop&rsquo;s affiliate system at the rate shown in their Whop affiliate
-dashboard (currently 30% for founding members; rates for later-joining affiliates may differ, and
+dashboard (currently 15% for founding members; rates for later-joining affiliates may differ, and
 existing referral relationships keep the rate they were earned under). Referral rewards may be withheld
 where self-referral or abuse is evident. Billing disputes should be raised through Whop first so they
 reach us fastest.</p>

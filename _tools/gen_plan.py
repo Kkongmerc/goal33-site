@@ -248,7 +248,7 @@ def chips(name, opts):
 
 scope_opts = [
     ("s1", "One system", "Start focused — a single edge, run properly"),
-    ("s2", "Three systems", "Three that fit together, each its own subscription"),
+    ("s2", "Three systems", "Three that clear your drawdown budget, each its own subscription"),
     ("s3", "The whole shelf", "All-Access — every strategy at once"),
     ("s4", "The in-house Books", "The four engines we run ourselves"),
 ]
