@@ -49,9 +49,9 @@
        sterling silver #D9E3EA 13.7, abacus jade-lime #B4E369 12.0,
        pendulum orchid #E88FC6 7.8, tailwind periwinkle #A9B0FF 8.8,
        relay coral #FF9E8F 8.9, undertow sea-glass #7FE0C8 11.4,
-       meridian solar #E8E15C 13.0, closer dusk-lilac #CBA8E8 8.7,
-       daybreak dawn-peach #FFC9A8 12.0, greenwich fog-slate
-       #AEC6D9 10.1; DD medals: gold #E8C15C 10.3,
+       meridian/pendulum orchid #E88FC6 7.8, closer dusk-lilac
+       #CBA8E8 8.7, daybreak dawn-peach #FFC9A8 12.0, greenwich
+       fog-slate #AEC6D9 10.1; DD medals: gold #E8C15C 10.3,
        neon green #7CFFB2 14.2 on panel (AA); themed product pages reuse
        these as the --buy channel: CTA ink #1F1102 on the darkest
        identity color (alloy copper) 6.6 — all ten pairs AA+
@@ -3779,7 +3779,7 @@ section:hover .sec-head h2::after { width: 48px; }
 .fc-tailwind             { --fc: #A9B0FF; --fc-hi: #C9CDFF; --fc-soft: rgba(169, 176, 255, .13); --fc-line: rgba(169, 176, 255, .38); --fc-glow: rgba(169, 176, 255, .32); }
 .fc-relay                { --fc: #FF9E8F; --fc-hi: #FFC3B9; --fc-soft: rgba(255, 158, 143, .13); --fc-line: rgba(255, 158, 143, .38); --fc-glow: rgba(255, 158, 143, .32); }
 .fc-undertow             { --fc: #7FE0C8; --fc-hi: #AEEEDE; --fc-soft: rgba(127, 224, 200, .13); --fc-line: rgba(127, 224, 200, .38); --fc-glow: rgba(127, 224, 200, .32); }
-.fc-meridian             { --fc: #E8E15C; --fc-hi: #F3EFA0; --fc-soft: rgba(232, 225, 92, .13); --fc-line: rgba(232, 225, 92, .38); --fc-glow: rgba(232, 225, 92, .32); }
+.fc-meridian             { --fc: #E88FC6; --fc-hi: #F3C2E0; --fc-soft: rgba(232, 143, 198, .13); --fc-line: rgba(232, 143, 198, .38); --fc-glow: rgba(232, 143, 198, .32); }
 .fc-closer               { --fc: #CBA8E8; --fc-hi: #E0CBF3; --fc-soft: rgba(203, 168, 232, .13); --fc-line: rgba(203, 168, 232, .38); --fc-glow: rgba(203, 168, 232, .32); }
 .fc-daybreak             { --fc: #FFC9A8; --fc-hi: #FFE0CB; --fc-soft: rgba(255, 201, 168, .13); --fc-line: rgba(255, 201, 168, .38); --fc-glow: rgba(255, 201, 168, .32); }
 .fc-greenwich            { --fc: #AEC6D9; --fc-hi: #D3E2EE; --fc-soft: rgba(174, 198, 217, .12); --fc-line: rgba(174, 198, 217, .36); --fc-glow: rgba(174, 198, 217, .30); }

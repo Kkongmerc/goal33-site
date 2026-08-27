@@ -21,20 +21,20 @@ STRAT = {
     "ignition": '<path d="M12 3.4c-.5 2.5-2 3.8-3.4 5.3-1.5 1.6-2.4 3.2-2.4 5.2a5.8 5.8 0 0 0 11.6 0c0-2.5-1.3-4.3-2.9-6-1.2-1.3-2.4-2.6-2.9-4.5z"/>'
                 '<path d="M12 12.6c-1 1.3-2 2.2-2 3.6a2 2 0 0 0 4 0c0-1.4-1-2.3-2-3.6z"/>',
     "slipstream": '<path d="M3.5 8h11a2.8 2.8 0 1 0-2.6-3.8"/><path d="M3.5 12.5H18a3 3 0 1 1-2.8 4"/><path d="M3.5 17h7"/>',
-    # Tailwind — speed lines driving an arrow forward
-    "tailwind": '<path d="M4 7h8M4 12h11M4 17h6" opacity=".65"/><path d="M13 12h7"/><path d="M16.8 8.8 20 12l-3.2 3.2"/>',
-    # Relay — the baton pass: two opposing hand-off arrows
-    "relay": '<path d="M4 9h9"/><path d="M10.5 5.5 14 9l-3.5 3.5"/><path d="M20 15h-9"/><path d="M13.5 18.5 10 15l3.5-3.5"/>',
-    # Undertow — sweep down through the level, reclaim up
-    "undertow": '<path d="M4 10h16" opacity=".6"/><path d="M9 4v9.5"/><path d="M6.6 11 9 13.5 11.4 11"/><path d="M15 20V7.5"/><path d="M12.6 10 15 7.5 17.4 10"/>',
-    # Meridian — sun at zenith over the horizon line
-    "meridian": '<circle cx="12" cy="9" r="4"/><path d="M12 2.6v2.2M12 15.4V13"/><path d="M6.2 5.4l1.6 1.6M17.8 5.4l-1.6 1.6" opacity=".7"/><path d="M4 19h16"/>',
-    # Closer — the closing bell
-    "closer": '<path d="M12 4a5.5 5.5 0 0 1 5.5 5.5c0 3 .8 4.4 1.9 5.7H4.6c1.1-1.3 1.9-2.7 1.9-5.7A5.5 5.5 0 0 1 12 4z"/><path d="M10 18.6a2 2 0 0 0 4 0"/>',
-    # Daybreak — the half-sun rising over the horizon
-    "daybreak": '<path d="M4 15h16"/><path d="M7.5 15a4.5 4.5 0 0 1 9 0"/><path d="M12 6.2v2M6.4 8.4l1.4 1.4M17.6 8.4l-1.4 1.4" opacity=".7"/><path d="M8 19h8" opacity=".55"/>',
-    # Greenwich — the globe with its prime meridian
-    "greenwich": '<circle cx="12" cy="12" r="8"/><path d="M12 4v16"/><path d="M12 4c3.2 2.2 3.2 13.8 0 16M12 4c-3.2 2.2-3.2 13.8 0 16" opacity=".65"/><path d="M4.8 9.5h14.4M4.8 14.5h14.4" opacity=".5"/>',
+    # The Alloy (slug tailwind) — two metals fused: overlapping ingot diamonds
+    "tailwind": '<path d="M8.5 5.5 13 10l-4.5 4.5L4 10z"/><path d="M15.5 9.5 20 14l-4.5 4.5L11 14z"/>',
+    # Headline Risk (slug relay) — front page
+    "relay": '<rect x="4" y="5" width="16" height="14" rx="1"/><rect x="7" y="8" width="5.6" height="4"/><path d="M15.4 8.8h1.8M15.4 11.4h1.8M7 15.8h10"/>',
+    # The Press (slug undertow) — beam, ram, plate, work, base
+    "undertow": '<path d="M4.5 4h15"/><path d="M12 4v5"/><path d="M8 9h8"/><path d="M9.8 13.5h4.4v2.6H9.8z"/><path d="M4.5 20h15"/>',
+    # The Pendulum (slug meridian) — pivot, rod, bob, swing arc
+    "meridian": '<circle cx="12" cy="4.4" r="1.1"/><path d="M12 5.4 16.6 15"/><circle cx="17.6" cy="17.2" r="2.5"/><path d="M6 14.6a10 10 0 0 0 4 4.2"/>',
+    # Counterweight (slug closer) — kettlebell
+    "closer": '<circle cx="12" cy="14.2" r="5.3"/><path d="M8.9 10.1a4.4 4.4 0 0 1 6.2 0"/>',
+    # The Night Shift (slug daybreak) — crescent moon with a star
+    "daybreak": '<path d="M14.8 3.6a8.4 8.4 0 1 0 5.6 13.9A8.4 8.4 0 0 1 14.8 3.6z"/><path d="M5.6 5.8v2.6M4.3 7.1h2.6" opacity=".7"/>',
+    # The Fix (slug greenwich) — the balance scale of the London fix
+    "greenwich": '<path d="M12 4.2v13.3"/><path d="M9 19.5h6"/><path d="M5.5 7h13"/><path d="M5.5 7 3.4 11.4M5.5 7l2.1 4.4"/><path d="M2.8 11.4a2.7 2.7 0 0 0 5.4 0z"/><path d="M18.5 7l-2.1 4.4M18.5 7l2.1 4.4"/><path d="M15.8 11.4a2.7 2.7 0 0 0 5.4 0z"/>',
     # Spartacus — gladiator helm: dome, T-visor, crest
     "spartacus": '<path d="M6 20v-7a6 6 0 0 1 12 0v7"/><path d="M12 10v10"/><path d="M7.5 13.5h9"/><path d="M8 4.2c2.6-1.9 5.4-1.9 8 0"/>',
     # The Alloy — two metals fused: overlapping ingot diamonds
