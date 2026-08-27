@@ -431,6 +431,92 @@
    ],
    "warn": "Trade counts are exit legs - the two-stage exits book two rows per placement, so 348 best-window trades is roughly 174 session placements. The configuration was hand-tuned in Aug 2026 on the same history this record covers.",
    "whop": ""
+  },
+  {
+   "slug": "closer",
+   "name": "Closer",
+   "actual": "MNQ 15:30 PM Fade",
+   "meta": "MNQ · 15:30 ET — the late-day fade, flat by 15:55",
+   "window": "02 Dec 2024 - 30 Jun 2025",
+   "best": {
+    "label": "Best window — 02 Dec 2024 - 30 Jun 2025 (validation-board method)",
+    "stats": {
+     "RoDD": "11.06",
+     "PF": "2.04",
+     "Win": "55.6%",
+     "Net": "$4.0k",
+     "Max DD": "$0.4k",
+     "Trades": "142",
+     "$/trade": "$29",
+     "Months": "7",
+     "RoDD/mo": "1.60"
+    }
+   },
+   "full": {
+    "label": "Full record (02 Jan 2024 - 26 Aug 2026)",
+    "stats": {
+     "RoDD": "4.66",
+     "PF": "1.34",
+     "Win": "51.6%",
+     "Net": "$6.5k",
+     "Max DD": "$1.4k",
+     "Trades": "659",
+     "$/trade": "$10",
+     "Months": "32",
+     "RoDD/mo": "0.15"
+    }
+   },
+   "price": 219,
+   "legs": [],
+   "sep": [
+    "Fades the midday move in the session's last half hour - one placement at 15:30 ET, everything flat by 15:55.",
+    "PF 2.04 across 142 best-window trades, at the second-lowest price on the board."
+   ],
+   "warn": "Priced near the bottom of the catalog for a reason: the full record nets about $10 per trade at one contract (PF 1.34), stretches of it predate the current configuration, and 2026 - the year the configuration was tuned - runs PF 1.31. The best window is genuine; treat this as a low-cost session leg, not a flagship.",
+   "whop": ""
+  },
+  {
+   "slug": "daybreak",
+   "name": "Daybreak",
+   "actual": "MNQ 20:00 Tokyo Open Drive",
+   "meta": "MNQ · 20:00 ET — the Tokyo open drive",
+   "window": "03 Nov 2025 - 31 Jul 2026",
+   "best": {
+    "label": "Best window — 03 Nov 2025 - 31 Jul 2026 (validation-board method)",
+    "stats": {
+     "RoDD": "4.86",
+     "PF": "1.70",
+     "Win": "59.4%",
+     "Net": "$3.2k",
+     "Max DD": "$0.6k",
+     "Trades": "101",
+     "$/trade": "$31",
+     "Months": "9",
+     "RoDD/mo": "0.55"
+    }
+   },
+   "full": {
+    "label": "Full record (04 Jan 2024 - 26 Aug 2026)",
+    "stats": {
+     "RoDD": "1.48",
+     "PF": "1.18",
+     "Win": "47.9%",
+     "Net": "$2.3k",
+     "Max DD": "$1.6k",
+     "Trades": "384",
+     "$/trade": "$6",
+     "Months": "32",
+     "RoDD/mo": "0.05"
+    }
+   },
+   "price": 139,
+   "legs": [],
+   "sep": [
+    "Trades the drive off the 20:00 ET Tokyo open - an evening breakout leg for the hours most subscribers sleep through.",
+    "59.4% wins at PF 1.70 across the best window, at the lowest price on the board."
+   ],
+   "warn": "The cheapest strategy on the board, priced by the same formula as every other: the full record is thin (PF 1.18, about $6 per trade at one contract, 47.9% wins), and the stronger figures live in the recent window shown above. Buy it as a low-cost evening-session leg with its record in plain view - not as a volume engine.",
+   "whop": ""
   }
  ],
  "books": [],

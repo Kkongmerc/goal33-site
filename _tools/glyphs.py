@@ -29,6 +29,10 @@ STRAT = {
     "undertow": '<path d="M4 10h16" opacity=".6"/><path d="M9 4v9.5"/><path d="M6.6 11 9 13.5 11.4 11"/><path d="M15 20V7.5"/><path d="M12.6 10 15 7.5 17.4 10"/>',
     # Meridian — sun at zenith over the horizon line
     "meridian": '<circle cx="12" cy="9" r="4"/><path d="M12 2.6v2.2M12 15.4V13"/><path d="M6.2 5.4l1.6 1.6M17.8 5.4l-1.6 1.6" opacity=".7"/><path d="M4 19h16"/>',
+    # Closer — the closing bell
+    "closer": '<path d="M12 4a5.5 5.5 0 0 1 5.5 5.5c0 3 .8 4.4 1.9 5.7H4.6c1.1-1.3 1.9-2.7 1.9-5.7A5.5 5.5 0 0 1 12 4z"/><path d="M10 18.6a2 2 0 0 0 4 0"/>',
+    # Daybreak — the half-sun rising over the horizon
+    "daybreak": '<path d="M4 15h16"/><path d="M7.5 15a4.5 4.5 0 0 1 9 0"/><path d="M12 6.2v2M6.4 8.4l1.4 1.4M17.6 8.4l-1.4 1.4" opacity=".7"/><path d="M8 19h8" opacity=".55"/>',
     # Spartacus — gladiator helm: dome, T-visor, crest
     "spartacus": '<path d="M6 20v-7a6 6 0 0 1 12 0v7"/><path d="M12 10v10"/><path d="M7.5 13.5h9"/><path d="M8 4.2c2.6-1.9 5.4-1.9 8 0"/>',
     # The Alloy — two metals fused: overlapping ingot diamonds
