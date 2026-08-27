@@ -187,8 +187,6 @@ def fcard(p):
                                          for k, lab in [("RoDD", "RoDD"), ("PF", "PF"),
                                                         ("Max DD", "max DD"), ("Trades", "trades")])
                      + '</p>')
-    gainrow = (f'<div class="fgainrow"><b>${baseline(p):,.0f}</b>'
-               f'<span>on a ${BASE_DD:,} drawdown &middot; best window</span></div>')
     return f"""<article class="fcard fc-{p['slug']}">
           <div class="fcard-top">
             <span class="fglyph" aria-hidden="true">{glyph(p['slug'], 'glyph g-flag')}</span>
@@ -200,10 +198,9 @@ def fcard(p):
                 <span class="fmeta">{market_chips(p['meta'])}<span class="chip chip-verified">VERIFIED</span></span>
               </div>
             </div>
-            <div class="fhero"><b>{esc(bs(p,'RoDD'))}&times;</b><span>RoDD &middot; best window</span></div>
+            <div class="fhero"><b>${baseline(p):,.0f}</b><span>on a ${BASE_DD:,} drawdown &middot; best window</span></div>
           </div>
           <p class="desc">{esc(p['sep'][0]) if p['sep'] else ''}</p>
-          {gainrow}
           <div class="fstats">{stats}</div>
           {full_line}
           <div class="price-row">

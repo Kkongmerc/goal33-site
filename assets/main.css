@@ -871,6 +871,19 @@ section { border-bottom: 1px solid var(--line); padding: var(--sp-6) 0; }
 .feat-price .per { font-size: var(--fs-2xs); color: var(--faint); letter-spacing: .06em; }
 .feat .btn-buy { width: 100%; }
 
+/* a 34px name and a $196,000 figure cannot share a 305px row - below this the
+   headline figure drops to its own line under the name block */
+@media (max-width: 700px) {
+  .fcard-top { flex-wrap: wrap; }
+  .fcard-id { flex: 1 1 auto; }
+  .fhero {
+    margin-left: 0; width: 100%;
+    align-items: flex-start; text-align: left;
+    padding-top: var(--sp-3); margin-top: var(--sp-2);
+    border-top: 1px solid var(--line);
+  }
+}
+
 /* risk reversal at the decision point rather than 16 screens down in the FAQ */
 .hero-guar {
   margin: var(--sp-4) 0 0;
