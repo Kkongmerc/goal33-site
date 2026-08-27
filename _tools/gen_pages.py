@@ -629,16 +629,33 @@ def rodd_menu(p):
 </div>"""
 
 def legs_block(p):
+    """Legs entries are either [session-label, slug] — a leg also sold as its own
+    product, rendered as a link with the product's display name — or a plain
+    string, an exclusive leg rolled up into one '+N exclusive' cell (names of
+    exclusive legs stay off the page)."""
     if not p.get("legs"): return ""
-    cells = "".join(
-        f'<!-- LEG-LINK: wrap leg-name in an anchor to its own product page when this leg publishes -->'
-        f'<div class="leg"><span class="leg-n">{i:02d}</span><span class="leg-name">{esc(l)}</span></div>'
-        for i, l in enumerate(p["legs"], 1))
+    name_by_slug = {s["slug"]: s["name"] for s in CAT["strategies"]}
+    linked = [l for l in p["legs"] if isinstance(l, list)]
+    exclusive_n = sum(1 for l in p["legs"] if not isinstance(l, list))
+    cells = ""
+    for i, (label, slug) in enumerate(linked, 1):
+        prod = name_by_slug.get(slug, "")
+        cells += (f'<div class="leg"><span class="leg-n">{i:02d}</span>'
+                  f'<a class="leg-link" href="/strategies/{slug}.html">'
+                  f'<span class="leg-name">{esc(label)}</span>'
+                  f'<span class="leg-prod">{esc(prod)}</span></a></div>')
+    if exclusive_n:
+        plural = "strategies" if exclusive_n != 1 else "strategy"
+        cells += (f'<div class="leg leg-x"><span class="leg-n">+{exclusive_n}</span>'
+                  f'<span class="leg-name">exclusive book {plural}</span></div>')
+    total = len(p["legs"])
+    note_tail = (" The named legs above are also sold as standalone subscriptions; the exclusive legs trade only inside the book."
+                 if linked and exclusive_n else "")
     return f"""<div class="record">
-  <div class="record-title">The legs &middot; {len(p["legs"])} engines, one router</div>
+  <div class="record-title">Inside the book &middot; {total} engines, one router</div>
   <div class="legs">{cells}</div>
   <p class="record-note">Each leg is a standalone engine trading its own session; the router allocates between them.
-  Every figure on this page is the book as a whole, not any single leg. Composition dials are proprietary.</p>
+  Every figure on this page is the book as a whole, not any single leg. Composition dials are proprietary.{note_tail}</p>
 </div>"""
 
 def sep_block(p):

@@ -3584,12 +3584,19 @@ section:hover .sec-head h2::after { width: 48px; }
 .leg {
   background: var(--panel); padding: var(--sp-3) var(--sp-4);
   display: flex; align-items: baseline; gap: var(--sp-2);
+  flex-wrap: wrap; min-width: 0;
 }
 .leg-n { font-family: var(--mono); font-size: var(--fs-2xs); color: var(--accent); }
 .leg-name {
   font-family: var(--display); font-size: var(--fs-sm); font-weight: 600;
   text-transform: uppercase; letter-spacing: .04em; color: var(--text);
 }
+/* legs that are also standalone products link out; exclusives roll up into one +N cell */
+.leg-link { display: contents; text-decoration: none; }
+.leg-link .leg-prod { font-family: var(--mono); font-size: var(--fs-2xs); color: var(--accent); white-space: nowrap; }
+.leg-link:hover .leg-name,
+.leg-link:focus-visible .leg-name { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+.leg-x .leg-n { color: var(--buy); }
 
 /* what-separates + warnings */
 .sep-panel .sep-list { list-style: none; padding: var(--sp-2) 0; }

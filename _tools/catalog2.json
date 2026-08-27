@@ -65,15 +65,17 @@
    },
    "price": 909,
    "legs": [
+    ["08:30 range fade", "relay"],
+    ["13:00 fade", "meridian"],
+    ["15:30 PM fade", "closer"],
+    ["20:00 Tokyo drive", "daybreak"],
+    ["Overnight 5m level reclaim", "undertow"],
+    ["FVG continuation", "tailwind"],
     "08:30 failed-break fade",
-    "08:30 range fade",
     "18:00 CME reopen",
     "19:00 Sydney open drive",
-    "20:00 Tokyo drive",
     "21:30 China open",
-    "London sweep of Asia",
-    "13:00 fade",
-    "15:30 PM fade"
+    "London sweep of Asia"
    ],
    "sep": [
     "Every validated session leg, routed through one 24-hour book: one product, one subscription, the whole clock.",
@@ -118,11 +120,11 @@
    },
    "price": 759,
    "legs": [
-    "Tokyo breakout",
-    "London breakout",
-    "New York FVG continuation",
-    "Overnight structure",
-    "08:30 data-release fade"
+    ["Tokyo breakout", "kilo"],
+    ["London breakout", "greenwich"],
+    ["New York FVG continuation", "assay"],
+    ["08:30 data-release fade", "print"],
+    "Overnight structure"
    ],
    "sep": [
     "Five gold session legs — overnight structure, London, Tokyo, NY data, FVG continuation — run as one book.",
