@@ -476,6 +476,49 @@
    "whop": ""
   },
   {
+   "slug": "greenwich",
+   "name": "Greenwich",
+   "actual": "MGC London Breakout",
+   "meta": "MGC · London open — the gold breakout at the European bell",
+   "window": "02 Jan 2026 - 31 Mar 2026",
+   "best": {
+    "label": "Best window — 02 Jan 2026 - 31 Mar 2026 (validation-board method)",
+    "stats": {
+     "RoDD": "10.90",
+     "PF": "3.32",
+     "Win": "81.4%",
+     "Net": "$5.2k",
+     "Max DD": "$0.5k",
+     "Trades": "59",
+     "$/trade": "$88",
+     "Months": "3",
+     "RoDD/mo": "3.76"
+    }
+   },
+   "full": {
+    "label": "Full record (02 Jan 2024 - 26 Aug 2026)",
+    "stats": {
+     "RoDD": "3.04",
+     "PF": "1.23",
+     "Win": "69.6%",
+     "Net": "$5.2k",
+     "Max DD": "$1.7k",
+     "Trades": "598",
+     "$/trade": "$9",
+     "Months": "32",
+     "RoDD/mo": "0.10"
+    }
+   },
+   "price": 169,
+   "legs": [],
+   "sep": [
+    "Trades the London-open breakout on gold - the session where the metal's overnight range resolves.",
+    "81.4% wins at PF 3.32 across the best window, on the board's first gold standalone."
+   ],
+   "warn": "All our gold configurations date to January 2026: the record before that is the current dials applied to history they were not tuned on, and the best window above begins exactly at that optimization point. The full record runs about $9 per trade (PF 1.23), and the best window holds 59 trades - a small sample the pricing formula discounts.",
+   "whop": ""
+  },
+  {
    "slug": "daybreak",
    "name": "Daybreak",
    "actual": "MNQ 20:00 Tokyo Open Drive",
