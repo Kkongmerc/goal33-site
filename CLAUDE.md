@@ -51,13 +51,13 @@ stat sets, price, legs, what-separates lines, and warnings.
 **Pricing formula** (strategies): `eff = RoDD x min(1, sqrt(n/300))`;
 `price = round10($159 + 12 x eff^1.15 - $60) - 1`. The four Books are priced
 by hand ABOVE the formula ($589-$1,189 solo; all four $2,999) — books must
-stand out price-wise. All-Access $999 excludes the Books; Pick-3 $499.
+stand out price-wise. All-Access $999 excludes the Books. Pick-3 is retired.
 
 **Catalog policy**: only LIVE entries from the playbook are listed. Excluded
 permanently until re-adjudicated: the nine NT8 port standalones, the base
 LVL-5M (TV run still queued), goal2 RTY (PF 1.06), and anything the playbook
 marks unconfirmed. Per-strategy Pine SETTINGS (stops, targets, offsets, slots)
-are never published. The Market Maker is ONE product carrying both NYO engines.
+are never published.
 
 **Workflow for any data/product change:**
 1. Owner supplies a new playbook export; re-curate catalog2.json off-repo.
@@ -69,53 +69,73 @@ are never published. The Market Maker is ONE product carrying both NYO engines.
 4. Verify, commit, push.
 
 **Plan-finder honesty rule** (enforced in gen_plan.py): if the computed best
-trio for a Pick-3 seeker is worth less than the $499 bundle price, the page
-recommends the cheaper path instead (The Starter if it IS that trio, otherwise
-"buy the three solo") — never delete this branch to make Pick-3 sell better.
+trio recommendation must stay three SOLO subscriptions. Pick-3 is retired, so
+there is no bundle to weigh a trio against; `trio_rows` renders any slot with
+no qualifying strategy as a visibly blank dashed row rather than padding it
+with something that does not clear the buyer's drawdown budget.
 
-## TOP-5 LAUNCH STATE (current)
+## CURRENT STATE (5 live products, Whop + Discord wired)
 
 Five RoDD-board rows are PUBLISHED in `catalog2.json` -> `strategies[]`:
 continuum ($909) / midas ($759) / aftershock ($699) / slipstream ($649) /
 ignition ($299) — board rows 1, 2, 3, 5 and 6. **Row 4 (MNQ Strong Book) was
-pulled by the owners**; its glyph, `fc-strongbox` skin and archive entry are all
+pulled by the owners**; its glyph, `fc-strongbox` skin and archive entry are
 intact, so republishing is one tuple away. Prices are formula-driven from
 replayed best-window RoDD x n — ignition is cheap because n=66, which is the
 formula working, not a discount.
+
 Every number is a closed-trade replay of the committed TradingView export the
 owners' validation board used (verified digit-for-digit against the board).
 **Real trade data lives in `_tools/trades/<slug>.json`** (equity points, daily
-P&L, full closed-trade list — derived numbers only, never settings or research
-identifiers): it powers the real equity curves, the filled daily calendars,
-and the product pages' List-of-trades tab.
+P&L, closed-trade list): it powers the real equity curves, the filled daily
+calendars, and the product pages' Trade log tab.
 
-Bundle pages generate on their own guards, NOT on one flag: `HAS_BUNDLES`
-(strategies exist) writes all-access + pick-3; `HAS_BOOKS_BUNDLE` writes
-the-books; `HAS_STARTER` writes the-starter only while every member slug is
-still in the catalog. Struck "combined" prices are summed from the live catalog
-at build time — never stored constants. Books stay pending (`books[]` empty ->
-#packages renders a 'books are next' band, the plan finder's books panel becomes
-a pending band, and the small-budget branch recommends the cheapest real
-strategy instead of the retired Starter). The ticker's market list and product
-counts are derived from the catalog too. The hero carousel runs 5 slots. Cool
-names are lineage picks and renameable anytime — slugs never change.
+**Whop is LIVE.** `whop_store` in catalog2.json plus a `whop` field per
+strategy, consumed by `buy_href()` in all three generators — swapping a
+product-page link for a direct checkout link is a one-field edit, never a code
+change. `ingest_top5.py` carries them through a re-ingest. Bundle CTAs have no
+Whop product yet and point at the storefront. Discord is wired everywhere
+(`discord.gg/BBXDDn9pCD`); support routes there, and there is no support email
+anywhere on the site.
 
-## PRE-LAUNCH MODE (dormant machinery)
+**THE BASELINE (read before touching any headline figure).** Raw net is NOT
+comparable across products: it mixes drawdown depth AND position size. That is
+why Continuum ($72.5k) once looked worse than Midas ($119.5k) despite ranking
+above it on every risk-adjusted measure. Every headline slot — carousel pane,
+card top-right hero, product-page hero — leads with net normalised to a fixed
+`baseline_dd` ($5,000): `RoDD x 5000`. It is scale-invariant, it puts the five
+in board order, and it states RoDD in language a buyer parses. The RoDD
+multiple stays as a supporting figure; actual net stays in the stat tiles.
+**If you add a headline figure anywhere, use the baseline, not net.**
 
-The published catalog is intentionally EMPTY while the new lineup is validated:
-`catalog2.json` has `strategies: []` and `books: []`, and all three generators
-detect this (`PRELAUNCH`) and render "new lineup loading" placeholder bands
-instead of products — no product/bundle pages are written, the plan finder shows
-an offline notice, the carousel shows five reserved flagship slots. NOTHING was
-deleted: the full previous catalog and rendered examples live in
-`_tools/archive/`, and every builder function is intact.
+Bundle pages generate on their own guards, NOT one flag: `HAS_BUNDLES`
+(strategies exist) writes all-access; `HAS_BOOKS_BUNDLE` writes the-books;
+`HAS_STARTER` writes the-starter only while every member slug is still in the
+catalog. **Pick-3 is retired** — removed as a product, its page no longer
+generated, and the plan finder recommends three solo subscriptions instead of
+a bundle. Struck "combined" prices are summed from the live catalog at build
+time, never stored constants. Books stay pending (`books[]` empty -> #packages
+renders a 'Books are next' band and the plan finder's books panel becomes a
+pending band). The ticker's market list and product counts are catalog-derived
+too. The hero carousel runs 5 slots. Cool names are lineage picks and
+renameable — **slugs are frozen once a Whop product exists for them.**
+
+## PRE-LAUNCH MODE (dormant, not active)
+
+Every generator still detects an empty catalog (`PRELAUNCH`) and renders "new
+lineup loading" placeholder bands instead of products — no product/bundle pages
+written, plan finder offline notice, carousel showing five reserved slots.
+**This path is dormant while five products are live.** It is kept working on
+purpose: `.cf-pane:not(:has(.cf-spark))` still centres chartless panes, and the
+previous catalog plus rendered examples live in `_tools/archive/`.
 
 **To publish a product:** fill one slot from `catalog2.json` -> `drafts`
-(the `_template_strategy` object documents every field), move it into
-`strategies[]` (or `books[]`), add its glyph in `_tools/glyphs.py` and — for a
-flagship/book — an `fc-<slug>` color skin in main.css, then run the three
-generators and restamp. The moment one product is published, the whole catalog
-UI (cards, tables, cart, carousel, plan finder, bundles) comes back by itself.
+(`_template_strategy` documents every field), move it into `strategies[]` (or
+`books[]`), add its glyph in `_tools/glyphs.py` and an `fc-<slug>` colour skin
+in main.css, drop its replayed trade data at `_tools/trades/<slug>.json`, then
+run the three generators and restamp. Append the product to
+`D:/Downloads/publish-queue.md` at the same time — that ledger is what the Whop
+operator works from.
 
 ## Hard content rules (violations have been caught and reverted before)
 
@@ -132,7 +152,7 @@ UI (cards, tables, cart, carousel, plan finder, bundles) comes back by itself.
    are compacted (k-format, minus sign kept so colour is never the only
    signal) with the exact figure in a native `title`; the calendar renders in
    a full-width `.pdp-wide` band BELOW `.pdp-cols`, because inside the 611px
-   main column its day cells crowd their borders. List-of-trades publishes a
+   main column its day cells crowd their borders. The Trade log publishes a
    duration BUCKET ("< 10m", "1-2h"), never clock times.
 
 3. **The RoDD sizing menu is the centerpiece of every product page** — radios
@@ -150,7 +170,7 @@ UI (cards, tables, cart, carousel, plan finder, bundles) comes back by itself.
    LIVE**: the store is `whop_store` in catalog2.json and each strategy carries
    a `whop` field, both consumed by `buy_href()` in all three generators — so
    swapping a product-page link for a direct checkout link is a one-field edit,
-   never a code change. Bundle CTAs (All-Access, Pick-3, Starter, Books) have no
+   never a code change. Bundle CTAs (All-Access, Starter, Books) have no
    Whop product yet and still point at their own pages (grep `WHOP:`).
 8. Warnings that survived owner review (Pendulum tariff week, Collector sizing
    guard) are published as trust devices — do not remove them.
@@ -197,33 +217,84 @@ UI (cards, tables, cart, carousel, plan finder, bundles) comes back by itself.
 - Every fg/bg pair ≥ 4.5:1 — the table in `main.css`'s header is the ledger.
 - Value doctrine: **RoDD backed by n is THE metric** — hero stat on every card
   and product page, the pricing input, and the sizing menu. PF supports.
-- Strategy display names are the "cool names" (Spartacus, The Market Maker, …)
+- Strategy display names are the "cool names" (Continuum, Midas, Ignition, …)
   embedded in catalog2.json; original names appear as subtitles. Slugs/URLs never
   change on rename.
 
-## Pricing (current — formula-driven, see pipeline section)
+## Pricing (formula-driven, see pipeline section)
 
-Strategies $119–$509 by the RoDD-x-sample formula · Books $589/$889/$989/$1,189
-solo, $2,999 all four · All-Access $999 (combined $4,339 struck; excludes
-Books) · Pick-3 $499 (worth up to $1,327 struck) · Annual = 2 months free.
-Deals always show the combined price struck out.
+Strategies $299–$909 by the RoDD-x-sample formula · All-Access $999 (struck
+against the live catalog sum, currently $3,315; excludes Books) · Annual =
+10x monthly ("2 months free") · Books $589/$889/$989/$1,189 solo and $2,999
+for all four WHEN THEY PUBLISH — `books[]` is empty today. **Pick-3 is
+retired.** Deals always show the combined price struck out, computed from the
+catalog at build time.
 
-## What's pending (don't "fix" these — they're waiting on data)
+Founding affiliate commission **15%** recurring; buyer referral discount 10%.
+Terms promise the rate you earn it at is the rate you keep — if the rate ever
+changes, use per-affiliate rates or a dated roster rather than editing the
+global rate.
 
-- Daily-results calendars are empty grids **on purpose** — they fill when the
-  owners export daily P&L per system.
-- Equity charts are labeled *illustrative, fitted to published stats* — replaced by
-  real curves when trade-level data lands.
-- Terms/Privacy pages: TODO comment in the index footer.
+## What's pending
+
+- **Books/bundles**: `books[]` empty. The bands and guards are all in place.
+- **Direct Whop checkout links**: product-page links are wired in the
+  meantime; swapping them is one `whop` field per product.
+- **Whop store slug** still reads `goal33systems`, the old brand — a buyer
+  clicking "Get access" lands on a differently-named store at the moment they
+  decide to pay.
+- **Per-strategy contract counts** (see the honesty section below).
+- Terms section 09: `LEGAL:` marks the state-of-organization blank.
+
+## KNOWN DATA ISSUE — position size (do not paper over this)
+
+The site used to assert "one-contract scale" in seven places, including the
+refund guarantee's measurement basis in Terms section 03. **It was false**, and
+the proof needs no statistics: Ignition's 132 modal winners each moved exactly
++0.50 NQ points, which is $10.00 gross at ONE contract, yet each netted $40.00.
+Net cannot exceed gross. Slipstream is the same shape. A P&L-lattice check
+agrees — continuum and aftershock sit on a 1-lot lattice, slipstream on 2,
+ignition on 5; midas is a multi-leg book and does not resolve to one number.
+
+The copy now says only what is verifiable: figures are "at the position size
+each strategy's validated run used". **Do not restore a specific scale claim
+without confirming `qty` in the Pine configs.** Once confirmed, publishing the
+count per product is strictly better than the current wording. Nothing about
+rankings or prices changes either way: RoDD, PF and win rate are
+scale-invariant.
 
 ## Verification habits that caught real bugs here
 
-Before pushing: grep for secrets (`sk_`, `sessionid`, `api_key`) in committed
-files; zero `<script>`/`style=`; tag/brace balance; every `/strategies/*.html`
-href resolves; stats spot-check against the sheet; the Market Maker page describes both NYO engines honestly. Serve locally with
-`python -m http.server` and eyeball mobile (~375px) — the tables scroll inside
-their containers; the page itself must never scroll horizontally.
+Before pushing, run over every shipped page: zero `<script>` and zero
+`style=`; CSP meta present; brace/tag balance; every internal href resolves;
+no `mailto:`; no dead `btn-buy href="#"`; no research identifiers (`.pine`,
+cell IDs like `PBV-S07`/`Q429`/`goal13`, personal names); no stale figures
+(a retired rate, a removed product). Then serve locally and check **1400px and
+375px**: the page must never scroll horizontally, tables scroll inside their
+own containers, and nothing collides.
 
-Never commit: `.claude/`, `.mcp.json`, credentials of any kind (`.gitignore`
-already guards the first two). This repo is public and Pages serves everything in
-it — assume anything committed is world-readable.
+**Verify in the browser, not just the file.** Bugs found only by rendering:
+the flagship name overlapping the headline figure at 375px; a stretched
+fifth card; the sizing menu recommending a budget the full record would have
+wiped; the carousel's bright pane flying across mid-switch.
+
+**grep -c exits 1 when it counts zero.** A watcher checking "the bad string is
+gone" reports failure on success. Read the output, not the exit code.
+
+**The cache-buster is not the served hash.** Pages request
+`main.css?v=<hash>`; fetching bare `main.css` can return a stale cached copy.
+Always verify against the versioned URL.
+
+**Write patch scripts to the scratchpad and run them** — heredocs mangle
+backslashes and quotes inside Python strings, and Python 3.10 rejects
+backslashes inside f-string expressions.
+
+**Assert before you replace.** Every patch script asserts its anchor exists.
+Two real half-removals happened when a regex matched an opening tag but left
+the body behind.
+
+Never commit: `.claude/`, `.mcp.json`, credentials of any kind. This repo is
+public and Pages serves **everything** in it — `_tools/` included, because
+`.nojekyll` disables Jekyll's `_`-prefix skip. `robots.txt` disallows
+`/_tools/`, `/CLAUDE.md` and `/README.md`, but that is a crawler request, not
+access control. Assume anything committed is world-readable.
