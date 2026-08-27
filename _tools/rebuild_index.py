@@ -606,8 +606,8 @@ cf_panes = cf_panes_override if PRELAUNCH else "".join(
     + f'<span class="cf-star"><b>{esc(bs(p, card_star(p)))}</b><i>{card_star_tag(p)}</i></span>'
     + f'<span class="cf-foot"><span class="cf-titlerow"><b class="cf-name">{esc(p["name"])}</b>'
     + f'<span class="cf-price">${p["price"]}<small>/mo</small></span></span>'
-    + f'<span class="cf-gain">{gain_figure(p)[0]}</span>'
-    + f'<span class="cf-win">{gain_figure(p)[1]}</span></span></a>'
+    + f'<span class="cf-gain">${baseline(p):,.0f}</span>'
+    + f'<span class="cf-win">on a ${BASE_DD:,} drawdown &middot; best window</span></span></a>'
     f'<label class="cf-pick" for="cf-{i+1}"><span class="sr-only">Bring {esc(p["name"])} to the front</span></label>'
     f'</div>'
     for i, p in enumerate(TIER1))
