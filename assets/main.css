@@ -4546,7 +4546,12 @@ html { scroll-padding-top: calc(var(--header-h) + 58px); }
 #ticker-pause:checked ~ * .lead,
 #ticker-pause:checked ~ * .stable tbody td.lead { animation-play-state: paused; }
 
-/* ── plan-finder modal: covers the screen after 20s, dismissible ──
+/* ── plan-finder modal: covers the screen after 3 minutes, dismissible ──
+   The delay IS the idle timer. It only exists on index.html and the
+   countdown restarts on load, so navigating anywhere cancels it and the
+   modal only fires if someone sits on the homepage for 3 minutes.
+   Persisting a dismissal across page loads would need JS or a cookie,
+   and the site ships neither. --
    Three finite one-shot animations (visibility / opacity / transform only).
    visibility keeps the whole layer out of hit-testing during the wait, so it
    cannot swallow clicks across the page before it appears. */
@@ -4555,7 +4560,7 @@ html { scroll-padding-top: calc(var(--header-h) + 58px); }
   display: flex; align-items: center; justify-content: center;
   padding: var(--sp-5);
   visibility: hidden;
-  animation: pm-show 0s linear 20s forwards;
+  animation: pm-show 0s linear 180s forwards;
 }
 @keyframes pm-show { to { visibility: visible; } }
 
@@ -4563,7 +4568,7 @@ html { scroll-padding-top: calc(var(--header-h) + 58px); }
   position: absolute; inset: 0; cursor: pointer;
   background: rgba(3, 10, 13, .78);
   opacity: 0;
-  animation: pm-fade .35s var(--ease) 20s forwards;
+  animation: pm-fade .35s var(--ease) 180s forwards;
 }
 @keyframes pm-fade { to { opacity: 1; } }
 
@@ -4578,7 +4583,7 @@ html { scroll-padding-top: calc(var(--header-h) + 58px); }
   text-align: center;
   box-shadow: 0 30px 90px -20px rgba(0, 0, 0, .9), 0 0 40px rgba(86, 200, 162, .16);
   opacity: 0; transform: translateY(18px);
-  animation: pm-rise .4s var(--ease) 20s forwards;
+  animation: pm-rise .4s var(--ease) 180s forwards;
 }
 @keyframes pm-rise { to { opacity: 1; transform: translateY(0); } }
 
