@@ -51,7 +51,9 @@
        relay coral #FF9E8F 8.9, undertow sea-glass #7FE0C8 11.4,
        meridian/pendulum orchid #E88FC6 7.8, closer dusk-lilac
        #CBA8E8 8.7, daybreak dawn-peach #FFC9A8 12.0, greenwich
-       fog-slate #AEC6D9 10.1; DD medals: gold #E8C15C 10.3,
+       fog-slate #AEC6D9 10.1, assay apple #A8E36B 11.7, kilo
+       bronze #E3A857 8.5, print ivory #E8DCC0 13.1; DD medals:
+       gold #E8C15C 10.3,
        neon green #7CFFB2 14.2 on panel (AA); themed product pages reuse
        these as the --buy channel: CTA ink #1F1102 on the darkest
        identity color (alloy copper) 6.6 — all ten pairs AA+
@@ -3783,6 +3785,9 @@ section:hover .sec-head h2::after { width: 48px; }
 .fc-closer               { --fc: #CBA8E8; --fc-hi: #E0CBF3; --fc-soft: rgba(203, 168, 232, .13); --fc-line: rgba(203, 168, 232, .38); --fc-glow: rgba(203, 168, 232, .32); }
 .fc-daybreak             { --fc: #FFC9A8; --fc-hi: #FFE0CB; --fc-soft: rgba(255, 201, 168, .13); --fc-line: rgba(255, 201, 168, .38); --fc-glow: rgba(255, 201, 168, .32); }
 .fc-greenwich            { --fc: #AEC6D9; --fc-hi: #D3E2EE; --fc-soft: rgba(174, 198, 217, .12); --fc-line: rgba(174, 198, 217, .36); --fc-glow: rgba(174, 198, 217, .30); }
+.fc-assay                { --fc: #A8E36B; --fc-hi: #C9F09B; --fc-soft: rgba(168, 227, 107, .12); --fc-line: rgba(168, 227, 107, .36); --fc-glow: rgba(168, 227, 107, .30); }
+.fc-kilo                 { --fc: #E3A857; --fc-hi: #F0CB96; --fc-soft: rgba(227, 168, 87, .13); --fc-line: rgba(227, 168, 87, .38); --fc-glow: rgba(227, 168, 87, .32); }
+.fc-print                { --fc: #E8DCC0; --fc-hi: #F4EDDD; --fc-soft: rgba(232, 220, 192, .11); --fc-line: rgba(232, 220, 192, .34); --fc-glow: rgba(232, 220, 192, .28); }
 .fc-the-midas            { --fc: #E8C15C; --fc-hi: #F5DFA6; --fc-soft: rgba(232, 193, 92, .14); --fc-line: rgba(232, 193, 92, .40); --fc-glow: rgba(232, 193, 92, .32); }
 .fc-the-continuum        { --fc: #5CC8E8; --fc-hi: #9ADFF2; --fc-soft: rgba(92, 200, 232, .13); --fc-line: rgba(92, 200, 232, .38); --fc-glow: rgba(92, 200, 232, .32); }
 .fc-the-daylight         { --fc: #FF9142; --fc-hi: #FFB27E; --fc-soft: rgba(255, 145, 66, .14); --fc-line: rgba(255, 145, 66, .40); --fc-glow: rgba(255, 145, 66, .32); }
@@ -4771,10 +4776,13 @@ html { scroll-padding-top: calc(var(--header-h) + 58px); }
 #add-relay:checked + .add-btn { counter-increment: cart 1 total 649; }
 #add-slipstream:checked + .add-btn { counter-increment: cart 1 total 649; }
 #add-ignition:checked + .add-btn { counter-increment: cart 1 total 299; }
+#add-assay:checked + .add-btn { counter-increment: cart 1 total 379; }
 #add-undertow:checked + .add-btn { counter-increment: cart 1 total 419; }
 #add-meridian:checked + .add-btn { counter-increment: cart 1 total 399; }
+#add-kilo:checked + .add-btn { counter-increment: cart 1 total 219; }
 #add-closer:checked + .add-btn { counter-increment: cart 1 total 219; }
 #add-greenwich:checked + .add-btn { counter-increment: cart 1 total 169; }
+#add-print:checked + .add-btn { counter-increment: cart 1 total 149; }
 #add-daybreak:checked + .add-btn { counter-increment: cart 1 total 139; }
 #strategies:has(#add-continuum:checked) .cl-continuum,
 #strategies:has(#add-midas:checked) .cl-midas,
@@ -4783,10 +4791,13 @@ html { scroll-padding-top: calc(var(--header-h) + 58px); }
 #strategies:has(#add-relay:checked) .cl-relay,
 #strategies:has(#add-slipstream:checked) .cl-slipstream,
 #strategies:has(#add-ignition:checked) .cl-ignition,
+#strategies:has(#add-assay:checked) .cl-assay,
 #strategies:has(#add-undertow:checked) .cl-undertow,
 #strategies:has(#add-meridian:checked) .cl-meridian,
+#strategies:has(#add-kilo:checked) .cl-kilo,
 #strategies:has(#add-closer:checked) .cl-closer,
 #strategies:has(#add-greenwich:checked) .cl-greenwich,
+#strategies:has(#add-print:checked) .cl-print,
 #strategies:has(#add-daybreak:checked) .cl-daybreak {
   display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3);
   padding: var(--sp-2) var(--sp-4); border-bottom: 1px solid var(--line);

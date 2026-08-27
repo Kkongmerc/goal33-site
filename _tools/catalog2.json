@@ -347,6 +347,49 @@
    "whop": "https://whop.com/goal33systems/ignition-nq"
   },
   {
+   "slug": "assay",
+   "name": "The Assay",
+   "actual": "MGC New York FVG Continuation",
+   "meta": "MGC · New York — the gold FVG continuation",
+   "window": "02 Jan 2026 - 29 Jul 2026",
+   "best": {
+    "label": "Best window — 02 Jan 2026 - 29 Jul 2026 (validation-board method)",
+    "stats": {
+     "RoDD": "18.29",
+     "PF": "2.33",
+     "Win": "72.5%",
+     "Net": "$34.1k",
+     "Max DD": "$1.9k",
+     "Trades": "222",
+     "$/trade": "$153",
+     "Months": "7",
+     "RoDD/mo": "2.69"
+    }
+   },
+   "full": {
+    "label": "Full record (02 Jan 2024 - 25 Aug 2026)",
+    "stats": {
+     "RoDD": "4.43",
+     "PF": "1.45",
+     "Win": "61.2%",
+     "Net": "$29.9k",
+     "Max DD": "$6.8k",
+     "Trades": "474",
+     "$/trade": "$63",
+     "Months": "32",
+     "RoDD/mo": "0.14"
+    }
+   },
+   "price": 379,
+   "legs": [],
+   "sep": [
+    "Rides the New York continuation after a gold fair-value gap is defended - the metal's data-session imbalance, traded with the trend.",
+    "$34.1k best-window net across 222 trades at 72.5% wins."
+   ],
+   "warn": "All our gold configurations date to January 2026, and the best window begins at that optimization point. Figures are at the validated run's 4-contract sizing, and the full record's $6.8k drawdown - not the best window's - is the sizing floor. An alternative research encoding of this same construction remains unreconciled with this record; the divergence is under review.",
+   "whop": ""
+  },
+  {
    "slug": "undertow",
    "name": "The Press",
    "actual": "MNQ Overnight Level Reclaim 5m",
@@ -433,6 +476,49 @@
    "whop": ""
   },
   {
+   "slug": "kilo",
+   "name": "The Kilo",
+   "actual": "MGC Tokyo Open (TOCOM)",
+   "meta": "MGC · Tokyo hours — the gold evening open",
+   "window": "02 Dec 2025 - 26 Aug 2026",
+   "best": {
+    "label": "Best window — 02 Dec 2025 - 26 Aug 2026 (validation-board method)",
+    "stats": {
+     "RoDD": "11.72",
+     "PF": "4.17",
+     "Win": "85.6%",
+     "Net": "$6.4k",
+     "Max DD": "$0.5k",
+     "Trades": "118",
+     "$/trade": "$54",
+     "Months": "9",
+     "RoDD/mo": "1.33"
+    }
+   },
+   "full": {
+    "label": "Full record (08 Jan 2024 - 26 Aug 2026)",
+    "stats": {
+     "RoDD": "0.94",
+     "PF": "1.34",
+     "Win": "70.1%",
+     "Net": "$3.2k",
+     "Max DD": "$3.3k",
+     "Trades": "401",
+     "$/trade": "$8",
+     "Months": "32",
+     "RoDD/mo": "0.03"
+    }
+   },
+   "price": 219,
+   "legs": [],
+   "sep": [
+    "Trades the Tokyo-session open on gold - the TOCOM kilobar hours, traded from the US evening.",
+    "85.6% wins at PF 4.17 across the best window."
+   ],
+   "warn": "All our gold configurations date to January 2026, and this leg's strength is concentrated after December 2025: the full record (PF 1.34, about $8 per trade, with a $3.3k drawdown) is a different world from the recent window shown above. Size from the full record, not the best window.",
+   "whop": ""
+  },
+  {
    "slug": "closer",
    "name": "Counterweight",
    "actual": "MNQ 15:30 PM Fade",
@@ -516,6 +602,49 @@
     "81.4% wins at PF 3.32 across the best window, on the board's first gold standalone."
    ],
    "warn": "All our gold configurations date to January 2026: the record before that is the current dials applied to history they were not tuned on, and the best window above begins exactly at that optimization point. The full record runs about $9 per trade (PF 1.23), and the best window holds 59 trades - a small sample the pricing formula discounts.",
+   "whop": ""
+  },
+  {
+   "slug": "print",
+   "name": "The Print",
+   "actual": "MGC 08:30 Data Fade",
+   "meta": "MGC · 08:30 ET — the gold data-release fade",
+   "window": "01 May 2026 - 31 Jul 2026",
+   "best": {
+    "label": "Best window — 01 May 2026 - 31 Jul 2026 (validation-board method)",
+    "stats": {
+     "RoDD": "7.50",
+     "PF": "2.51",
+     "Win": "76.7%",
+     "Net": "$5.5k",
+     "Max DD": "$0.7k",
+     "Trades": "60",
+     "$/trade": "$92",
+     "Months": "3",
+     "RoDD/mo": "2.50"
+    }
+   },
+   "full": {
+    "label": "Full record (08 Jan 2024 - 26 Aug 2026)",
+    "stats": {
+     "RoDD": "2.71",
+     "PF": "1.24",
+     "Win": "56.7%",
+     "Net": "$9.9k",
+     "Max DD": "$3.6k",
+     "Trades": "609",
+     "$/trade": "$16",
+     "Months": "32",
+     "RoDD/mo": "0.09"
+    }
+   },
+   "price": 149,
+   "legs": [],
+   "sep": [
+    "Fades gold's 08:30 data print back into its pre-release range - the metal's answer to Headline Risk.",
+    "76.7% wins at PF 2.51 across the best window."
+   ],
+   "warn": "All our gold configurations date to January 2026. The full record runs about $16 per trade (PF 1.24), and the best window holds 60 trades over three months - a small sample the pricing formula discounts to one of the lowest prices on the board.",
    "whop": ""
   },
   {
