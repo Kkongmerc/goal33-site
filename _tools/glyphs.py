@@ -21,6 +21,14 @@ STRAT = {
     "ignition": '<path d="M12 3.4c-.5 2.5-2 3.8-3.4 5.3-1.5 1.6-2.4 3.2-2.4 5.2a5.8 5.8 0 0 0 11.6 0c0-2.5-1.3-4.3-2.9-6-1.2-1.3-2.4-2.6-2.9-4.5z"/>'
                 '<path d="M12 12.6c-1 1.3-2 2.2-2 3.6a2 2 0 0 0 4 0c0-1.4-1-2.3-2-3.6z"/>',
     "slipstream": '<path d="M3.5 8h11a2.8 2.8 0 1 0-2.6-3.8"/><path d="M3.5 12.5H18a3 3 0 1 1-2.8 4"/><path d="M3.5 17h7"/>',
+    # Tailwind — speed lines driving an arrow forward
+    "tailwind": '<path d="M4 7h8M4 12h11M4 17h6" opacity=".65"/><path d="M13 12h7"/><path d="M16.8 8.8 20 12l-3.2 3.2"/>',
+    # Relay — the baton pass: two opposing hand-off arrows
+    "relay": '<path d="M4 9h9"/><path d="M10.5 5.5 14 9l-3.5 3.5"/><path d="M20 15h-9"/><path d="M13.5 18.5 10 15l3.5-3.5"/>',
+    # Undertow — sweep down through the level, reclaim up
+    "undertow": '<path d="M4 10h16" opacity=".6"/><path d="M9 4v9.5"/><path d="M6.6 11 9 13.5 11.4 11"/><path d="M15 20V7.5"/><path d="M12.6 10 15 7.5 17.4 10"/>',
+    # Meridian — sun at zenith over the horizon line
+    "meridian": '<circle cx="12" cy="9" r="4"/><path d="M12 2.6v2.2M12 15.4V13"/><path d="M6.2 5.4l1.6 1.6M17.8 5.4l-1.6 1.6" opacity=".7"/><path d="M4 19h16"/>',
     # Spartacus — gladiator helm: dome, T-visor, crest
     "spartacus": '<path d="M6 20v-7a6 6 0 0 1 12 0v7"/><path d="M12 10v10"/><path d="M7.5 13.5h9"/><path d="M8 4.2c2.6-1.9 5.4-1.9 8 0"/>',
     # The Alloy — two metals fused: overlapping ingot diamonds

@@ -175,6 +175,92 @@
    "whop": "https://whop.com/goal33systems/aftershock-mnq"
   },
   {
+   "slug": "tailwind",
+   "name": "Tailwind",
+   "actual": "MNQ FVG Continuation Two-Stage",
+   "meta": "MNQ · day + evening — FVG continuation, two-stage exits",
+   "window": "05 Jan 2026 - 21 Aug 2026",
+   "best": {
+    "label": "Best window — 05 Jan 2026 - 21 Aug 2026 (validation-board method)",
+    "stats": {
+     "RoDD": "30.16",
+     "PF": "2.25",
+     "Win": "78.4%",
+     "Net": "$53.2k",
+     "Max DD": "$1.8k",
+     "Trades": "974",
+     "$/trade": "$55",
+     "Months": "8",
+     "RoDD/mo": "4.02"
+    }
+   },
+   "full": {
+    "label": "Full record (01 Jan 2025 - 21 Aug 2026)",
+    "stats": {
+     "RoDD": "5.81",
+     "PF": "1.47",
+     "Win": "74.8%",
+     "Net": "$55.4k",
+     "Max DD": "$9.5k",
+     "Trades": "2,005",
+     "$/trade": "$28",
+     "Months": "20",
+     "RoDD/mo": "0.30"
+    }
+   },
+   "price": 699,
+   "legs": [],
+   "sep": [
+    "The fair-value-gap continuation rebuilt on the book's own one-minute engine - two-stage exits and a break-even latch on favorable excursion.",
+    "$53.2k best-window net across 974 trades at 78.4% wins."
+   ],
+   "warn": "Same edge family as Slipstream - the two are correlated, not independent, so owning both concentrates exposure rather than diversifying it. Trade counts are exit legs (two per position), and the full record's $9.5k drawdown shows what this edge did outside the 2026 window its current configuration was tuned in.",
+   "whop": ""
+  },
+  {
+   "slug": "relay",
+   "name": "Relay",
+   "actual": "MNQ 08:30 Range Fade V6 All-Days",
+   "meta": "MNQ · 08:30 ET — the range fade, five days a week",
+   "window": "01 May 2025 - 21 Aug 2026",
+   "best": {
+    "label": "Best window — 01 May 2025 - 21 Aug 2026 (validation-board method)",
+    "stats": {
+     "RoDD": "27.85",
+     "PF": "2.37",
+     "Win": "64.8%",
+     "Net": "$68.9k",
+     "Max DD": "$2.5k",
+     "Trades": "509",
+     "$/trade": "$135",
+     "Months": "16",
+     "RoDD/mo": "1.77"
+    }
+   },
+   "full": {
+    "label": "Full record (02 Jan 2025 - 21 Aug 2026)",
+    "stats": {
+     "RoDD": "19.37",
+     "PF": "2.11",
+     "Win": "63.5%",
+     "Net": "$75.2k",
+     "Max DD": "$3.9k",
+     "Trades": "627",
+     "$/trade": "$120",
+     "Months": "20",
+     "RoDD/mo": "0.99"
+    }
+   },
+   "price": 649,
+   "legs": [],
+   "sep": [
+    "Runs the 08:30 range fade every trading day: the Mon/Wed/Fri vector and a separate Tue/Thu vector, combined in one script.",
+    "27.85x return on max drawdown across 509 best-window trades."
+   ],
+   "warn": "Shares its Mon/Wed/Fri vector with Aftershock - running both doubles that exposure rather than diversifying it. The Tue/Thu vector's first independent tape reproduction is this record itself, the configuration was finalized in Aug 2026 inside the record's own window, and one live morning where a touched fade level did not fill (26 Aug 2026) is still under review.",
+   "whop": ""
+  },
+  {
    "slug": "slipstream",
    "name": "Slipstream",
    "actual": "MNQ FVG Continuation 10m",
@@ -259,6 +345,92 @@
    ],
    "warn": "Selective by design: the published best window holds 66 trades - a far smaller sample than our high-frequency legs, and the pricing formula discounts it accordingly. Treat it as a low-frequency, high-conviction leg, not a volume engine.",
    "whop": "https://whop.com/goal33systems/ignition-nq"
+  },
+  {
+   "slug": "undertow",
+   "name": "Undertow",
+   "actual": "MNQ Overnight Level Reclaim 5m",
+   "meta": "MNQ · overnight — the five-minute level sweep and reclaim",
+   "window": "02 Jan 2026 - 31 Jul 2026",
+   "best": {
+    "label": "Best window — 02 Jan 2026 - 31 Jul 2026 (validation-board method)",
+    "stats": {
+     "RoDD": "17.30",
+     "PF": "1.89",
+     "Win": "73.9%",
+     "Net": "$25.1k",
+     "Max DD": "$1.5k",
+     "Trades": "303",
+     "$/trade": "$83",
+     "Months": "7",
+     "RoDD/mo": "2.51"
+    }
+   },
+   "full": {
+    "label": "Full record (03 Jan 2025 - 25 Aug 2026)",
+    "stats": {
+     "RoDD": "4.72",
+     "PF": "1.34",
+     "Win": "66.4%",
+     "Net": "$30.0k",
+     "Max DD": "$6.4k",
+     "Trades": "765",
+     "$/trade": "$39",
+     "Months": "20",
+     "RoDD/mo": "0.24"
+    }
+   },
+   "price": 419,
+   "legs": [],
+   "sep": [
+    "Trades the overnight sweep of a mapped level and the reclaim that follows - entering where stops were just cleared.",
+    "73.9% wins across 303 best-window trades."
+   ],
+   "warn": "The full record's drawdown is a different world from the 2026 window ($6.4k vs $1.5k): the current configuration was re-optimized in Aug 2026 and its strength is concentrated in 2026. Size from the full record, not the best window.",
+   "whop": ""
+  },
+  {
+   "slug": "meridian",
+   "name": "Meridian",
+   "actual": "MNQ 13:00 Confirmed Fade",
+   "meta": "MNQ · 13:00 ET — the early-afternoon confirmed fade",
+   "window": "01 Jul 2025 - 24 Aug 2026",
+   "best": {
+    "label": "Best window — 01 Jul 2025 - 24 Aug 2026 (validation-board method)",
+    "stats": {
+     "RoDD": "16.26",
+     "PF": "2.64",
+     "Win": "82.5%",
+     "Net": "$9.9k",
+     "Max DD": "$0.6k",
+     "Trades": "348",
+     "$/trade": "$29",
+     "Months": "14",
+     "RoDD/mo": "1.18"
+    }
+   },
+   "full": {
+    "label": "Full record (27 Jan 2025 - 24 Aug 2026)",
+    "stats": {
+     "RoDD": "11.01",
+     "PF": "2.00",
+     "Win": "77.5%",
+     "Net": "$10.6k",
+     "Max DD": "$1.0k",
+     "Trades": "498",
+     "$/trade": "$21",
+     "Months": "19",
+     "RoDD/mo": "0.58"
+    }
+   },
+   "price": 399,
+   "legs": [],
+   "sep": [
+    "Waits for the 13:00 move to confirm against itself, then fades it - one placement a session, two-stage exits.",
+    "82.5% best-window wins at a 2.64 profit factor."
+   ],
+   "warn": "Trade counts are exit legs - the two-stage exits book two rows per placement, so 348 best-window trades is roughly 174 session placements. The configuration was hand-tuned in Aug 2026 on the same history this record covers.",
+   "whop": ""
   }
  ],
  "books": [],

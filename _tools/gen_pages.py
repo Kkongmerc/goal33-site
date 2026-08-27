@@ -223,10 +223,16 @@ HELD_FULL = {
     "12h+": "held over 12 hours",
 }
 
+LOG_ROW_CAP = 600  # most recent closed trades rendered; DOM/page-weight budget (midas at full
+                   # depth shipped a 497KB / ~46k-node table). Stats, equity and calendar always
+                   # cover the whole record - only the granular log is depth-capped.
+
 def trades_table(tr, slug):
     """Entries, exits, the trade's net, and a running account ledger.
     The ledger is cumulative net from zero - the record carries no opening
-    balance, so starting anywhere else would be inventing a number."""
+    balance, so starting anywhere else would be inventing a number. The ledger
+    accumulates over the WHOLE record even when only the newest LOG_ROW_CAP
+    rows render, so the Account column always matches the published totals."""
     rows = ""
     n = len(tr["trades"])
     # walk forward to accumulate, then render newest-first
@@ -234,7 +240,8 @@ def trades_table(tr, slug):
     for day, epx, xpx, pnl in tr["trades"]:
         running += pnl
         ledger.append(running)
-    for i in range(n - 1, -1, -1):
+    first_shown = max(0, n - LOG_ROW_CAP)
+    for i in range(n - 1, first_shown - 1, -1):
         day, epx, xpx, pnl = tr["trades"][i]
         cls = "tv-pos" if pnl > 0 else ("tv-neg" if pnl < 0 else "")
         acc = ledger[i]
@@ -244,15 +251,25 @@ def trades_table(tr, slug):
                  f'<td>{xpx if xpx is not None else "&mdash;"}</td>'
                  f'<td class="{cls}">${pnl:,.2f}</td>'
                  f'<td class="lt-acc {acls}">${acc:,.2f}</td></tr>')
+    shown = n - first_shown
+    if shown < n:
+        span_note = (f'Most recent {shown:,} of {n:,} closed trades (from '
+                     f'{esc(tr["trades"][first_shown][0])}) &middot; every stat, the equity curve and the '
+                     f'calendar cover the full record')
+        caption = (f'Most recent {shown:,} closed trades of the validated record, newest first, '
+                   f'with a running account ledger over the full record')
+    else:
+        span_note = 'Every closed trade in the validated record'
+        caption = 'Every closed trade in the validated record, newest first, with a running account ledger'
     return f"""<div class="tvt-pane tvt-lt">
     <div class="screener lt-scroll" tabindex="0" role="region" aria-label="Trade log, scrolls">
     <table class="tvt-table lt-table">
-      <caption class="sr-only">Every closed trade in the validated record, newest first, with a running account ledger</caption>
+      <caption class="sr-only">{caption}</caption>
       <thead><tr><th scope="col">#</th><th scope="col">Day</th><th scope="col">Entry</th><th scope="col">Exit</th><th scope="col">Net P&amp;L</th><th scope="col">Account</th></tr></thead>
       <tbody>{rows}</tbody>
     </table>
     </div>
-    <p class="tvt-note">Newest first &middot; Account is cumulative net from zero.</p>
+    <p class="tvt-note">{span_note} &middot; Newest first &middot; Account is cumulative net from zero.</p>
   </div>"""
 
 def calendar_real(tr):
