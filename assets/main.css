@@ -5268,3 +5268,12 @@ a.pr-name[class*="fc-"]:hover { color: var(--fc-hi); }
 .sx-t th.sx-s { width: 11%; }
 .sx-t th.sx-p { width: 11%; }
 .sx-t td.sx-s, .sx-t th.sx-s { text-align: right; padding-left: 0.6rem; }
+
+/* r4.9 fix 2: the column boxes show themselves - a faint separator
+   line runs the full height of the table between the stat columns,
+   in the same hairline as the title rule. And RoDD drops its size
+   bump: same size as the rest, still green and bold. */
+.sx-t td.sx-rodd { font-size: 0.84rem; }
+.sx-t th.sx-rodd, .sx-t td.sx-rodd,
+.sx-t th.sx-f:not(.sx-rodd), .sx-t td.sx-f:not(.sx-rodd),
+.sx-t th.sx-s, .sx-t td.sx-s { border-left: 1px solid rgba(232, 234, 236, .08); }
