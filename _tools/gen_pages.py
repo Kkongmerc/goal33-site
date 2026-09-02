@@ -483,11 +483,19 @@ def real_chart(p, tr):
     overlapping bottom band on their own scale, the day strip under the axis, right-side comma
     ticks with the current-value pill, dotted grid, nothing clipped."""
     from datetime import datetime as _dt, timedelta as _td
-    eq = tr["equity"]                       # [(YYYY-MM-DD, cum), ...]
+    # owner 2026-09-03 (Lantern: "the site included everything behind it that made its leg perform
+    # worse"): the chart plots the BEST WINDOW only, re-based to 0 at its start, never the full record.
+    bs_, be_ = tr["best"]["start"], tr["best"]["end"]
+    eq = [(d, v) for d, v in tr["equity"] if bs_ <= d <= be_]
+    if eq:
+        base = 0.0
+        prior = [v for d, v in tr["equity"] if d < bs_]
+        base = prior[-1] if prior else 0.0
+        eq = [(d, v - base) for d, v in eq]
     ts = [_dt.strptime(d, "%Y-%m-%d") for d, _ in eq]
     ys = [v for _, v in eq]
-    rows = _rows_of(tr)
-    t0 = _dt.strptime(tr["full"]["start"], "%Y-%m-%d") - _td(days=1)   # the origin: 0 at the far left
+    rows, _exact = _window_rows(tr, "best")
+    t0 = _dt.strptime(bs_, "%Y-%m-%d") - _td(days=1)   # the origin: 0 at the window's start
     t1 = ts[-1]
     ts = [t0] + ts; ys = [0.0] + ys
     tspan = max(1.0, (t1 - t0).total_seconds())
@@ -912,7 +920,7 @@ def tester_block(p):
     basis = (f'Figures: best window {_tvr_date(ws)} &rarr; {_tvr_date(we)} ({a["n"]:,} closed trades)' if exact
              else f'Figures: full record ({a["n"]:,} closed trades)')
     caption = (f'{basis} at Multiplier {mult}, stated against {INITIAL_CAPITAL/1000:.0f} K USD initial capital. '
-               f'Chart: the full record, {_tvr_date(fs)} &rarr; {_tvr_date(fe)} ({tr["full"]["n"]:,} trades). '
+               f'Chart: the best window, {_tvr_date(ws)} &rarr; {_tvr_date(we)} ({a["n"]:,} trades); the full record ({_tvr_date(fs)} &rarr; {_tvr_date(fe)}, {tr["full"]["n"]:,} trades) is in the List of trades. '
                f'Commissions and slippage modeled.')
     return f"""<div class="tvt tvr" id="tester">
   <input type="radio" name="tvt-{slug}" id="tvt-{slug}-ov" class="tvt-r" checked>

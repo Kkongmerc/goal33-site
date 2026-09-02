@@ -400,8 +400,8 @@ page = f"""<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
-<title>FuturesTradingBots — MNQ &amp; MGC futures strategies</title>
-<meta name="description" content="Futures strategies for MNQ and MGC, delivered as TradingView invite-only scripts. Best validated window and full record published for every strategy.">
+<title>Automated Futures Trading — AFT Trading Bots for Nasdaq, Gold, Dow, Russell &amp; S&amp;P Futures</title>
+<meta name="description" content="Automated futures trading strategies for Nasdaq (MNQ), gold (MGC), Dow (MYM), Russell 2000 (M2K), S&amp;P 500 (MES) and silver (SIL) micro futures: backtest-verified algorithmic trading bots delivered as TradingView invite-only scripts, every trade published. Activated to your TradingView username within 24 hours.">
 <link rel="canonical" href="https://futurestradingbots.com/">
 <meta name="theme-color" content="#131722">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -439,16 +439,15 @@ page = f"""<!doctype html>
 <main class="sx-main" id="main">
   <div class="sx-hero">
     <div class="sx-hero-copy">
-      <h1 class="sx-hero-h1">Strategies engineered to be <span class="hl">measured</span>, not believed.</h1>
-      <p class="sx-lede">{len(S)} futures strategies for MNQ and MGC, sold as TradingView invite-only scripts
-      and activated to your TradingView username within 24 hours.</p>
-      <p class="sx-cta">Select any of the profitable strategies below to see the trade details and results.</p>
+      <h1 class="sx-hero-h1">Automated <span class="hl">Futures Trading</span></h1>
+      <p class="sx-tag">Unmatched automated trading strategies for Nasdaq, gold, Dow, Russell and S&amp;P futures. Backtest-verified algorithmic trading bots that run on your own TradingView account, every trade published, nothing hidden.</p>
+      <p class="sx-lede">{len(S)} automated futures trading strategies live today on MNQ and MGC, with Dow, Russell, S&amp;P and silver strategies in TradingView validation below, all delivered as TradingView invite-only scripts and live on your TradingView username within 24 hours. Return on drawdown is the number every strategy is ranked and priced on.</p>
+      <p class="sx-cta">Pick a strategy below to see its Strategy Tester report, monthly calendars and every trade.</p>
       <p class="sx-note">Figures below are each strategy&rsquo;s best validated window, commissions and slippage modeled.
       The full record, good or ugly, is published on every specification page. Ranked by average monthly return
       on drawdown (RoDD/mo) &mdash; return on drawdown = net profit &divide; maximum drawdown over the window,
       shown per month of the record. Avg Monthly Profit = the window&rsquo;s closed-trade net profit divided by
       its months, at the shown multiplier. Win Rate and Profit Factor are the window&rsquo;s closed-trade figures.</p>
-      <p class="sx-promo">{esc(PROMO_LINE)}</p>
     </div>
     <div class="coverflow" aria-label="Flagship strategies">{cf_block()}</div>
   </div>
@@ -472,7 +471,6 @@ page = f"""<!doctype html>
   All {len(S)} strategies under one subscription: <a href="/strategies/all-access.html">All-Access — ${CAT["bundles"]["all_access"]["price"]} / mo</a>.
   {("(" + esc(CAT["bundles"]["all_access"]["prepay"]["line"]) + ".) ") if CAT["bundles"]["all_access"].get("prepay") else ""}Not sure where to start: <a href="/plan.html">the plan finder</a> ranks them against your drawdown budget.</p>
 
-  <p class="sx-promo">{esc(PROMO_LINE)}</p>
 
 </main>
 

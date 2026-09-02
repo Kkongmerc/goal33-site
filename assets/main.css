@@ -297,7 +297,8 @@ header {
 /* the wordmark carries three text lines (AFT / ALL FLUENCE TRADING / WE ARE
    THE EDGE); at 40px the lower two were unreadable, so the lockup is sized
    up and --header-h grows with it (every sticky offset derives from that
-   token, so they follow automatically). */
+   token, so they follow automatically). Sized by WIDTH with height:auto —
+   an explicit height plus max-width clipped the wordmark on narrow screens. */
 .brand-logo { display: block; width: min(227px, 62vw); height: auto; }
 
 .brand small {
@@ -1567,9 +1568,8 @@ section { border-bottom: 1px solid var(--line); padding: var(--sp-6) 0; }
 
 /* ── footer ────────────────────────────────────────────────── */
 footer { padding: var(--sp-7) 0; }
-/* sized by WIDTH with height:auto — an explicit height plus max-width
-   clipped the wordmark on narrow screens. 394px = 104px tall at the
-   image's 985x260 aspect. */
+/* 394px = 104px tall at the image's 985x260 aspect; width-sized for the
+   same reason as .brand-logo above. */
 .foot-logo { display: block; width: min(394px, 100%); height: auto; margin-bottom: var(--sp-4); }
 
 .foot-links {
@@ -5838,6 +5838,11 @@ body, .sx-doc { font-family: var(--sans); }
 .sx-t th.sx-s, .sx-t td.sx-s { width: 8.4rem; white-space: normal; }
 .sx-t-wide td.sx-net, .sx-t-wide td.sx-f { overflow: visible; text-overflow: clip; }
 .sx-t td.sx-n { overflow: hidden; }
+/* owner 2026-09-03: index hero rewrite */
+.sx-tag { font-size: 1.15rem; line-height: 1.45; color: #C6CAD2; max-width: 62ch; margin: .4rem 0 .9rem; font-weight: 500; }
+.sx-hero-h1 { text-wrap: balance; }
+.sx-hero-copy .sx-tag { font-size: 1.45rem; line-height: 1.35; color: #fff; font-weight: 600; max-width: 30ch; }
+.sx-hero-copy .sx-lede { font-size: 1.02rem; line-height: 1.5; color: #B2B5BE; max-width: 60ch; }
 
 /* r6.1 (re-applied on the merged stream) — OUR GREEN, NOT THAT
    BLUE, and the brightest grey a notch darker. Accent literals
