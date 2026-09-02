@@ -13,6 +13,7 @@ Trios are the top three of the same sort, bought solo. Nav/footer mirror
 gen_pages.py — keep them in sync when either changes.
 """
 import json, os, sys, html, hashlib
+from glyphs import glyph
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 BASE = os.path.dirname(_HERE)
@@ -95,8 +96,8 @@ def stat_strip(p):
 def single_card(p, tkey, alt):
     alt_line = (f'<p class="pr-alt">Runner-up: <a href="/strategies/{alt["slug"]}.html">{esc(alt["name"])}</a>'
                 f' — {pct(bs(alt,"RoDD"))} RoDD, {bs(alt,"Win")} win, {bs(alt,"Max DD")} max drawdown.</p>') if alt else ""
-    return f"""<div class="pr-card">
-      <div class="pr-head"><div class="pr-id">
+    return f"""<div class="pr-card fc-{p['slug']}">
+      <div class="pr-head"><span class="pr-gchip">{glyph(p['slug'], 'glyph g-plan')}</span><div class="pr-id">
         <a class="pr-name" href="/strategies/{p['slug']}.html">{esc(p['name'])}</a>
         <span class="pr-real">{esc(p['actual'])}</span></div>
         <div class="pr-price">${p['price']}<small>/mo</small></div>
@@ -115,7 +116,7 @@ def trio_rows(trio, slots=3):
     left visibly blank rather than filled with something that does not fit."""
     rows = ""
     for p in trio:
-        rows += (f'<li><a class="pr-name" href="/strategies/{p["slug"]}.html">{esc(p["name"])}</a>'
+        rows += (f'<li>{glyph(p["slug"], "glyph g-row")}<a class="pr-name fc-{p["slug"]}" href="/strategies/{p["slug"]}.html">{esc(p["name"])}</a>'
                  f'<span class="pr-real">{esc(p["actual"])}</span>'
                  f'<span class="pr-mini">{pct(bs(p,"RoDD"))} RoDD · {bs(p,"Win")} win · {bs(p,"Max DD")} DD</span>'
                  f'<span class="pr-solo">${p["price"]}</span></li>')
@@ -213,7 +214,7 @@ fleet_big = f"""<div class="pr" id="r-s3-big">
 books_live = sorted([p for p in S if p.get("legs")], key=lambda x: -x["price"])
 if books_live:
     book_rows = "".join(
-        f'<li><a class="pr-name" href="/strategies/{p["slug"]}.html">{esc(p["name"])}</a>'
+        f'<li>{glyph(p["slug"], "glyph g-row")}<a class="pr-name fc-{p["slug"]}" href="/strategies/{p["slug"]}.html">{esc(p["name"])}</a>'
         f'<span class="pr-real">{esc(p["actual"])}</span>'
         f'<span class="pr-mini">{pct(bs(p,"RoDD"))} RoDD · {bs(p,"Win")} win · {len(p["legs"])} legs</span>'
         f'<span class="pr-solo">${p["price"]}</span></li>' for p in books_live)
@@ -408,18 +409,24 @@ page = f"""<!DOCTYPE html>
 
   <div class="wrap">
     <div id="plan">
-      <div class="plan-prog" aria-hidden="true"><span class="pp pp-1"></span><span class="pp pp-2"></span><span class="pp pp-3"></span><span class="pp pp-4"></span></div>
       <div class="plan-qs">
       {qs}
-      </div>
-      <section class="plan-results" aria-live="polite">
-        {panels}
-        {fleet_small}
-        {fleet_big}
-        {books_panel}
-        {pmt_panel}
-      </section>
       <p class="plan-update">change any answer &mdash; the recommendation updates instantly</p>
+      </div>
+      <div class="plan-side">
+        <aside class="plan-wait">
+          <span class="pw-label">Your recommendation</span>
+          <div class="pw-bar" role="progressbar" aria-label="Questionnaire progress"><i></i></div>
+          <span class="pw-note">builds here as you answer</span>
+        </aside>
+        <section class="plan-results" aria-live="polite">
+          {panels}
+          {fleet_small}
+          {fleet_big}
+          {books_panel}
+          {pmt_panel}
+        </section>
+      </div>
     </div>
   </div>
 </main>

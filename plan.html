@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Fragment+Mono&display=swap">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/assets/main.css?v=7ec5894f">
+<link rel="stylesheet" href="/assets/main.css?v=1e61037a">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -61,7 +61,6 @@
 
   <div class="wrap">
     <div id="plan">
-      <div class="plan-prog" aria-hidden="true"><span class="pp pp-1"></span><span class="pp pp-2"></span><span class="pp pp-3"></span><span class="pp pp-4"></span></div>
       <div class="plan-qs">
       
       <input type="checkbox" id="ed-scope" class="pq-edit">
@@ -97,10 +96,17 @@
         <label class="pq-close" for="ed-exec">done</label>
       </fieldset>
 
+      <p class="plan-update">change any answer &mdash; the recommendation updates instantly</p>
       </div>
-      <section class="plan-results" aria-live="polite">
-        <div class="pr" id="r-s1-b1-t1"><div class="pr-card">
-      <div class="pr-head"><div class="pr-id">
+      <div class="plan-side">
+        <aside class="plan-wait">
+          <span class="pw-label">Your recommendation</span>
+          <div class="pw-bar" role="progressbar" aria-label="Questionnaire progress"><i></i></div>
+          <span class="pw-note">builds here as you answer</span>
+        </aside>
+        <section class="plan-results" aria-live="polite">
+          <div class="pr" id="r-s1-b1-t1"><div class="pr-card fc-kilo">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.2 9h9.6l2.7 7.8H4.5z"/><path d="M9.3 6.2h5.4l1 2.8H8.3z" opacity=".65"/></svg></span><div class="pr-id">
         <a class="pr-name" href="/strategies/kilo.html">The Kilo</a>
         <span class="pr-real">MGC Tokyo Open (TOCOM)</span></div>
         <div class="pr-price">$219<small>/mo</small></div>
@@ -118,7 +124,7 @@
         <span class="pr-real">the highest win rates that fit your drawdown budget</span></div>
         <div class="pr-price">$787<small>/mo total</small></div>
       </div>
-      <ul class="pr-trio"><li><a class="pr-name" href="/strategies/kilo.html">The Kilo</a><span class="pr-real">MGC Tokyo Open (TOCOM)</span><span class="pr-mini">1,172% RoDD · 85.6% win · $0.5k DD</span><span class="pr-solo">$219</span></li><li><a class="pr-name" href="/strategies/meridian.html">The Pendulum</a><span class="pr-real">MNQ 13:00 Confirmed Fade</span><span class="pr-mini">1,626% RoDD · 82.5% win · $0.6k DD</span><span class="pr-solo">$399</span></li><li><a class="pr-name" href="/strategies/greenwich.html">The Fix</a><span class="pr-real">MGC London Breakout</span><span class="pr-mini">1,090% RoDD · 81.4% win · $0.5k DD</span><span class="pr-solo">$169</span></li></ul>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.2 9h9.6l2.7 7.8H4.5z"/><path d="M9.3 6.2h5.4l1 2.8H8.3z" opacity=".65"/></svg><a class="pr-name fc-kilo" href="/strategies/kilo.html">The Kilo</a><span class="pr-real">MGC Tokyo Open (TOCOM)</span><span class="pr-mini">1,172% RoDD · 85.6% win · $0.5k DD</span><span class="pr-solo">$219</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.4" r="1.1"/><path d="M12 5.4 16.6 15"/><circle cx="17.6" cy="17.2" r="2.5"/><path d="M6 14.6a10 10 0 0 0 4 4.2"/></svg><a class="pr-name fc-meridian" href="/strategies/meridian.html">The Pendulum</a><span class="pr-real">MNQ 13:00 Confirmed Fade</span><span class="pr-mini">1,626% RoDD · 82.5% win · $0.6k DD</span><span class="pr-solo">$399</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4.2v13.3"/><path d="M9 19.5h6"/><path d="M5.5 7h13"/><path d="M5.5 7 3.4 11.4M5.5 7l2.1 4.4"/><path d="M2.8 11.4a2.7 2.7 0 0 0 5.4 0z"/><path d="M18.5 7l-2.1 4.4M18.5 7l2.1 4.4"/><path d="M15.8 11.4a2.7 2.7 0 0 0 5.4 0z"/></svg><a class="pr-name fc-greenwich" href="/strategies/greenwich.html">The Fix</a><span class="pr-real">MGC London Breakout</span><span class="pr-mini">1,090% RoDD · 81.4% win · $0.5k DD</span><span class="pr-solo">$169</span></li></ul>
       <p class="pr-why">Chosen by the same rule the shelf is ranked by: the highest win rates whose deeper published
       drawdown still fits what you said you can hold. Each is its own subscription &mdash; add or drop any
       of them month to month.</p>
@@ -126,8 +132,8 @@
         <a class="btn btn-buy" href="/">Open the catalog</a>
       </div>
     </div></div>
-<div class="pr" id="r-s1-b1-t2"><div class="pr-card">
-      <div class="pr-head"><div class="pr-id">
+<div class="pr" id="r-s1-b1-t2"><div class="pr-card fc-continuum">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg></span><div class="pr-id">
         <a class="pr-name" href="/strategies/continuum.html">Continuum</a>
         <span class="pr-real">MNQ 24H Multi-Leg Book</span></div>
         <div class="pr-price">$909<small>/mo</small></div>
@@ -145,7 +151,7 @@
         <span class="pr-real">the highest RoDD that fit your drawdown budget</span></div>
         <div class="pr-price">$2,257<small>/mo total</small></div>
       </div>
-      <ul class="pr-trio"><li><a class="pr-name" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">3,920% RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li><li><a class="pr-name" href="/strategies/aftershock.html">Aftershock</a><span class="pr-real">MNQ 08:30 Range Fade V4</span><span class="pr-mini">3,159% RoDD · 60.4% win · $1.7k DD</span><span class="pr-solo">$699</span></li><li><a class="pr-name" href="/strategies/relay.html">Headline Risk</a><span class="pr-real">MNQ 08:30 Range Fade V6 All-Days</span><span class="pr-mini">2,785% RoDD · 64.8% win · $2.5k DD</span><span class="pr-solo">$649</span></li></ul>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg><a class="pr-name fc-continuum" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">3,920% RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 14.5h3.4l2-8.2 3 12.4 2.4-9 1.6 4.8H21"/></svg><a class="pr-name fc-aftershock" href="/strategies/aftershock.html">Aftershock</a><span class="pr-real">MNQ 08:30 Range Fade V4</span><span class="pr-mini">3,159% RoDD · 60.4% win · $1.7k DD</span><span class="pr-solo">$699</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="1"/><rect x="7" y="8" width="5.6" height="4"/><path d="M15.4 8.8h1.8M15.4 11.4h1.8M7 15.8h10"/></svg><a class="pr-name fc-relay" href="/strategies/relay.html">Headline Risk</a><span class="pr-real">MNQ 08:30 Range Fade V6 All-Days</span><span class="pr-mini">2,785% RoDD · 64.8% win · $2.5k DD</span><span class="pr-solo">$649</span></li></ul>
       <p class="pr-why">Chosen by the same rule the shelf is ranked by: the highest RoDD whose deeper published
       drawdown still fits what you said you can hold. Each is its own subscription &mdash; add or drop any
       of them month to month.</p>
@@ -153,8 +159,8 @@
         <a class="btn btn-buy" href="/">Open the catalog</a>
       </div>
     </div></div>
-<div class="pr" id="r-s1-b1-t3"><div class="pr-card">
-      <div class="pr-head"><div class="pr-id">
+<div class="pr" id="r-s1-b1-t3"><div class="pr-card fc-continuum">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg></span><div class="pr-id">
         <a class="pr-name" href="/strategies/continuum.html">Continuum</a>
         <span class="pr-real">MNQ 24H Multi-Leg Book</span></div>
         <div class="pr-price">$909<small>/mo</small></div>
@@ -172,7 +178,7 @@
         <span class="pr-real">the largest published nets that fit your drawdown budget</span></div>
         <div class="pr-price">$2,257<small>/mo total</small></div>
       </div>
-      <ul class="pr-trio"><li><a class="pr-name" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">3,920% RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li><li><a class="pr-name" href="/strategies/relay.html">Headline Risk</a><span class="pr-real">MNQ 08:30 Range Fade V6 All-Days</span><span class="pr-mini">2,785% RoDD · 64.8% win · $2.5k DD</span><span class="pr-solo">$649</span></li><li><a class="pr-name" href="/strategies/aftershock.html">Aftershock</a><span class="pr-real">MNQ 08:30 Range Fade V4</span><span class="pr-mini">3,159% RoDD · 60.4% win · $1.7k DD</span><span class="pr-solo">$699</span></li></ul>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg><a class="pr-name fc-continuum" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">3,920% RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="1"/><rect x="7" y="8" width="5.6" height="4"/><path d="M15.4 8.8h1.8M15.4 11.4h1.8M7 15.8h10"/></svg><a class="pr-name fc-relay" href="/strategies/relay.html">Headline Risk</a><span class="pr-real">MNQ 08:30 Range Fade V6 All-Days</span><span class="pr-mini">2,785% RoDD · 64.8% win · $2.5k DD</span><span class="pr-solo">$649</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 14.5h3.4l2-8.2 3 12.4 2.4-9 1.6 4.8H21"/></svg><a class="pr-name fc-aftershock" href="/strategies/aftershock.html">Aftershock</a><span class="pr-real">MNQ 08:30 Range Fade V4</span><span class="pr-mini">3,159% RoDD · 60.4% win · $1.7k DD</span><span class="pr-solo">$699</span></li></ul>
       <p class="pr-why">Chosen by the same rule the shelf is ranked by: the largest published nets whose deeper published
       drawdown still fits what you said you can hold. Each is its own subscription &mdash; add or drop any
       of them month to month.</p>
@@ -180,8 +186,8 @@
         <a class="btn btn-buy" href="/">Open the catalog</a>
       </div>
     </div></div>
-<div class="pr" id="r-s1-b2-t1"><div class="pr-card">
-      <div class="pr-head"><div class="pr-id">
+<div class="pr" id="r-s1-b2-t1"><div class="pr-card fc-kilo">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.2 9h9.6l2.7 7.8H4.5z"/><path d="M9.3 6.2h5.4l1 2.8H8.3z" opacity=".65"/></svg></span><div class="pr-id">
         <a class="pr-name" href="/strategies/kilo.html">The Kilo</a>
         <span class="pr-real">MGC Tokyo Open (TOCOM)</span></div>
         <div class="pr-price">$219<small>/mo</small></div>
@@ -199,7 +205,7 @@
         <span class="pr-real">the highest win rates that fit your drawdown budget</span></div>
         <div class="pr-price">$787<small>/mo total</small></div>
       </div>
-      <ul class="pr-trio"><li><a class="pr-name" href="/strategies/kilo.html">The Kilo</a><span class="pr-real">MGC Tokyo Open (TOCOM)</span><span class="pr-mini">1,172% RoDD · 85.6% win · $0.5k DD</span><span class="pr-solo">$219</span></li><li><a class="pr-name" href="/strategies/meridian.html">The Pendulum</a><span class="pr-real">MNQ 13:00 Confirmed Fade</span><span class="pr-mini">1,626% RoDD · 82.5% win · $0.6k DD</span><span class="pr-solo">$399</span></li><li><a class="pr-name" href="/strategies/greenwich.html">The Fix</a><span class="pr-real">MGC London Breakout</span><span class="pr-mini">1,090% RoDD · 81.4% win · $0.5k DD</span><span class="pr-solo">$169</span></li></ul>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.2 9h9.6l2.7 7.8H4.5z"/><path d="M9.3 6.2h5.4l1 2.8H8.3z" opacity=".65"/></svg><a class="pr-name fc-kilo" href="/strategies/kilo.html">The Kilo</a><span class="pr-real">MGC Tokyo Open (TOCOM)</span><span class="pr-mini">1,172% RoDD · 85.6% win · $0.5k DD</span><span class="pr-solo">$219</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.4" r="1.1"/><path d="M12 5.4 16.6 15"/><circle cx="17.6" cy="17.2" r="2.5"/><path d="M6 14.6a10 10 0 0 0 4 4.2"/></svg><a class="pr-name fc-meridian" href="/strategies/meridian.html">The Pendulum</a><span class="pr-real">MNQ 13:00 Confirmed Fade</span><span class="pr-mini">1,626% RoDD · 82.5% win · $0.6k DD</span><span class="pr-solo">$399</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4.2v13.3"/><path d="M9 19.5h6"/><path d="M5.5 7h13"/><path d="M5.5 7 3.4 11.4M5.5 7l2.1 4.4"/><path d="M2.8 11.4a2.7 2.7 0 0 0 5.4 0z"/><path d="M18.5 7l-2.1 4.4M18.5 7l2.1 4.4"/><path d="M15.8 11.4a2.7 2.7 0 0 0 5.4 0z"/></svg><a class="pr-name fc-greenwich" href="/strategies/greenwich.html">The Fix</a><span class="pr-real">MGC London Breakout</span><span class="pr-mini">1,090% RoDD · 81.4% win · $0.5k DD</span><span class="pr-solo">$169</span></li></ul>
       <p class="pr-why">Chosen by the same rule the shelf is ranked by: the highest win rates whose deeper published
       drawdown still fits what you said you can hold. Each is its own subscription &mdash; add or drop any
       of them month to month.</p>
@@ -207,8 +213,8 @@
         <a class="btn btn-buy" href="/">Open the catalog</a>
       </div>
     </div></div>
-<div class="pr" id="r-s1-b2-t2"><div class="pr-card">
-      <div class="pr-head"><div class="pr-id">
+<div class="pr" id="r-s1-b2-t2"><div class="pr-card fc-continuum">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg></span><div class="pr-id">
         <a class="pr-name" href="/strategies/continuum.html">Continuum</a>
         <span class="pr-real">MNQ 24H Multi-Leg Book</span></div>
         <div class="pr-price">$909<small>/mo</small></div>
@@ -226,7 +232,7 @@
         <span class="pr-real">the highest RoDD that fit your drawdown budget</span></div>
         <div class="pr-price">$2,307<small>/mo total</small></div>
       </div>
-      <ul class="pr-trio"><li><a class="pr-name" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">3,920% RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li><li><a class="pr-name" href="/strategies/aftershock.html">Aftershock</a><span class="pr-real">MNQ 08:30 Range Fade V4</span><span class="pr-mini">3,159% RoDD · 60.4% win · $1.7k DD</span><span class="pr-solo">$699</span></li><li><a class="pr-name" href="/strategies/tailwind.html">The Alloy</a><span class="pr-real">MNQ FVG Continuation Two-Stage</span><span class="pr-mini">3,016% RoDD · 78.4% win · $1.8k DD</span><span class="pr-solo">$699</span></li></ul>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg><a class="pr-name fc-continuum" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">3,920% RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 14.5h3.4l2-8.2 3 12.4 2.4-9 1.6 4.8H21"/></svg><a class="pr-name fc-aftershock" href="/strategies/aftershock.html">Aftershock</a><span class="pr-real">MNQ 08:30 Range Fade V4</span><span class="pr-mini">3,159% RoDD · 60.4% win · $1.7k DD</span><span class="pr-solo">$699</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 5.5 13 10l-4.5 4.5L4 10z"/><path d="M15.5 9.5 20 14l-4.5 4.5L11 14z"/></svg><a class="pr-name fc-tailwind" href="/strategies/tailwind.html">The Alloy</a><span class="pr-real">MNQ FVG Continuation Two-Stage</span><span class="pr-mini">3,016% RoDD · 78.4% win · $1.8k DD</span><span class="pr-solo">$699</span></li></ul>
       <p class="pr-why">Chosen by the same rule the shelf is ranked by: the highest RoDD whose deeper published
       drawdown still fits what you said you can hold. Each is its own subscription &mdash; add or drop any
       of them month to month.</p>
@@ -234,8 +240,8 @@
         <a class="btn btn-buy" href="/">Open the catalog</a>
       </div>
     </div></div>
-<div class="pr" id="r-s1-b2-t3"><div class="pr-card">
-      <div class="pr-head"><div class="pr-id">
+<div class="pr" id="r-s1-b2-t3"><div class="pr-card fc-continuum">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg></span><div class="pr-id">
         <a class="pr-name" href="/strategies/continuum.html">Continuum</a>
         <span class="pr-real">MNQ 24H Multi-Leg Book</span></div>
         <div class="pr-price">$909<small>/mo</small></div>
@@ -253,7 +259,7 @@
         <span class="pr-real">the largest published nets that fit your drawdown budget</span></div>
         <div class="pr-price">$2,257<small>/mo total</small></div>
       </div>
-      <ul class="pr-trio"><li><a class="pr-name" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">3,920% RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li><li><a class="pr-name" href="/strategies/relay.html">Headline Risk</a><span class="pr-real">MNQ 08:30 Range Fade V6 All-Days</span><span class="pr-mini">2,785% RoDD · 64.8% win · $2.5k DD</span><span class="pr-solo">$649</span></li><li><a class="pr-name" href="/strategies/tailwind.html">The Alloy</a><span class="pr-real">MNQ FVG Continuation Two-Stage</span><span class="pr-mini">3,016% RoDD · 78.4% win · $1.8k DD</span><span class="pr-solo">$699</span></li></ul>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg><a class="pr-name fc-continuum" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">3,920% RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="1"/><rect x="7" y="8" width="5.6" height="4"/><path d="M15.4 8.8h1.8M15.4 11.4h1.8M7 15.8h10"/></svg><a class="pr-name fc-relay" href="/strategies/relay.html">Headline Risk</a><span class="pr-real">MNQ 08:30 Range Fade V6 All-Days</span><span class="pr-mini">2,785% RoDD · 64.8% win · $2.5k DD</span><span class="pr-solo">$649</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 5.5 13 10l-4.5 4.5L4 10z"/><path d="M15.5 9.5 20 14l-4.5 4.5L11 14z"/></svg><a class="pr-name fc-tailwind" href="/strategies/tailwind.html">The Alloy</a><span class="pr-real">MNQ FVG Continuation Two-Stage</span><span class="pr-mini">3,016% RoDD · 78.4% win · $1.8k DD</span><span class="pr-solo">$699</span></li></ul>
       <p class="pr-why">Chosen by the same rule the shelf is ranked by: the largest published nets whose deeper published
       drawdown still fits what you said you can hold. Each is its own subscription &mdash; add or drop any
       of them month to month.</p>
@@ -261,8 +267,8 @@
         <a class="btn btn-buy" href="/">Open the catalog</a>
       </div>
     </div></div>
-<div class="pr" id="r-s1-b3-t1"><div class="pr-card">
-      <div class="pr-head"><div class="pr-id">
+<div class="pr" id="r-s1-b3-t1"><div class="pr-card fc-kilo">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.2 9h9.6l2.7 7.8H4.5z"/><path d="M9.3 6.2h5.4l1 2.8H8.3z" opacity=".65"/></svg></span><div class="pr-id">
         <a class="pr-name" href="/strategies/kilo.html">The Kilo</a>
         <span class="pr-real">MGC Tokyo Open (TOCOM)</span></div>
         <div class="pr-price">$219<small>/mo</small></div>
@@ -280,7 +286,7 @@
         <span class="pr-real">the highest win rates that fit your drawdown budget</span></div>
         <div class="pr-price">$787<small>/mo total</small></div>
       </div>
-      <ul class="pr-trio"><li><a class="pr-name" href="/strategies/kilo.html">The Kilo</a><span class="pr-real">MGC Tokyo Open (TOCOM)</span><span class="pr-mini">1,172% RoDD · 85.6% win · $0.5k DD</span><span class="pr-solo">$219</span></li><li><a class="pr-name" href="/strategies/meridian.html">The Pendulum</a><span class="pr-real">MNQ 13:00 Confirmed Fade</span><span class="pr-mini">1,626% RoDD · 82.5% win · $0.6k DD</span><span class="pr-solo">$399</span></li><li><a class="pr-name" href="/strategies/greenwich.html">The Fix</a><span class="pr-real">MGC London Breakout</span><span class="pr-mini">1,090% RoDD · 81.4% win · $0.5k DD</span><span class="pr-solo">$169</span></li></ul>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.2 9h9.6l2.7 7.8H4.5z"/><path d="M9.3 6.2h5.4l1 2.8H8.3z" opacity=".65"/></svg><a class="pr-name fc-kilo" href="/strategies/kilo.html">The Kilo</a><span class="pr-real">MGC Tokyo Open (TOCOM)</span><span class="pr-mini">1,172% RoDD · 85.6% win · $0.5k DD</span><span class="pr-solo">$219</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.4" r="1.1"/><path d="M12 5.4 16.6 15"/><circle cx="17.6" cy="17.2" r="2.5"/><path d="M6 14.6a10 10 0 0 0 4 4.2"/></svg><a class="pr-name fc-meridian" href="/strategies/meridian.html">The Pendulum</a><span class="pr-real">MNQ 13:00 Confirmed Fade</span><span class="pr-mini">1,626% RoDD · 82.5% win · $0.6k DD</span><span class="pr-solo">$399</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4.2v13.3"/><path d="M9 19.5h6"/><path d="M5.5 7h13"/><path d="M5.5 7 3.4 11.4M5.5 7l2.1 4.4"/><path d="M2.8 11.4a2.7 2.7 0 0 0 5.4 0z"/><path d="M18.5 7l-2.1 4.4M18.5 7l2.1 4.4"/><path d="M15.8 11.4a2.7 2.7 0 0 0 5.4 0z"/></svg><a class="pr-name fc-greenwich" href="/strategies/greenwich.html">The Fix</a><span class="pr-real">MGC London Breakout</span><span class="pr-mini">1,090% RoDD · 81.4% win · $0.5k DD</span><span class="pr-solo">$169</span></li></ul>
       <p class="pr-why">Chosen by the same rule the shelf is ranked by: the highest win rates whose deeper published
       drawdown still fits what you said you can hold. Each is its own subscription &mdash; add or drop any
       of them month to month.</p>
@@ -288,8 +294,8 @@
         <a class="btn btn-buy" href="/">Open the catalog</a>
       </div>
     </div></div>
-<div class="pr" id="r-s1-b3-t2"><div class="pr-card">
-      <div class="pr-head"><div class="pr-id">
+<div class="pr" id="r-s1-b3-t2"><div class="pr-card fc-continuum">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg></span><div class="pr-id">
         <a class="pr-name" href="/strategies/continuum.html">Continuum</a>
         <span class="pr-real">MNQ 24H Multi-Leg Book</span></div>
         <div class="pr-price">$909<small>/mo</small></div>
@@ -307,7 +313,7 @@
         <span class="pr-real">the highest RoDD that fit your drawdown budget</span></div>
         <div class="pr-price">$2,367<small>/mo total</small></div>
       </div>
-      <ul class="pr-trio"><li><a class="pr-name" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">3,920% RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li><li><a class="pr-name" href="/strategies/midas.html">Midas</a><span class="pr-real">MGC 24H Gold Book</span><span class="pr-mini">3,244% RoDD · 70.5% win · $3.7k DD</span><span class="pr-solo">$759</span></li><li><a class="pr-name" href="/strategies/aftershock.html">Aftershock</a><span class="pr-real">MNQ 08:30 Range Fade V4</span><span class="pr-mini">3,159% RoDD · 60.4% win · $1.7k DD</span><span class="pr-solo">$699</span></li></ul>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg><a class="pr-name fc-continuum" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">3,920% RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.4 16.8 5.9 7.6l4 3.5L12 5.4l2.1 5.7 4-3.5 1.5 9.2z"/><path d="M5.6 19.9h12.8"/></svg><a class="pr-name fc-midas" href="/strategies/midas.html">Midas</a><span class="pr-real">MGC 24H Gold Book</span><span class="pr-mini">3,244% RoDD · 70.5% win · $3.7k DD</span><span class="pr-solo">$759</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 14.5h3.4l2-8.2 3 12.4 2.4-9 1.6 4.8H21"/></svg><a class="pr-name fc-aftershock" href="/strategies/aftershock.html">Aftershock</a><span class="pr-real">MNQ 08:30 Range Fade V4</span><span class="pr-mini">3,159% RoDD · 60.4% win · $1.7k DD</span><span class="pr-solo">$699</span></li></ul>
       <p class="pr-why">Chosen by the same rule the shelf is ranked by: the highest RoDD whose deeper published
       drawdown still fits what you said you can hold. Each is its own subscription &mdash; add or drop any
       of them month to month.</p>
@@ -315,8 +321,8 @@
         <a class="btn btn-buy" href="/">Open the catalog</a>
       </div>
     </div></div>
-<div class="pr" id="r-s1-b3-t3"><div class="pr-card">
-      <div class="pr-head"><div class="pr-id">
+<div class="pr" id="r-s1-b3-t3"><div class="pr-card fc-midas">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.4 16.8 5.9 7.6l4 3.5L12 5.4l2.1 5.7 4-3.5 1.5 9.2z"/><path d="M5.6 19.9h12.8"/></svg></span><div class="pr-id">
         <a class="pr-name" href="/strategies/midas.html">Midas</a>
         <span class="pr-real">MGC 24H Gold Book</span></div>
         <div class="pr-price">$759<small>/mo</small></div>
@@ -334,7 +340,7 @@
         <span class="pr-real">the largest published nets that fit your drawdown budget</span></div>
         <div class="pr-price">$2,317<small>/mo total</small></div>
       </div>
-      <ul class="pr-trio"><li><a class="pr-name" href="/strategies/midas.html">Midas</a><span class="pr-real">MGC 24H Gold Book</span><span class="pr-mini">3,244% RoDD · 70.5% win · $3.7k DD</span><span class="pr-solo">$759</span></li><li><a class="pr-name" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">3,920% RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li><li><a class="pr-name" href="/strategies/relay.html">Headline Risk</a><span class="pr-real">MNQ 08:30 Range Fade V6 All-Days</span><span class="pr-mini">2,785% RoDD · 64.8% win · $2.5k DD</span><span class="pr-solo">$649</span></li></ul>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.4 16.8 5.9 7.6l4 3.5L12 5.4l2.1 5.7 4-3.5 1.5 9.2z"/><path d="M5.6 19.9h12.8"/></svg><a class="pr-name fc-midas" href="/strategies/midas.html">Midas</a><span class="pr-real">MGC 24H Gold Book</span><span class="pr-mini">3,244% RoDD · 70.5% win · $3.7k DD</span><span class="pr-solo">$759</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg><a class="pr-name fc-continuum" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">3,920% RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="1"/><rect x="7" y="8" width="5.6" height="4"/><path d="M15.4 8.8h1.8M15.4 11.4h1.8M7 15.8h10"/></svg><a class="pr-name fc-relay" href="/strategies/relay.html">Headline Risk</a><span class="pr-real">MNQ 08:30 Range Fade V6 All-Days</span><span class="pr-mini">2,785% RoDD · 64.8% win · $2.5k DD</span><span class="pr-solo">$649</span></li></ul>
       <p class="pr-why">Chosen by the same rule the shelf is ranked by: the largest published nets whose deeper published
       drawdown still fits what you said you can hold. Each is its own subscription &mdash; add or drop any
       of them month to month.</p>
@@ -342,8 +348,8 @@
         <a class="btn btn-buy" href="/">Open the catalog</a>
       </div>
     </div></div>
-<div class="pr" id="r-s1-b4-t1"><div class="pr-card">
-      <div class="pr-head"><div class="pr-id">
+<div class="pr" id="r-s1-b4-t1"><div class="pr-card fc-kilo">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.2 9h9.6l2.7 7.8H4.5z"/><path d="M9.3 6.2h5.4l1 2.8H8.3z" opacity=".65"/></svg></span><div class="pr-id">
         <a class="pr-name" href="/strategies/kilo.html">The Kilo</a>
         <span class="pr-real">MGC Tokyo Open (TOCOM)</span></div>
         <div class="pr-price">$219<small>/mo</small></div>
@@ -361,7 +367,7 @@
         <span class="pr-real">the highest win rates that fit your drawdown budget</span></div>
         <div class="pr-price">$917<small>/mo total</small></div>
       </div>
-      <ul class="pr-trio"><li><a class="pr-name" href="/strategies/kilo.html">The Kilo</a><span class="pr-real">MGC Tokyo Open (TOCOM)</span><span class="pr-mini">1,172% RoDD · 85.6% win · $0.5k DD</span><span class="pr-solo">$219</span></li><li><a class="pr-name" href="/strategies/meridian.html">The Pendulum</a><span class="pr-real">MNQ 13:00 Confirmed Fade</span><span class="pr-mini">1,626% RoDD · 82.5% win · $0.6k DD</span><span class="pr-solo">$399</span></li><li><a class="pr-name" href="/strategies/ignition.html">Ignition</a><span class="pr-real">NQ 09:30 Opening Range Breakout</span><span class="pr-mini">2,423% RoDD · 81.8% win · $4.2k DD</span><span class="pr-solo">$299</span></li></ul>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.2 9h9.6l2.7 7.8H4.5z"/><path d="M9.3 6.2h5.4l1 2.8H8.3z" opacity=".65"/></svg><a class="pr-name fc-kilo" href="/strategies/kilo.html">The Kilo</a><span class="pr-real">MGC Tokyo Open (TOCOM)</span><span class="pr-mini">1,172% RoDD · 85.6% win · $0.5k DD</span><span class="pr-solo">$219</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.4" r="1.1"/><path d="M12 5.4 16.6 15"/><circle cx="17.6" cy="17.2" r="2.5"/><path d="M6 14.6a10 10 0 0 0 4 4.2"/></svg><a class="pr-name fc-meridian" href="/strategies/meridian.html">The Pendulum</a><span class="pr-real">MNQ 13:00 Confirmed Fade</span><span class="pr-mini">1,626% RoDD · 82.5% win · $0.6k DD</span><span class="pr-solo">$399</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.4c-.5 2.5-2 3.8-3.4 5.3-1.5 1.6-2.4 3.2-2.4 5.2a5.8 5.8 0 0 0 11.6 0c0-2.5-1.3-4.3-2.9-6-1.2-1.3-2.4-2.6-2.9-4.5z"/><path d="M12 12.6c-1 1.3-2 2.2-2 3.6a2 2 0 0 0 4 0c0-1.4-1-2.3-2-3.6z"/></svg><a class="pr-name fc-ignition" href="/strategies/ignition.html">Ignition</a><span class="pr-real">NQ 09:30 Opening Range Breakout</span><span class="pr-mini">2,423% RoDD · 81.8% win · $4.2k DD</span><span class="pr-solo">$299</span></li></ul>
       <p class="pr-why">Chosen by the same rule the shelf is ranked by: the highest win rates whose deeper published
       drawdown still fits what you said you can hold. Each is its own subscription &mdash; add or drop any
       of them month to month.</p>
@@ -369,8 +375,8 @@
         <a class="btn btn-buy" href="/">Open the catalog</a>
       </div>
     </div></div>
-<div class="pr" id="r-s1-b4-t2"><div class="pr-card">
-      <div class="pr-head"><div class="pr-id">
+<div class="pr" id="r-s1-b4-t2"><div class="pr-card fc-continuum">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg></span><div class="pr-id">
         <a class="pr-name" href="/strategies/continuum.html">Continuum</a>
         <span class="pr-real">MNQ 24H Multi-Leg Book</span></div>
         <div class="pr-price">$909<small>/mo</small></div>
@@ -388,7 +394,7 @@
         <span class="pr-real">the highest RoDD that fit your drawdown budget</span></div>
         <div class="pr-price">$2,367<small>/mo total</small></div>
       </div>
-      <ul class="pr-trio"><li><a class="pr-name" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">3,920% RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li><li><a class="pr-name" href="/strategies/midas.html">Midas</a><span class="pr-real">MGC 24H Gold Book</span><span class="pr-mini">3,244% RoDD · 70.5% win · $3.7k DD</span><span class="pr-solo">$759</span></li><li><a class="pr-name" href="/strategies/aftershock.html">Aftershock</a><span class="pr-real">MNQ 08:30 Range Fade V4</span><span class="pr-mini">3,159% RoDD · 60.4% win · $1.7k DD</span><span class="pr-solo">$699</span></li></ul>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg><a class="pr-name fc-continuum" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">3,920% RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.4 16.8 5.9 7.6l4 3.5L12 5.4l2.1 5.7 4-3.5 1.5 9.2z"/><path d="M5.6 19.9h12.8"/></svg><a class="pr-name fc-midas" href="/strategies/midas.html">Midas</a><span class="pr-real">MGC 24H Gold Book</span><span class="pr-mini">3,244% RoDD · 70.5% win · $3.7k DD</span><span class="pr-solo">$759</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 14.5h3.4l2-8.2 3 12.4 2.4-9 1.6 4.8H21"/></svg><a class="pr-name fc-aftershock" href="/strategies/aftershock.html">Aftershock</a><span class="pr-real">MNQ 08:30 Range Fade V4</span><span class="pr-mini">3,159% RoDD · 60.4% win · $1.7k DD</span><span class="pr-solo">$699</span></li></ul>
       <p class="pr-why">Chosen by the same rule the shelf is ranked by: the highest RoDD whose deeper published
       drawdown still fits what you said you can hold. Each is its own subscription &mdash; add or drop any
       of them month to month.</p>
@@ -396,8 +402,8 @@
         <a class="btn btn-buy" href="/">Open the catalog</a>
       </div>
     </div></div>
-<div class="pr" id="r-s1-b4-t3"><div class="pr-card">
-      <div class="pr-head"><div class="pr-id">
+<div class="pr" id="r-s1-b4-t3"><div class="pr-card fc-midas">
+      <div class="pr-head"><span class="pr-gchip"><svg class="glyph g-plan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.4 16.8 5.9 7.6l4 3.5L12 5.4l2.1 5.7 4-3.5 1.5 9.2z"/><path d="M5.6 19.9h12.8"/></svg></span><div class="pr-id">
         <a class="pr-name" href="/strategies/midas.html">Midas</a>
         <span class="pr-real">MGC 24H Gold Book</span></div>
         <div class="pr-price">$759<small>/mo</small></div>
@@ -415,7 +421,7 @@
         <span class="pr-real">the largest published nets that fit your drawdown budget</span></div>
         <div class="pr-price">$1,967<small>/mo total</small></div>
       </div>
-      <ul class="pr-trio"><li><a class="pr-name" href="/strategies/midas.html">Midas</a><span class="pr-real">MGC 24H Gold Book</span><span class="pr-mini">3,244% RoDD · 70.5% win · $3.7k DD</span><span class="pr-solo">$759</span></li><li><a class="pr-name" href="/strategies/ignition.html">Ignition</a><span class="pr-real">NQ 09:30 Opening Range Breakout</span><span class="pr-mini">2,423% RoDD · 81.8% win · $4.2k DD</span><span class="pr-solo">$299</span></li><li><a class="pr-name" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">3,920% RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li></ul>
+      <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.4 16.8 5.9 7.6l4 3.5L12 5.4l2.1 5.7 4-3.5 1.5 9.2z"/><path d="M5.6 19.9h12.8"/></svg><a class="pr-name fc-midas" href="/strategies/midas.html">Midas</a><span class="pr-real">MGC 24H Gold Book</span><span class="pr-mini">3,244% RoDD · 70.5% win · $3.7k DD</span><span class="pr-solo">$759</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.4c-.5 2.5-2 3.8-3.4 5.3-1.5 1.6-2.4 3.2-2.4 5.2a5.8 5.8 0 0 0 11.6 0c0-2.5-1.3-4.3-2.9-6-1.2-1.3-2.4-2.6-2.9-4.5z"/><path d="M12 12.6c-1 1.3-2 2.2-2 3.6a2 2 0 0 0 4 0c0-1.4-1-2.3-2-3.6z"/></svg><a class="pr-name fc-ignition" href="/strategies/ignition.html">Ignition</a><span class="pr-real">NQ 09:30 Opening Range Breakout</span><span class="pr-mini">2,423% RoDD · 81.8% win · $4.2k DD</span><span class="pr-solo">$299</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg><a class="pr-name fc-continuum" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">3,920% RoDD · 73.9% win · $1.8k DD</span><span class="pr-solo">$909</span></li></ul>
       <p class="pr-why">Chosen by the same rule the shelf is ranked by: the largest published nets whose deeper published
       drawdown still fits what you said you can hold. Each is its own subscription &mdash; add or drop any
       of them month to month.</p>
@@ -424,7 +430,7 @@
       </div>
     </div></div>
 
-        <div class="pr" id="r-s3-small">
+          <div class="pr" id="r-s3-small">
   <div class="pr-card">
     <div class="pr-head"><div class="pr-id"><span class="pr-name">Start with one</span>
       <span class="pr-real">The Night Shift &mdash; the smallest step onto the shelf</span></div>
@@ -439,7 +445,7 @@
     </div>
   </div>
 </div>
-        <div class="pr" id="r-s3-big">
+          <div class="pr" id="r-s3-big">
   <div class="pr-card">
     <div class="pr-head"><div class="pr-id"><span class="pr-name">All-Access</span>
       <span class="pr-real">every strategy on the shelf — 15 systems, books excluded</span></div>
@@ -453,12 +459,12 @@
     </div>
   </div>
 </div>
-        <div class="pr" id="r-s4">
+          <div class="pr" id="r-s4">
   <div class="pr-card">
     <div class="pr-head"><div class="pr-id"><span class="pr-name">The books</span>
       <span class="pr-real">the multi-leg engines we run ourselves &mdash; a whole day of session legs under one subscription</span></div>
     </div>
-    <ul class="pr-trio"><li><a class="pr-name" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">3,920% RoDD · 73.9% win · 11 legs</span><span class="pr-solo">$909</span></li><li><a class="pr-name" href="/strategies/midas.html">Midas</a><span class="pr-real">MGC 24H Gold Book</span><span class="pr-mini">3,244% RoDD · 70.5% win · 5 legs</span><span class="pr-solo">$759</span></li></ul>
+    <ul class="pr-trio"><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke-dasharray="1.4 3.5" opacity=".6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 12V8.6M12 12l2.6 1.8"/></svg><a class="pr-name fc-continuum" href="/strategies/continuum.html">Continuum</a><span class="pr-real">MNQ 24H Multi-Leg Book</span><span class="pr-mini">3,920% RoDD · 73.9% win · 11 legs</span><span class="pr-solo">$909</span></li><li><svg class="glyph g-row" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.4 16.8 5.9 7.6l4 3.5L12 5.4l2.1 5.7 4-3.5 1.5 9.2z"/><path d="M5.6 19.9h12.8"/></svg><a class="pr-name fc-midas" href="/strategies/midas.html">Midas</a><span class="pr-real">MGC 24H Gold Book</span><span class="pr-mini">3,244% RoDD · 70.5% win · 5 legs</span><span class="pr-solo">$759</span></li></ul>
     <p class="pr-why">A book trades the day as one system: each leg owns its session and a router allocates
     between them. Live-validated with both windows published, same standard as every solo strategy on the
     shelf. Priced at the top because one book replaces several subscriptions.</p>
@@ -467,7 +473,7 @@
     </div>
   </div>
 </div>
-        <aside class="pr pr-exec" id="r-e2">
+          <aside class="pr pr-exec" id="r-e2">
         <div class="pmt">
           <div class="pmt-title">Partnered with PickMyTrade</div>
           <p class="pmt-copy">Every system here fires standard TradingView alerts. Through our partner
@@ -492,8 +498,8 @@
           the product page, and take every signal: the published stats assume no cherry-picking.</p>
         </div>
       </aside>
-      </section>
-      <p class="plan-update">change any answer &mdash; the recommendation updates instantly</p>
+        </section>
+      </div>
     </div>
   </div>
 </main>

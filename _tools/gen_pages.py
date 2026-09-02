@@ -496,8 +496,8 @@ def real_chart(p, tr):
     <svg viewBox="0 0 720 300" role="img" aria-label="Equity and drawdown, {tr['full']['n']} closed trades" focusable="false">
       <defs>
         <linearGradient id="tvxg-{p["slug"]}" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#7aa7dc" stop-opacity=".26"/>
-          <stop offset="1" stop-color="#7aa7dc" stop-opacity=".02"/>
+          <stop offset="0" stop-color="#56c8a2" stop-opacity=".26"/>
+          <stop offset="1" stop-color="#56c8a2" stop-opacity=".02"/>
         </linearGradient>
         <linearGradient id="tvxr-{p["slug"]}" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stop-color="#E88585" stop-opacity=".04"/>
@@ -527,8 +527,8 @@ def chart_figure(p):
     <div class="chart-head"><span class="chart-title">Cumulative net &middot; best window</span><span class="chart-end">{esc(net)}</span></div>
     <svg viewBox="0 0 640 180" preserveAspectRatio="none" aria-hidden="true" focusable="false">
       <defs><linearGradient id="cg-{p["slug"]}" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#7aa7dc" stop-opacity=".22"/>
-        <stop offset="1" stop-color="#7aa7dc" stop-opacity="0"/>
+        <stop offset="0" stop-color="#56c8a2" stop-opacity=".22"/>
+        <stop offset="1" stop-color="#56c8a2" stop-opacity="0"/>
       </linearGradient></defs>
       {zero}<path class="carea" fill="url(#cg-{p["slug"]})" d="{areas[0]}"/><path class="cline" d="{lines[0]}"/>
     </svg>
@@ -678,7 +678,7 @@ def market_chips(meta):
     return chips
 
 # ── strategy + book pages ───────────────────────────────────────
-THEMED = {p["slug"] for p in sorted(CAT["strategies"], key=lambda x: -x["price"])[:6]}
+THEMED = {p["slug"] for p in CAT["strategies"]}
 THEMED |= {b["slug"] for b in CAT["books"]}
 
 os.makedirs(os.path.join(BASE, "strategies"), exist_ok=True)

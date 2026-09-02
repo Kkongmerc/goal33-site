@@ -12,6 +12,7 @@ longer writes any CSS region; the spec-sheet styles are a static block at the
 end of assets/main.css.
 """
 import json, os, html, datetime
+from glyphs import glyph
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 BASE = os.path.dirname(_HERE)
@@ -66,13 +67,13 @@ def row(p, rank):
     return (
         f'<tr>'
         f'<td class="sx-r">{rank}</td>'
-        f'<td class="sx-n"><a href="/strategies/{p["slug"]}.html">{name}</a>'
+        f'<td class="sx-n"><a class="fc-{p["slug"]}" href="/strategies/{p["slug"]}.html">{glyph(p["slug"], "glyph sx-g")}{name}</a>'
         f'<span class="sx-sub">{sub}</span>{note}</td>'
-        f'<td class="sx-s">{esc(session_of(p))}</td>'
+        f'<td class="sx-f sx-rodd">{pct(b.get("RoDD", 0)) if b.get("RoDD") else "—"}</td>'
         f'<td class="sx-f">{esc(b.get("Win", "—"))}</td>'
         f'<td class="sx-f">{esc(b.get("PF", "—"))}</td>'
-        f'<td class="sx-f">{pct(b.get("RoDD", 0)) if b.get("RoDD") else "—"}</td>'
         f'<td class="sx-f">{esc(b.get("Net", "—"))}</td>'
+        f'<td class="sx-s">{esc(session_of(p))}</td>'
         f'<td class="sx-f sx-p"><!-- WHOP: replace this product-page link with the Whop checkout link -->'
         f'<a href="{esc(buy_href(p))}" rel="noopener">${p["price"]}</a></td>'
         f'</tr>'
@@ -87,11 +88,11 @@ def table(title, rows_html, n):
     <thead><tr>
       <th scope="col" class="sx-r" aria-label="Rank">#</th>
       <th scope="col" class="sx-n">Strategy</th>
-      <th scope="col" class="sx-s">Session</th>
+      <th scope="col" class="sx-f sx-rodd">RoDD</th>
       <th scope="col" class="sx-f">Win</th>
       <th scope="col" class="sx-f">PF</th>
-      <th scope="col" class="sx-f">RoDD</th>
       <th scope="col" class="sx-f">Net</th>
+      <th scope="col" class="sx-s">Session</th>
       <th scope="col" class="sx-f sx-p">$ / mo</th>
     </tr></thead>
     <tbody>{rows_html}</tbody>
