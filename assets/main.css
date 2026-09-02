@@ -5206,3 +5206,17 @@ a.pr-name[class*="fc-"]:hover { color: var(--fc-hi); }
 .sx-t th.sx-s { width: 14%; }
 .sx-t th.sx-p { width: 8%; }
 .sx-t td.sx-s, .sx-t th.sx-s { padding-left: 1.4rem; }
+
+/* r4.8 — the index speaks up: the lede and the figures note step up
+   in size (clamped so phones stay sane); table footnotes unaffected. */
+.sx-main > .sx-lede {
+  font-size: clamp(1.2rem, 1rem + 0.9vw, 1.65rem);
+  line-height: 1.45;
+  max-width: 66ch;
+  color: var(--text);
+}
+.sx-main > .sx-note {
+  font-size: clamp(0.98rem, 0.9rem + 0.35vw, 1.15rem);
+  line-height: 1.65;
+  max-width: 78ch;
+}
