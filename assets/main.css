@@ -5259,3 +5259,12 @@ a.pr-name[class*="fc-"]:hover { color: var(--fc-hi); }
 @media (max-width: 1100px) {
   .sx-hero { grid-template-columns: 1fr; }
 }
+
+/* r4.9 fix: the stat columns share one box - RoDD, Win, PF, Net,
+   Session and price all 11% - and Session right-aligns with the
+   rest of the figures. */
+.sx-t th.sx-rodd { width: 11%; }
+.sx-t th.sx-f:not(.sx-rodd):not(.sx-p) { width: 11%; }
+.sx-t th.sx-s { width: 11%; }
+.sx-t th.sx-p { width: 11%; }
+.sx-t td.sx-s, .sx-t th.sx-s { text-align: right; padding-left: 0.6rem; }
