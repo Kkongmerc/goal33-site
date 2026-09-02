@@ -4281,26 +4281,6 @@ html { scroll-padding-top: calc(var(--header-h) + 58px); }
 .tvt-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .tvt-tab-off { color: var(--faint); cursor: default; background: transparent; border-style: dashed; }
 .tvt-tab-off:hover { color: var(--faint); background: transparent; border-color: var(--line); }
-.tvt .tvt-r:nth-of-type(1):checked ~ .tvt-tabs .tvt-tab-ov,
-.tvt .tvt-r:nth-of-type(2):checked ~ .tvt-tabs .tvt-tab-ps {
-  color: var(--accent);
-  border-color: var(--line-bright);
-  background: var(--panel);
-  border-bottom: 1px solid var(--panel);
-}
-.tvt .tvt-r:nth-of-type(1):checked ~ .tvt-tabs .tvt-tab-ov::before,
-.tvt .tvt-r:nth-of-type(2):checked ~ .tvt-tabs .tvt-tab-ps::before,
-.tvt .tvt-r:nth-of-type(3):checked ~ .tvt-tabs .tvt-tab-lt::before { opacity: 1; }
-.tvt-pane { display: none; padding: var(--sp-4); }
-.tvt .tvt-r:nth-of-type(1):checked ~ .tvt-ov { display: block; }
-.tvt .tvt-r:nth-of-type(2):checked ~ .tvt-ps { display: block; }
-.tvt .tvt-r:nth-of-type(3):checked ~ .tvt-lt { display: block; }
-.tvt .tvt-r:nth-of-type(3):checked ~ .tvt-tabs .tvt-tab-lt {
-  color: var(--accent);
-  border-color: var(--line-bright);
-  background: var(--panel);
-  border-bottom: 1px solid var(--panel);
-}
 .lt-scroll { max-height: 430px; overflow-y: auto; }
 .lt-table td, .lt-table th { white-space: nowrap; font-size: var(--fs-xs); padding: 6px var(--sp-3); }
 .lt-table thead th { position: sticky; top: 0; background: var(--raised); z-index: 1; }
@@ -4321,29 +4301,6 @@ html { scroll-padding-top: calc(var(--header-h) + 58px); }
 ::-webkit-scrollbar-thumb { background: #2A423E; border-radius: 5px; border: 2px solid var(--panel); }
 ::-webkit-scrollbar-thumb:hover { background: rgba(41, 98, 255, .55); }
 ::-webkit-scrollbar-corner { background: var(--panel); }
-/* ── TV-style tester chart (axes, grid, legend) ── */
-.tvx { padding: 0; }
-.tvx svg { display: block; width: 100%; height: auto; }
-.tvx-legend {
-  display: flex; align-items: baseline; gap: var(--sp-4); flex-wrap: wrap;
-  padding: var(--sp-3) var(--sp-4);
-  border-bottom: 1px solid var(--line);
-}
-.tvx-key { font-family: var(--mono); font-size: var(--fs-2xs); letter-spacing: .06em; color: var(--muted); text-transform: uppercase; }
-.tvx-key b { color: var(--text); margin-left: 4px; letter-spacing: 0; }
-.tvx-key b.tv-neg { color: #F23645; }
-.tvx-dot { display: inline-block; width: 8px; height: 8px; margin-right: 6px; vertical-align: baseline; }
-.tvx-dot-eq { background: var(--accent); }
-.tvx-dot-dd { background: #F23645; }
-.tvx-src { margin-left: auto; font-family: var(--mono); font-size: var(--fs-2xs); color: var(--faint); letter-spacing: .05em; }
-.tvx-grid { stroke: rgba(41, 98, 255, .10); stroke-width: 1; }
-.tvx-vgrid { stroke: rgba(233, 242, 238, .05); }
-.tvx-zero { stroke: rgba(233, 242, 238, .28); stroke-width: 1; stroke-dasharray: 2 3; }
-.tvx-ylab { font-family: var(--mono); font-size: 11px; fill: #738D85; }
-.tvx-xlab { font-family: var(--mono); font-size: 11px; fill: #738D85; }
-.tvx-eqline { stroke: #2962FF; stroke-width: 1.6; stroke-linejoin: round; }
-.tvx-ddline { stroke: rgba(242, 54, 69, .8); stroke-width: 1.1; stroke-linejoin: round; }
-.tvx .chart-note { padding: var(--sp-2) var(--sp-4) var(--sp-3); }
 /* crosshair: invisible per-point strips reveal their own line/dot/label */
 .hp-hit { fill: transparent; pointer-events: all; }
 /* no transition: the readout answers the cursor instantly, and its box never
@@ -5327,49 +5284,13 @@ a.pr-name[class*="fc-"]:hover { color: var(--fc-hi); }
 }
 .tvt-tab::before { content: none !important; }
 .tvt-tab:hover { color: #D1D4DC; background: none; }
-.tvt .tvt-r:nth-of-type(1):checked ~ .tvt-tabs .tvt-tab-ov,
-.tvt .tvt-r:nth-of-type(2):checked ~ .tvt-tabs .tvt-tab-ps,
-.tvt .tvt-r:nth-of-type(3):checked ~ .tvt-tabs .tvt-tab-lt {
-  color: #D1D4DC; background: none;
-  border-color: transparent; border-bottom: 2px solid #2962FF;
-}
 .tvt-pane { background: #131722; }
 .tvt-note { color: #787B86; }
-
-/* overview strip */
-.tvo-strip { display: flex; flex-wrap: wrap; margin: 2px 0 var(--sp-3); }
-.tvo-block { flex: 1 1 0; min-width: 150px; padding: 8px 16px 10px; display: flex; flex-direction: column; gap: 5px; }
-.tvo-block + .tvo-block { border-left: 1px solid #2A2E39; }
-.tvo-k { font-family: var(--sans); font-size: 0.8rem; color: #787B86; white-space: nowrap; }
-.tvo-block b {
-  font-family: var(--mono); font-size: 1.3rem; font-weight: 600; line-height: 1.1;
-  color: #D1D4DC; font-variant-numeric: tabular-nums; white-space: nowrap;
-}
-.tvo-sub { font-family: var(--mono); font-size: 0.72rem; color: #787B86; white-space: nowrap; }
-@media (max-width: 900px) { .tvo-block { min-width: 45%; border-left: none; } }
 
 /* TV semantic colors inside the tester only */
 .tvt .tv-pos { color: #089981; }
 .tvt .tv-neg { color: #F23645; }
 .tvt .dd-gold, .tvt .dd-neon { color: #F23645 !important; }
-
-/* the chart takes TV's palette */
-.tvt .tvx-eqline { stroke: #2962FF; stroke-width: 2; }
-.tvt .tvx-ddline { stroke: #F23645; }
-.tvt .tvx-grid { stroke: #2A2E39; }
-.tvt .tvx-vgrid { stroke: #1E222D; }
-.tvt .tvx-zero { stroke: #434651; }
-.tvt .tvx-ylab, .tvt .tvx-xlab { fill: #787B86; }
-.tvt .tvx-legend { color: #D1D4DC; }
-.tvt .tvx-src { color: #787B86; }
-.tvt .tvx-dot-eq { background: #2962FF; }
-.tvt .tvx-dot-dd { background: #F23645; }
-.tvt .hv-line { stroke: #434651; }
-.tvt .hv-dot { fill: #2962FF; }
-.tvt .hv-ring { stroke: rgba(41, 98, 255, .35); }
-.tvt .hv-box { fill: #1E222D; stroke: #363A45; }
-.tvt .hv-txt { fill: #D1D4DC; }
-.tvt .chart-panel { background: transparent; border: none; }
 
 /* tables in TV dress */
 .tvt .tvt-table th, .tvt .tvt-table td { border-bottom: 1px solid #2A2E39; color: #D1D4DC; font-size: 0.86rem; }
@@ -5382,26 +5303,6 @@ a.pr-name[class*="fc-"]:hover { color: var(--fc-hi); }
 .tvt .tvt-table td.tv-pos { color: #089981; }
 .tvt .tvt-table td.tv-neg { color: #F23645; }
 .tvt .tvt-table td.tv-mut { color: #787B86; }
-
-/* r5.1 — CLOSER TO TV. A fourth tab (Trades analysis) joins when
-   the derived rows verify; with four radios the third now maps to
-   it and the fourth to the list. Figures across the tester switch
-   to the sans TV uses; only Total P&L keeps color in the strip. */
-.tvt:has(.tvt-tab-ta) .tvt-r:nth-of-type(3):checked ~ .tvt-lt { display: none; }
-.tvt:has(.tvt-tab-ta) .tvt-r:nth-of-type(3):checked ~ .tvt-tabs .tvt-tab-lt {
-  color: #787B86; background: none; border-color: transparent; border-bottom: 2px solid transparent;
-}
-.tvt:has(.tvt-tab-ta) .tvt-r:nth-of-type(3):checked ~ .tvt-ta { display: block; }
-.tvt:has(.tvt-tab-ta) .tvt-r:nth-of-type(3):checked ~ .tvt-tabs .tvt-tab-ta,
-.tvt:has(.tvt-tab-ta) .tvt-r:nth-of-type(4):checked ~ .tvt-tabs .tvt-tab-lt {
-  color: #D1D4DC; background: none; border-color: transparent; border-bottom: 2px solid #2962FF;
-}
-.tvt:has(.tvt-tab-ta) .tvt-r:nth-of-type(4):checked ~ .tvt-lt { display: block; }
-.tvt:has(.tvt-tab-ta) .tvt-r:nth-of-type(3):checked ~ .tvt-tabs .tvt-tab-lt:hover { color: #D1D4DC; }
-.tvo-block b { font-family: var(--sans); font-weight: 600; }
-.tvo-sub { font-family: var(--sans); }
-.tvt .tvt-table th, .tvt .tvt-table td { font-family: var(--sans); }
-.tvt .tvx-key, .tvt .tvx-src { font-family: var(--sans); }
 
 /* ================================================================
    r6.0 — THE WHOLE SITE GOES TRADINGVIEW. The sweep above moved
@@ -5487,3 +5388,185 @@ body, .sx-doc { font-family: var(--sans); }
 .pdp-window p { margin: 0; }
 .pdp-window p + p { margin-top: .4rem; }
 .pdp-csv { font-weight: 600; }
+
+/* ================================================================
+   r8.0 — THE STRATEGY TESTER REPORT (owner 2026-09-03: "it has to
+   actually look like the strategy maker"). The validated-record
+   block is a facsimile of TradingView's new Strategy Tester report:
+   the slim top strip (strategy tab, date-range chip with the DEEP
+   badge, 25 K USD, Default detalization, Script execution), then
+   four radio-driven alternates styled as TV's tab strip - Overview
+   (Key stats + Performance chart + the Performance analysis pill
+   row and Breakdown), Performance (Breakdown / Periodical pills,
+   Profits and losses by signals / by side), Trades (Distribution /
+   Streaks / details pills, returns histogram + trades donut), List
+   of trades. Zero JS: main tabs, pill tabs and the by-signals
+   toggle are CSS radios; every chart is inline SVG on classes.
+   Ink: labels #787B86 11-12px, values #D1D4DC 14-15px, profit
+   #089981 / loss #F23645 (both in the header ledger).
+   ================================================================ */
+.tvr { background: #131722; border: 1px solid #2A2E39; border-radius: 4px; overflow: hidden; }
+.tvr-top {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  padding: 6px 10px; border-bottom: 1px solid #2A2E39; background: #131722;
+}
+.tvr-strat {
+  font-size: .8rem; font-weight: 600; color: #D1D4DC; padding: 5px 10px;
+  border: 1px solid #2A2E39; border-radius: 6px; background: #1E222D; max-width: 40%;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.tvr-chip {
+  display: inline-flex; align-items: center; gap: 6px; font-size: .75rem; color: #B2B5BE;
+  padding: 5px 9px; border: 1px solid #2A2E39; border-radius: 6px; white-space: nowrap;
+}
+.tvr-cal { width: 13px; height: 13px; fill: none; stroke: #787B86; stroke-width: 1.4; }
+.tvr-deep { font-size: .62rem; font-weight: 700; color: #fff; background: #C2185B; border-radius: 3px; padding: 1px 4px; line-height: 1.3; }
+.tvr-circ {
+  display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px;
+  border-radius: 50%; border: 1px solid #787B86; color: #787B86; font-size: .62rem; font-weight: 600;
+}
+.tvr-tabs { padding: 0 6px; }
+.tvr > .tvt-r:nth-of-type(1):checked ~ .tvr-tabs .tvt-tab:nth-child(1),
+.tvr > .tvt-r:nth-of-type(2):checked ~ .tvr-tabs .tvt-tab:nth-child(2),
+.tvr > .tvt-r:nth-of-type(3):checked ~ .tvr-tabs .tvt-tab:nth-child(3),
+.tvr > .tvt-r:nth-of-type(4):checked ~ .tvr-tabs .tvt-tab:nth-child(4) {
+  color: #D1D4DC; background: none; border-color: transparent; border-bottom: 2px solid #2962FF;
+}
+.tvr .tvt-pane { display: none; padding: 12px 14px 14px; background: #131722; }
+.tvr > .tvt-r:nth-of-type(1):checked ~ .tvr-p1,
+.tvr > .tvt-r:nth-of-type(2):checked ~ .tvr-p2,
+.tvr > .tvt-r:nth-of-type(3):checked ~ .tvr-p3,
+.tvr > .tvt-r:nth-of-type(4):checked ~ .tvt-lt,
+.tvr .tvr-open { display: block; }
+
+/* section titles */
+.tvr-h1 { display: flex; align-items: center; gap: 6px; font-size: .95rem; font-weight: 600; color: #D1D4DC; margin: 6px 0 10px; }
+.tvr-h1 + .tvr-h1, .tvr-cells + .tvr-h1, .tvr-perf + .tvr-h1 { margin-top: 18px; }
+.tvr-h2 { display: flex; align-items: center; gap: 6px; font-size: .85rem; font-weight: 600; color: #D1D4DC; margin: 0 0 8px; }
+.tvr-info {
+  display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px;
+  border-radius: 50%; border: 1px solid #787B86; color: #787B86; font-size: .62rem; font-weight: 600;
+  font-style: normal; cursor: help;
+}
+
+/* metric cells: label over value, hairline dividers, 2x2 when narrow */
+.tvr-cells { display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); margin: 0 0 6px; }
+.tvr-cell { padding: 6px 12px 8px; border-left: 1px solid #2A2E39; min-width: 0; }
+.tvr-cell:first-child { border-left: none; padding-left: 0; }
+.tvr-k { display: block; font-size: .75rem; color: #787B86; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
+.tvr-v { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.tvr-v b { font-size: .95rem; font-weight: 600; color: #D1D4DC; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tvr-v i { font-style: normal; font-size: .75rem; color: #787B86; white-space: nowrap; }
+.tvr-v b.tv-pos, .tvr-v i.tv-pos { color: #089981; }
+.tvr-v b.tv-neg, .tvr-v i.tv-neg { color: #F23645; }
+/* the block sizes itself off ITS OWN width (container query), not the viewport:
+   under 620px of column the four cells go 2x2 and the chart legend moves above
+   the chart so the plot keeps the full width; under 560px the two decorative
+   chips leave the top strip so it stays one slim line. */
+.tvr { container-type: inline-size; }
+@container (max-width: 620px) {
+  .tvr .tvr-cells { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tvr .tvr-cell:nth-child(3) { border-left: none; padding-left: 0; }
+  .tvr .tvr-cell:nth-child(n+3) { border-top: 1px solid #2A2E39; padding-top: 8px; }
+  .tvr .tvr-perf { flex-direction: column; }
+  .tvr .tvr-legend { flex-direction: row; flex-wrap: wrap; flex-basis: auto; gap: 6px 12px; padding-bottom: 4px; }
+  .tvr .tvr-lg-more { display: none; }
+}
+@container (max-width: 400px) { .tvr .tvt-tab { padding: 10px 7px; font-size: .8rem; } }
+/* the strategy tab is span 1; chips are spans 2-5 */
+@container (max-width: 560px) { .tvr .tvr-top > span:nth-of-type(4), .tvr .tvr-top > span:nth-of-type(5) { display: none; } }
+
+/* the Performance chart: legend column left, chart fills the rest */
+.tvr-perf { display: flex; gap: 8px; align-items: stretch; }
+.tvr-legend { flex: 0 0 132px; display: flex; flex-direction: column; gap: 9px; padding: 4px 0 0; }
+.tvr-lg { display: inline-flex; align-items: center; gap: 6px; font-size: .74rem; color: #D1D4DC; white-space: nowrap; }
+.tvr-lg-off { color: #787B86; }
+.tvr-lg-more { color: #787B86; margin-top: 2px; }
+.tvr-eye { width: 13px; height: 13px; fill: none; stroke: #787B86; stroke-width: 1.3; margin-left: 2px; }
+.tvr-caret { width: 12px; height: 12px; fill: none; stroke: #787B86; stroke-width: 1.5; }
+.tvr-sw { display: inline-block; width: 8px; height: 8px; border-radius: 2px; flex: 0 0 8px; }
+.tvr-sw-g { background: #089981; }
+.tvr-sw-r { background: #F23645; }
+.tvr-sw-b { background: linear-gradient(180deg, #089981 50%, #F23645 50%); }
+.tvr-sw-s { background: linear-gradient(90deg, #089981 50%, #F23645 50%); border-radius: 50%; }
+.tvr-sw-x { background: #434651; }
+.tvr-svg { flex: 1 1 auto; min-width: 0; width: 100%; height: auto; display: block; }
+.tvr-grid { stroke: #2A2E39; stroke-width: 1; }
+.tvr-vgrid { stroke: #1E222D; stroke-width: 1; }
+.tvr-ylab, .tvr-xlab { font-family: var(--sans); font-size: 10.5px; fill: #787B86; }
+.tvr-line { stroke: #089981; stroke-width: 1.5; stroke-linejoin: round; }
+.tvr-bu { fill: #089981; }
+.tvr-bd { fill: #F23645; }
+.tvr-du { fill: #089981; }
+.tvr-dd { fill: #F23645; }
+.tvr-dz { fill: #434651; }
+.tvr-pill-g { fill: #089981; }
+.tvr-pill-r { fill: #F23645; }
+.tvr-pilltxt { font-family: var(--sans); font-size: 10.5px; font-weight: 600; fill: #fff; }
+.tvr .hv-box { fill: #1E222D; stroke: #363A45; }
+.tvr .hv-line { stroke: #434651; }
+.tvr .hv-dot { fill: #089981; stroke: #131722; stroke-width: 1.5; }
+.tvr .hv-txt { font-family: var(--sans); font-size: 11px; fill: #D1D4DC; }
+
+/* pill rows (TV's Performance-analysis / Trades-analysis selectors) */
+.tvr-pills { display: flex; gap: 4px; flex-wrap: wrap; margin: 0 0 12px; }
+.tvr-pill {
+  font-size: .76rem; font-weight: 500; color: #B2B5BE; padding: 4px 11px; border-radius: 14px;
+  border: 1px solid #2A2E39; background: #1E222D; cursor: pointer; white-space: nowrap;
+}
+.tvr-pill:hover { color: #D1D4DC; border-color: #434651; }
+.tvr-pill-off { color: #5D606B; background: transparent; cursor: default; }
+.tvr-pill-off:hover { color: #5D606B; border-color: #2A2E39; }
+.tvr-pill-on, .tvr-sub > .tvt-r:nth-of-type(1):checked ~ .tvr-pills .tvr-pill:nth-child(1),
+.tvr-sub > .tvt-r:nth-of-type(2):checked ~ .tvr-pills .tvr-pill:nth-child(2),
+.tvr-sub > .tvt-r:nth-of-type(3):checked ~ .tvr-pills .tvr-pill:nth-child(3),
+.tvr-sub > .tvt-r:nth-of-type(4):checked ~ .tvr-pills .tvr-pill:nth-child(4) {
+  color: #fff; background: #2962FF; border-color: #2962FF;
+}
+.tvr-sp { display: none; }
+.tvr-sub > .tvt-r:nth-of-type(1):checked ~ .tvr-sp:nth-of-type(1),
+.tvr-sub > .tvt-r:nth-of-type(2):checked ~ .tvr-sp:nth-of-type(2),
+.tvr-sub > .tvt-r:nth-of-type(3):checked ~ .tvr-sp:nth-of-type(3),
+.tvr-sub > .tvt-r:nth-of-type(4):checked ~ .tvr-sp:nth-of-type(4) { display: block; }
+.tvr-sec { margin-top: 16px; }
+.tvr-sub-pl .tvr-pills { margin-bottom: 8px; }
+
+/* Profits and losses: mirrored bars on a mid-line */
+.tvr-plr { display: grid; grid-template-columns: minmax(84px, 130px) minmax(0, 1fr) minmax(96px, auto); align-items: center; gap: 10px; padding: 5px 0; border-bottom: 1px solid #1E222D; }
+.tvr-pll { font-size: .76rem; color: #B2B5BE; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tvr-plsvg { width: 100%; height: 12px; display: block; }
+.tvr-r { fill: #F23645; }
+.tvr-g { fill: #089981; }
+.tvr-mid { stroke: #434651; stroke-width: 1; }
+.tvr-pln { font-size: .8rem; font-weight: 600; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; color: #D1D4DC; }
+
+/* tables inside the report */
+.tvr .tvr-table th, .tvr .tvr-table td { font-size: .8rem; padding: 7px 10px; white-space: nowrap; }
+.tvr .screener { border-color: #2A2E39; background: #131722; }
+
+/* Trades tab: the two distribution panels */
+.tvr-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; margin-top: 12px; }
+.tvr-panel { border: 1px solid #2A2E39; border-radius: 4px; padding: 10px 12px; min-width: 0; }
+.tvr-hist { width: 100%; height: auto; display: block; }
+.tvr-avg { stroke: #D1D4DC; stroke-width: 1; stroke-dasharray: 3 3; }
+.tvr-hleg { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: .72rem; color: #787B86; margin: 6px 0 0; }
+.tvr-hleg b { color: #D1D4DC; font-weight: 600; }
+.tvr-hsep { color: #434651; padding: 0 2px; }
+.tvr-dash { display: inline-block; width: 12px; border-top: 1px dashed #D1D4DC; }
+.tvr-donut { display: flex; align-items: center; gap: 12px; }
+.tvr-donut svg { flex: 0 0 118px; width: 118px; height: 118px; }
+.tvr-dn-bg { fill: none; stroke: #2A2E39; stroke-width: 12; }
+.tvr-dn-w { fill: none; stroke: #089981; stroke-width: 12; }
+.tvr-dn-l { fill: none; stroke: #F23645; stroke-width: 12; }
+.tvr-dn-b { fill: none; stroke: #787B86; stroke-width: 12; }
+.tvr-dn-n { font-family: var(--sans); font-size: 17px; font-weight: 600; fill: #D1D4DC; }
+.tvr-dn-t { font-family: var(--sans); font-size: 9px; fill: #787B86; }
+.tvr-dl { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.tvr-dl li { display: grid; grid-template-columns: 8px auto; column-gap: 8px; align-items: center; font-size: .74rem; color: #D1D4DC; }
+.tvr-dl li span { grid-column: 2; }
+.tvr-dl li b { grid-column: 2; font-weight: 600; font-size: .82rem; }
+.tvr-dl li em { grid-column: 2; font-style: normal; color: #787B86; }
+@media (max-width: 400px) { .tvr-donut { flex-direction: column; align-items: flex-start; } }
+
+/* the list of trades keeps TV's dress */
+.tvr .lt-table thead th { background: #1E222D; }
