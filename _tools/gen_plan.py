@@ -47,9 +47,12 @@ def worst_dd(p):
     buyers to judge from the full-window numbers, so the finder must too."""
     return max(num(bs(p, "Max DD")), num(fs(p, "Max DD")))
 
-DISCLAIMER = ("Trading futures involves substantial risk of loss and is not suitable for all investors. "
-              "Past performance is not indicative of future results. All published statistics are from "
-              "backtested validation runs over the stated windows.")
+DISCLAIMER = ("All performance figures are backtested or validation-run results shown with commissions and "
+              "slippage modeled, on the stated window. Backtested performance is hypothetical, does not "
+              "represent live trading results, and is not a guarantee or projection of future returns. Futures "
+              "trading involves substantial risk of loss and is not suitable for all investors. Nothing on this "
+              "site is financial advice. Access provides the strategy tool only; you are responsible for your "
+              "own trading decisions.")
 
 # ── the recommendation matrix ───────────────────────────────────
 BUDGETS = [
@@ -442,7 +445,7 @@ page = f"""<!DOCTYPE html>
       investment, legal, or tax advice, or a solicitation to buy or sell any financial instrument. Purchases,
       billing, and subscription management are processed by Whop; TradingView is a trademark of TradingView, Inc.
     </p>
-    <div class="copyright">&copy; 2026 FuturesTradingBots &middot; futurestradingbots.com</div>
+    <div class="copyright">© 2026 FuturesTradingBots · futurestradingbots.com</div>
   </div>
 </footer>
 

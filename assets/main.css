@@ -5027,3 +5027,47 @@ body * { text-transform: none !important; letter-spacing: normal !important; }
 @media (max-width: 680px) {
   .sx-t.px-half { min-width: 0; }
 }
+
+/* ================================================================
+   r4.4 — THE RESTORED PAGE, IN PANES. The product page returns to
+   its two-column form: displays left, purchase right, calendar
+   wide below. Every block wears the pane the catalog tables wear:
+   panel ground, hairline border, small radius, no glow. The index
+   joins the same chrome: the standard header and footer, and the
+   sheet body aligns to the .wrap grid so every page shares one
+   left edge.
+   ================================================================ */
+.rodd, .tvt, .record, .warn-box, .buybox, .sep-panel, .winset {
+  background: var(--panel);
+  border: 1px solid rgba(232, 234, 236, .07);
+  border-radius: 4px;
+}
+.tvt-pane, .chart-panel { background: transparent; }
+.record, .rodd { padding: 1.1rem 1.5rem 1rem; }
+.warn-box { padding: 1rem 1.5rem; }
+@media (max-width: 680px) {
+  .record, .rodd { padding: 0.8rem 0.9rem 0.7rem; }
+  .warn-box { padding: 0.8rem 0.9rem; }
+}
+
+/* the index sheet sits on the same grid as the header and footer */
+.sx-main {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 1.4rem var(--sp-5) 2.5rem;
+}
+
+/* r4.4 — chrome parity on the index: the sheet's blanket link color
+   must not repaint the shared header and footer. Mirror their exact
+   colors. And the sizing pane loses its corner brackets. */
+.rodd::before, .rodd::after { content: none; }
+.sx-doc .brand { color: var(--text); }
+.sx-doc .brand:hover, .sx-doc .btn:hover, .sx-doc .foot-links a:hover { text-decoration: none; }
+.sx-doc .nav-links a { color: var(--muted); }
+.sx-doc .nav-links a:hover { color: var(--accent); text-decoration: none; }
+.sx-doc .btn { color: var(--text); }
+.sx-doc .btn-buy { color: var(--buy-ink); }
+.sx-doc .foot-links a { color: var(--muted); }
+.sx-doc .foot-links a:hover { color: var(--text); }
+.sx-doc .foot-links a.foot-discord { color: var(--text); }
+.sx-doc .nav-mob-panel a { color: var(--muted); }

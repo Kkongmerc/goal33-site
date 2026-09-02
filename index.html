@@ -9,17 +9,37 @@
 <link rel="canonical" href="https://futurestradingbots.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&amp;family=Fragment+Mono&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/main.css?v=dbe6d2e9">
+<link rel="stylesheet" href="/assets/main.css?v=d6727ff1">
 </head>
 <body class="sx-doc">
+<a class="skip" href="#main">Skip to content</a>
 
-<header class="sx-head">
-  <p class="sx-mark">Futures<strong>TradingBots</strong></p>
-  <p class="sx-eff">Strategy specification sheet · effective 1 Sep 2026 · supersedes all prior sheets
-  <!-- WHOP: storefront link --> · <a href="https://whop.com/goal33systems/" rel="noopener">Get access</a></p>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="/"><svg class="bmark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="bmark-ant" d="M12 3.6V7.2"/><circle class="bmark-node" cx="12" cy="2.4" r="1.5"/><rect class="bmark-head" x="3.6" y="7.2" width="16.8" height="13" rx="3.4"/><rect class="bmark-eye" x="8" y="10.3" width="2.3" height="6.4" rx="1.15"/><rect class="bmark-eye" x="13.7" y="11.9" width="2.3" height="4.6" rx="1.15"/></svg><span class="bname">FUTURES<small>TRADING<span class="mk">BOTS</span></small></span></a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="/">All strategies</a>
+      <a href="/strategies/all-access.html">All-Access</a>
+      <a class="nav-plan" href="/plan.html">Plan finder</a>
+    </nav>
+    <!-- WHOP: storefront -->
+    <a class="btn btn-sm btn-buy" href="https://whop.com/goal33systems/" rel="noopener">Get access</a>
+    <!-- DISCORD: community invite -->
+    <a class="btn btn-sm btn-discord" href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener"><svg class="ic-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.7 17.4c-3.2-.1-4.9-1.7-4.9-1.7.3-4 1.4-6.6 2.7-8.3C7.8 6.4 9.2 6 9.2 6l.5 1.1c1.5-.3 3.1-.3 4.6 0L14.8 6s1.4.4 2.7 1.4c1.3 1.7 2.4 4.3 2.7 8.3 0 0-1.7 1.6-4.9 1.7l-.8-1.1c-1.6.3-3.4.3-5 0z"/><circle cx="9.6" cy="12.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.6" r="1.15" fill="currentColor" stroke="none"/></svg><span>Discord</span></a>
+    <details class="nav-mob">
+      <summary aria-label="Menu"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span></summary>
+      <nav class="nav-mob-panel" aria-label="Mobile">
+        <a href="/">All strategies</a>
+        <a href="/strategies/all-access.html">All-Access</a>
+        <a href="/plan.html">Plan finder</a>
+        <!-- DISCORD: community invite -->
+        <a href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener">Discord</a>
+      </nav>
+    </details>
+  </div>
 </header>
 
-<main class="sx-main">
+<main class="sx-main" id="main">
   <p class="sx-lede">15 futures strategies for MNQ/NQ and MGC, sold as TradingView invite-only scripts
   and activated to your TradingView username within 24 hours.</p>
   <p class="sx-note">Figures below are each strategy&rsquo;s best validated window, commissions and slippage modeled.
@@ -70,17 +90,26 @@
   All 15 strategies under one subscription: <a href="/strategies/all-access.html">All-Access — $999 / mo</a>.
   Not sure where to start: <a href="/plan.html">the plan finder</a> ranks them against your drawdown budget.</p>
 
-  <div class="sx-legal">
-    <p>All performance figures are backtested or validation-run results at the position size each strategy&rsquo;s validated run used, shown with commissions and slippage modeled. Backtested performance is hypothetical, does not represent live trading results, and is not a guarantee or projection of future returns. Futures trading involves substantial risk of loss and is not suitable for all investors. Nothing on this site is financial advice. Access provides the strategy tool only; you are responsible for your own trading decisions.</p>
-    <p><strong>Risk disclosure.</strong> Futures and derivatives trading involves substantial risk of loss and is not suitable for every investor. You may lose more than your initial investment. Only risk capital should be used for trading, and only those with sufficient risk capital should consider trading. <strong>Hypothetical performance disclaimer.</strong> Performance figures displayed on this site are hypothetical or simulated. Hypothetical performance results have many inherent limitations. No representation is being made that any account will or is likely to achieve profits or losses similar to those shown; in fact, there are frequently sharp differences between hypothetical performance results and the actual results subsequently achieved by any particular trading program. One of the limitations of hypothetical performance results is that they are generally prepared with the benefit of hindsight. FuturesTradingBots is a software publisher. Nothing on this site constitutes financial, investment, legal, or tax advice, or a solicitation to buy or sell any financial instrument. Purchases, billing, and subscription management are processed by Whop; TradingView is a trademark of TradingView, Inc.</p>
-  </div>
 </main>
 
-<footer class="sx-foot">
-  <p><a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> · <a href="/plan.html">Plan finder</a>
-  · <!-- DISCORD: community invite --><a href="https://discord.gg/BBXDDn9pCD" rel="noopener">Discord</a>
-  · <!-- WHOP: storefront --><a href="https://whop.com/goal33systems/" rel="noopener">Whop</a></p>
-  <p class="sx-fine">FuturesTradingBots · support via Discord or the chat on your Whop purchase page.</p>
+<footer>
+  <div class="wrap">
+<div class="foot-links">
+      <a href="/">All strategies</a>
+      <a href="/strategies/all-access.html">All-Access</a>
+      <a href="/plan.html">Plan finder</a>
+      <a href="/terms.html">Terms</a>
+      <a href="/privacy.html">Privacy</a>
+
+      <!-- DISCORD: community invite -->
+      <a class="foot-discord" href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener"><svg class="ic-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.7 17.4c-3.2-.1-4.9-1.7-4.9-1.7.3-4 1.4-6.6 2.7-8.3C7.8 6.4 9.2 6 9.2 6l.5 1.1c1.5-.3 3.1-.3 4.6 0L14.8 6s1.4.4 2.7 1.4c1.3 1.7 2.4 4.3 2.7 8.3 0 0-1.7 1.6-4.9 1.7l-.8-1.1c-1.6.3-3.4.3-5 0z"/><circle cx="9.6" cy="12.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.6" r="1.15" fill="currentColor" stroke="none"/></svg><span>Discord</span></a>
+    </div>
+    <p class="disclaimer">All performance figures are backtested or validation-run results shown with commissions and slippage modeled, on the stated window. Backtested performance is hypothetical, does not represent live trading results, and is not a guarantee or projection of future returns. Futures trading involves substantial risk of loss and is not suitable for all investors. Nothing on this site is financial advice. Access provides the strategy tool only; you are responsible for your own trading decisions.</p>
+    <p class="disclaimer">
+      <strong>Risk disclosure.</strong> Futures and derivatives trading involves substantial risk of loss and is not suitable for every investor. You may lose more than your initial investment. Only risk capital should be used for trading, and only those with sufficient risk capital should consider trading. <strong>Hypothetical performance disclaimer.</strong> Performance figures displayed on this site are hypothetical or simulated. Hypothetical performance results have many inherent limitations. No representation is being made that any account will or is likely to achieve profits or losses similar to those shown; in fact, there are frequently sharp differences between hypothetical performance results and the actual results subsequently achieved by any particular trading program. One of the limitations of hypothetical performance results is that they are generally prepared with the benefit of hindsight. FuturesTradingBots is a software publisher. Nothing on this site constitutes financial, investment, legal, or tax advice, or a solicitation to buy or sell any financial instrument. Purchases, billing, and subscription management are processed by Whop; TradingView is a trademark of TradingView, Inc.
+    </p>
+    <div class="copyright">© 2026 FuturesTradingBots · futurestradingbots.com</div>
+  </div>
 </footer>
 
 </body>
