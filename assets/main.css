@@ -5220,3 +5220,42 @@ a.pr-name[class*="fc-"]:hover { color: var(--fc-hi); }
   line-height: 1.65;
   max-width: 78ch;
 }
+
+/* ================================================================
+   r4.9 — THE FRONT PAGE WAKES UP. The flagship cover-flow returns
+   beside the intro: five identity-colored panes carrying their
+   real equity curves, auto-rotating on the old 25s clock, hover
+   pauses, a click brings that flagship to the front. The intro
+   gains its old headline. The ranked tables below are untouched.
+   ================================================================ */
+.sx-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: var(--sp-6);
+  align-items: center;
+  margin: 0.8rem 0 2rem;
+  overflow-x: clip;
+}
+.sx-hero-h1 {
+  font-size: clamp(1.8rem, 1.3rem + 1.7vw, 2.9rem);
+  line-height: 1.12;
+  font-weight: 700;
+  margin: 0 0 1.1rem;
+  max-width: 20ch;
+}
+.sx-hero-h1 .hl { color: var(--accent); }
+.sx-hero .sx-lede {
+  font-size: clamp(1.2rem, 1rem + 0.9vw, 1.65rem);
+  line-height: 1.45;
+  max-width: 66ch;
+  color: var(--text);
+}
+.sx-hero .sx-note {
+  font-size: clamp(0.98rem, 0.9rem + 0.35vw, 1.15rem);
+  line-height: 1.65;
+  max-width: 78ch;
+}
+.sx-doc .cf-link, .sx-doc .cf-link:hover { text-decoration: none; }
+@media (max-width: 1100px) {
+  .sx-hero { grid-template-columns: 1fr; }
+}

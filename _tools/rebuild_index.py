@@ -33,6 +33,80 @@ def pct(v):
     """RoDD-style ratios sell as percentages: 11.06x -> 1,106%."""
     return "{:,.0f}%".format(num(v) * 100)
 
+def bs(p, k):
+    return p["best"]["stats"].get(k, "—")
+
+# ── flagship cover-flow (5 slots — the CSS ring is built for exactly five) ──
+def load_trades(slug):
+    p = os.path.join(_HERE, "trades", slug + ".json")
+    if not os.path.exists(p):
+        return None
+    return json.load(open(p, encoding="utf-8"))
+
+SPARK_W, SPARK_H = 1200.0, 300.0
+
+def sparkline(slug, cls="fspark", pfx="fsg", maxpts=0):
+    """Full-bleed equity curve for a flagship pane, from the real record."""
+    tr = load_trades(slug)
+    pts = (tr or {}).get("equity") or []
+    if len(pts) < 2:
+        return ""
+    if maxpts and len(pts) > maxpts:
+        step = len(pts) / float(maxpts)
+        idx = sorted({int(i * step) for i in range(maxpts)} | {len(pts) - 1})
+        pts = [pts[i] for i in idx]
+    ys = [v for _, v in pts]
+    lo, hi = min(ys), max(ys)
+    span = (hi - lo) or 1.0
+    n = len(pts)
+    PAD = 6.0
+    def X(i): return PAD + (SPARK_W - 2 * PAD) * i / (n - 1)
+    def Y(v): return PAD + (SPARK_H - 2 * PAD) * (1.0 - (v - lo) / span)
+    line = " ".join(f"{X(i):.1f} {Y(v):.1f}" for i, (_, v) in enumerate(pts))
+    return (
+        f'<svg class="{cls}" viewBox="0 0 {SPARK_W:.0f} {SPARK_H:.0f}" preserveAspectRatio="none" '
+        f'aria-hidden="true" focusable="false">'
+        f'<defs><linearGradient id="{pfx}-{slug}" x1="0" y1="0" x2="0" y2="1">'
+        f'<stop class="{pfx}-a" offset="0"/><stop class="{pfx}-b" offset="1"/></linearGradient></defs>'
+        f'<path class="{cls}-area" fill="url(#{pfx}-{slug})" d="M{PAD:.1f} {SPARK_H:.1f} L{line} '
+        f'L{SPARK_W - PAD:.1f} {SPARK_H:.1f} Z"/>'
+        f'<path class="{cls}-line" fill="none" d="M{line}"/></svg>')
+
+BASE_DD = CAT.get("baseline_dd", 5000)
+
+def baseline(p):
+    return num(bs(p, "RoDD")) * BASE_DD
+
+TOP5 = sorted(S, key=lambda x: (-x["price"], -num(bs(x, "RoDD"))))[:5]
+RODD_RANK = {p["slug"]: i + 1 for i, p in enumerate(sorted(S, key=lambda x: -num(bs(x, "RoDD"))))}
+
+def cf_block():
+    radios = '<input class="cf-r" type="radio" name="cf-sel" id="cf-0" checked>' + "".join(
+        f'<input class="cf-r" type="radio" name="cf-sel" id="cf-{i+1}">' for i in range(len(TOP5)))
+    panes = ""
+    for i, p in enumerate(TOP5):
+        rk = RODD_RANK[p["slug"]]
+        tag = f"#{rk} RoDD" if rk <= 3 else "RoDD"
+        panes += (
+            f'<div class="cf-pane fc-{p["slug"]}">'
+            f'<a class="cf-link" href="/strategies/{p["slug"]}.html">'
+            + sparkline(p["slug"], cls="cf-spark", pfx="cf-sg", maxpts=64)
+            + f'<span class="cf-glyphwrap" aria-hidden="true">{glyph(p["slug"], "glyph cf-glyph")}</span>'
+            + f'<span class="cf-star"><b>{pct(bs(p, "RoDD"))}</b><i>{tag}</i></span>'
+            + f'<span class="cf-foot"><span class="cf-titlerow"><b class="cf-name">{esc(p["name"])}</b>'
+            + f'<span class="cf-price">${p["price"]}<small>/mo</small></span></span>'
+            + f'<span class="cf-gain">${baseline(p):,.0f}</span>'
+            + f'<span class="cf-win">on a ${BASE_DD:,} drawdown &middot; best window</span></span></a>'
+            f'<label class="cf-pick" for="cf-{i+1}"><span class="sr-only">Bring {esc(p["name"])} to the front</span></label>'
+            f'</div>')
+    dots = "".join(
+        f'<label class="cf-dot fc-{p["slug"]}" for="cf-{i+1}"><span class="sr-only">{esc(p["name"])}</span></label>'
+        for i, p in enumerate(TOP5))
+    return (radios + f'<div class="cf-stage">{panes}</div>'
+            f'<div class="cf-dots">{dots}'
+            '<label class="cf-play" for="cf-0"><span class="cf-play-ico" aria-hidden="true"></span>'
+            '<span class="sr-only">Resume the automatic rotation</span></label></div>')
+
 def buy_href(p):
     return p.get("whop") or f"/strategies/{p['slug']}.html"
 
@@ -167,11 +241,17 @@ page = f"""<!doctype html>
 </header>
 
 <main class="sx-main" id="main">
-  <p class="sx-lede">{len(S)} futures strategies for MNQ/NQ and MGC, sold as TradingView invite-only scripts
-  and activated to your TradingView username within 24 hours.</p>
-  <p class="sx-note">Figures below are each strategy&rsquo;s best validated window, commissions and slippage modeled.
-  The full record, good or ugly, is published on every specification page. Ranked by return on maximum
-  drawdown (RoDD). Net is the window&rsquo;s closed-trade total at the validated run&rsquo;s position size.</p>
+  <div class="sx-hero">
+    <div class="sx-hero-copy">
+      <h1 class="sx-hero-h1">Strategies engineered to be <span class="hl">measured</span>, not believed.</h1>
+      <p class="sx-lede">{len(S)} futures strategies for MNQ/NQ and MGC, sold as TradingView invite-only scripts
+      and activated to your TradingView username within 24 hours.</p>
+      <p class="sx-note">Figures below are each strategy&rsquo;s best validated window, commissions and slippage modeled.
+      The full record, good or ugly, is published on every specification page. Ranked by return on maximum
+      drawdown (RoDD). Net is the window&rsquo;s closed-trade total at the validated run&rsquo;s position size.</p>
+    </div>
+    <div class="coverflow" aria-label="Flagship strategies">{cf_block()}</div>
+  </div>
 
 {table("MNQ / NQ · Nasdaq futures", mnq_rows, len(mnq))}
 
