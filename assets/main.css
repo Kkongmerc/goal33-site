@@ -5804,6 +5804,33 @@ body, .sx-doc { font-family: var(--sans); }
 .tvr .tvr-ovbot .tvr-cells-2 .tvr-cell:nth-child(n+3) { padding-top: 5px; }
 .tvr .tvt-note { margin-top: 6px; line-height: 1.4; }
 @container (max-width: 560px) { .tvr .tvr-top3 { grid-template-columns: 1fr; } .tvr .tvr-top3 .tvr-title { justify-self: start; } .tvr .tvr-chips .tvr-chip:nth-child(3), .tvr .tvr-chips .tvr-chip:nth-child(4) { display: none; } .tvr .tvr-spacer { display: none; } }
+/* owner 2026-09-03: coming-soon instrument sections */
+.sx-soon-badge { display: inline-block; vertical-align: middle; margin-left: .5rem; font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: #ED9B40; border: 1px solid rgba(237,155,64,.6); border-radius: 3px; padding: 2px 7px; font-family: var(--mono); }
+.sx-soon { font-size: .74rem; color: #9aa2a8; white-space: nowrap; }
+.sx-t-soon td.sx-n { font-weight: 600; color: #C6CAD2; }
+.sx-t-soon td.sx-s { text-align: left; }
+/* owner 2026-09-03: section titles centred; one column layout for every table so rows align across sections */
+.sx-sec > h2 { text-align: center; }
+.sx-sec > h2 .sx-soon-badge { vertical-align: middle; }
+.sx-t th.sx-r, .sx-t td.sx-r { width: 2.2rem; }
+.sx-t th.sx-n, .sx-t td.sx-n { width: 22%; min-width: 12rem; }
+.sx-t th.sx-s, .sx-t td.sx-s { width: 11%; }
+.sx-t th.sx-p, .sx-t td.sx-p { width: 5rem; }
+.sx-t { table-layout: fixed; width: 100%; min-width: 1180px; }
+.sx-t-wide th, .sx-t-wide td { overflow: hidden; text-overflow: ellipsis; }
+/* column plan (owner 2026-09-03 alignment): identical widths in every section; headers may wrap, cells never truncate */
+.sx-t { min-width: 1240px; }
+.sx-t th { white-space: normal; line-height: 1.2; vertical-align: bottom; }
+.sx-t th.sx-n, .sx-t td.sx-n { width: 17%; min-width: 11rem; }
+.sx-t th.sx-rodd, .sx-t td.sx-rodd { width: 4.6rem; }
+.sx-t th:nth-child(4), .sx-t td:nth-child(4), .sx-t th:nth-child(5), .sx-t td:nth-child(5) { width: 4.8rem; }
+.sx-t th.sx-net, .sx-t td.sx-net { width: 7.6rem; }
+.sx-t th:nth-child(7), .sx-t td:nth-child(7), .sx-t th:nth-child(8), .sx-t td:nth-child(8) { width: 5.6rem; }
+.sx-t th:nth-child(9), .sx-t td:nth-child(9), .sx-t th:nth-child(10), .sx-t td:nth-child(10) { width: 5.4rem; }
+.sx-t th:nth-child(11), .sx-t td:nth-child(11) { width: 3.4rem; }
+.sx-t th.sx-s, .sx-t td.sx-s { width: 8.4rem; white-space: normal; }
+.sx-t-wide td.sx-net, .sx-t-wide td.sx-f { overflow: visible; text-overflow: clip; }
+.sx-t td.sx-n { overflow: hidden; }
 
 /* r6.1 (re-applied on the merged stream) — OUR GREEN, NOT THAT
    BLUE, and the brightest grey a notch darker. Accent literals

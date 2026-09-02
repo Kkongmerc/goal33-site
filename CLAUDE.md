@@ -237,14 +237,19 @@ operator works from.
   embedded in catalog2.json; original names appear as subtitles. Slugs/URLs never
   change on rename.
 
-## Pricing (formula-driven, see pipeline section)
+## Pricing (banded by average monthly profit; stored in the catalog)
 
-Strategies $299–$909 by the RoDD-x-sample formula · All-Access $999 (struck
-against the live catalog sum, currently $3,315; excludes Books) · Annual =
-10x monthly ("2 months free") · Books $589/$889/$989/$1,189 solo and $2,999
-for all four WHEN THEY PUBLISH — `books[]` is empty today. **Pick-3 is
-retired.** Deals always show the combined price struck out, computed from the
-catalog at build time.
+The RoDD-x-sample formula is RETIRED. Prices are set from average monthly
+profit at the shown multiplier and STORED in `catalog2.json` -> each
+strategy's `price`; the generators read them and never recompute:
+<=$10k -> $75 · $10-14k -> $125 · $14-18k -> $200 · $18-20k -> $275 ·
+$20k+ -> $350. Books and combos are priced by hand ABOVE the band:
+Midas $550 · Triad $700 · Slipstream $700 · Continuum $950 · The Books
+$1,200 · All-Access $1,500 (books INCLUDED; $1,200/mo with 3 months up
+front). Annual = 10x monthly ("2 months free"). **Pick-3 is retired.**
+Deals always show the combined price struck out, computed from the catalog
+at build time. When a band changes, edit the `price` fields and regenerate
+— never hand-edit a price into a page.
 
 Founding affiliate commission **15%** recurring; buyer referral discount 10%.
 Terms promise the rate you earn it at is the rate you keep — if the rate ever

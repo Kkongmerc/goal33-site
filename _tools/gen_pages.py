@@ -1306,7 +1306,7 @@ def product_page(p, is_book):
     struck = None
     if is_book:
         others = [bk for bk in CAT["books"] if bk["slug"] != p["slug"]]
-        xsell = ('All four engines: <a href="/strategies/the-books.html">The Books — $2,999/mo</a> · '
+        xsell = ('All four engines: <a href="/strategies/the-books.html">The Books — ${BN["books_all"]["price"]}/mo</a> · '
                  + " · ".join(f'<a href="/strategies/{o["slug"]}.html">{esc(o["name"])}</a>' for o in others[:2]))
     page = head(f"{p['name']} — FuturesTradingBots", mdesc, path,
                 bodycls=(f"pdp-theme fc-{p['slug']}" if p["slug"] in THEMED else ""))
@@ -1413,13 +1413,13 @@ inc_rows = "".join(
     for s in sorted(CAT["strategies"], key=lambda x: -x["price"]))
 if not PRELAUNCH and HAS_BUNDLES:
     bundle_page("all-access", "All-Access", BN["all_access"]["price"], COMBINED_ALL,
-        "Every validated strategy in the catalog. The Books are not included.",
+        "Every strategy in the catalog, the two books included.",
         f"""<div class="record">
             <div class="record-title">Included — all {len(CAT["strategies"])} validated systems (combined ${COMBINED_ALL:,}/mo)</div>
             <div class="included included-scroll" tabindex="0" role="region" aria-label="All included systems"><ul>{inc_rows}</ul></div>
-            <p class="record-note">{"The Books are not included in All-Access. The four in-house engines are a separate premium tier." if HAS_BOOKS_BUNDLE else "The in-house Books are still in validation; when they publish they will be a separate tier, not part of All-Access."}</p>
+            <p class="record-note">{("Both books are included. " + (BN["all_access"]["prepay"]["line"] + ".") if BN["all_access"].get("prepay") else "Both books are included.") if HAS_BOOKS_BUNDLE else "The in-house Books are still in validation; when they publish they will be a separate tier, not part of All-Access."}</p>
           </div>""",
-        ('Want the engines themselves? <a href="/strategies/the-books.html">The Books — $2,999/mo</a>'
+        ('Want the engines themselves? <a href="/strategies/the-books.html">The Books — ${BN["books_all"]["price"]}/mo</a>'
          if HAS_BOOKS_BUNDLE else
          'Not ready for everything? Subscribe to the systems you want one at a time.'))
 
@@ -1430,6 +1430,7 @@ if not PRELAUNCH and HAS_BOOKS_BUNDLE:
         f'<li><a class="sys-link" href="/strategies/{b["slug"]}.html"><span class="inc-name">{esc(b["name"])}</span></a>'
         f'<span class="inc-price">{esc(b["actual"])} · ${b["price"]:,}/mo solo</span></li>'
         for b in CAT["books"])
+    _pp = BN["all_access"].get("prepay")
     bundle_page("the-books", "The Books", BN["books_all"]["price"], BN["books_all"]["combined"],
         "All four in-house engines. The metric that matters at this level: return on drawdown.",
         f"""<div class="record">

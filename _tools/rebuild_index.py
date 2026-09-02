@@ -314,6 +314,22 @@ def row(p, rank, dd_cols=False):
         f'</tr>'
     )
 
+def coming_soon_html():
+    """Instrument sections listed as coming soon (owner 2026-09-03): construction + session + status,
+    no prices or links until each passes the TradingView campaign. Driven by catalog2 `coming_soon`."""
+    cs = CAT.get("coming_soon") or {}
+    out = ""
+    for title, rows in cs.items():
+        if title.startswith("_") or not isinstance(rows, list): continue
+        trs = "".join(f'<tr><td class="sx-n">{esc(r[0])}</td><td class="sx-s">{esc(r[1])}</td><td class="sx-f"><span class="sx-soon">{esc(r[2])}</span></td></tr>' for r in rows)
+        out += f"""
+<section class="sx-sec sx-soon-sec">
+  <h2>{esc(title)} <span class="sx-soon-badge">Coming soon</span></h2>
+  <p class="sx-lede-sec">Validated in the engine; now being reproduced on TradingView on the same rules as every listed strategy (drawdown under $10,000 at the shown multiplier, no result carried by a handful of trades, no break-even-stop padding). Listed here with prices once the tape passes.</p>
+  <div class="sx-scroll"><table class="sx-t sx-t-soon"><thead><tr><th scope="col" class="sx-n">Construction</th><th scope="col" class="sx-s">Session (ET)</th><th scope="col" class="sx-f">Status</th></tr></thead><tbody>{trs}</tbody></table></div>
+</section>"""
+    return out
+
 def table(title, rows_html, n, dd_cols=False, sec_id="", lede=""):
     dd_th = ('<th scope="col" class="sx-f"><abbr title="Max drawdown of the best window at one multiple of the product\'s own sizing">Drawdown 1&times;</abbr></th>'
              '<th scope="col" class="sx-f"><abbr title="Max drawdown of the best window at the published multiplier">Drawdown at &times;K</abbr></th>') if dd_cols else ""
@@ -350,8 +366,8 @@ mnq = [p for p in S if kind_of(p) == "single" and market_of(p) == "MNQ"]
 mgc = [p for p in S if kind_of(p) == "single" and market_of(p) == "MGC"]
 books_rows = "".join(row(p, i, dd_cols=True) for i, p in enumerate(book_list, 1))
 combo_rows = "".join(row(p, i, dd_cols=True) for i, p in enumerate(combos, 1))
-mnq_rows = "".join(row(p, i) for i, p in enumerate(mnq, 1))
-mgc_rows = "".join(row(p, i) for i, p in enumerate(mgc, 1))
+mnq_rows = "".join(row(p, i, dd_cols=True) for i, p in enumerate(mnq, 1))
+mgc_rows = "".join(row(p, i, dd_cols=True) for i, p in enumerate(mgc, 1))
 if COMBINED:
     print("combined books: K x{} dd1x ${:,.0f} net1x ${:,.0f}".format(COMBINED["mult"], COMBINED["dd1"], COMBINED["net1"]))
     print("combined books: net ${:,.0f} maxDD ${:,.0f} months {} RoDD {:.2f} RoDD/mo {} trades {:,} win {} PF {} avg/mo ${:,.0f} span {}..{}".format(
@@ -446,13 +462,15 @@ page = f"""<!doctype html>
 {table("Combo sets", combo_rows, len(combos), dd_cols=True, sec_id="combos",
        lede="Multi-strategy sets: two or three legs routed through one script.")}
 
-{table("MNQ · Nasdaq futures", mnq_rows, len(mnq))}
+{table("MNQ · Nasdaq futures", mnq_rows, len(mnq), dd_cols=True)}
 
-{table("MGC · Gold futures", mgc_rows, len(mgc))}
+{table("MGC · Gold futures", mgc_rows, len(mgc), dd_cols=True)}
+
+{coming_soon_html()}
 
   <p class="sx-all"><!-- WHOP: replace with All-Access checkout link when it exists -->
   All {len(S)} strategies under one subscription: <a href="/strategies/all-access.html">All-Access — ${CAT["bundles"]["all_access"]["price"]} / mo</a>.
-  Not sure where to start: <a href="/plan.html">the plan finder</a> ranks them against your drawdown budget.</p>
+  {("(" + esc(CAT["bundles"]["all_access"]["prepay"]["line"]) + ".) ") if CAT["bundles"]["all_access"].get("prepay") else ""}Not sure where to start: <a href="/plan.html">the plan finder</a> ranks them against your drawdown budget.</p>
 
   <p class="sx-promo">{esc(PROMO_LINE)}</p>
 

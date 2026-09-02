@@ -71,7 +71,7 @@
           "Return on risk/mo": "8075%"
         }
       },
-      "price": 1279,
+      "price": 950,
       "legs": [
         [
           "08:30 range fade Mon/Wed/Fri",
@@ -160,7 +160,7 @@
           "Return on risk/mo": "5707%"
         }
       },
-      "price": 889,
+      "price": 700,
       "legs": [
         [
           "FVG continuation",
@@ -229,7 +229,7 @@
           "Return on risk/mo": "3696%"
         }
       },
-      "price": 709,
+      "price": 700,
       "legs": [],
       "sep": [
         "Figures shown at Multiplier 5 — the largest whole multiple that keeps the best-window drawdown under $10,000 ($1,764 at the strategy's own sizing). Set the Multiplier dial to 5 to trade the record as shown.",
@@ -285,7 +285,7 @@
           "Return on risk/mo": "3344%"
         }
       },
-      "price": 989,
+      "price": 550,
       "legs": [
         [
           "Tokyo open drive",
@@ -359,7 +359,7 @@
           "Return on risk/mo": "945%"
         }
       },
-      "price": 419,
+      "price": 350,
       "legs": [],
       "sep": [
         "Figures shown at Multiplier 6 — the largest whole multiple that keeps the best-window drawdown under $10,000 ($1,520 at the strategy's own sizing). Set the Multiplier dial to 6 to trade the record as shown.",
@@ -427,7 +427,7 @@
         "start": "01 Jan 2026",
         "end": "09 Aug 2026"
       },
-      "price": 369
+      "price": 350
     },
     {
       "slug": "the-alloy",
@@ -469,7 +469,7 @@
           "Return on risk/mo": "991%"
         }
       },
-      "price": 589,
+      "price": 275,
       "legs": [
         [
           "New York FVG continuation",
@@ -531,7 +531,7 @@
           "Return on risk/mo": "939%"
         }
       },
-      "price": 699,
+      "price": 200,
       "legs": [],
       "sep": [
         "Figures shown at Multiplier 5 — the largest whole multiple that keeps the best-window drawdown under $10,000 ($1,678 at the strategy's own sizing). Set the Multiplier dial to 5 to trade the record as shown.",
@@ -552,7 +552,7 @@
       "name": "Confluence",
       "actual": "MNQ FVG Continuation + Level Reclaim (2-leg)",
       "meta": "MNQ · overnight + 24h — the FVG continuation and the level reclaim, one script",
-      "price": 369,
+      "price": 200,
       "window": "02 Jan 2026 - 01 Sep 2026",
       "best": {
         "label": "Best window — 02 Jan 2026 - 01 Sep 2026 (validation-board method)",
@@ -652,7 +652,7 @@
           "Return on risk/mo": "1083%"
         }
       },
-      "price": 319,
+      "price": 125,
       "legs": [],
       "sep": [
         "Figures shown at Multiplier 3 — the largest whole multiple that keeps the best-window drawdown under $10,000 ($2,332 at the strategy's own sizing). Set the Multiplier dial to 3 to trade the record as shown.",
@@ -708,7 +708,7 @@
           "Return on risk/mo": "1359%"
         }
       },
-      "price": 649,
+      "price": 200,
       "legs": [],
       "sep": [
         "Figures shown at Multiplier 4 — the largest whole multiple that keeps the best-window drawdown under $10,000 ($2,475 at the strategy's own sizing). Set the Multiplier dial to 4 to trade the record as shown.",
@@ -764,7 +764,7 @@
           "Return on risk/mo": "347%"
         }
       },
-      "price": 139,
+      "price": 200,
       "legs": [],
       "sep": [
         "Figures shown at Multiplier 44 — the largest whole multiple that keeps the best-window drawdown under $10,000 ($226 at the strategy's own sizing). Set the Multiplier dial to 44 to trade the record as shown.",
@@ -820,7 +820,7 @@
           "Return on risk/mo": "307%"
         }
       },
-      "price": 129,
+      "price": 125,
       "legs": [],
       "sep": [
         "Figures shown at Multiplier 12 — the largest whole multiple that keeps the best-window drawdown under $10,000 ($783 at the strategy's own sizing). Set the Multiplier dial to 12 to trade the record as shown.",
@@ -876,7 +876,7 @@
           "Return on risk/mo": "775%"
         }
       },
-      "price": 309,
+      "price": 125,
       "legs": [],
       "sep": [
         "Figures shown at Multiplier 4 — the largest whole multiple that keeps the best-window drawdown under $10,000 ($2,181 at the strategy's own sizing). Set the Multiplier dial to 4 to trade the record as shown.",
@@ -932,7 +932,7 @@
           "Return on risk/mo": "779%"
         }
       },
-      "price": 209,
+      "price": 125,
       "legs": [],
       "sep": [
         "Figures shown at Multiplier 7 — the largest whole multiple that keeps the best-window drawdown under $10,000 ($1,062 at the strategy's own sizing). Set the Multiplier dial to 7 to trade the record as shown.",
@@ -988,7 +988,7 @@
           "Return on risk/mo": "683%"
         }
       },
-      "price": 189,
+      "price": 125,
       "legs": [],
       "sep": [
         "Figures shown at Multiplier 16 — the largest whole multiple that keeps the best-window drawdown under $10,000 ($542 at the strategy's own sizing). Set the Multiplier dial to 16 to trade the record as shown.",
@@ -1044,7 +1044,7 @@
           "Return on risk/mo": "418%"
         }
       },
-      "price": 199,
+      "price": 125,
       "legs": [],
       "sep": [
         "Figures shown at Multiplier 11 — the largest whole multiple that keeps the best-window drawdown under $10,000 ($864 at the strategy's own sizing). Set the Multiplier dial to 11 to trade the record as shown.",
@@ -1100,7 +1100,7 @@
           "Return on risk/mo": "374%"
         }
       },
-      "price": 119,
+      "price": 125,
       "legs": [],
       "sep": [
         "Figures shown at Multiplier 11 — the largest whole multiple that keeps the best-window drawdown under $10,000 ($854 at the strategy's own sizing). Set the Multiplier dial to 11 to trade the record as shown.",
@@ -1156,7 +1156,7 @@
           "Return on risk/mo": "482%"
         }
       },
-      "price": 399,
+      "price": 125,
       "legs": [],
       "sep": [
         "Figures shown at Multiplier 16 — the largest whole multiple that keeps the best-window drawdown under $10,000 ($612 at the strategy's own sizing). Set the Multiplier dial to 16 to trade the record as shown.",
@@ -1212,7 +1212,7 @@
           "Return on risk/mo": "646%"
         }
       },
-      "price": 269,
+      "price": 75,
       "legs": [],
       "sep": [
         "Figures shown at Multiplier 18 — the largest whole multiple that keeps the best-window drawdown under $10,000 ($540 at the strategy's own sizing). Set the Multiplier dial to 18 to trade the record as shown.",
@@ -1232,12 +1232,17 @@
   "books": [],
   "bundles": {
     "all_access": {
-      "price": 999,
-      "combined": 4220
+      "price": 1500,
+      "combined": 5750,
+      "prepay": {
+        "price": 1200,
+        "months_up_front": 3,
+        "line": "$1,200/mo with 3 months paid up front"
+      }
     },
     "books_all": {
-      "price": 2999,
-      "combined": 3656
+      "price": 1200,
+      "combined": 1500
     },
     "starter": {
       "price": 149,
@@ -1446,6 +1451,62 @@
         "legs": [],
         "sep": [],
         "warn": ""
+      },
+      {
+        "slug": "recoil",
+        "name": "Recoil",
+        "actual": "MNQ 08:30 Failed-Break Reclaim",
+        "meta": "MNQ · 08:30 ET — fades the failed break of the 08:30 opening range back into it, every weekday",
+        "window": "02 May 2025 - 21 Aug 2026",
+        "best": {
+          "label": "Best window — 02 May 2025 - 21 Aug 2026 (validation-board method)",
+          "stats": {
+            "RoDD": "31.59",
+            "PF": "2.48",
+            "Win": "60.4%",
+            "Net": "$265.1k",
+            "Max DD": "$8.4k",
+            "Trades": "275",
+            "$/trade": "$964",
+            "Months": "16",
+            "RoDD/mo": "2.02",
+            "Risk/trade": "$1,595",
+            "Max loss": "-$4,175",
+            "Return on risk/mo": "1063%"
+          }
+        },
+        "full": {
+          "label": "Full record (13 Jan 2025 - 21 Aug 2026)",
+          "stats": {
+            "RoDD": "22.10",
+            "PF": "2.32",
+            "Win": "59.7%",
+            "Net": "$305.7k",
+            "Max DD": "$13.8k",
+            "Trades": "335",
+            "$/trade": "$912",
+            "Months": "19",
+            "RoDD/mo": "1.15",
+            "Risk/trade": "$1,694",
+            "Max loss": "-$4,545",
+            "Return on risk/mo": "939%"
+          }
+        },
+        "price": 249,
+        "legs": [],
+        "sep": [
+          "Figures shown at Multiplier 5 — the largest whole multiple that keeps the best-window drawdown under $10,000 ($1,678 at the strategy's own sizing). Set the Multiplier dial to 5 to trade the record as shown.",
+          "60.4% wins at PF 2.48 across the best window (275 trades)."
+        ],
+        "warn": "UNLISTED True",
+        "whop": "",
+        "mult": 5,
+        "opt_window": {
+          "start": "01 Jan 2026",
+          "end": "28 Aug 2026"
+        },
+        "session": "08:30 – 14:00",
+        "kind": "single"
       }
     ],
     "books": [
@@ -1630,5 +1691,98 @@
     "code": "SEPT30",
     "ends": "30 Sep 2026",
     "note": "Monthly special strip (buy box + index). All copy comes from this object; set active=false to remove it site-wide. {pct} and {code} are substituted into line."
+  },
+  "coming_soon": {
+    "_note": "Instrument sections rendered as 'Coming soon' on the index (owner 2026-09-03). rows: [construction, session ET, status]. Only rows that passed the candidate validation sweep are listed.",
+    "MYM · Dow futures": [
+      [
+        "08:15 opening-range continuation",
+        "08:15 – 15:55",
+        "validated on the engine tape · TradingView reproduction queued"
+      ],
+      [
+        "08:30 range fade",
+        "08:30 – 12:16",
+        "validated on the engine tape · TradingView reproduction queued"
+      ],
+      [
+        "09:30 opening-range continuation",
+        "09:30 – 15:55",
+        "validated on the engine tape · TradingView reproduction queued"
+      ]
+    ],
+    "M2K · Russell 2000 futures": [
+      [
+        "08:15 opening-range continuation",
+        "08:15 – 15:55",
+        "validated on the engine tape · TradingView reproduction queued"
+      ],
+      [
+        "20:00 opening-range fade",
+        "20:00 – 02:00",
+        "validated on the engine tape · TradingView reproduction queued"
+      ],
+      [
+        "03:00 London opening-range continuation",
+        "03:00 – 09:30",
+        "validated on the engine tape · TradingView reproduction queued"
+      ],
+      [
+        "08:30 data fade",
+        "08:30 – 12:16",
+        "validated on the engine tape · TradingView reproduction queued"
+      ],
+      [
+        "10:00 opening-range fade",
+        "10:00 – 15:55",
+        "validated on the engine tape · TradingView reproduction queued"
+      ],
+      [
+        "13:00 opening-range fade",
+        "13:00 – 15:55",
+        "validated on the engine tape · TradingView reproduction queued"
+      ],
+      [
+        "08:30 opening-range fade",
+        "08:30 – 15:55",
+        "validated on the engine tape · TradingView reproduction queued"
+      ],
+      [
+        "09:30 opening-range fade",
+        "09:30 – 15:55",
+        "validated with a flag (a third of the net comes from stops closed in profit) · TradingView reproduction queued"
+      ]
+    ],
+    "MES · S&P 500 futures": [
+      [
+        "Session opening-range",
+        "09:30 – 16:00",
+        "validated on the engine tape · TradingView reproduction queued"
+      ],
+      [
+        "08:30 range fade",
+        "08:30 – 12:16",
+        "validated on the engine tape · TradingView reproduction queued"
+      ]
+    ],
+    "MGC · Gold futures (additional)": [
+      [
+        "5-minute level sweep and reclaim",
+        "18:00 – 16:00",
+        "validated on the engine tape · TradingView reproduction queued"
+      ],
+      [
+        "10-minute FVG continuation, all sessions",
+        "18:00 – 16:00",
+        "validated on the engine tape · TradingView reproduction queued"
+      ]
+    ],
+    "SIL · Silver futures": [
+      [
+        "Gold-book constructions ported to silver",
+        "—",
+        "first TradingView look queued"
+      ]
+    ]
   }
 }
