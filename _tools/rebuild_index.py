@@ -29,7 +29,7 @@ def special_strip():
         return ""
     line = SPECIAL.get("line", "").replace("{pct}", str(SPECIAL.get("pct", ""))).replace("{code}", SPECIAL.get("code", ""))
     ends = f'<em>ends {esc(SPECIAL["ends"])}</em>' if SPECIAL.get("ends") else ""
-    item = f'<span class="sm-i"><b>{esc(SPECIAL.get("label", "Special"))}</b> {esc(line)}{(" &middot; ends " + esc(SPECIAL["ends"])) if SPECIAL.get("ends") else ""}</span>'
+    item = f'<span class="sm-i"><b>{esc(SPECIAL.get("label", "Special"))}</b> {esc(line)}{(" · ends " + esc(SPECIAL["ends"])) if SPECIAL.get("ends") else ""}</span>'
     return f'<div class="special-marquee"><div class="sm-track">{item * 8}</div></div>'
 
 def esc(s):
@@ -229,7 +229,7 @@ def cf_block():
             + f'<span class="cf-foot"><span class="cf-titlerow"><b class="cf-name">{esc(p["name"])}</b>'
             + f'<span class="cf-price">${p["price"]}<small>/mo</small></span></span>'
             + f'<span class="cf-gain">{rodd_mo_pct(p["best"]["stats"])}</span>'
-            + f'<span class="cf-win">avg monthly return on drawdown &middot; best window</span></span></a>'
+            + f'<span class="cf-win">avg monthly return on drawdown · best window</span></span></a>'
             f'<label class="cf-pick" for="cf-{i+1}"><span class="sr-only">Bring {esc(p["name"])} to the front</span></label>'
             f'</div>')
     dots = "".join(
@@ -502,15 +502,15 @@ page = f"""<!doctype html>
   {special_strip()}
   <p class="sx-ddnote">All strategies simulated based on a $10,000 or less drawdown.</p>
 
-{table("The Books", books_rows, len(book_list), dd_cols=True, sec_id="books",
+{table("The Books · Whole-Day Multi-Strategy Portfolios", books_rows, len(book_list), dd_cols=True, sec_id="books",
        lede="The whole-day engines. The first row is both books run together in one account: each book taken back to one multiple, the two curves merged, then sized to the largest whole multiplier that keeps the combined drawdown under $10,000 (never below &times;3); the combined drawdown is measured on the merged daily equity curve.")}
 
-{table("Combo sets", combo_rows, len(combos), dd_cols=True, sec_id="combos",
+{table("Combo Sets · Two And Three Leg Routed Strategies", combo_rows, len(combos), dd_cols=True, sec_id="combos",
        lede="Multi-strategy sets: two or three legs routed through one script.")}
 
-{table("MNQ · Nasdaq futures", mnq_rows, len(mnq), dd_cols=True, n_soon=n_soon_mnq)}
+{table("MNQ · Nasdaq Futures", mnq_rows, len(mnq), dd_cols=True, n_soon=n_soon_mnq)}
 
-{table("MGC · Gold futures", mgc_rows, len(mgc), dd_cols=True, n_soon=n_soon_mgc)}
+{table("MGC · Gold Futures", mgc_rows, len(mgc), dd_cols=True, n_soon=n_soon_mgc)}
 
 {coming_soon_html()}
 

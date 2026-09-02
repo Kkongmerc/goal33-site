@@ -1694,7 +1694,7 @@
   },
   "coming_soon": {
     "_note": "Instrument sections rendered as 'Coming soon' on the index (owner 2026-09-03). rows: [construction, session ET, status]. Only rows that passed the candidate validation sweep are listed.",
-    "MYM · Dow futures": [
+    "MYM · Dow Futures": [
       [
         "08:15 opening-range continuation",
         "08:15 – 15:55",
@@ -1711,7 +1711,7 @@
         "validated on the engine tape · TradingView reproduction queued"
       ]
     ],
-    "M2K · Russell 2000 futures": [
+    "M2K · Russell 2000 Futures": [
       [
         "08:15 opening-range continuation",
         "08:15 – 15:55",
@@ -1753,7 +1753,7 @@
         "validated with a flag (a third of the net comes from stops closed in profit) · TradingView reproduction queued"
       ]
     ],
-    "MES · S&P 500 futures": [
+    "MES · S&P 500 Futures": [
       [
         "Session opening-range",
         "09:30 – 16:00",
@@ -1765,7 +1765,7 @@
         "validated on the engine tape · TradingView reproduction queued"
       ]
     ],
-    "MGC · Gold futures (additional)": [
+    "MGC · Gold Futures Additional": [
       [
         "5-minute level sweep and reclaim",
         "18:00 – 16:00",
@@ -1777,7 +1777,7 @@
         "validated on the engine tape · TradingView reproduction queued"
       ]
     ],
-    "SIL · Silver futures": [
+    "SIL · Silver Futures": [
       [
         "Gold-book constructions ported to silver",
         "—",
