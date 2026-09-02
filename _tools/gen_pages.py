@@ -333,7 +333,7 @@ def trades_table(tr, slug):
 def calendar_real(tr):
     import datetime as _dt
     daily = tr["daily"]
-    months = sorted({d[:7] for d in daily})[-6:]
+    months = sorted({d[:7] for d in daily})[-9:]   # owner 2026-09-03: up to nine months of calendars
     out = ""
     for ym in months:
         y, m = int(ym[:4]), int(ym[5:7])
