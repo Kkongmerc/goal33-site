@@ -155,7 +155,7 @@
   --sp-8: 4.5rem;
 
   --maxw: min(1560px, 94vw);
-  --header-h: 64px;   /* sticky header height — drives scroll-margin */
+  --header-h: 84px;   /* sticky header height — drives scroll-margin */
   --fast: 180ms;
   --ease: cubic-bezier(.25, .46, .45, .94);
 }
@@ -294,7 +294,11 @@ header {
 /* wordmark lockup: the AFT logo replaces the bmark+text mark above (kept
    in place, unused, rather than pruned -- matches the file's own pattern
    for retired identity marks). CSP forbids inline style, sizing is classed. */
-.brand-logo { display: block; height: 40px; width: auto; }
+/* the wordmark carries three text lines (AFT / ALL FLUENCE TRADING / WE ARE
+   THE EDGE); at 40px the lower two were unreadable, so the lockup is sized
+   up and --header-h grows with it (every sticky offset derives from that
+   token, so they follow automatically). */
+.brand-logo { display: block; width: min(227px, 62vw); height: auto; }
 
 .brand small {
   display: block;
@@ -1563,7 +1567,10 @@ section { border-bottom: 1px solid var(--line); padding: var(--sp-6) 0; }
 
 /* ── footer ────────────────────────────────────────────────── */
 footer { padding: var(--sp-7) 0; }
-.foot-logo { display: block; height: 64px; width: auto; margin-bottom: var(--sp-4); }
+/* sized by WIDTH with height:auto — an explicit height plus max-width
+   clipped the wordmark on narrow screens. 394px = 104px tall at the
+   image's 985x260 aspect. */
+.foot-logo { display: block; width: min(394px, 100%); height: auto; margin-bottom: var(--sp-4); }
 
 .foot-links {
   display: flex; flex-wrap: wrap;
@@ -1648,7 +1655,7 @@ footer { padding: var(--sp-7) 0; }
 }
 
 @media (max-width: 640px) {
-  :root { --header-h: 108px; }             /* wrapped two-row header */
+  :root { --header-h: 128px; }             /* wrapped two-row header */
   .steps, .sec-grid { grid-template-columns: minmax(0, 1fr); }
   .gloss-grid { grid-template-columns: minmax(0, 1fr); }
   .nav {
@@ -1707,7 +1714,7 @@ footer { padding: var(--sp-7) 0; }
 /* below ~332px the links can wrap to a third row: tighten,
    and raise the anchor offset to clear the taller header */
 @media (max-width: 344px) {
-  :root { --header-h: 136px; }
+  :root { --header-h: 156px; }
   .nav-links { gap: 0 var(--sp-2); letter-spacing: 0; }
 }
 

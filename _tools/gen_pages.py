@@ -143,7 +143,7 @@ def head(title, desc, path, bodycls=""):
     <!-- WHOP: storefront -->
     <a class="btn btn-sm btn-buy" href="{WHOP_STORE}" rel="noopener">Get access</a>
     <!-- DISCORD: community invite -->
-    <a class="btn btn-sm btn-discord" href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener"><svg class="ic-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.7 17.4c-3.2-.1-4.9-1.7-4.9-1.7.3-4 1.4-6.6 2.7-8.3C7.8 6.4 9.2 6 9.2 6l.5 1.1c1.5-.3 3.1-.3 4.6 0L14.8 6s1.4.4 2.7 1.4c1.3 1.7 2.4 4.3 2.7 8.3 0 0-1.7 1.6-4.9 1.7l-.8-1.1c-1.6.3-3.4.3-5 0z"/><circle cx="9.6" cy="12.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.6" r="1.15" fill="currentColor" stroke="none"/></svg><span>Discord</span></a>
+    <a class="btn btn-sm btn-discord" href="https://discord.gg/aft-traders" target="_blank" rel="noopener"><svg class="ic-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.7 17.4c-3.2-.1-4.9-1.7-4.9-1.7.3-4 1.4-6.6 2.7-8.3C7.8 6.4 9.2 6 9.2 6l.5 1.1c1.5-.3 3.1-.3 4.6 0L14.8 6s1.4.4 2.7 1.4c1.3 1.7 2.4 4.3 2.7 8.3 0 0-1.7 1.6-4.9 1.7l-.8-1.1c-1.6.3-3.4.3-5 0z"/><circle cx="9.6" cy="12.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.6" r="1.15" fill="currentColor" stroke="none"/></svg><span>Discord</span></a>
     <details class="nav-mob">
       <summary aria-label="Menu"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span></summary>
       <nav class="nav-mob-panel" aria-label="Mobile">
@@ -151,7 +151,7 @@ def head(title, desc, path, bodycls=""):
         <a href="/strategies/all-access.html">All-Access</a>
         <a href="/plan.html">Plan finder</a>
         <!-- DISCORD: community invite -->
-        <a href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener">Discord</a>
+        <a href="https://discord.gg/aft-traders" target="_blank" rel="noopener">Discord</a>
       </nav>
     </details>
   </div>
@@ -173,7 +173,7 @@ FOOTER = f"""</main>
       <a href="/privacy.html">Privacy</a>
 
       <!-- DISCORD: community invite -->
-      <a class="foot-discord" href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener"><svg class="ic-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.7 17.4c-3.2-.1-4.9-1.7-4.9-1.7.3-4 1.4-6.6 2.7-8.3C7.8 6.4 9.2 6 9.2 6l.5 1.1c1.5-.3 3.1-.3 4.6 0L14.8 6s1.4.4 2.7 1.4c1.3 1.7 2.4 4.3 2.7 8.3 0 0-1.7 1.6-4.9 1.7l-.8-1.1c-1.6.3-3.4.3-5 0z"/><circle cx="9.6" cy="12.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.6" r="1.15" fill="currentColor" stroke="none"/></svg><span>Discord</span></a>
+      <a class="foot-discord" href="https://discord.gg/aft-traders" target="_blank" rel="noopener"><svg class="ic-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.7 17.4c-3.2-.1-4.9-1.7-4.9-1.7.3-4 1.4-6.6 2.7-8.3C7.8 6.4 9.2 6 9.2 6l.5 1.1c1.5-.3 3.1-.3 4.6 0L14.8 6s1.4.4 2.7 1.4c1.3 1.7 2.4 4.3 2.7 8.3 0 0-1.7 1.6-4.9 1.7l-.8-1.1c-1.6.3-3.4.3-5 0z"/><circle cx="9.6" cy="12.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.6" r="1.15" fill="currentColor" stroke="none"/></svg><span>Discord</span></a>
     </div>
     <p class="disclaimer">{esc(DISCLAIMER)}</p>
     <p class="disclaimer">
@@ -1493,12 +1493,12 @@ if True:
 
             <aside class="buybox" aria-label="Support">
               <span class="annual">Need a hand?</span>
-              <!-- DISCORD: community invite --><a class="btn btn-discord" href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener">Ask in Discord</a>
+              <!-- DISCORD: community invite --><a class="btn btn-discord" href="https://discord.gg/aft-traders" target="_blank" rel="noopener">Ask in Discord</a>
               <ul>
                 <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Manual activation fallback within the 24h window</span></li>
                 <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Cancel anytime from your Whop dashboard</span></li>
               </ul>
-              <p class="xsell">Questions? Ask in <a href="https://discord.gg/BBXDDn9pCD" rel="noopener">Discord</a></p>
+              <p class="xsell">Questions? Ask in <a href="https://discord.gg/aft-traders" rel="noopener">Discord</a></p>
             </aside>
           </div>
 
@@ -1665,7 +1665,7 @@ conflict-of-law rules.</p>
 <!-- LEGAL: set the specific state of organization here once the entity is formed -->
 
 <h2><span class="n">10</span> Contact</h2>
-<p>Questions about these terms: ask in our <!-- DISCORD: community invite --><a href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener">Discord</a>, where support runs.</p>"""
+<p>Questions about these terms: ask in our <!-- DISCORD: community invite --><a href="https://discord.gg/aft-traders" target="_blank" rel="noopener">Discord</a>, where support runs.</p>"""
 
 PRIVACY_BODY = """<h1>Privacy Policy</h1>
 <p class="updated">Last updated: 21 August 2026</p>
@@ -1719,7 +1719,7 @@ deletion of anything we are not legally required to keep.</p>
 <p>This site and our products are not directed at anyone under 18, and futures trading is not either.</p>
 
 <h2><span class="n">08</span> Changes and contact</h2>
-<p>If this policy changes, the date above changes with it. Questions: ask in our <!-- DISCORD: community invite --><a href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener">Discord</a>.</p>"""
+<p>If this policy changes, the date above changes with it. Questions: ask in our <!-- DISCORD: community invite --><a href="https://discord.gg/aft-traders" target="_blank" rel="noopener">Discord</a>.</p>"""
 
 legal_page("terms.html", "Terms of Service", TERMS_BODY)
 legal_page("privacy.html", "Privacy Policy", PRIVACY_BODY)

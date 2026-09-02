@@ -111,7 +111,7 @@ strategy, consumed by `buy_href()` in all three generators — swapping a
 product-page link for a direct checkout link is a one-field edit, never a code
 change. `ingest_top5.py` carries them through a re-ingest. Bundle CTAs have no
 Whop product yet and point at the storefront. Discord is wired everywhere
-(`discord.gg/BBXDDn9pCD`); support routes there, and there is no support email
+(`discord.gg/aft-traders`); support routes there, and there is no support email
 anywhere on the site.
 
 **THE BASELINE (read before touching any headline figure).** Raw net is NOT
