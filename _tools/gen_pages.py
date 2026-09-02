@@ -258,7 +258,7 @@ def trades_table(tr, slug):
     <div class="screener lt-scroll" tabindex="0" role="region" aria-label="Trade log, scrolls">
     <table class="tvt-table lt-table">
       <caption class="sr-only">{caption}</caption>
-      <thead><tr><th scope="col">#</th><th scope="col">Day</th><th scope="col">Entry</th><th scope="col">Exit</th><th scope="col">Net P&amp;L</th><th scope="col">Account</th></tr></thead>
+      <thead><tr><th scope="col">Trade #</th><th scope="col">Date</th><th scope="col">Entry price</th><th scope="col">Exit price</th><th scope="col">Profit</th><th scope="col">Cumulative profit</th></tr></thead>
       <tbody>{rows}</tbody>
     </table>
     </div>
@@ -307,17 +307,27 @@ def tester_block(p):
     slug = p["slug"]
     tr = load_trades_data(slug)
     if tr:
-        lt_tab = f'<label for="tvt-{slug}-lt" class="tvt-tab tvt-tab-lt">Trade log</label>'
+        lt_tab = f'<label for="tvt-{slug}-lt" class="tvt-tab tvt-tab-lt">List of trades</label>'
         lt_pane = trades_table(tr, slug)
     else:
-        lt_tab = '<span class="tvt-tab tvt-tab-off" title="Activates when the trade-level export lands">Trade log &middot; soon</span>'
+        lt_tab = '<span class="tvt-tab tvt-tab-off" title="Activates when the trade-level export lands">List of trades &middot; soon</span>'
         lt_pane = ""
+    # TradingView Strategy Tester overview strip: label above figure, sub-value
+    # beneath, thin dividers between blocks. Every figure traces to the catalog.
+    dd_full = f.get("Max DD", "")
+    strip_rows = [
+        ("Total P&amp;L", b.get("Net", ""), "tv-pos", f'+{pct(b.get("RoDD", ""))} RoDD'),
+        ("Max equity drawdown", b.get("Max DD", ""), "tv-neg",
+         (f'full record {esc(dd_full)}' if dd_full and dd_full != b.get("Max DD", "") else "")),
+        ("Total trades", b.get("Trades", ""), "", ""),
+        ("Profitable trades", b.get("Win", ""), "tv-pos", ""),
+        ("Profit factor", b.get("PF", ""), "tv-pos", ""),
+    ]
     tiles = ""
-    for lab, key, cls in [("Net profit", "Net", "tv-pos"), ("Total trades", "Trades", ""),
-                          ("Profitable", "Win", "tv-pos"), ("Profit factor", "PF", "tv-pos"),
-                          ("Max drawdown", "Max DD", "tv-neg"), ("Avg trade", "$/trade", "tv-pos")]:
-        v = b.get(key, "")
-        tiles += f'<div class="tvt-tile"><span class="tvt-k">{lab}</span><b class="{cls}">{esc(v) or "&mdash;"}</b></div>'
+    for lab, val, cls, sub in strip_rows:
+        sub_html = f'<span class="tvo-sub">{sub}</span>' if sub else ""
+        tiles += (f'<div class="tvo-block"><span class="tvo-k">{lab}</span>'
+                  f'<b class="{cls}">{esc(val) or "&mdash;"}</b>{sub_html}</div>')
     rows = ""
     for lab, key in TVT_ROWS:
         rows += (f'<tr><th scope="row">{lab}</th>{tvt_val(b, key, best=True)}{tvt_val(f, key)}</tr>')
@@ -331,12 +341,12 @@ def tester_block(p):
   <input type="radio" name="tvt-{slug}" id="tvt-{slug}-lt" class="tvt-r">
   <div class="tvt-tabs">
     <label for="tvt-{slug}-ov" class="tvt-tab tvt-tab-ov">Overview</label>
-    <label for="tvt-{slug}-ps" class="tvt-tab tvt-tab-ps">Performance summary</label>
+    <label for="tvt-{slug}-ps" class="tvt-tab tvt-tab-ps">Performance</label>
     {lt_tab}
   </div>
   <div class="tvt-pane tvt-ov">
+    <div class="tvo-strip">{tiles}</div>
     {chart_figure(p)}
-    <div class="tvt-tiles">{tiles}</div>
     <p class="tvt-note">{f'Curve: the full record. Figures: best window &middot; {esc(p.get("window", ""))}.' if tr else f'Best window &middot; {esc(p.get("window", ""))}. Equity curve is illustrative, fitted to the published stats, until the trade-level export replaces it.'}</p>
   </div>
   <div class="tvt-pane tvt-ps">
@@ -496,12 +506,12 @@ def real_chart(p, tr):
     <svg viewBox="0 0 720 300" role="img" aria-label="Equity and drawdown, {tr['full']['n']} closed trades" focusable="false">
       <defs>
         <linearGradient id="tvxg-{p["slug"]}" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#56c8a2" stop-opacity=".26"/>
-          <stop offset="1" stop-color="#56c8a2" stop-opacity=".02"/>
+          <stop offset="0" stop-color="#2962FF" stop-opacity=".24"/>
+          <stop offset="1" stop-color="#2962FF" stop-opacity=".02"/>
         </linearGradient>
         <linearGradient id="tvxr-{p["slug"]}" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#E88585" stop-opacity=".04"/>
-          <stop offset="1" stop-color="#E88585" stop-opacity=".30"/>
+          <stop offset="0" stop-color="#F23645" stop-opacity=".04"/>
+          <stop offset="1" stop-color="#F23645" stop-opacity=".26"/>
         </linearGradient>
       </defs>
       {grid}{xticks}

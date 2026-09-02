@@ -5277,3 +5277,80 @@ a.pr-name[class*="fc-"]:hover { color: var(--fc-hi); }
 .sx-t th.sx-rodd, .sx-t td.sx-rodd,
 .sx-t th.sx-f:not(.sx-rodd), .sx-t td.sx-f:not(.sx-rodd),
 .sx-t th.sx-s, .sx-t td.sx-s { border-left: 1px solid rgba(232, 234, 236, .08); }
+
+/* ================================================================
+   r5.0 — THE TESTER BECOMES TRADINGVIEW. The validated-record
+   panel is a faithful Strategy Tester facsimile: TV dark ground,
+   text tabs with the blue underline, the Overview strip (label
+   over figure over sub-value, hairline dividers), TV green and
+   red for P&L, the blue equity area with the red drawdown. All
+   of it scoped to .tvt - the rest of the page keeps the house
+   palette and each strategy its identity color.
+   ================================================================ */
+.tvt { background: #131722; border: 1px solid #2A2E39; border-radius: 4px; }
+.tvt-bar { background: #1E222D; border-bottom: 1px solid #2A2E39; }
+.tvt-title { font-family: var(--sans); font-size: 0.95rem; font-weight: 600; color: #D1D4DC; }
+.tvt-src { color: #787B86; letter-spacing: 0; }
+.tvt-tabs { gap: 2px; padding: 0 var(--sp-3); border-bottom: 1px solid #2A2E39; background: #131722; }
+.tvt-tab {
+  background: none; border: none; border-bottom: 2px solid transparent; border-radius: 0;
+  font-family: var(--sans); font-size: 0.88rem; font-weight: 500; letter-spacing: 0;
+  color: #787B86; padding: 10px 12px; cursor: pointer;
+}
+.tvt-tab::before { content: none !important; }
+.tvt-tab:hover { color: #D1D4DC; background: none; }
+.tvt .tvt-r:nth-of-type(1):checked ~ .tvt-tabs .tvt-tab-ov,
+.tvt .tvt-r:nth-of-type(2):checked ~ .tvt-tabs .tvt-tab-ps,
+.tvt .tvt-r:nth-of-type(3):checked ~ .tvt-tabs .tvt-tab-lt {
+  color: #D1D4DC; background: none;
+  border-color: transparent; border-bottom: 2px solid #2962FF;
+}
+.tvt-pane { background: #131722; }
+.tvt-note { color: #787B86; }
+
+/* overview strip */
+.tvo-strip { display: flex; flex-wrap: wrap; margin: 2px 0 var(--sp-3); }
+.tvo-block { flex: 1 1 0; min-width: 150px; padding: 8px 16px 10px; display: flex; flex-direction: column; gap: 5px; }
+.tvo-block + .tvo-block { border-left: 1px solid #2A2E39; }
+.tvo-k { font-family: var(--sans); font-size: 0.8rem; color: #787B86; white-space: nowrap; }
+.tvo-block b {
+  font-family: var(--mono); font-size: 1.3rem; font-weight: 600; line-height: 1.1;
+  color: #D1D4DC; font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.tvo-sub { font-family: var(--mono); font-size: 0.72rem; color: #787B86; white-space: nowrap; }
+@media (max-width: 900px) { .tvo-block { min-width: 45%; border-left: none; } }
+
+/* TV semantic colors inside the tester only */
+.tvt .tv-pos { color: #089981; }
+.tvt .tv-neg { color: #F23645; }
+.tvt .dd-gold, .tvt .dd-neon { color: #F23645 !important; }
+
+/* the chart takes TV's palette */
+.tvt .tvx-eqline { stroke: #2962FF; stroke-width: 2; }
+.tvt .tvx-ddline { stroke: #F23645; }
+.tvt .tvx-grid { stroke: #2A2E39; }
+.tvt .tvx-vgrid { stroke: #1E222D; }
+.tvt .tvx-zero { stroke: #434651; }
+.tvt .tvx-ylab, .tvt .tvx-xlab { fill: #787B86; }
+.tvt .tvx-legend { color: #D1D4DC; }
+.tvt .tvx-src { color: #787B86; }
+.tvt .tvx-dot-eq { background: #2962FF; }
+.tvt .tvx-dot-dd { background: #F23645; }
+.tvt .hv-line { stroke: #434651; }
+.tvt .hv-dot { fill: #2962FF; }
+.tvt .hv-ring { stroke: rgba(41, 98, 255, .35); }
+.tvt .hv-box { fill: #1E222D; stroke: #363A45; }
+.tvt .hv-txt { fill: #D1D4DC; }
+.tvt .chart-panel { background: transparent; border: none; }
+
+/* tables in TV dress */
+.tvt .tvt-table th, .tvt .tvt-table td { border-bottom: 1px solid #2A2E39; color: #D1D4DC; font-size: 0.86rem; }
+.tvt .tvt-table thead th { color: #787B86; font-weight: 500; }
+.tvt .tvt-table th[scope="row"] { color: #787B86; font-weight: 400; }
+.tvt .tvt-table tbody tr:hover { background: #1E222D; }
+.tvt .lt-scroll { scrollbar-color: #363A45 #131722; }
+
+/* r5.0 fix: semantic P&L colors must survive the TV table ink */
+.tvt .tvt-table td.tv-pos { color: #089981; }
+.tvt .tvt-table td.tv-neg { color: #F23645; }
+.tvt .tvt-table td.tv-mut { color: #787B86; }
