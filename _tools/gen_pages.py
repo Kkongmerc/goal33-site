@@ -15,6 +15,18 @@ PRELAUNCH = not CAT["strategies"] and not CAT["books"]
 WHOP_STORE = CAT.get("whop_store") or "/"
 PROMO = CAT.get("promo") or {}
 PROMO_LINE = PROMO.get("line", "").replace("{code}", PROMO.get("code", "")) if PROMO else ""
+SPECIAL = CAT.get("special") or {}
+def special_line():
+    """The monthly special's one line of copy, or '' when it is off."""
+    if not SPECIAL.get("active"):
+        return ""
+    return SPECIAL.get("line", "").replace("{pct}", str(SPECIAL.get("pct", ""))).replace("{code}", SPECIAL.get("code", ""))
+def special_strip(cls=""):
+    if not special_line():
+        return ""
+    ends = f'<em>ends {esc(SPECIAL["ends"])}</em>' if SPECIAL.get("ends") else ""
+    return (f'<div class="special {cls}"><b>{esc(SPECIAL.get("label", "Special"))}</b>'
+            f'<span>{esc(special_line())}</span>{ends}</div>')
 def buy_href(p):
     """The product's Whop page when it has one, else its own page."""
     return p.get("whop") or f"/strategies/{p['slug']}.html"
@@ -33,7 +45,14 @@ DISCLAIMER = ("All performance figures are backtested or validation-run results 
               "site is financial advice. Access provides the strategy tool only; you are responsible for your "
               "own trading decisions.")
 
-NOTCHES = [1000, 2500, 5000, 10000, 25000, 50000]
+# drawdown-budget notches (owner 2026-09-03: $1k dropped; each is a DRAWDOWN budget, and the
+# implied account is 4x it - the drawdown should never exceed 25% of the balance)
+NOTCHES = [2500, 5000, 10000, 25000, 50000]
+ACCOUNT_X = 4
+DD_LEAD = "This amount is your DRAWDOWN BUDGET, not your account size."
+DD_RULE = ("We recommend the drawdown never exceeds 25% of your account balance (a $2,500 drawdown budget "
+           "means a $10,000 account or more). Raising the Multiplier raises profit and drawdown together "
+           "and is inherently risky.")
 
 def load_trades_data(slug):
     """Real closed-trade data ingested from the validation archive (derived
@@ -163,29 +182,34 @@ FOOTER = f"""</main>
 </html>
 """
 
+CHECK = ('<svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" '
+         'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" '
+         'vector-effect="non-scaling-stroke"/></svg>')
+
 def buybox(name, price, whop_note, xsell=None, struck=None, href="#"):
+    """The conversion block (owner 2026-09-03: 'feels very weak, we are wasting words'):
+    price large, a one-line hook, four check-marked benefits, the monthly special
+    strip from catalog2 `special` (nothing renders when active=false), the button
+    with the price in it, one reassurance line, the promo code."""
     was = f'<s class="was">${struck}<span class="sr-only"> combined value,</span></s>' if struck else ""
     xs = xsell or (('Everything at once: <a href="/strategies/all-access.html">All-Access — $999/mo</a>') if HAS_BUNDLES else
                    'More systems join the shelf as they clear validation.')
-    return f"""<aside class="buybox" aria-label="Purchase {html.escape(name)}">
-  <div class="price">{was}<span class="now">${price}</span><span class="per">/mo</span></div>
-  <span class="annual">Annual = 2 months free</span>
+    items = [
+        "Activated to your TradingView username within 24h",
+        "The exact record on this page, costs modeled",
+        '60-day Performs-as-Published + 7-day money-back &middot; <a href="/terms.html">terms</a>',
+        "Cancel anytime",
+    ]
+    lis = "".join(f'<li>{CHECK}<span>{t}</span></li>' for t in items)
+    return f"""<aside class="buybox bb" aria-label="Purchase {html.escape(name)}">
+  <div class="bb-price">{was}<span class="bb-now">${price}</span><span class="bb-per">/ month</span></div>
+  <p class="bb-hook">Backtest Verified &middot; TradingView invite-only script &middot; alerts ready for automation</p>
+  <ul class="bb-list">{lis}</ul>
+  {special_strip("special-box")}
   <!-- WHOP: checkout ({whop_note}) -->
-  <a class="btn btn-buy" href="{href}" rel="noopener">Get access</a>
-  <p class="buy-promo">{esc(PROMO_LINE)}</p>
-  <div class="guar">
-    <span class="guar-line"><b>7-day</b> money-back &mdash; no questions</span>
-    <span class="guar-line"><b>60-day</b> Performs-as-Published guarantee</span>
-    <span class="guar-note">strategy matches its published signals &middot; claim within 60 days &middot; <a href="/terms.html">terms</a></span>
-  </div>
-  <ul>
-    <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>TradingView invite-only script, activated within 24h</span></li>
-    <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Alert templates and setup documentation</span></li>
-    <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Automate it through TradingView alerts and your own execution tooling, or run it as an aid to manual trading</span></li>
-    <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Cancel anytime through Whop; access revokes automatically</span></li>
-  </ul>
-  <p class="xsell">{xs}</p>
-  <p class="refnote">Have a referral code? It takes <b>10% off</b> at checkout.</p>
+  <a class="btn btn-buy bb-btn" href="{href}" rel="noopener">Get access &mdash; ${price}/mo</a>
+  <p class="bb-safe">Secure checkout via Whop &middot; no contract &middot; cancel anytime</p>
+  <p class="bb-promo">{esc(PROMO_LINE)}</p>
 </aside>"""
 
 # ── components ──────────────────────────────────────────────────
@@ -439,82 +463,88 @@ def _tvr_date(d):
 
 # ── the Performance chart (TV's new report: cumulative PnL line, per-trade bars, day strip) ──
 def real_chart(p, tr):
-    from datetime import datetime as _dt, date as _date, timedelta as _td
+    """TV's new Performance chart (owner 2026-09-03 v2): legend overlaid top-left INSIDE the plot,
+    the cumulative line from 0 at the far left over the plot's full height, per-trade bars in an
+    overlapping bottom band on their own scale, the day strip under the axis, right-side comma
+    ticks with the current-value pill, dotted grid, nothing clipped."""
+    from datetime import datetime as _dt, timedelta as _td
     eq = tr["equity"]                       # [(YYYY-MM-DD, cum), ...]
     ts = [_dt.strptime(d, "%Y-%m-%d") for d, _ in eq]
     ys = [v for _, v in eq]
     rows = _rows_of(tr)
-    t0, t1 = ts[0], ts[-1]
+    t0 = _dt.strptime(tr["full"]["start"], "%Y-%m-%d") - _td(days=1)   # the origin: 0 at the far left
+    t1 = ts[-1]
+    ts = [t0] + ts; ys = [0.0] + ys
     tspan = max(1.0, (t1 - t0).total_seconds())
-    W, H = 560.0, 300.0
-    L, R, T, B = 4.0, 72.0, 14.0, 40.0
+    W, H = 1000.0, 340.0
+    L, R, T, B = 8.0, 84.0, 22.0, 48.0
     PW, PH = W - L - R, H - T - B
-    y_hi = max(max(ys), 0.0); y_lo = min(min(ys), 0.0)
-    step = _nice_step(y_hi - y_lo, 5)
-    y_hi = step * (int(y_hi // step) + 1)
-    y_lo = step * int(y_lo // step) if y_lo < 0 else 0.0
-    LINE_H = PH * 0.70                      # the line lives in the upper band
+    y_top = max(max(ys), 0.0); y_bot = min(min(ys), 0.0)
+    step = _nice_step(y_top - y_bot, 5)
+    y_hi = step * (int(y_top // step) + (0 if abs(y_top - step * int(y_top // step)) < 1e-9 else 1)) or step
+    y_lo = step * int(y_bot // step) if y_bot < 0 else 0.0
     def X(t): return L + PW * ((t - t0).total_seconds() / tspan)
-    def Y(v): return T + LINE_H * (1 - (v - y_lo) / (y_hi - y_lo))
+    def Y(v): return T + PH * (1 - (v - y_lo) / (y_hi - y_lo))
     eq_pts = " L".join(f"{X(t):.1f},{Y(v):.1f}" for t, v in zip(ts, ys))
     grid = ""
     v = y_lo
     while v <= y_hi + 1e-9:
         yy = Y(v)
         grid += f'<line class="tvr-grid" x1="{L:.0f}" y1="{yy:.1f}" x2="{L+PW:.1f}" y2="{yy:.1f}"/>'
-        grid += f'<text class="tvr-ylab" x="{L+PW+6:.1f}" y="{yy+3.5:.1f}">{v:,.2f}</text>'
+        grid += f'<text class="tvr-ylab" x="{L+PW+8:.1f}" y="{yy+3.5:.1f}">{v:,.2f}</text>'
         v += step
-    # per-trade bars in the lower band (daily net when the record is long)
+    # per-trade bars: an overlapping bottom band on their own scale, 1px, full width
     base_y = T + PH * 0.86
     amp = PH * 0.13
-    if len(rows) <= 800:
+    if len(rows) <= 2000:
         bars_src = [(_dt(r["d"].year, r["d"].month, r["d"].day), r["pnl"]) for r in rows]
-        bars_lab = "Trades"
+        bars_lab = "Trades excursions"
     else:
         bars_src = [(_dt.strptime(d, "%Y-%m-%d"), v) for d, v in sorted(tr["daily"].items())]
         bars_lab = "Trading days"
     bmax = max(abs(v) for _, v in bars_src) or 1.0
-    bw = max(0.8, min(3.0, PW / max(1, len(bars_src)) * 0.8))
+    bw = 1.2
     bars = ""
     for t, v in bars_src:
-        h = amp * abs(v) / bmax
+        h = max(0.8, amp * abs(v) / bmax)
         x = X(t) - bw / 2
         if v >= 0:
-            bars += f'<rect class="tvr-bu" x="{x:.1f}" y="{base_y-h:.1f}" width="{bw:.1f}" height="{max(h,0.6):.1f}"/>'
+            bars += f'<rect class="tvr-bu" x="{x:.1f}" y="{base_y-h:.1f}" width="{bw}" height="{h:.1f}"/>'
         else:
-            bars += f'<rect class="tvr-bd" x="{x:.1f}" y="{base_y:.1f}" width="{bw:.1f}" height="{max(h,0.6):.1f}"/>'
-    bars += f'<line class="tvr-grid" x1="{L:.0f}" y1="{base_y:.1f}" x2="{L+PW:.1f}" y2="{base_y:.1f}"/>'
-    # day-result strip under the plot
+            bars += f'<rect class="tvr-bd" x="{x:.1f}" y="{base_y:.1f}" width="{bw}" height="{h:.1f}"/>'
+    bars += f'<line class="tvr-base" x1="{L:.0f}" y1="{base_y:.1f}" x2="{L+PW:.1f}" y2="{base_y:.1f}"/>'
+    # the day-result strip under the axis line
     days = sorted(tr["daily"].items())
     sw = max(1.0, PW / max(1, (t1 - t0).days + 1))
-    strip_y = T + PH + 4
+    strip_y = T + PH + 5
     strip = "".join(
         f'<rect class="{"tvr-du" if v > 0 else ("tvr-dd" if v < 0 else "tvr-dz")}" x="{X(_dt.strptime(d, "%Y-%m-%d")) - sw/2:.1f}" y="{strip_y:.0f}" width="{sw:.1f}" height="4"/>'
         for d, v in days)
     # x-axis: TV's style - month names at month changes, day numbers between
     ndays = max(1, (t1 - t0).days)
-    stepd = next(s for s in (2, 3, 5, 7, 10, 14, 21, 30, 45, 60, 90) if ndays / s <= 13)
+    stepd = next(s for s in (2, 3, 5, 7, 10, 14, 21, 30, 45, 60, 90) if ndays / s <= 22)
     xt = ""
     prev_m = None
-    d = t0
-    while d <= t1:
-        lab = d.strftime("%b") if (prev_m is not None and d.month != prev_m) or prev_m is None and d.day <= 3 else str(d.day)
+    d = t0 + _td(days=stepd)
+    while d <= t1 - _td(days=stepd / 2):
+        lab = d.strftime("%b") if (prev_m is not None and d.month != prev_m) or (prev_m is None and d.day <= 3) else str(d.day)
         prev_m = d.month
         xx = X(d)
         xt += f'<line class="tvr-vgrid" x1="{xx:.1f}" y1="{T:.0f}" x2="{xx:.1f}" y2="{T+PH:.1f}"/>'
-        xt += f'<text class="tvr-xlab" x="{xx:.1f}" y="{H-8:.0f}" text-anchor="{"start" if d == t0 else "middle"}">{lab}</text>'
+        xt += f'<text class="tvr-xlab" x="{xx:.1f}" y="{H-10:.0f}" text-anchor="middle">{lab}</text>'
         d += _td(days=stepd)
+    xt += f'<line class="tvr-axis" x1="{L:.0f}" y1="{T+PH:.1f}" x2="{L+PW:.1f}" y2="{T+PH:.1f}"/>'
     # the current-value pill on the right axis
     last_y = Y(ys[-1])
-    pill = (f'<rect class="{"tvr-pill-g" if ys[-1] >= 0 else "tvr-pill-r"}" x="{L+PW+2:.1f}" y="{last_y-8:.1f}" width="{R-4:.0f}" height="16" rx="2"/>'
-            f'<text class="tvr-pilltxt" x="{L+PW+6:.1f}" y="{last_y+3.5:.1f}">{ys[-1]:,.2f}</text>')
-    # CSS-only crosshair, one strip per sampled point; a fixed readout box
+    pill = (f'<rect class="{"tvr-pill-g" if ys[-1] >= 0 else "tvr-pill-r"}" x="{L+PW+3:.1f}" y="{last_y-9:.1f}" width="{R-8:.0f}" height="18" rx="2"/>'
+            f'<text class="tvr-pilltxt" x="{L+PW+8:.1f}" y="{last_y+4:.1f}">{ys[-1]:,.2f}</text>')
+    # CSS-only crosshair, one strip per sampled point; a fixed readout box (under the legend)
     hstep = max(1, len(ts) // 110)
     hidx = list(range(0, len(ts), hstep))
     if hidx[-1] != len(ts) - 1: hidx.append(len(ts) - 1)
     labels = [_tvr_date(ts[i]) + "  " + _tvr_usd(ys[i], signed=True) for i in hidx]
     box_w = 6.4 * max(len(t) for t in labels) + 16
-    box_x, box_y = L + 8, T + 2
+    box_x, box_y = L + 8, T + 96
     hover = f'<rect class="hv-box" x="{box_x:.1f}" y="{box_y:.1f}" width="{box_w:.1f}" height="20" rx="3"/>'
     for pos, i in enumerate(hidx):
         x = X(ts[i]); y = Y(ys[i])
@@ -532,9 +562,8 @@ def real_chart(p, tr):
       <span class="tvr-lg tvr-lg-off"><i class="tvr-sw tvr-sw-x"></i>Buy and hold<svg class="tvr-eye" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 8s2.5-4.5 7-4.5S15 8 15 8s-2.5 4.5-7 4.5S1 8 1 8z"/><circle cx="8" cy="8" r="2"/><path d="M2 14 14 2"/></svg></span>
       <span class="tvr-lg"><i class="tvr-sw tvr-sw-b"></i>{bars_lab}</span>
       <span class="tvr-lg"><i class="tvr-sw tvr-sw-s"></i>Run-ups and drawdowns</span>
-      <span class="tvr-lg tvr-lg-more"><svg class="tvr-caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 8l4-4 4 4"/></svg></span>
     </div>
-    <svg class="tvr-svg" viewBox="0 0 560 300" role="img" aria-label="Cumulative profit and loss with per-trade bars, {tr['full']['n']} closed trades" focusable="false">
+    <svg class="tvr-svg" viewBox="0 0 1000 340" role="img" aria-label="Cumulative profit and loss with per-trade bars, {tr['full']['n']} closed trades" focusable="false">
       {grid}{xt}
       {bars}{strip}
       <path class="tvr-line" d="M{eq_pts}" fill="none"/>
@@ -542,6 +571,11 @@ def real_chart(p, tr):
       {hover}
     </svg>
   </div>"""
+
+PERF_TOOLS = ('<span class="tvr-tools" aria-hidden="true">'
+              '<svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="1.5"/><path d="M8 1v3M8 12v3M1 8h3M12 8h3"/></svg>'
+              '<svg viewBox="0 0 16 16"><path d="M2 5.5h2.5L6 3.5h4l1.5 2H14v7.5H2z"/><circle cx="8" cy="9" r="2.5"/></svg>'
+              '<svg viewBox="0 0 16 16"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg></span>')
 
 # ── Profits and losses: mirrored bars per signal / per side ──
 def _pl_rows(groups, total_scale):
@@ -701,39 +735,97 @@ def _donut(a):
       </ul>
     </div>"""
 
-def _streaks(rows):
-    best = {"w": 0, "l": 0}; cur = {"w": 0, "l": 0}
-    wsum = lsum = 0.0; bw_sum = bl_sum = 0.0
-    runs_w, runs_l = [], []
-    last = None; run = 0
+def _streak_svg(vals, mx_up, mx_dn, is_money):
+    """One bar per closed trade: winning streaks stack upward, losing streaks downward
+    (TV's 'Winning and losing streaks' view). vals: list of signed values in trade order."""
+    W, H = 1000.0, 230.0
+    L, R, T, B = 8.0, 46.0, 14.0, 12.0
+    PW, PH = W - L - R, H - T - B
+    tot = (mx_up + mx_dn) or 1.0
+    mid = T + PH * (mx_up / tot)
+    up_h, dn_h = mid - T, T + PH - mid
+    n = max(len(vals), 1)
+    slot = PW / n
+    bwid = max(0.8, slot * 0.68)
+    def _nice(v):
+        if v <= 0: return 1.0
+        import math as _m
+        e = 10 ** _m.floor(_m.log10(v)); f = v / e
+        step = 1 if f < 2 else (2 if f < 5 else 5)
+        return step * e
+    step = _nice(max(mx_up, mx_dn) / 3.0)
+    grid = ""; ylab = ""
+    def _fmt(v):
+        if is_money:
+            return ("$%dk" % round(v / 1000)) if abs(v) >= 1000 else ("$%d" % round(v))
+        return f"{int(v)}"
+    v = 0.0
+    while v <= mx_up + 1e-9:
+        y = mid - (up_h * v / mx_up if mx_up else 0)
+        grid += f'<line class="tvr-grid" x1="{L:.0f}" y1="{y:.1f}" x2="{L+PW:.0f}" y2="{y:.1f}"/>'
+        ylab += f'<text class="tvr-ylab" x="{L+PW+8:.0f}" y="{y+3.5:.1f}">{_fmt(v)}</text>'
+        v += step
+        if step <= 0: break
+    v = step
+    while v <= mx_dn + 1e-9:
+        y = mid + (dn_h * v / mx_dn if mx_dn else 0)
+        grid += f'<line class="tvr-grid" x1="{L:.0f}" y1="{y:.1f}" x2="{L+PW:.0f}" y2="{y:.1f}"/>'
+        ylab += f'<text class="tvr-ylab" x="{L+PW+8:.0f}" y="{y+3.5:.1f}">{_fmt(v)}</text>'
+        v += step
+    bars = ""
+    for i, val in enumerate(vals):
+        if val == 0: continue
+        x = L + i * slot + (slot - bwid) / 2
+        if val > 0:
+            h = up_h * val / (mx_up or 1)
+            bars += f'<rect class="tvr-bu" x="{x:.1f}" y="{mid-h:.1f}" width="{bwid:.1f}" height="{max(h,0.6):.1f}"/>'
+        else:
+            h = dn_h * (-val) / (mx_dn or 1)
+            bars += f'<rect class="tvr-bd" x="{x:.1f}" y="{mid:.1f}" width="{bwid:.1f}" height="{max(h,0.6):.1f}"/>'
+    unit = "net" if is_money else "count"
+    return (f'<svg class="tvr-streaks" viewBox="0 0 {W:.0f} {H:.0f}" role="img" aria-label="Winning and losing streaks by {unit}, one bar per trade" focusable="false">'
+            f'{grid}<line class="tvr-base" x1="{L:.0f}" y1="{mid:.1f}" x2="{L+PW:.0f}" y2="{mid:.1f}"/>{bars}{ylab}</svg>')
+
+def _streaks(rows, slug=""):
+    """TV's Streaks view (owner 2026-09-03): the four streak stats, then 'Winning and losing
+    streaks' - one bar per closed trade whose height is the running streak length (Count) or the
+    running streak net (Amount), wins up in green, losses down in red, Count/Amount toggle."""
+    counts, amounts = [], []
+    runs = []            # (kind, length, net)
+    k_prev, run_n, run_amt = None, 0, 0.0
     for r in rows:
         k = "w" if r["pnl"] > 0 else ("l" if r["pnl"] < 0 else None)
         if k is None:
-            continue
-        if k == last:
-            run += 1
+            counts.append(0); amounts.append(0.0); continue
+        if k == k_prev:
+            run_n += 1; run_amt += r["pnl"]; runs[-1][1] += 1; runs[-1][2] += r["pnl"]
         else:
-            if last == "w": runs_w.append(run)
-            elif last == "l": runs_l.append(run)
-            run = 1; last = k
-        cur[k] = run; cur["l" if k == "w" else "w"] = 0
-        if k == "w":
-            wsum = wsum + r["pnl"] if run > 1 else r["pnl"]
-            if run > best["w"]: best["w"], bw_sum = run, wsum
-        else:
-            lsum = lsum + r["pnl"] if run > 1 else r["pnl"]
-            if run > best["l"]: best["l"], bl_sum = run, lsum
-    if last == "w": runs_w.append(run)
-    elif last == "l": runs_l.append(run)
-    avg_w = sum(runs_w) / len(runs_w) if runs_w else 0.0
-    avg_l = sum(runs_l) / len(runs_l) if runs_l else 0.0
+            k_prev, run_n, run_amt = k, 1, r["pnl"]; runs.append([k, 1, r["pnl"]])
+        counts.append(run_n if k == "w" else -run_n)
+        amounts.append(run_amt)
+    if not runs:
+        return '<p class="tvt-note">No closed trades in the window.</p>'
+    wr_ = [x for x in runs if x[0] == "w"]; lr_ = [x for x in runs if x[0] == "l"]
+    bw_ = max(wr_, key=lambda x: x[1]) if wr_ else ["w", 0, 0.0]
+    bl_ = max(lr_, key=lambda x: x[1]) if lr_ else ["l", 0, 0.0]
+    avg_w = sum(x[1] for x in wr_) / len(wr_) if wr_ else 0.0
+    avg_l = sum(x[1] for x in lr_) / len(lr_) if lr_ else 0.0
+    svg_c = _streak_svg(counts, float(bw_[1]), float(bl_[1]), False)
+    svg_a = _streak_svg(amounts, max([a for a in amounts if a > 0] + [0.0]), max([-a for a in amounts if a < 0] + [0.0]), True)
+    ia = f"tvr-{slug}-sk-c"; ib = f"tvr-{slug}-sk-a"
     return f"""<div class="tvr-cells">
-      {_cell("Max consecutive wins", f'{best["w"]}', "tv-pos", _tvr_usd(bw_sum, signed=True), "tv-pos")}
-      {_cell("Max consecutive losses", f'{best["l"]}', "tv-neg", _tvr_usd(bl_sum, signed=True), "tv-neg")}
-      {_cell("Average win streak", f'{avg_w:.2f}', "", f'{len(runs_w)} streaks')}
-      {_cell("Average loss streak", f'{avg_l:.2f}', "", f'{len(runs_l)} streaks')}
+      {_cell("Longest winning streak", f'{bw_[1]} trades', "", _tvr_usd(bw_[2], signed=True), "tv-pos")}
+      {_cell("Longest losing streak", f'{bl_[1]} trades', "", _tvr_usd(bl_[2], signed=True), "tv-neg")}
+      {_cell("Average winning streak", f'{avg_w:.1f} trades', "", f'{len(wr_)} streaks')}
+      {_cell("Average losing streak", f'{avg_l:.1f} trades', "", f'{len(lr_)} streaks')}
     </div>
-    <p class="tvt-note">Streaks count consecutive winning or losing closed trades in exit order across the best window; the money figure is the net of the longest streak.</p>"""
+    <div class="tvr-sk"><input type="radio" name="tvr-{slug}-sk" id="{ia}" class="tvt-r" checked><input type="radio" name="tvr-{slug}-sk" id="{ib}" class="tvt-r">
+      <div class="tvr-sk-head"><div class="tvr-h2">Winning and losing streaks</div>
+        <div class="tvr-seg"><label for="{ia}" class="tvr-seg-b">Count</label><label for="{ib}" class="tvr-seg-b">Amount</label></div></div>
+      <div class="tvr-sk-p tvr-sk-pc">{svg_c}</div>
+      <div class="tvr-sk-p tvr-sk-pa">{svg_a}</div>
+    </div>
+    <p class="tvt-note">One bar per closed trade in exit order across the best window: each bar's height is the length of the streak the trade is part of so far (Count) or that streak's running net (Amount).</p>"""
 
 def tester_block(p):
     b, f = p["best"]["stats"], (p.get("full") or {}).get("stats", {})
@@ -763,6 +855,7 @@ def tester_block(p):
     outliers = [x for x in pnls if abs(x - mean) > 3 * sd]
     out_sum = sum(outliers)
     lw = max(rows, key=lambda r: r["pnl"]); ll = min(rows, key=lambda r: r["pnl"])
+    la = _agg([r for r in rows if r["side"] == "L"]); sa = _agg([r for r in rows if r["side"] == "S"])
     key_cells = (
         _cell("Total PnL", _tvr_usd(net, signed=True), _sgn(net), _tvr_pct(100.0 * net / INITIAL_CAPITAL, signed=True), _sgn(net))
         + _cell("Max drawdown", _tvr_usd(dd), "", _tvr_pct(100.0 * dd / INITIAL_CAPITAL), "",
@@ -776,37 +869,29 @@ def tester_block(p):
                 title=f"net of the {len(outliers)} trades beyond three standard deviations of the mean trade")
         + _cell("Largest profit", _tvr_usd(lw["pnl"], signed=True), "tv-pos", _tvr_pct(lw["ret"], signed=True) if lw["ret"] is not None else "", "tv-pos")
         + _cell("Largest loss", _tvr_usd(ll["pnl"], signed=True), "tv-neg", _tvr_pct(ll["ret"], signed=True) if ll["ret"] is not None else "", "tv-neg"))
-    perf_in, perf_nav = _pill_tabs("pa", slug, [("bd", "Breakdown", True), ("pd", "Periodical", True),
-                                                ("bm", "Benchmarking", False), ("mu", "Margin usage", False), ("gd", "Growth and decline", False)])
-    perf_nav_static = ('<nav class="tvr-pills"><label for="tvt-%s-ps" class="tvr-pill tvr-pill-on">Breakdown</label>'
-                       '<label for="tvt-%s-ps" class="tvr-pill">Periodical</label>'
-                       '<span class="tvr-pill tvr-pill-off">Benchmarking</span><span class="tvr-pill tvr-pill-off">Margin usage</span>'
-                       '<span class="tvr-pill tvr-pill-off">Growth and decline</span></nav>' % (slug, slug))
+    perf_in, perf_nav = _pill_tabs("pa", slug, [("bd", "Breakdown", True), ("pd", "Periodical", True)])
     tr_in, tr_nav = _pill_tabs("ta", slug, [("ds", "Distribution", True), ("st", "Streaks", True),
-                                            ("tp", "Time patterns", False), ("dt", "Trades analysis details", wb is not None and wf is not None)])
-    details = ""
-    if wb and wf:
-        ta_rows = (
-            _ta_row("Total trades", f'{wb["n"]:,}', f'{wf["n"]:,}')
-            + _ta_row("Winning trades", f'{wb["wins"]:,}', f'{wf["wins"]:,}')
-            + _ta_row("Losing trades", f'{wb["losses"]:,}', f'{wf["losses"]:,}')
-            + _ta_row("Percent profitable", f'{wb["winrate"]:.2f}%', f'{wf["winrate"]:.2f}%', "tv-pos")
-            + _ta_row("Avg P&amp;L per trade", _tvr_usd(wb["avg"]), _tvr_usd(wf["avg"]), _sgn(wb["avg"]))
-            + _ta_row("Avg winning trade", _tvr_usd(wb["aw"]), _tvr_usd(wf["aw"]), "tv-pos")
-            + _ta_row("Avg losing trade", _tvr_usd(wb["al"]), _tvr_usd(wf["al"]), "tv-neg")
-            + _ta_row("Ratio avg win / avg loss", f'{wb["ratio"]:.3f}', f'{wf["ratio"]:.3f}')
-            + _ta_row("Largest winning trade", _tvr_usd(wb["lw"]), _tvr_usd(wf["lw"]), "tv-pos")
-            + _ta_row("Largest losing trade", _tvr_usd(wb["ll"]), _tvr_usd(wf["ll"]), "tv-neg")
-        )
-        details = f"""<div class="tvr-sp">
-          <div class="screener" tabindex="0" role="region" aria-label="Trades analysis table, scrolls horizontally">
+                                            ("dt", "Trades analysis details", True)])
+    ratio = (a["aw"] / abs(a["al"])) if a["al"] else None
+    det_rows = [
+        ("Avg trade", _tvr_usd(a["avg"]), _tvr_pct(a["avg_ret"]) if a["avg_ret"] is not None else "", _sgn(a["avg"])),
+        ("Avg winning trade", _tvr_usd(a["aw"]), "", "tv-pos"),
+        ("Avg losing trade", _tvr_usd(a["al"]), "", "tv-neg"),
+        ("Ratio avg win / avg loss", f"{ratio:.3f}" if ratio is not None else None, "", ""),
+        ("Largest winning trade", _tvr_usd(lw["pnl"]), _tvr_pct(lw["ret"]) if lw["ret"] is not None else "", "tv-pos"),
+        ("Largest losing trade", _tvr_usd(ll["pnl"]), _tvr_pct(ll["ret"]) if ll["ret"] is not None else "", "tv-neg"),
+    ]
+    det_html = "".join(f'<tr><th scope="row">{lab}</th><td class="{cls}">{v}</td><td class="{cls}">{sub}</td></tr>'
+                       for lab, v, sub, cls in det_rows if v)
+    details = f"""<div class="tvr-sp">
+          <div class="screener" tabindex="0" role="region" aria-label="Trades analysis details, scrolls horizontally">
           <table class="tvt-table tvr-table">
-            <caption class="sr-only">Trades analysis, best window beside the full record</caption>
-            <thead><tr><th scope="col">Metric</th><th scope="col">Best window</th><th scope="col">Full record</th></tr></thead>
-            <tbody>{ta_rows}</tbody>
+            <caption class="sr-only">Trades analysis details, best window</caption>
+            <thead><tr><th scope="col">Metric</th><th scope="col">All trades</th><th scope="col">Return</th></tr></thead>
+            <tbody>{det_html}</tbody>
           </table>
           </div>
-          <p class="tvt-note">Derived from the published trade list. Each window slice reproduces its published trade count and net exactly, or these rows do not render.</p>
+          <p class="tvt-note">Bars-in-trade rows are omitted: the published record carries hour-level times, not bar counts.</p>
         </div>"""
     win_lab = f"{_tvr_date(ws)} — {_tvr_date(we)}" if exact else f"{_tvr_date(fs)} — {_tvr_date(fe)}"
     basis = (f'Figures: best window {_tvr_date(ws)} &rarr; {_tvr_date(we)} ({a["n"]:,} closed trades)' if exact
@@ -820,11 +905,11 @@ def tester_block(p):
   <input type="radio" name="tvt-{slug}" id="tvt-{slug}-ta" class="tvt-r">
   <input type="radio" name="tvt-{slug}" id="tvt-{slug}-lt" class="tvt-r">
   <div class="tvr-top">
-    <span class="tvr-strat">{esc(p["name"])}</span>
+    <span class="tvr-title fc-{slug}">{glyph(slug, "glyph tvr-glyph")}<span class="tvr-tt"><b>{esc(p["name"])}</b><small>{esc(p["meta"].split("·")[0].strip())} &middot; {esc(p["actual"])}</small></span></span>
     <span class="tvr-chip"><svg class="tvr-cal" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M2 7h12M5 1.5v3M11 1.5v3"/></svg>{win_lab}<b class="tvr-deep">DEEP</b></span>
     <span class="tvr-chip">{INITIAL_CAPITAL/1000:.0f} K USD</span>
-    <span class="tvr-chip">Default detalization</span>
-    <span class="tvr-chip">Script execution <b class="tvr-circ">1</b></span>
+    <span class="tvr-chip">4 ticks per bar</span>
+    <span class="tvr-chip">On bar close</span>
   </div>
   <div class="tvt-tabs tvr-tabs">
     <label for="tvt-{slug}-ov" class="tvt-tab">Overview</label>
@@ -835,11 +920,20 @@ def tester_block(p):
   <div class="tvt-pane tvr-p1">
     <div class="tvr-h1">Key stats</div>
     <div class="tvr-cells tvr-key">{key_cells}</div>
-    <div class="tvr-h1">Performance<span class="tvr-info" title="Cumulative net profit across the full record, with the per-trade results along the bottom">i</span></div>
+    <div class="tvr-h1">Performance<span class="tvr-info" title="Cumulative net profit across the full record, with the per-trade results along the bottom">i</span>{PERF_TOOLS}</div>
     {real_chart(p, tr)}
-    <div class="tvr-h1">Performance analysis</div>
-    {perf_nav_static}
-    {_breakdown_cells(a)}
+    <div class="tvr-h1">Trades</div>
+    <div class="tvr-ovbot">
+      <div class="tvr-cells tvr-cells-2">
+        {_cell("Largest profit", _tvr_usd(lw["pnl"], signed=True), "tv-pos", _tvr_pct(lw["ret"], signed=True) if lw["ret"] is not None else "", "tv-pos")}
+        {_cell("Largest loss", _tvr_usd(ll["pnl"], signed=True), "tv-neg", _tvr_pct(ll["ret"], signed=True) if ll["ret"] is not None else "", "tv-neg")}
+        {_cell("Long trades", f'{la["n"]:,}', "", f'{la["winrate"]:.2f}% &middot; {_tvr_usd(la["net"], signed=True)}', _sgn(la["net"]))}
+        {_cell("Short trades", f'{sa["n"]:,}', "", f'{sa["winrate"]:.2f}% &middot; {_tvr_usd(sa["net"], signed=True)}', _sgn(sa["net"]))}
+        {_cell("Profit factor", f'{a["pf"]:.3f}')}
+        {_cell("Commission load", _tvr_pct(100.0 * a["commission"] / a["gp"]) if (a["commission"] is not None and a["gp"]) else "&mdash;", "", _tvr_usd(a["commission"]) if a["commission"] is not None else "", "", title=f"commissions {COMMISSION_RT:.2f} USD per contract round turn, as a share of gross profit")}
+      </div>
+      <div class="tvr-ovdonut"><div class="tvr-h2">Trades distribution</div>{_donut(a)}</div>
+    </div>
     <p class="tvt-note">{caption}</p>
   </div>
   <div class="tvt-pane tvr-p2">
@@ -860,7 +954,7 @@ def tester_block(p):
           <div class="tvr-panel"><div class="tvr-h2">Trades distribution</div>{_donut(a)}</div>
         </div>
       </div>
-      <div class="tvr-sp">{_streaks(rows)}</div>
+      <div class="tvr-sp">{_streaks(rows, slug)}</div>
       {details}
     </div>
     <p class="tvt-note">{caption}</p>
@@ -959,70 +1053,81 @@ def baseline(p, stats_key="best"):
     return r * BASE_DD if r else 0
 
 def rodd_menu(p):
+    """The sizing menu, on the ONE-MULTIPLE drawdown (owner 2026-09-03: 'it should be based on
+    1 multiple of the book. So MNQ is based on 1,800, therefore 2.5k would be ideal'). Every notch
+    is a DRAWDOWN budget; the fit multiplier is floor(budget / 1x drawdown) capped at the published
+    Multiplier, and a notch only reads 'not built for this size' when it cannot cover 1x."""
     b = p["best"]["stats"]
     f = (p.get("full") or {}).get("stats", {})
     rodd, dd = num(b.get("RoDD", 0)), num(b.get("Max DD", 0))
-    rodd_full = num(f.get("RoDD", 0))
     dd_full = num(f.get("Max DD", 0))
     months = num(b.get("Months", 0))
-    net = b.get("Net", "")
+    mult = int(p.get("mult") or 1)
     if not rodd or not dd: return ""
-    # the guard trips on the WORSE window, never the flattering one: sizing to a
-    # best-window drawdown is how a buyer gets wiped by the full record
+    tr = load_trades_data(p["slug"])
+    if tr:
+        dd, dd_full = tr["best"]["dd"], tr["full"]["dd"]
+        net_best, months = tr["best"]["net"], (tr["best"]["months"] or months)
+    else:
+        net_best = num(b.get("Net", 0))
+    # the guard trips on the WORSE window, never the flattering one
     red_at = max(dd, dd_full)
-    guard_src = "full record" if dd_full > dd else "this window"
+    guard_src = "full record" if dd_full > dd else "best window"
     if p["slug"] == "pool-milestone-pullback":
         red_at = max(red_at, 12300)  # unfilterable worst session — sizing guard
+    dd1 = red_at / mult                               # one multiple's drawdown
+    permo1 = (net_best / months / mult) if months else 0.0   # avg monthly profit at 1x
     slug = p["slug"]
     radios, labels, outs = "", "", ""
     default_set = False
     for i, C in enumerate(NOTCHES, 1):
-        if C < red_at: state = "red"
-        elif C < 2 * red_at: state = "amb"
+        fit = min(mult, int(C // dd1)) if dd1 > 0 else mult
+        if fit < 1: state = "red"
+        elif C < 1.25 * dd1 * fit: state = "amb"
         else: state = "ok"
         checked, rec = "", False
-        if state == "ok" and not default_set:
+        if state != "red" and not default_set:
             checked = " checked"; default_set = True; rec = True
-        proj = rodd * C
-        permo = proj / months if months else 0
-        lab = f"${C//1000}k" if C >= 1000 and C % 1000 == 0 else f"${C/1000:.1f}k"
+        lab = f"${C//1000}k" if C % 1000 == 0 else f"${C/1000:.1f}k"
         radios += f'<input type="radio" name="ro-{slug}" id="ro-{slug}-{i}" class="ro-r ro-{state}"{checked}>'
         rec_tag = '<span class="ro-rec">our pick</span>' if rec else ''
         labels += (f'<label for="ro-{slug}-{i}" class="ro-notch{" ro-notch-rec" if rec else ""}">{rec_tag}<span class="ro-tick" aria-hidden="true"></span>'
-                   f'<span class="ro-amt">{lab}</span></label>')
+                   f'<span class="ro-amt">{lab}</span><span class="ro-acct">{usd(C * ACCOUNT_X)}+ account</span></label>')
         if state == "red":
-            body = (f'<span class="ro-flag">Not built for this size</span> The deepest published max drawdown '
-                    f'({usd(red_at)}, {guard_src}) exceeds a {lab} budget &mdash; this sizing would not have '
-                    f'survived the sample. Some systems are not meant to run this small.')
+            body = (f'<span class="ro-flag">Not built for this size</span> One multiple of this system draws down '
+                    f'<b>{usd(dd1)}</b> at worst ({guard_src}) &mdash; more than a {lab} drawdown budget covers. '
+                    f'The smallest budget that holds 1&times; is {usd(NOTCHES[min(len(NOTCHES)-1, next((k for k, n in enumerate(NOTCHES) if n >= dd1), len(NOTCHES)-1))])}.')
         else:
-            proj_full = rodd_full * C
-            both = (f' Over the full record, <b>{usd(proj_full)}</b>.' if rodd_full and abs(rodd_full - rodd) > 0.01 else '')
-            body = (f'A drawdown budget of <b>{lab}</b> historically returned <b class="ro-ret">~{usd(proj)}</b> '
-                    f'over the best window.{both} Past results, not a forecast.')
-            if rec:
-                body = ('<span class="ro-flag ro-flag-rec">Recommended</span> The smallest budget that clears '
-                        f'the deepest published drawdown ({usd(red_at)}, {guard_src}). ' + body)
+            size = ("the full published size" if fit == mult else f"of the published {mult}&times;")
+            body = (f'<span class="ro-flag ro-flag-rec">{"Recommended" if rec else f"Fits at {fit}&times;"}</span> '
+                    f'Fits at <b>{fit}&times;</b> ({size}). One multiple draws down <b>{usd(dd1)}</b> at worst ({guard_src}); '
+                    f'{fit}&times; uses about <b>{usd(dd1 * fit)}</b> of a {lab} budget. Expected average monthly profit at '
+                    f'{fit}&times;: <b class="ro-ret">&asymp;{usd(permo1 * fit)}</b> (best window, {months:g} months; '
+                    f'{usd(permo1)} per multiple). Past results, not a forecast.')
             if state == "amb":
-                body = (f'<span class="ro-flag">Thin cushion</span> The deepest published drawdown ({usd(red_at)}, '
-                        f'{guard_src}) is more than half this budget &mdash; one bad stretch uses most of your '
-                        'room. ' + body)
+                body = (f'<span class="ro-flag">Thin cushion</span> {fit}&times; leaves under a quarter of this budget spare '
+                        'after its worst published drawdown. ' + body)
+            if fit == mult and C >= 2 * dd1 * mult:
+                body += (f' This budget exceeds the published {mult}&times; size; we do not recommend raising the '
+                         'Multiplier beyond it &mdash; profit and drawdown rise together.')
         outs += f'<div class="ro-out ro-out-{i}">{body}</div>'
-    if not default_set:  # everything red/amber — check the last notch
+    if not default_set:  # nothing fits even at the top notch
         radios = radios.replace(f'id="ro-{slug}-{len(NOTCHES)}" class', f'id="ro-{slug}-{len(NOTCHES)}" checked class', 1)
-    return f"""<div class="rodd" aria-label="Return-on-drawdown sizing menu">
+    return f"""<div class="rodd" aria-label="Drawdown-budget sizing menu">
   <div class="rodd-head">
     <span class="rodd-title">Sizing</span>
     <span class="rodd-fig">{pct(b.get("RoDD",""))}</span>
   </div>
-  <p class="rodd-why"><b>RoDD is the metric this catalog is priced on.</b> Profit factor says the engine works;
-  RoDD says what it costs to hold: net profit divided by the worst peak-to-valley drawdown.
-  This system&rsquo;s window ({esc(b.get("Months",""))} months): {esc(net)} net &divide; {usd(dd)} max drawdown
-  = <b>{pct(b.get("RoDD",""))} return on drawdown</b>.
-  Slide your drawdown budget &mdash; the projection scales with it, and so does the pain.</p>
+  <p class="rodd-why"><b>RoDD is the metric this catalog is priced on.</b> Net profit divided by the worst
+  peak-to-valley drawdown: this system&rsquo;s window ({esc(b.get("Months",""))} months) returned
+  <b>{pct(b.get("RoDD",""))}</b> on its drawdown. Shown at Multiplier {mult}; one multiple draws down
+  <b>{usd(dd1)}</b> at worst ({guard_src}).</p>
+  <p class="ro-lead">{DD_LEAD}</p>
+  <p class="ro-warn">{DD_RULE}</p>
   {radios}
   <div class="ro-track" aria-hidden="false">{labels}</div>
   <div class="ro-outs">{outs}</div>
-  <p class="ro-note">Linear scaling of the published window; not a projection of future results. See the disclaimer below.</p>
+  <p class="ro-note">Fit multiplier = drawdown budget &divide; one multiple&rsquo;s worst published drawdown, capped at the published Multiplier. Linear scaling of the published window; not a projection of future results.</p>
 </div>"""
 
 def legs_block(p):
@@ -1132,17 +1237,22 @@ def write_window_csv(p, tr):
     return rel, len(rows)
 
 def window_block(p, tr):
-    """'This strategy was optimized from … to …' + the best-RoDD window + the CSV link."""
+    """'This strategy was optimized from … to …' + the best-RoDD window."""
     ow = p.get("opt_window") or {}
     if not tr or not ow:
         return ""
     bs, be = _fmt_iso(tr["best"]["start"]), _fmt_iso(tr["best"]["end"])
-    rel, n = write_window_csv(p, tr)
-    link = (f'<p class="pdp-csv-line"><a class="pdp-csv" href="{rel}" download>Download the trade list for this window '
-            f'(CSV, {n:,} trades)</a></p>') if rel else ""
     return (f'<div class="pdp-window"><p><strong>This strategy was optimized from {esc(ow.get("start",""))} to '
             f'{esc(ow.get("end",""))}.</strong> {bs} to {be} is the best return-on-drawdown timeframe we have, '
-            f'and it is the window displayed on the chart and in the figures on this page.</p>{link}</div>')
+            f'and it is the window displayed on the chart and in the figures on this page.</p></div>')
+
+def csv_line(p, tr):
+    """The best-window trade CSV, under the report (owner 2026-09-03: 'doesn't need to be at the top')."""
+    if not tr:
+        return ""
+    rel, n = write_window_csv(p, tr)
+    return (f'<p class="pdp-csv-line"><a class="pdp-csv" href="{rel}" download>Download the trade list for this window '
+            f'(CSV, {n:,} trades)</a></p>') if rel else ""
 
 def product_page(p, is_book):
     path = f"/strategies/{p['slug']}.html"
@@ -1155,8 +1265,9 @@ def product_page(p, is_book):
     crumb_root = ('<a href="/strategies/the-books.html">The Books</a>' if is_book
                   else '<a href="/">Strategies</a>')
     _tr = load_trades_data(p["slug"])
-    main_col = window_block(p, _tr) + "\n" + rodd_menu(p) + "\n" + tester_block(p) + "\n" + (
-        engines_block(p) if p.get("engines") else "")
+    # owner 2026-09-03: the report is the highlight, edge to edge of the wrap; the columns follow it
+    band = window_block(p, _tr) + "\n" + tester_block(p) + "\n" + csv_line(p, _tr)
+    main_col = rodd_menu(p) + "\n" + (engines_block(p) if p.get("engines") else "")
     main_col += "\n" + warn_block(p) + "\n" + legs_block(p)
     # the calendar wants the whole page width, not the narrow main column
     cal_col = calendar_real(_tr) if _tr else calendar_panel()
@@ -1172,7 +1283,7 @@ def product_page(p, is_book):
   <div class="wrap">
     <nav class="crumbs" aria-label="Breadcrumb">{crumb_root}<span class="sep">/</span>{esc(p['name'])}</nav>
 
-    <article class="pdp">
+    <article class="pdp pdp-top">
       <div class="pdp-head">
         {('<span class="pdp-glyph" aria-hidden="true">' + (emblem(p['slug'], 'bk-emblem pdp-mark') if is_book else glyph(p['slug'], 'glyph pdp-mark')) + '</span>') if p['slug'] in THEMED else ''}
         <div class="pdp-id">
@@ -1184,9 +1295,18 @@ def product_page(p, is_book):
           <em class="pdp-hero-sub">{pct(b.get('RoDD',''))} return on drawdown over {esc(b.get('Months',''))} months</em>
           <em class="pdp-hero-sub">Return on drawdown = net profit &divide; maximum drawdown over the window, shown per month of the record.</em>
           <em class="pdp-hero-sub">{usd(baseline(p))} on a {usd(BASE_DD)} drawdown</em>
-          {f'<em class="pdp-hero-sub">Shown at Multiplier {p["mult"]} &middot; drawdown held under $10,000 &middot; RoDD is size-independent</em>' if p.get('mult') else ''}</div>
+          {f'<em class="pdp-hero-sub">Shown at Multiplier {p["mult"]} &middot; drawdown held under $10,000 &middot; RoDD is size-independent</em>' if p.get('mult') else ''}
+          <a class="btn btn-buy pdp-buy pdp-buy-top" href="{esc(p.get("whop") or WHOP_STORE)}" rel="noopener">Buy now &mdash; ${p['price']:,}/mo</a></div>
       </div>
 
+    </article>
+
+    <div class="pdp-band">
+      {band}
+    </div>
+    <div class="pdp-buy-mid"><a class="btn btn-buy pdp-buy" href="{esc(p.get("whop") or WHOP_STORE)}" rel="noopener">Buy now &mdash; ${p['price']:,}/mo</a><span class="pdp-buy-sub">TradingView invite-only script &middot; activated within 24 hours &middot; cancel any time</span></div>
+
+    <article class="pdp pdp-body">
       <div class="pdp-cols">
         <div class="pdp-main">
         {main_col}

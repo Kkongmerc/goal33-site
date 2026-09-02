@@ -71,12 +71,48 @@ DISCLAIMER = ("All performance figures are backtested or validation-run results 
               "own trading decisions.")
 
 # ── the recommendation matrix ───────────────────────────────────
-BUDGETS = [
-    ("b1", "$1k–$5k",  "Room for a ~$4.5k drawdown", 4500),
-    ("b2", "$5k–$10k", "Room for a ~$9.5k drawdown", 9500),
-    ("b3", "$10k–$25k","Room for a ~$22.5k drawdown", 22500),
-    ("b4", "$25k+",    "Deep book — any published drawdown", 10**9),
-]
+# drawdown-budget notches (owner 2026-09-03): each is a DRAWDOWN budget, never an account size;
+# the implied account is 4x it (drawdown <= 25% of balance). $1k dropped.
+ACCOUNT_X = 4
+DD_LEAD = "This amount is your DRAWDOWN BUDGET, not your account size."
+DD_RULE = ("We recommend the drawdown never exceeds 25% of your account balance (a $2,500 drawdown budget "
+           "means a $10,000 account or more). Raising the Multiplier raises profit and drawdown together "
+           "and is inherently risky.")
+BUDGETS = [(f"b{i}", "${:,}".format(c), "${:,}+ account".format(c * ACCOUNT_X), c)
+           for i, c in enumerate([2500, 5000, 10000, 25000, 50000], 1)]
+
+def mult_of(p): return int(p.get("mult") or 1)
+_TR = {}
+def trades_of(p):
+    """The product's replayed trade record (exact best/full net + drawdown), if published."""
+    if p["slug"] not in _TR:
+        f = os.path.join(_HERE, "trades", p["slug"] + ".json")
+        _TR[p["slug"]] = json.load(open(f, encoding="utf-8")) if os.path.exists(f) else None
+    return _TR[p["slug"]]
+def dd1x(p):
+    """One multiple's worst published drawdown = the shown-multiplier drawdown / Multiplier
+    (Continuum: $8,725 / 5 = $1,745). Exact from the trade record when it is published."""
+    tr = trades_of(p)
+    d = max(tr["best"]["dd"], tr["full"]["dd"]) if tr else worst_dd(p)
+    return d / mult_of(p)
+def fit_mult(p, cap):
+    """The multiplier a drawdown budget covers: floor(budget / 1x drawdown), capped at the
+    published Multiplier; 0 = does not fit."""
+    d = dd1x(p)
+    return min(mult_of(p), int(cap // d)) if d > 0 else mult_of(p)
+def monthly_at(p, k):
+    """Expected average monthly profit at k multiples = best-window net / months / Multiplier x k."""
+    b = p["best"]["stats"]
+    tr = trades_of(p)
+    months = (tr["best"]["months"] if tr else 0) or num(b.get("Months", 0))
+    net = tr["best"]["net"] if tr else num(bs(p, "Net"))
+    return (net / months / mult_of(p)) * k if months else 0.0
+def usd(v): return "${:,.0f}".format(v)
+def fit_line(p, cap):
+    k = fit_mult(p, cap)
+    size = "the full published size" if k == mult_of(p) else f"of the published {mult_of(p)}&times;"
+    return (f'<p class="pr-fit"><b>1&times; drawdown {usd(dd1x(p))}</b> &middot; fits a {usd(cap)} budget at '
+            f'<b>{k}&times;</b> ({size}) &middot; expected avg monthly profit at {k}&times; <b>&asymp;{usd(monthly_at(p, k))}</b></p>')
 TEMPS = [
     ("t1", "Steady grind",  "High win rate. Long green streaks, shallow pain."),
     ("t2", "Best math",     "Maximum return per dollar of drawdown. The RoDD play."),
@@ -89,7 +125,7 @@ def sort_key(tkey):
     return lambda p: (-num(bs(p, "Net")), -num(bs(p, "RoDD")))
 
 def eligible(cap):
-    return [p for p in S if worst_dd(p) <= cap]
+    return [p for p in S if fit_mult(p, cap) >= 1]
 
 def why_line(p, tkey):
     if tkey == "t1":
@@ -116,13 +152,13 @@ def empty_single_card(blab):
       </div>
       <p class="pr-why">Every strategy on the shelf is shown at the largest whole Multiplier that keeps its
       own best-window drawdown under $10,000, and even at that size none currently holds inside {esc(blab)}.
-      Step up a budget tier to see what qualifies.</p>
+      Step up a drawdown budget to see what qualifies.</p>
       <div class="pr-ctas">
         <a class="btn btn-buy" href="/">Open the catalog</a>
       </div>
     </div>"""
 
-def single_card(p, tkey, alt):
+def single_card(p, tkey, alt, cap):
     alt_line = (f'<p class="pr-alt">Runner-up: <a href="/strategies/{alt["slug"]}.html">{esc(alt["name"])}</a>'
                 f' — {rodd_mo_pct(alt["best"]["stats"])} RoDD/mo, {bs(alt,"Win")} win, {bs(alt,"Max DD")} max drawdown.</p>') if alt else ""
     return f"""<div class="pr-card fc-{p['slug']}">
@@ -132,6 +168,7 @@ def single_card(p, tkey, alt):
         <div class="pr-price">${p['price']}<small>/mo</small></div>
       </div>
       <p class="pr-why">{why_line(p, tkey)}</p>
+      {fit_line(p, cap)}
       {stat_strip(p)}
       <div class="pr-ctas">
         <a class="btn" href="/strategies/{p['slug']}.html">View full data</a>
@@ -141,14 +178,15 @@ def single_card(p, tkey, alt):
       <p class="pr-promo">{esc(PROMO_LINE)}</p>
     </div>"""
 
-def trio_rows(trio, slots=3):
+def trio_rows(trio, slots=3, cap=None):
     """Renders up to `slots` rows; any slot with no qualifying strategy is
     left visibly blank rather than filled with something that does not fit."""
     rows = ""
     for p in trio:
         rows += (f'<li>{glyph(p["slug"], "glyph g-row")}<a class="pr-name fc-{p["slug"]}" href="/strategies/{p["slug"]}.html">{esc(p["name"])}</a>'
                  f'<span class="pr-real">{esc(p["actual"])}</span>'
-                 f'<span class="pr-mini">{rodd_mo_pct(p["best"]["stats"])} RoDD/mo · {bs(p,"Win")} win · {bs(p,"Max DD")} DD</span>'
+                 f'<span class="pr-mini">{rodd_mo_pct(p["best"]["stats"])} RoDD/mo · {bs(p,"Win")} win · 1× DD {usd(dd1x(p))}'
+                 + (f' · fits at {fit_mult(p, cap)}× · ≈{usd(monthly_at(p, fit_mult(p, cap)))}/mo' if cap else '') + '</span>'
                  f'<span class="pr-solo">${p["price"]}</span></li>')
     for _ in range(max(0, slots - len(trio))):
         rows += ('<li class="pr-empty"><span class="pr-name">Slot open</span>'
@@ -157,7 +195,7 @@ def trio_rows(trio, slots=3):
 
 RULE_LINE = {"t1": "highest win rates", "t2": "highest monthly RoDD", "t3": "largest published nets"}
 
-def trio_block(trio, tkey):
+def trio_block(trio, tkey, cap):
     """Three strategies for this kind of trader, bought solo. Pick-3 is
     retired, so there is no bundle to weigh against - the recommendation is
     simply the three that fit, and what they cost together."""
@@ -175,7 +213,7 @@ def trio_block(trio, tkey):
         <span class="pr-real">{sub}</span></div>
         <div class="pr-price">${worth:,}<small>/mo total</small></div>
       </div>
-      <ul class="pr-trio">{trio_rows(trio)}</ul>
+      <ul class="pr-trio">{trio_rows(trio, cap=cap)}</ul>
       <p class="pr-why">Chosen by the same rule the shelf is ranked by: the {rule} whose deeper published
       drawdown still fits what you said you can hold. Each is its own subscription &mdash; add or drop any
       of them month to month.</p>
@@ -192,10 +230,10 @@ for bkey, blab, bdesc, cap in ([] if PRELAUNCH else BUDGETS):
         ranked = sorted(pool, key=sort_key(tkey))
         if ranked:
             pick, alt = ranked[0], (ranked[1] if len(ranked) > 1 else None)
-            panels += f'<div class="pr" id="r-s1-{bkey}-{tkey}">{single_card(pick, tkey, alt)}</div>\n'
+            panels += f'<div class="pr" id="r-s1-{bkey}-{tkey}">{single_card(pick, tkey, alt, cap)}</div>\n'
         else:
             panels += f'<div class="pr" id="r-s1-{bkey}-{tkey}">{empty_single_card(blab)}</div>\n'
-        panels += f'<div class="pr" id="r-s2-{bkey}-{tkey}">{trio_block(ranked[:3], tkey)}</div>\n'
+        panels += f'<div class="pr" id="r-s2-{bkey}-{tkey}">{trio_block(ranked[:3], tkey, cap)}</div>\n'
 
 # fleet (all-access) panels — budget-aware
 starter_slugs = BN["starter"]["slugs"]
@@ -324,7 +362,7 @@ qs = f"""
       <input type="checkbox" id="ed-budget" class="pq-edit">
       <fieldset class="pq pq-budget">
         <legend><span class="pq-n">Step 02</span> <span class="pq-q">What drawdown budget are you sizing?</span></legend>
-        <p class="pq-hint">Not your account size — the open drawdown you could genuinely sit through without pulling the plug. The same number the sizing menu on every product page runs on.</p>
+        <p class="pq-hint pq-warn"><b>{DD_LEAD}</b> {DD_RULE} The account figure under each amount is that minimum.</p>
         {chips('q-budget', budget_opts)}
       <label class="pq-editlab" for="ed-budget"><span class="sr-only">Change this answer</span></label>
         <label class="pq-close" for="ed-budget">done</label>
@@ -447,6 +485,8 @@ page = f"""<!DOCTYPE html>
       three named systems &mdash; sized to the drawdown you can actually hold, chosen by the same math
       that ranks the shelf. Runs entirely in your browser: this page ships zero script, so your answers
       never leave it.</p>
+      <p class="plan-sub plan-warn"><b>{DD_LEAD}</b> {DD_RULE} Every recommendation is sized from one
+      multiple of the system: the multiplier your budget covers, capped at the published Multiplier.</p>
       <p class="plan-sub">Every recommendation runs on <b>average monthly return on drawdown (RoDD/mo)</b>:
       net profit &divide; maximum drawdown over the window, shown per month of the record &mdash; a 54&times;
       RoDD over 8 months and a 32&times; RoDD over 16 months are not the same edge, and RoDD/mo is how this

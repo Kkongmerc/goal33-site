@@ -21,6 +21,14 @@ S = CAT["strategies"]
 WHOP_STORE = CAT.get("whop_store") or "/"
 PROMO = CAT.get("promo") or {}
 PROMO_LINE = PROMO.get("line", "").replace("{code}", PROMO.get("code", "")) if PROMO else ""
+SPECIAL = CAT.get("special") or {}
+def special_strip():
+    """One line above the tables, all copy from catalog2 `special`; nothing when active=false."""
+    if not SPECIAL.get("active"):
+        return ""
+    line = SPECIAL.get("line", "").replace("{pct}", str(SPECIAL.get("pct", ""))).replace("{code}", SPECIAL.get("code", ""))
+    ends = f'<em>ends {esc(SPECIAL["ends"])}</em>' if SPECIAL.get("ends") else ""
+    return f'<div class="special special-line"><b>{esc(SPECIAL.get("label", "Special"))}</b><span>{esc(line)}</span>{ends}</div>'
 
 def esc(s):
     return html.escape(str(s), quote=False)
@@ -47,6 +55,8 @@ def bs(p, k):
 def avg_monthly_profit(p):
     """Average monthly net profit over the best window, at the shown multiplier — from the real
     trade record when it is on disk (exact net / months), else from the catalog display strings."""
+    if p.get("kind") == "combined":
+        return p["net"] / p["months"]
     tr = load_trades(p["slug"])
     if tr and tr.get("best", {}).get("months"):
         return tr["best"]["net"] / tr["best"]["months"]
@@ -71,10 +81,11 @@ def load_trades(slug):
 
 SPARK_W, SPARK_H = 1200.0, 300.0
 
-def sparkline(slug, cls="fspark", pfx="fsg", maxpts=0):
-    """Full-bleed equity curve for a flagship pane, from the real record."""
-    tr = load_trades(slug)
-    pts = (tr or {}).get("equity") or []
+def sparkline(slug, cls="fspark", pfx="fsg", maxpts=0, pts=None):
+    """Full-bleed equity curve for a flagship pane, from the real record (or the points given)."""
+    if pts is None:
+        tr = load_trades(slug)
+        pts = (tr or {}).get("equity") or []
     if len(pts) < 2:
         return ""
     if maxpts and len(pts) > maxpts:
@@ -103,8 +114,98 @@ BASE_DD = CAT.get("baseline_dd", 5000)
 def baseline(p):
     return num(bs(p, "RoDD")) * BASE_DD
 
-TOP5 = sorted(S, key=lambda x: (-x["price"], -num(bs(x, "RoDD"))))[:5]
+# ── product tiers (owner 2026-09-03): Books on top, then the combo sets, then singles per market ──
+def kind_of(p):
+    k = p.get("kind")
+    if k: return k
+    n = len(p.get("legs") or [])
+    return "book" if n >= 5 else ("combo" if n >= 2 else "single")
+
+def _win_days(p):
+    """The best window's daily net, from the trade record."""
+    tr = load_trades(p["slug"])
+    if not tr: return {}
+    s, e = tr["best"]["start"], tr["best"]["end"]
+    return {d: v for d, v in tr["daily"].items() if s <= d <= e}
+
+def month_extremes(p, daily=None):
+    """(best, worst) calendar month of the window as ('+$12.4k', 'Mar 26') tuples."""
+    daily = _win_days(p) if daily is None else daily
+    months = {}
+    for d, v in daily.items():
+        months[d[:7]] = months.get(d[:7], 0.0) + v
+    if not months: return None, None
+    def fmt(ym, v):
+        lab = datetime.date(int(ym[:4]), int(ym[5:7]), 1).strftime("%b %y")
+        sign = "+" if v >= 0 else "&minus;"
+        a = abs(v)
+        val = f"${a/1000:,.1f}k" if a >= 1000 else f"${a:,.0f}"
+        return (sign + val, lab)
+    hi = max(months, key=months.get); lo = min(months, key=months.get)
+    return fmt(hi, months[hi]), fmt(lo, months[lo])
+
+def dd_pair(p):
+    """(drawdown at one multiple, drawdown at the published multiplier) in dollars."""
+    tr = load_trades(p["slug"])
+    m = int(p.get("mult") or 1)
+    dk = tr["best"]["dd"] if tr else num(bs(p, "Max DD"))
+    return dk / m, dk
+
+def books_combined():
+    """Both books together (Continuum + Midas), owner 2026-09-03: each book's daily series is
+    taken back to ONE multiple (its published curve divided by its shown multiplier), the two 1x
+    curves are merged into one equity curve, and the pair is then multiplied by the largest whole
+    K that keeps the merged max drawdown under $10,000 - never below x3 (if x3 breaches $10k the
+    row still ships at x3 and the drawdown says so). Net = merged sum at K; max DD from the merged
+    curve at K; months = span of the merged record; trades = sum; win / PF from both lists."""
+    books = [p for p in S if kind_of(p) == "book"]
+    trs = [(p, load_trades(p["slug"])) for p in books]
+    trs = [(p, t) for p, t in trs if t]
+    if len(trs) < 2: return None
+    daily1 = {}
+    for p, t in trs:
+        m = float(p.get("mult") or 1)
+        for d, v in t["daily"].items():
+            daily1[d] = daily1.get(d, 0.0) + v / m
+    days = sorted(daily1)
+    cum = peak = dd1 = 0.0
+    for d in days:
+        cum += daily1[d]; peak = max(peak, cum); dd1 = max(dd1, peak - cum)
+    net1 = cum
+    K = max(3, int(10000.0 // dd1)) if dd1 else 3
+    daily = {d: v * K for d, v in daily1.items()}
+    cum = 0.0; eq = []
+    for d in days:
+        cum += daily[d]; eq.append([d, round(cum, 2)])
+    net, dd = net1 * K, dd1 * K
+    d0 = datetime.date.fromisoformat(days[0]); d1 = datetime.date.fromisoformat(days[-1])
+    months = round((d1 - d0).days / 30.44, 1) or 1.0
+    pnls = [row[3] for _, t in trs for row in t["trades"]]
+    wins = [x for x in pnls if x > 0]; losses = [x for x in pnls if x < 0]
+    gp, gl = sum(wins), -sum(losses)
+    rodd = net / dd if dd else 0.0
+    return {
+        "slug": "the-books", "name": " + ".join(p["name"] for p, _ in trs), "actual": "both books together, one account",
+        "meta": "MNQ + MGC · 18:00 – market close", "session": "18:00 – market close", "kind": "combined",
+        "price": CAT["bundles"]["books_all"]["price"], "mult": K, "mults": [(p["name"], p.get("mult")) for p, _ in trs],
+        "dd1": dd1, "net1": net1,
+        "legs": [], "whop": WHOP_STORE, "eq": eq, "daily": daily,
+        "net": net, "dd": dd, "months": months, "rodd": rodd, "n": len(pnls),
+        "best": {"stats": {"RoDD": "%.2f" % rodd, "Months": "%.1f" % months, "Win": "%.1f%%" % (100.0 * len(wins) / len(pnls)),
+                           "PF": "%.2f" % (gp / gl if gl else 0), "Net": "$%.1fk" % (net / 1000), "Max DD": "$%.1fk" % (dd / 1000),
+                           "Trades": "{:,}".format(len(pnls))}},
+        "first": days[0], "last": days[-1],
+    }
+
+COMBINED = books_combined()
+_flag_order = ["the-books", "continuum", "midas", "triad", "slipstream"]
+_by = {p["slug"]: p for p in S}
+if COMBINED: _by["the-books"] = COMBINED
+TOP5 = [_by[s] for s in _flag_order if s in _by][:5]
+if len(TOP5) < 5:
+    TOP5 += [p for p in sorted(S, key=lambda x: -x["price"]) if p not in TOP5][:5 - len(TOP5)]
 RODD_RANK = {p["slug"]: i + 1 for i, p in enumerate(sorted(S, key=lambda x: -num(bs(x, "RoDD"))))}
+if COMBINED: RODD_RANK["the-books"] = 1
 
 def cf_block():
     radios = '<input class="cf-r" type="radio" name="cf-sel" id="cf-0" checked>' + "".join(
@@ -113,10 +214,11 @@ def cf_block():
     for i, p in enumerate(TOP5):
         rk = RODD_RANK[p["slug"]]
         tag = f"#{rk} RoDD" if rk <= 3 else "RoDD"
+        href = "/#books" if p["slug"] == "the-books" else f'/strategies/{p["slug"]}.html'
         panes += (
             f'<div class="cf-pane fc-{p["slug"]}">'
-            f'<a class="cf-link" href="/strategies/{p["slug"]}.html">'
-            + sparkline(p["slug"], cls="cf-spark", pfx="cf-sg", maxpts=64)
+            f'<a class="cf-link" href="{href}">'
+            + sparkline(p["slug"], cls="cf-spark", pfx="cf-sg", maxpts=64, pts=p.get("eq"))
             + f'<span class="cf-glyphwrap" aria-hidden="true">{glyph(p["slug"], "glyph cf-glyph")}</span>'
             + f'<span class="cf-star"><i>{tag}</i></span>'
             + f'<span class="cf-mid"><b class="cf-mid-profit">{money_signed(avg_monthly_profit(p))}<small>/mo</small></b>'
@@ -149,6 +251,8 @@ def market_of(p):
 SESSION_OVERRIDE = {"slipstream": "all sessions"}
 
 def session_of(p):
+    if p.get("session"):
+        return p["session"]
     # meta shape: "MNQ · 08:30 ET — the range fade, five days a week"
     # (one legacy entry uses " - " instead of the em dash)
     if p["slug"] in SESSION_OVERRIDE:
@@ -160,35 +264,65 @@ def session_of(p):
     except IndexError:
         return ""
 
-def row(p, rank):
+def _money_k(v):
+    a = abs(v); s = "" if v >= 0 else "&minus;"
+    return f"{s}${a/1000:,.1f}k" if a >= 1000 else f"{s}${a:,.0f}"
+
+def _month_cell(t, cls):
+    if not t: return '<td class="sx-f">&mdash;</td>'
+    return f'<td class="sx-f {cls}">{t[0]}<small class="sx-mo">{t[1]}</small></td>'
+
+def row(p, rank, dd_cols=False):
     b = p["best"]["stats"]
     name = esc(p["name"])
     sub = esc(p["actual"])
     note = ""
-    if p.get("legs"):
-        note = f'<span class="sx-book">book · combines {len(p["legs"])} strategies</span>'
+    k = kind_of(p)
+    if k == "combined":
+        note = '<span class="sx-book">both books at one multiple each, merged, then &times;' + str(p["mult"]) + '</span>'
+        link = f'<span class="sx-combined">{glyph("the-books", "glyph sx-g")}{name}</span>'
+    else:
+        if p.get("legs"):
+            note = f'<span class="sx-book">{"book" if k == "book" else "combo"} · combines {len(p["legs"])} strategies</span>'
+        link = f'<a class="fc-{p["slug"]}" href="/strategies/{p["slug"]}.html">{glyph(p["slug"], "glyph sx-g")}{name}</a>'
+    hi, lo = month_extremes(p, p.get("daily") if k == "combined" else None)
+    dd_html = ""
+    if dd_cols:
+        if k == "combined":
+            dd_html = f'<td class="sx-f">{_money_k(p["dd1"])}</td><td class="sx-f sx-neg">{_money_k(p["dd"])}</td>'
+        else:
+            d1, dk = dd_pair(p)
+            dd_html = f'<td class="sx-f">{_money_k(d1)}</td><td class="sx-f sx-neg">{_money_k(dk)}</td>'
+    # owner 2026-09-03: a profitable worst month renders green (class chosen by sign)
+    mult = ("&times;" + str(p["mult"])) if p.get("mult") else "—"
     return (
         f'<tr>'
         f'<td class="sx-r">{rank}</td>'
-        f'<td class="sx-n"><a class="fc-{p["slug"]}" href="/strategies/{p["slug"]}.html">{glyph(p["slug"], "glyph sx-g")}{name}</a>'
-        f'<span class="sx-sub">{sub}</span>{note}</td>'
+        f'<td class="sx-n">{link}<span class="sx-sub">{sub}</span>{note}</td>'
         f'<td class="sx-f sx-rodd">{rodd_mo_pct(b) if b.get("RoDD") else "—"}</td>'
         f'<td class="sx-f">{esc(b.get("Win", "—"))}</td>'
         f'<td class="sx-f">{esc(b.get("PF", "—"))}</td>'
         f'<td class="sx-f sx-net">{profit_cell(p)}</td>'
-        f'<td class="sx-f">{("&times;" + str(p["mult"])) if p.get("mult") else "—"}</td>'
+        + _month_cell(hi, "sx-pos" if (hi and not hi[0].startswith("&minus;")) else "sx-neg")
+        + _month_cell(lo, "sx-pos" if (lo and not lo[0].startswith("&minus;")) else "sx-neg")
+        + dd_html +
+        f'<td class="sx-f">{mult}</td>'
         f'<td class="sx-s">{esc(session_of(p))}</td>'
         f'<td class="sx-f sx-p"><!-- WHOP: replace this product-page link with the Whop checkout link -->'
-        f'<a href="{esc(buy_href(p))}" rel="noopener">${p["price"]}</a></td>'
+        f'<a href="{esc(buy_href(p))}" rel="noopener">${p["price"]:,}</a></td>'
         f'</tr>'
     )
 
-def table(title, rows_html, n):
-    return f"""<section class="sx-sec">
-  <h2>{esc(title)}</h2>
+def table(title, rows_html, n, dd_cols=False, sec_id="", lede=""):
+    dd_th = ('<th scope="col" class="sx-f"><abbr title="Max drawdown of the best window at one multiple of the product\'s own sizing">Drawdown 1&times;</abbr></th>'
+             '<th scope="col" class="sx-f"><abbr title="Max drawdown of the best window at the published multiplier">Drawdown at &times;K</abbr></th>') if dd_cols else ""
+    idattr = f' id="{sec_id}"' if sec_id else ""
+    lede_html = f'<p class="sx-lede-sec">{lede}</p>' if lede else ""
+    return f"""<section class="sx-sec"{idattr}>
+  <h2>{esc(title)}</h2>{lede_html}
   <div class="sx-scroll" tabindex="0" role="region" aria-label="{esc(title)} specification table, scrolls horizontally on small screens">
-  <table class="sx-t">
-    <caption class="sr-only">{esc(title)}: {n} strategies ranked by average monthly return on drawdown</caption>
+  <table class="sx-t{' sx-t-wide' if dd_cols else ''}">
+    <caption class="sr-only">{esc(title)}: {n} rows ranked by average monthly return on drawdown</caption>
     <thead><tr>
       <th scope="col" class="sx-r" aria-label="Rank">#</th>
       <th scope="col" class="sx-n">Strategy</th>
@@ -196,8 +330,11 @@ def table(title, rows_html, n):
       <th scope="col" class="sx-f">Win Rate</th>
       <th scope="col" class="sx-f">Profit Factor</th>
       <th scope="col" class="sx-f sx-net"><abbr title="Average monthly net profit over the best window, at the shown multiplier">Avg Monthly Profit</abbr></th>
+      <th scope="col" class="sx-f"><abbr title="Best calendar month of the best window">Best month</abbr></th>
+      <th scope="col" class="sx-f"><abbr title="Worst calendar month of the best window">Worst month</abbr></th>
+      {dd_th}
       <th scope="col" class="sx-f"><abbr title="Multiplier the published figures are shown at">Mult</abbr></th>
-      <th scope="col" class="sx-s">Session</th>
+      <th scope="col" class="sx-s">Session (ET)</th>
       <th scope="col" class="sx-f sx-p">$ / mo</th>
     </tr></thead>
     <tbody>{rows_html}</tbody>
@@ -205,10 +342,20 @@ def table(title, rows_html, n):
   </div>
 </section>"""
 
-mnq = [p for p in S if market_of(p) == "MNQ"]
-mgc = [p for p in S if market_of(p) == "MGC"]
+books = sorted([p for p in S if kind_of(p) == "book"], key=lambda x: -x["price"])
+book_list = ([COMBINED] if COMBINED else []) + books
+combos = [p for p in S if kind_of(p) == "combo"]
+mnq = [p for p in S if kind_of(p) == "single" and market_of(p) == "MNQ"]
+mgc = [p for p in S if kind_of(p) == "single" and market_of(p) == "MGC"]
+books_rows = "".join(row(p, i, dd_cols=True) for i, p in enumerate(book_list, 1))
+combo_rows = "".join(row(p, i, dd_cols=True) for i, p in enumerate(combos, 1))
 mnq_rows = "".join(row(p, i) for i, p in enumerate(mnq, 1))
 mgc_rows = "".join(row(p, i) for i, p in enumerate(mgc, 1))
+if COMBINED:
+    print("combined books: K x{} dd1x ${:,.0f} net1x ${:,.0f}".format(COMBINED["mult"], COMBINED["dd1"], COMBINED["net1"]))
+    print("combined books: net ${:,.0f} maxDD ${:,.0f} months {} RoDD {:.2f} RoDD/mo {} trades {:,} win {} PF {} avg/mo ${:,.0f} span {}..{}".format(
+        COMBINED["net"], COMBINED["dd"], COMBINED["months"], COMBINED["rodd"], rodd_mo_pct(COMBINED["best"]["stats"]),
+        COMBINED["n"], COMBINED["best"]["stats"]["Win"], COMBINED["best"]["stats"]["PF"], avg_monthly_profit(COMBINED), COMBINED["first"], COMBINED["last"]))
 today = datetime.date.today().strftime("%#d %b %Y") if os.name == "nt" else datetime.date.today().strftime("%-d %b %Y")
 
 DISCLAIM_SHORT = ("All performance figures are backtested or validation-run results shown with commissions and "
@@ -289,7 +436,14 @@ page = f"""<!doctype html>
     <div class="coverflow" aria-label="Flagship strategies">{cf_block()}</div>
   </div>
 
+  {special_strip()}
   <p class="sx-ddnote">All strategies simulated based on a $10,000 or less drawdown.</p>
+
+{table("The Books", books_rows, len(book_list), dd_cols=True, sec_id="books",
+       lede="The whole-day engines. The first row is both books run together in one account: each book taken back to one multiple, the two curves merged, then sized to the largest whole multiplier that keeps the combined drawdown under $10,000 (never below &times;3); the combined drawdown is measured on the merged daily equity curve.")}
+
+{table("Combo sets", combo_rows, len(combos), dd_cols=True, sec_id="combos",
+       lede="Multi-strategy sets: two or three legs routed through one script.")}
 
 {table("MNQ · Nasdaq futures", mnq_rows, len(mnq))}
 
@@ -331,4 +485,4 @@ page = f"""<!doctype html>
 out = os.path.join(BASE, "index.html")
 with open(out, "w", encoding="utf-8", newline="\n") as f:
     f.write(page)
-print(f"index written: spec sheet, {len(mnq)} MNQ rows + {len(mgc)} MGC rows, effective {today}")
+print(f"index written: {len(book_list)} book rows + {len(combos)} combo rows + {len(mnq)} MNQ + {len(mgc)} MGC singles, effective {today}")

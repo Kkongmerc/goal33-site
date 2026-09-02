@@ -51,6 +51,8 @@ STRAT = {
     # The Fix — the London fix: a bell over the fix line
     "the-fix": '<path d="M12 3.6v1.6"/><path d="M7.4 14.2V10a4.6 4.6 0 0 1 9.2 0v4.2l1.6 2.2H5.8z"/><path d="M10.2 18.8a1.8 1.8 0 0 0 3.6 0"/><path d="M4 21h16" opacity=".6"/>',
     # The Ingot — a cast gold bar (unlisted until its standalone matches the book leg)
+    # The Books (combined row) — two volumes side by side
+    "the-books": '<path d="M5 4h5.5v16H5z"/><path d="M13.5 4H19v16h-5.5z"/><path d="M7 8h1.5M16 8h1.5M7 12h1.5M16 12h1.5" opacity=".6"/>',
     "the-ingot": '<path d="M6.5 8.5h11l2.5 8h-16z"/><path d="M8.6 8.5 9.4 16.5M15.4 8.5l-.8 8" opacity=".55"/>',
     "assay": '<path d="M10 4h4"/><path d="M11 4v5.2L6.2 17a2.4 2.4 0 0 0 2.1 3.6h7.4a2.4 2.4 0 0 0 2.1-3.6L13 9.2V4"/><path d="M8.2 14.5h7.6"/>',
     # The Kilo (slug kilo) — stacked gold kilobars

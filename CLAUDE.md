@@ -56,6 +56,14 @@ JS means one code per build: a marketer's own tracked code is their Whop referra
 (applies automatically at checkout); `promo` is only the default code shown to buyers who
 arrive without one.
 
+**Monthly special (the second field to change each month):** `catalog2.json` top-level `special` =
+`{"active": true, "label": "September special", "line": "First month {pct}% off with code {code}",
+"pct": 30, "code": "SEPT30", "ends": "30 Sep 2026"}`. gen_pages renders it as the coloured strip
+above the buy button on every product/bundle page and rebuild_index as one line above the index
+tables; `{pct}` and `{code}` are substituted into `line`, `ends` prints after it. Set `active` to
+false and nothing renders anywhere. All copy comes from this object - never hand-write a special
+into a template. No scarcity counters, no fake deadlines: `ends` is the real end date.
+
 **Pricing formula** (strategies): `eff = RoDD x min(1, sqrt(n/300))`;
 `price = round10($159 + 12 x eff^1.15 - $60) - 1`. The four Books are priced
 by hand ABOVE the formula ($589-$1,189 solo; all four $2,999) — books must

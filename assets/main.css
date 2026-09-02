@@ -3109,7 +3109,14 @@ a.pr-name:hover { color: var(--accent); }
 #plan:has(#s3:checked):has(#b1:checked) #r-s3-small { display: block; }
 #plan:has(#s3:checked):has(#b2:checked) #r-s3-big,
 #plan:has(#s3:checked):has(#b3:checked) #r-s3-big,
-#plan:has(#s3:checked):has(#b4:checked) #r-s3-big { display: block; }
+#plan:has(#s3:checked):has(#b4:checked) #r-s3-big,
+#plan:has(#s3:checked):has(#b5:checked) #r-s3-big { display: block; }
+#plan:has(#s1:checked):has(#b5:checked):has(#t1:checked) #r-s1-b5-t1,
+#plan:has(#s1:checked):has(#b5:checked):has(#t2:checked) #r-s1-b5-t2,
+#plan:has(#s1:checked):has(#b5:checked):has(#t3:checked) #r-s1-b5-t3,
+#plan:has(#s2:checked):has(#b5:checked):has(#t1:checked) #r-s2-b5-t1,
+#plan:has(#s2:checked):has(#b5:checked):has(#t2:checked) #r-s2-b5-t2,
+#plan:has(#s2:checked):has(#b5:checked):has(#t3:checked) #r-s2-b5-t3 { display: block; }
 #plan:has(#s4:checked) #r-s4 { display: block; }
 #plan:has(.pq-scope input:checked):has(#e1:checked) #r-e1 { display: block; }
 #plan:has(.pq-scope input:checked):has(#e2:checked) #r-e2 { display: block; }
@@ -3789,6 +3796,11 @@ section:hover .sec-head h2::after { width: 48px; }
    Data stats stay mint/amber/violet; only the card chrome, name, and
    emblem carry the identity. Cards without a skin fall back to mint. */
 .fc-spartacus            { --fc: #E3A857; --fc-hi: #F0C083; --fc-soft: rgba(227, 168, 87, .14); --fc-line: rgba(227, 168, 87, .38); --fc-glow: rgba(227, 168, 87, .34); }
+.fc-the-ingot            { --fc: #E2B96B; --fc-hi: #F0D39A; --fc-soft: rgba(226, 185, 107, .13); --fc-line: rgba(226, 185, 107, .38); --fc-glow: rgba(226, 185, 107, .34); }
+.fc-the-print            { --fc: #F2C879; --fc-hi: #F8DDA6; --fc-soft: rgba(242, 200, 121, .13); --fc-line: rgba(242, 200, 121, .38); --fc-glow: rgba(242, 200, 121, .34); }
+.fc-the-fix              { --fc: #D9A441; --fc-hi: #EAC072; --fc-soft: rgba(217, 164, 65, .13); --fc-line: rgba(217, 164, 65, .38); --fc-glow: rgba(217, 164, 65, .34); }
+.fc-the-vault            { --fc: #C9B458; --fc-hi: #E0CF86; --fc-soft: rgba(201, 180, 88, .13); --fc-line: rgba(201, 180, 88, .38); --fc-glow: rgba(201, 180, 88, .34); }
+.fc-the-books            { --fc: #F5D07A; --fc-hi: #FBE3A8; --fc-soft: rgba(245, 208, 122, .13); --fc-line: rgba(245, 208, 122, .38); --fc-glow: rgba(245, 208, 122, .34); }
 .fc-the-alloy            { --fc: #F0907A; --fc-hi: #F7B3A2; --fc-soft: rgba(240, 144, 122, .13); --fc-line: rgba(240, 144, 122, .38); --fc-glow: rgba(240, 144, 122, .34); }
 .fc-ny-open-pro          { --fc: #7FB2FF; --fc-hi: #A8CBFF; --fc-soft: rgba(127, 178, 255, .13); --fc-line: rgba(127, 178, 255, .38); --fc-glow: rgba(127, 178, 255, .34); }
 .fc-silver-830-reversal  { --fc: #D9E3EA; --fc-hi: #F2F7FA; --fc-soft: rgba(217, 227, 234, .11); --fc-line: rgba(217, 227, 234, .34); --fc-glow: rgba(217, 227, 234, .30); }
@@ -5570,3 +5582,195 @@ body, .sx-doc { font-family: var(--sans); }
 
 /* the list of trades keeps TV's dress */
 .tvr .lt-table thead th { background: #1E222D; }
+
+/* ================================================================
+   r8.1 — owner 2026-09-03, three rulings.
+   (1) SIZING ON ONE MULTIPLE: the drawdown-budget menu drops $1k,
+   runs five notches, names the implied account under each amount
+   (drawdown <= 25% of balance) and leads with "this is your
+   DRAWDOWN BUDGET, not your account size".
+   (2) THE REPORT IS THE HIGHLIGHT: .pdp-band carries the optimized-
+   window box and the Strategy Tester report edge to edge of the
+   wrap, above the two columns.
+   (3) THE CONVERSION BLOCK: price large, hook, four checks, the
+   monthly special strip (catalog2 `special`), button with the
+   price, reassurance line. .special is one strip everywhere.
+   ================================================================ */
+.ro-track { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.ro-acct { font-size: 10.5px; color: #787B86; white-space: nowrap; letter-spacing: 0; }
+.ro-notch { gap: 3px; }
+.ro-lead { font-weight: 700; color: #D1D4DC; margin: 0 0 .35rem; font-size: .92rem; }
+.ro-warn { color: #B2B5BE; font-size: .84rem; line-height: 1.5; margin: 0 0 .9rem; }
+@media (max-width: 480px) { .ro-acct { font-size: 9.5px; } }
+
+.pdp-band { margin: var(--sp-4) 0 var(--sp-5); min-width: 0; }
+.pdp-band .pdp-window { margin-bottom: var(--sp-3); }
+
+.bb { padding: var(--sp-4); }
+.bb-price { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; margin: 0 0 4px; }
+.bb-price .was { font-size: 1rem; color: #787B86; margin-right: 4px; }
+.bb-now { font-size: 2.4rem; font-weight: 700; line-height: 1; color: var(--text); font-variant-numeric: tabular-nums; }
+.bb-per { font-size: .85rem; color: #787B86; }
+.bb-hook { font-size: .8rem; color: #B2B5BE; margin: 0 0 .7rem; line-height: 1.45; }
+.bb-list { list-style: none; margin: 0 0 .8rem; padding: 0; }
+.bb-list li { display: flex; gap: 8px; align-items: flex-start; font-size: .84rem; color: #D1D4DC; padding: 5px 0; border-top: 1px solid rgba(209, 212, 220, .1); line-height: 1.4; }
+.bb-list li:first-child { border-top: none; }
+.bb-list .ic-check { color: #089981; margin-top: 2px; }
+.bb-list a { color: #B2B5BE; text-decoration: underline; text-underline-offset: 3px; }
+.bb-btn { width: 100%; min-height: 50px; font-size: 1rem; font-weight: 700; margin: .4rem 0 .5rem; }
+.bb-safe { font-size: .76rem; color: #787B86; text-align: center; margin: 0 0 .5rem; }
+.bb-promo { font-size: .78rem; color: #B2B5BE; text-align: center; margin: 0; }
+.bb .xsell { margin-top: .8rem; }
+
+.special {
+  display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
+  border: 1px solid rgba(237, 155, 64, .55); border-left: 3px solid #ED9B40;
+  background: rgba(237, 155, 64, .10); border-radius: 4px; padding: 8px 12px;
+  font-size: .84rem; color: #D1D4DC; line-height: 1.4;
+}
+.special b { color: #ED9B40; font-weight: 700; }
+.special em { font-style: normal; color: #787B86; font-size: .76rem; margin-left: auto; }
+.special-box { margin: 0 0 .4rem; }
+.special-line { margin: 0 0 var(--sp-3); }
+
+.plan-warn b, .pq-warn b { color: var(--text); }
+.pq-warn { color: #B2B5BE; }
+.pr-fit { font-size: .84rem; color: #B2B5BE; margin: .2rem 0 .6rem; line-height: 1.5; }
+.pr-fit b { color: #D1D4DC; }
+
+/* ================================================================
+   r8.2 — OVERVIEW v2 against TradingView's own screen (owner
+   2026-09-03): the legend is an overlay in the plot's top-left, the
+   plot spans the band edge to right axis, the line rises from 0 at
+   the far left over the full plot height, bars overlap the lower
+   band on their own scale, dotted grid, TV's #26a69a / #ef5350 for
+   the series, the three inert tool glyphs, and a second row under
+   Breakdown: largest profit / loss, long / short, the donut.
+   ================================================================ */
+.tvr .tvr-perf { position: relative; display: block; margin: 0 0 4px; }
+.tvr .tvr-legend {
+  position: absolute; left: 10px; top: 8px; z-index: 2; display: flex; flex-direction: column; gap: 5px;
+  padding: 4px 6px; background: rgba(19, 23, 34, .55); border-radius: 3px; pointer-events: none; flex-basis: auto;
+}
+.tvr .tvr-lg { font-size: 11px; color: #D1D4DC; gap: 5px; }
+.tvr .tvr-lg-off { color: #787B86; }
+.tvr .tvr-lg-more { display: inline-flex; margin-top: 0; }
+.tvr .tvr-sw { width: 7px; height: 7px; flex-basis: 7px; }
+.tvr-sw-g { background: #26a69a; }
+.tvr-sw-r { background: #ef5350; }
+.tvr-sw-b { background: linear-gradient(180deg, #26a69a 50%, #ef5350 50%); }
+.tvr-sw-s { background: linear-gradient(90deg, #26a69a 50%, #ef5350 50%); }
+.tvr-svg { display: block; width: 100%; height: auto; }
+.tvr-grid { stroke: #2a2e39; stroke-width: 1; stroke-dasharray: 1 3; }
+.tvr-vgrid { stroke: #2a2e39; stroke-width: 1; stroke-dasharray: 1 3; }
+.tvr-axis { stroke: #2a2e39; stroke-width: 1; }
+.tvr-base { stroke: #363a45; stroke-width: 1; }
+.tvr-line { stroke: #26a69a; stroke-width: 1.6; }
+.tvr-bu, .tvr-du, .tvr-pill-g, .tvr-g { fill: #26a69a; }
+.tvr-bd, .tvr-dd, .tvr-pill-r, .tvr-r { fill: #ef5350; }
+.tvr-dn-w { stroke: #26a69a; }
+.tvr-dn-l { stroke: #ef5350; }
+/* viewBox units: the 1000-wide SVG renders ~1.27x at 1400, so 9px lands at TV's 11px */
+.tvr-ylab, .tvr-xlab { font-size: 10px; }
+.tvr-pilltxt { font-size: 10px; }
+.tvr .hv-txt { font-size: 10px; }
+.tvr-tools { margin-left: auto; display: inline-flex; gap: 10px; }
+.tvr-tools svg { width: 15px; height: 15px; fill: none; stroke: #787B86; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+.tvr-h1 { font-size: 15px; margin: 0 0 12px; }
+.tvr-h1 + .tvr-h1, .tvr-cells + .tvr-h1, .tvr-perf + .tvr-h1 { margin-top: 20px; }
+.tvr-h2 { font-size: 13px; margin: 0 0 10px; }
+.tvr-k { font-size: 11px; }
+.tvr-v b { font-size: 15px; }
+.tvr-v i { font-size: 11px; }
+.tvr-cell { padding: 6px 14px 10px; }
+.tvr-pills { margin-bottom: 12px; }
+.tvr-ovbot { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 16px; align-items: start; margin-top: 14px; padding-top: 14px; border-top: 1px solid #2a2e39; }
+.tvr-ovbot .tvr-cells-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.tvr-ovbot .tvr-cells-2 .tvr-cell:nth-child(3) { border-left: none; padding-left: 0; }
+.tvr-ovbot .tvr-cells-2 .tvr-cell:nth-child(n+3) { border-top: 1px solid #2a2e39; padding-top: 10px; }
+.tvr-ovdonut { border-left: 1px solid #2a2e39; padding-left: 16px; min-width: 0; }
+@container (max-width: 700px) {
+  .tvr .tvr-ovbot { grid-template-columns: minmax(0, 1fr); }
+  .tvr .tvr-ovdonut { border-left: none; padding-left: 0; border-top: 1px solid #2a2e39; padding-top: 12px; }
+  .tvr .tvr-legend { gap: 3px; }
+}
+
+/* ================================================================
+   r8.3 — owner round 3 (2026-09-03).
+   Index: The Books (combined row + the two books) on top, then the
+   Combo sets, then the singles per market; Best / Worst month and
+   the two drawdown columns; Session (ET) from the catalog.
+   Product page: the report band is a direct child of the wrap
+   between the head and the body article; compact buy box; the
+   report's title block (glyph + name in the identity colour);
+   "4 ticks per bar" / "On bar close" chips; no caret; Overview
+   without gross rows; Streaks visual.
+   ================================================================ */
+.pdp-top { padding-bottom: 0; }
+.pdp-body { padding-top: 0; }
+.pdp-band { margin: var(--sp-4) 0 var(--sp-5); }
+
+.tvr-title { display: inline-flex; align-items: center; gap: 10px; margin-right: 6px; max-width: 46%; min-width: 0; }
+.tvr-glyph { width: 30px; height: 30px; flex: 0 0 30px; stroke: var(--fc, #D1D4DC); color: var(--fc, #D1D4DC); }
+.tvr-tt { display: flex; flex-direction: column; min-width: 0; line-height: 1.15; }
+.tvr-tt b { font-family: var(--display); font-size: 24px; font-weight: 700; color: var(--fc, #D1D4DC); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tvr-tt small { font-size: 12px; color: #787B86; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+.tvr-top { padding: 8px 12px; gap: 8px; }
+@container (max-width: 560px) { .tvr .tvr-tt b { font-size: 19px; } .tvr .tvr-title { max-width: 100%; } .tvr .tvr-top > span:nth-of-type(4), .tvr .tvr-top > span:nth-of-type(5) { display: none; } }
+
+.bb { padding: var(--sp-3) var(--sp-4); }
+.bb-now { font-size: 1.9rem; }
+.bb-hook { margin-bottom: .5rem; }
+.bb-list { margin-bottom: .6rem; }
+.bb-list li { font-size: .8rem; padding: 4px 0; }
+.bb-btn { width: auto; display: inline-flex; min-height: 42px; padding: 0 22px; font-size: .95rem; margin: .3rem 0 .4rem; }
+.bb-safe { text-align: left; }
+.bb-promo { text-align: left; }
+.pdp-side .buybox { position: sticky; top: calc(var(--header-h) + var(--sp-4)); }
+
+.tvr-streaks { width: 100%; height: auto; display: block; margin: 0 0 6px; }
+.tvr-slab { font-family: var(--sans); font-size: 10px; }
+.tvr-slab-w { fill: #26a69a; }
+.tvr-slab-l { fill: #ef5350; }
+.tvr-ovbot .tvr-cells-2 .tvr-cell:nth-child(5) { border-left: none; padding-left: 0; }
+
+.sx-lede-sec { margin: -0.2rem 0 0.6rem; font-size: 0.85rem; color: #9aa2a8; max-width: 90ch; }
+.sx-t td .sx-mo { display: block; font-family: "Fragment Mono", "Courier New", monospace; font-size: 0.66rem; font-weight: 400; letter-spacing: .06em; text-transform: uppercase; color: #787B86; margin-top: .1rem; }
+.sx-t td.sx-pos { color: #089981; }
+.sx-t td.sx-neg { color: #F23645; }
+.sx-t th.sx-rodd, .sx-t th.sx-f:not(.sx-rodd):not(.sx-p), .sx-t th.sx-s, .sx-t th.sx-p { width: auto; }
+.sx-t th.sx-n { width: 24%; }
+/* the wider column set sizes to content and scrolls inside .sx-scroll; fixed layout squeezed the headers */
+.sx-t { table-layout: auto; min-width: 100%; }
+.sx-t th, .sx-t td.sx-f, .sx-t td.sx-s, .sx-t td.sx-r { white-space: nowrap; }
+.sx-t td.sx-n { min-width: 15rem; }
+.sx-t th.sx-n { width: auto; }
+.sx-t td.sx-s { text-align: left; }
+.sx-combined { display: inline-flex; align-items: center; gap: .35rem; font-weight: 700; color: var(--fc, #F5D07A); }
+.sx-combined .sx-g { color: var(--fc, #F5D07A); }
+/* the two wider tables tighten so all twelve columns fit the wrap at 1400 */
+.sx-t-wide th, .sx-t-wide td { padding: 0.5rem 0.4rem; }
+.sx-t-wide td.sx-f, .sx-t-wide td.sx-r, .sx-t-wide td.sx-f a { font-size: 0.78rem; }
+.sx-t-wide th { font-size: 0.66rem; letter-spacing: 0; }
+.sx-t-wide td.sx-n { min-width: 12rem; }
+.sx-t-wide .sx-sub, .sx-t-wide .sx-book { font-size: 0.72rem; }
+.sx-t-wide td.sx-net { font-size: 0.92rem; }
+.buybox .bb-btn { width: auto; min-height: 42px; margin-bottom: .4rem; }
+/* owner 2026-09-03: Streaks = TV's per-trade streak bars with a Count / Amount segmented toggle; CSV link sits under the report */
+.tvr-sk { position: relative; }
+.tvr-sk-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 4px 0 6px; }
+.tvr-sk-head .tvr-h2 { margin: 0; }
+.tvr-seg { display: inline-flex; background: #2a2e39; border-radius: 6px; padding: 2px; }
+.tvr-seg-b { font-family: var(--sans); font-size: 12px; font-weight: 600; color: #787B86; padding: 4px 12px; border-radius: 4px; cursor: pointer; line-height: 1.2; }
+.tvr-sk > .tvt-r:nth-of-type(1):checked ~ .tvr-sk-head .tvr-seg-b:nth-child(1),
+.tvr-sk > .tvt-r:nth-of-type(2):checked ~ .tvr-sk-head .tvr-seg-b:nth-child(2) { background: #363a45; color: #D1D4DC; }
+.tvr-sk-p { display: none; }
+.tvr-sk > .tvt-r:nth-of-type(1):checked ~ .tvr-sk-pc,
+.tvr-sk > .tvt-r:nth-of-type(2):checked ~ .tvr-sk-pa { display: block; }
+.tvr-seg-b:focus-visible { outline: 2px solid #2962FF; outline-offset: 1px; }
+.pdp-csv-line { margin: .5rem 0 1rem; font-size: .88rem; color: #9aa2a8; }
+/* owner 2026-09-03: "Buy now" at the top (hero) and the middle (under the report) */
+.pdp-buy { display: inline-flex; align-items: center; min-height: 40px; padding: 0 20px; font-size: .95rem; font-weight: 700; }
+.pdp-buy-top { margin-top: .6rem; align-self: flex-start; }
+.pdp-buy-mid { display: flex; align-items: center; flex-wrap: wrap; gap: .5rem 1rem; margin: .2rem 0 1.2rem; }
+.pdp-buy-sub { font-size: .82rem; color: #9aa2a8; }
