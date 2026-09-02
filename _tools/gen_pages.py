@@ -154,7 +154,7 @@ def buybox(name, price, whop_note, xsell=None, struck=None, href="#"):
     xs = xsell or (('Everything at once: <a href="/strategies/all-access.html">All-Access — $999/mo</a>') if HAS_BUNDLES else
                    'More systems join the shelf as they clear validation.')
     return f"""<aside class="buybox" aria-label="Purchase {html.escape(name)}">
-  <div class="price">{was}<span class="now">${price}</span><span class="per">/MO</span></div>
+  <div class="price">{was}<span class="now">${price}</span><span class="per">/mo</span></div>
   <span class="annual">Annual = 2 months free</span>
   <!-- WHOP: checkout ({whop_note}) -->
   <a class="btn btn-buy" href="{href}" rel="noopener">Get access</a>
@@ -317,8 +317,8 @@ def tester_block(p):
         rows += (f'<tr><th scope="row">{lab}</th>{tvt_val(b, key, best=True)}{tvt_val(f, key)}</tr>')
     return f"""<div class="tvt" id="tester">
   <div class="tvt-bar">
-    <span class="tvt-title">Strategy Tester &mdash; {esc(p['name'])}</span>
-    <span class="tvt-src">validated run &middot; commissions + slippage modeled</span>
+    <span class="tvt-title">The validated record</span>
+    <span class="tvt-src">commissions and slippage modeled</span>
   </div>
   <input type="radio" name="tvt-{slug}" id="tvt-{slug}-ov" class="tvt-r" checked>
   <input type="radio" name="tvt-{slug}" id="tvt-{slug}-ps" class="tvt-r">
@@ -578,11 +578,11 @@ def rodd_menu(p):
         permo = proj / months if months else 0
         lab = f"${C//1000}k" if C >= 1000 and C % 1000 == 0 else f"${C/1000:.1f}k"
         radios += f'<input type="radio" name="ro-{slug}" id="ro-{slug}-{i}" class="ro-r ro-{state}"{checked}>'
-        rec_tag = '<span class="ro-rec">OUR PICK</span>' if rec else ''
+        rec_tag = '<span class="ro-rec">our pick</span>' if rec else ''
         labels += (f'<label for="ro-{slug}-{i}" class="ro-notch{" ro-notch-rec" if rec else ""}">{rec_tag}<span class="ro-tick" aria-hidden="true"></span>'
                    f'<span class="ro-amt">{lab}</span></label>')
         if state == "red":
-            body = (f'<span class="ro-flag">NOT BUILT FOR THIS SIZE</span> The deepest published max drawdown '
+            body = (f'<span class="ro-flag">Not built for this size</span> The deepest published max drawdown '
                     f'({usd(red_at)}, {guard_src}) exceeds a {lab} budget &mdash; this sizing would not have '
                     f'survived the sample. Some systems are not meant to run this small.')
         else:
@@ -591,10 +591,10 @@ def rodd_menu(p):
             body = (f'A drawdown budget of <b>{lab}</b> historically returned <b class="ro-ret">~{usd(proj)}</b> '
                     f'over the best window.{both} Past results, not a forecast.')
             if rec:
-                body = ('<span class="ro-flag ro-flag-rec">RECOMMENDED SIZE</span> The smallest budget that clears '
+                body = ('<span class="ro-flag ro-flag-rec">Recommended</span> The smallest budget that clears '
                         f'the deepest published drawdown ({usd(red_at)}, {guard_src}). ' + body)
             if state == "amb":
-                body = (f'<span class="ro-flag">THIN CUSHION</span> The deepest published drawdown ({usd(red_at)}, '
+                body = (f'<span class="ro-flag">Thin cushion</span> The deepest published drawdown ({usd(red_at)}, '
                         f'{guard_src}) is more than half this budget &mdash; one bad stretch uses most of your '
                         'room. ' + body)
         outs += f'<div class="ro-out ro-out-{i}">{body}</div>'
@@ -602,7 +602,7 @@ def rodd_menu(p):
         radios = radios.replace(f'id="ro-{slug}-{len(NOTCHES)}" class', f'id="ro-{slug}-{len(NOTCHES)}" checked class', 1)
     return f"""<div class="rodd" aria-label="Return-on-drawdown sizing menu">
   <div class="rodd-head">
-    <span class="rodd-title">Return on drawdown &middot; what a dollar of pain buys</span>
+    <span class="rodd-title">Sizing</span>
     <span class="rodd-fig">{esc(b.get("RoDD",""))}&times;</span>
   </div>
   <p class="rodd-why"><b>RoDD is the metric this catalog is priced on.</b> Profit factor says the engine works;
@@ -650,7 +650,7 @@ def sep_block(p):
     items = "".join(f'<li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>{s}</span></li>'
                     for s in p["sep"])
     return f"""<div class="record sep-panel">
-  <div class="record-title">What separates this strategy</div>
+  <div class="record-title">Why this one</div>
   <ul class="sep-list">{items}</ul>
 </div>"""
 
@@ -711,7 +711,6 @@ def product_page(p, is_book):
         <div class="pdp-id">
           <h1>{esc(p['name'])}</h1>
           <div class="card-real">{esc(p['actual'])}</div>
-          <div class="pdp-meta">{market_chips(p['meta'])}<span class="chip chip-verified">LIVE-VALIDATED</span>{'<span class="chip chip-mkt">IN-HOUSE BOOK</span>' if is_book else ''}</div>
           <span class="pdp-note">{esc(p['meta'])}</span>
         </div>
         <div class="pdp-hero"><b>{usd(baseline(p))}</b><span>on a {usd(BASE_DD)} drawdown &middot; best window</span>
@@ -761,7 +760,6 @@ def bundle_page(slug, name, price, struck, desc, extra, xsell):
       <div class="pdp-head">
         <div>
           <h1>{esc(name)}</h1>
-          <div class="pdp-meta"><span class="chip chip-mkt">BUNDLE</span></div>
           <span class="pdp-note">{esc(desc)}</span>
         </div>
         <div class="pdp-hero"><b>${price:,}</b><span>per month</span></div>
@@ -847,7 +845,6 @@ if True:
             <div>
               <div class="microlabel">Order confirmed</div>
               <h1>You&rsquo;re in.</h1>
-              <div class="pdp-meta"><span class="chip chip-verified">PAYMENT RECEIVED</span></div>
               <span class="pdp-note">TradingView invite-only script &middot; activated within 24h</span>
             </div>
           </div>

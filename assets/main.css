@@ -4969,3 +4969,23 @@ body:not(.sx-doc) *, body:not(.sx-doc) *::before, body:not(.sx-doc) *::after { a
   .sx-sec { padding: 0.7rem 0.8rem 0.3rem; margin-left: -0.35rem; margin-right: -0.35rem; }
   .sx-scroll::after { background: linear-gradient(to right, rgba(22, 25, 29, 0), #16191d 92%); }
 }
+
+/* ================================================================
+   r4.2 — DE-LABELING. The page stops shouting: no synthetic caps,
+   no letter-spacing, no shadows anywhere; label classes become real
+   text in the prose face at honest sizes. Mono stays reserved for
+   figures and data. Chips are gone from the markup; any straggler
+   renders nothing.
+   ================================================================ */
+*, *::before, *::after { box-shadow: none !important; text-shadow: none !important; }
+body * { text-transform: none !important; letter-spacing: normal !important; }
+.record-title, .rodd-title, .tvt-title {
+  font-family: var(--sans) !important; font-size: 1rem !important;
+  font-weight: 700 !important; color: var(--text) !important;
+}
+.tvt-src, .ro-note, .tvt-note, .record-note, .chart-note, .spark-note {
+  font-family: var(--sans) !important; color: var(--muted) !important;
+}
+.ro-flag, .ro-rec { font-family: var(--sans) !important; font-weight: 700 !important; }
+.tvt-tab, .tvt-k, .wk { font-family: var(--sans) !important; }
+.chip { display: none !important; }

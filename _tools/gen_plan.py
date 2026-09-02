@@ -389,7 +389,6 @@ page = f"""<!DOCTYPE html>
 <main id="main">
   <section class="plan-hero">
     <div class="wrap">
-      <p class="plan-kicker">PLAN FINDER</p>
       <h1>Find your <span class="mint">plan</span></h1>
       <p class="plan-sub">Four answers. One specific recommendation &mdash; named systems, or a custom
       three named systems &mdash; sized to the drawdown you can actually hold, chosen by the same math
