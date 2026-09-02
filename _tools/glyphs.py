@@ -43,6 +43,8 @@ STRAT = {
     "daybreak": '<path d="M14.8 3.6a8.4 8.4 0 1 0 5.6 13.9A8.4 8.4 0 0 1 14.8 3.6z"/><path d="M5.6 5.8v2.6M4.3 7.1h2.6" opacity=".7"/>',
     # The Assay (slug assay) — the assayer's flask
     # The Assay / The Kilo / The Print — the MGC leg slugs on the site carry the article
+    # Triad — three legs, one script: a triangle of three nodes
+    "triad": '<path d="M12 4.6 19.4 18H4.6z"/><circle cx="12" cy="4.6" r="1.4"/><circle cx="4.6" cy="18" r="1.4"/><circle cx="19.4" cy="18" r="1.4"/>',
     "the-assay": '<path d="M10 4h4"/><path d="M11 4v5.2L6.2 17a2.4 2.4 0 0 0 2.1 3.6h7.4a2.4 2.4 0 0 0 2.1-3.6L13 9.2V4"/><path d="M8.2 14.5h7.6"/>',
     "the-kilo": '<path d="M7.2 9h9.6l2.7 7.8H4.5z"/><path d="M9.3 6.2h5.4l1 2.8H8.3z" opacity=".65"/>',
     "the-print": '<rect x="4" y="8" width="16" height="5" rx="1"/><path d="M8 13v6h8v-6"/><path d="M10 15.5h4M10 17.5h2.6"/><path d="M7 8V5h10v3"/>',

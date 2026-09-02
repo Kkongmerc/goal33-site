@@ -750,18 +750,26 @@ def legs_block(p):
     linked = [l for l in p["legs"] if isinstance(l, list)]
     exclusive_n = sum(1 for l in p["legs"] if not isinstance(l, list))
     cells = ""
+    parked = 0
     for i, (label, slug) in enumerate(linked, 1):
         prod = name_by_slug.get(slug, "")
-        cells += (f'<div class="leg"><span class="leg-n">{i:02d}</span>'
-                  f'<a class="leg-link" href="/strategies/{slug}.html">'
-                  f'<span class="leg-name">{esc(label)}</span>'
-                  f'<span class="leg-prod">{esc(prod)}</span></a></div>')
+        if slug in name_by_slug:
+            inner = (f'<a class="leg-link" href="/strategies/{slug}.html">'
+                     f'<span class="leg-name">{esc(label)}</span>'
+                     f'<span class="leg-prod">{esc(prod)}</span></a>')
+        else:
+            # leg sold standalone in the past but not listed right now (parked
+            # in drafts): never emit a link to a page that does not exist
+            parked += 1
+            inner = f'<span class="leg-link"><span class="leg-name">{esc(label)}</span></span>'
+        cells += f'<div class="leg"><span class="leg-n">{i:02d}</span>{inner}</div>'
     if exclusive_n:
         plural = "strategies" if exclusive_n != 1 else "strategy"
         cells += (f'<div class="leg leg-x"><span class="leg-n">+{exclusive_n}</span>'
                   f'<span class="leg-name">exclusive book {plural}</span></div>')
     total = len(p["legs"])
-    note_tail = (" The named legs above are also sold as standalone subscriptions; the exclusive legs trade only inside the book."
+    named = "The linked legs above" if parked else "The named legs above"
+    note_tail = (f" {named} are also sold as standalone subscriptions; the exclusive legs trade only inside the book."
                  if linked and exclusive_n else "")
     return f"""<div class="record">
   <div class="record-title">Inside the book &middot; {total} engines, one router</div>
