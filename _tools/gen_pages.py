@@ -242,8 +242,8 @@ def trades_table(tr, slug):
         rows += (f'<tr><td>{i + 1}</td><td>{esc(day)}</td>'
                  f'<td>{epx if epx is not None else "&mdash;"}</td>'
                  f'<td>{xpx if xpx is not None else "&mdash;"}</td>'
-                 f'<td class="{cls}">${pnl:,.2f}</td>'
-                 f'<td class="lt-acc {acls}">${acc:,.2f}</td></tr>')
+                 f'<td class="{cls}">{_tv_money(pnl)}</td>'
+                 f'<td class="lt-acc {acls}">{_tv_money(acc)}</td></tr>')
     shown = n - first_shown
     if shown < n:
         span_note = (f'Most recent {shown:,} of {n:,} closed trades (from '
@@ -302,10 +302,51 @@ def calendar_real(tr):
   <div class="rc-wrap">{out}</div>
 </div>"""
 
+def _tv_money(v, signed=False):
+    """TradingView money form: -$97.50, +$9,942.50 (signed), $600.00."""
+    a = abs(v)
+    s = "-" if v < 0 else ("+" if signed and v > 0 else "")
+    return f"{s}${a:,.2f}"
+
+def window_trade_stats(tr, which):
+    """Derived rows for the Trades-analysis tab, sliced by the record's own
+    window boundaries. Returns None unless the slice reproduces the published
+    n and net exactly - derived figures never disagree with the record."""
+    import datetime as _dt
+    w = tr[which]
+    s = _dt.datetime.strptime(w["start"], "%Y-%m-%d")
+    e = _dt.datetime.strptime(w["end"], "%Y-%m-%d")
+    pnls = []
+    for day, _epx, _xpx, pnl in tr["trades"]:
+        d = _dt.datetime.strptime(day, "%d %b %y")
+        if s <= d <= e:
+            pnls.append(pnl)
+    if len(pnls) != w["n"] or abs(sum(pnls) - w["net"]) > 1:
+        return None
+    wins = [x for x in pnls if x > 0]
+    losses = [x for x in pnls if x < 0]
+    gp, gl = sum(wins), sum(losses)
+    aw = gp / len(wins) if wins else 0.0
+    al = gl / len(losses) if losses else 0.0
+    return {
+        "n": len(pnls), "wins": len(wins), "losses": len(losses),
+        "gp": gp, "gl": gl, "aw": aw, "al": al,
+        "ratio": (aw / abs(al)) if al else 0.0,
+        "lw": max(wins) if wins else 0.0, "ll": min(losses) if losses else 0.0,
+        "avg": sum(pnls) / len(pnls) if pnls else 0.0,
+        "winrate": 100.0 * len(wins) / len(pnls) if pnls else 0.0,
+    }
+
+def _ta_row(lab, bv, fv, cls=""):
+    return (f'<tr><th scope="row">{lab}</th>'
+            f'<td class="{cls}">{bv}</td><td class="{cls}">{fv}</td></tr>')
+
 def tester_block(p):
     b, f = p["best"]["stats"], (p.get("full") or {}).get("stats", {})
     slug = p["slug"]
     tr = load_trades_data(slug)
+    wb = window_trade_stats(tr, "best") if tr else None
+    wf = window_trade_stats(tr, "full") if tr else None
     if tr:
         lt_tab = f'<label for="tvt-{slug}-lt" class="tvt-tab tvt-tab-lt">List of trades</label>'
         lt_pane = trades_table(tr, slug)
@@ -313,24 +354,63 @@ def tester_block(p):
         lt_tab = '<span class="tvt-tab tvt-tab-off" title="Activates when the trade-level export lands">List of trades &middot; soon</span>'
         lt_pane = ""
     # TradingView Strategy Tester overview strip: label above figure, sub-value
-    # beneath, thin dividers between blocks. Every figure traces to the catalog.
+    # beneath, hairline dividers. Only Total P&L carries color - TV keeps the
+    # rest neutral. Full precision when the trade record supplies it.
     dd_full = f.get("Max DD", "")
+    pl_val = _tv_money(tr["best"]["net"], signed=True) if tr else b.get("Net", "")
+    pl_cls = ("tv-pos" if tr["best"]["net"] >= 0 else "tv-neg") if tr else "tv-pos"
+    dd_val = _tv_money(tr["best"]["dd"]) if tr else b.get("Max DD", "")
+    dd_sub = (f'full record {_tv_money(tr["full"]["dd"])}' if tr else
+              (f'full record {esc(dd_full)}' if dd_full and dd_full != b.get("Max DD", "") else ""))
     strip_rows = [
-        ("Total P&amp;L", b.get("Net", ""), "tv-pos", f'+{pct(b.get("RoDD", ""))} RoDD'),
-        ("Max equity drawdown", b.get("Max DD", ""), "tv-neg",
-         (f'full record {esc(dd_full)}' if dd_full and dd_full != b.get("Max DD", "") else "")),
-        ("Total trades", b.get("Trades", ""), "", ""),
-        ("Profitable trades", b.get("Win", ""), "tv-pos", ""),
-        ("Profit factor", b.get("PF", ""), "tv-pos", ""),
+        ("Total P&amp;L", pl_val, pl_cls, f'+{pct(b.get("RoDD", ""))} RoDD', pl_cls),
+        ("Max equity drawdown", dd_val, "", dd_sub, ""),
+        ("Total trades", b.get("Trades", ""), "", "", ""),
+        ("Profitable trades", b.get("Win", ""), "", "", ""),
+        ("Profit factor", b.get("PF", ""), "", "", ""),
     ]
     tiles = ""
-    for lab, val, cls, sub in strip_rows:
-        sub_html = f'<span class="tvo-sub">{sub}</span>' if sub else ""
+    for lab, val, cls, sub, subcls in strip_rows:
+        sub_html = f'<span class="tvo-sub {subcls}">{sub}</span>' if sub else ""
         tiles += (f'<div class="tvo-block"><span class="tvo-k">{lab}</span>'
                   f'<b class="{cls}">{esc(val) or "&mdash;"}</b>{sub_html}</div>')
-    rows = ""
+    # Performance: the published stats, with verified gross rows folded in
+    rows = f'<tr><th scope="row">Net profit</th>{tvt_val(b, "Net", best=True)}{tvt_val(f, "Net")}</tr>'
+    if wb and wf:
+        rows += _ta_row("Gross profit", _tv_money(wb["gp"]), _tv_money(wf["gp"]), "tv-pos")
+        rows += _ta_row("Gross loss", _tv_money(wb["gl"]), _tv_money(wf["gl"]), "tv-neg")
     for lab, key in TVT_ROWS:
+        if key == "Net":
+            continue
         rows += (f'<tr><th scope="row">{lab}</th>{tvt_val(b, key, best=True)}{tvt_val(f, key)}</tr>')
+    # Trades analysis: TV's own rows, derived from the record's trade list
+    ta_input = ta_tab = ta_pane = ""
+    if wb and wf:
+        ta_input = f'<input type="radio" name="tvt-{slug}" id="tvt-{slug}-ta" class="tvt-r">'
+        ta_tab = f'<label for="tvt-{slug}-ta" class="tvt-tab tvt-tab-ta">Trades analysis</label>'
+        ta_rows = (
+            _ta_row("Total trades", f'{wb["n"]:,}', f'{wf["n"]:,}')
+            + _ta_row("Winning trades", f'{wb["wins"]:,}', f'{wf["wins"]:,}')
+            + _ta_row("Losing trades", f'{wb["losses"]:,}', f'{wf["losses"]:,}')
+            + _ta_row("Percent profitable", f'{wb["winrate"]:.1f}%', f'{wf["winrate"]:.1f}%', "tv-pos")
+            + _ta_row("Avg P&amp;L per trade", _tv_money(wb["avg"]), _tv_money(wf["avg"]),
+                      "tv-pos" if wb["avg"] >= 0 else "tv-neg")
+            + _ta_row("Avg winning trade", _tv_money(wb["aw"]), _tv_money(wf["aw"]), "tv-pos")
+            + _ta_row("Avg losing trade", _tv_money(wb["al"]), _tv_money(wf["al"]), "tv-neg")
+            + _ta_row("Ratio avg win / avg loss", f'{wb["ratio"]:.2f}', f'{wf["ratio"]:.2f}')
+            + _ta_row("Largest winning trade", _tv_money(wb["lw"]), _tv_money(wf["lw"]), "tv-pos")
+            + _ta_row("Largest losing trade", _tv_money(wb["ll"]), _tv_money(wf["ll"]), "tv-neg")
+        )
+        ta_pane = f"""<div class="tvt-pane tvt-ta">
+    <div class="screener" tabindex="0" role="region" aria-label="Trades analysis table, scrolls horizontally">
+    <table class="tvt-table">
+      <caption class="sr-only">Trades analysis, derived from the validated trade record</caption>
+      <thead><tr><th scope="col">Metric</th><th scope="col">Best window</th><th scope="col">Full record</th></tr></thead>
+      <tbody>{ta_rows}</tbody>
+    </table>
+    </div>
+    <p class="tvt-note">Derived from the published trade list. The window slice reproduces the published trade count and net exactly, or these rows do not render.</p>
+  </div>"""
     return f"""<div class="tvt" id="tester">
   <div class="tvt-bar">
     <span class="tvt-title">The validated record</span>
@@ -338,10 +418,12 @@ def tester_block(p):
   </div>
   <input type="radio" name="tvt-{slug}" id="tvt-{slug}-ov" class="tvt-r" checked>
   <input type="radio" name="tvt-{slug}" id="tvt-{slug}-ps" class="tvt-r">
+  {ta_input}
   <input type="radio" name="tvt-{slug}" id="tvt-{slug}-lt" class="tvt-r">
   <div class="tvt-tabs">
     <label for="tvt-{slug}-ov" class="tvt-tab tvt-tab-ov">Overview</label>
     <label for="tvt-{slug}-ps" class="tvt-tab tvt-tab-ps">Performance</label>
+    {ta_tab}
     {lt_tab}
   </div>
   <div class="tvt-pane tvt-ov">
@@ -350,14 +432,15 @@ def tester_block(p):
     <p class="tvt-note">{f'Curve: the full record. Figures: best window &middot; {esc(p.get("window", ""))}.' if tr else f'Best window &middot; {esc(p.get("window", ""))}. Equity curve is illustrative, fitted to the published stats, until the trade-level export replaces it.'}</p>
   </div>
   <div class="tvt-pane tvt-ps">
-    <div class="screener" tabindex="0" role="region" aria-label="Performance summary table, scrolls horizontally">
+    <div class="screener" tabindex="0" role="region" aria-label="Performance table, scrolls horizontally">
     <table class="tvt-table">
-      <caption class="sr-only">Performance summary: best window vs full 2024+ window</caption>
+      <caption class="sr-only">Performance: best window vs full record</caption>
       <thead><tr><th scope="col">Metric</th><th scope="col">Best window</th><th scope="col">Full record</th></tr></thead>
       <tbody>{rows}</tbody>
     </table>
     </div>
   </div>
+  {ta_pane}
   {lt_pane}
 </div>"""
 

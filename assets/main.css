@@ -5354,3 +5354,23 @@ a.pr-name[class*="fc-"]:hover { color: var(--fc-hi); }
 .tvt .tvt-table td.tv-pos { color: #089981; }
 .tvt .tvt-table td.tv-neg { color: #F23645; }
 .tvt .tvt-table td.tv-mut { color: #787B86; }
+
+/* r5.1 — CLOSER TO TV. A fourth tab (Trades analysis) joins when
+   the derived rows verify; with four radios the third now maps to
+   it and the fourth to the list. Figures across the tester switch
+   to the sans TV uses; only Total P&L keeps color in the strip. */
+.tvt:has(.tvt-tab-ta) .tvt-r:nth-of-type(3):checked ~ .tvt-lt { display: none; }
+.tvt:has(.tvt-tab-ta) .tvt-r:nth-of-type(3):checked ~ .tvt-tabs .tvt-tab-lt {
+  color: #787B86; background: none; border-color: transparent; border-bottom: 2px solid transparent;
+}
+.tvt:has(.tvt-tab-ta) .tvt-r:nth-of-type(3):checked ~ .tvt-ta { display: block; }
+.tvt:has(.tvt-tab-ta) .tvt-r:nth-of-type(3):checked ~ .tvt-tabs .tvt-tab-ta,
+.tvt:has(.tvt-tab-ta) .tvt-r:nth-of-type(4):checked ~ .tvt-tabs .tvt-tab-lt {
+  color: #D1D4DC; background: none; border-color: transparent; border-bottom: 2px solid #2962FF;
+}
+.tvt:has(.tvt-tab-ta) .tvt-r:nth-of-type(4):checked ~ .tvt-lt { display: block; }
+.tvt:has(.tvt-tab-ta) .tvt-r:nth-of-type(3):checked ~ .tvt-tabs .tvt-tab-lt:hover { color: #D1D4DC; }
+.tvo-block b { font-family: var(--sans); font-weight: 600; }
+.tvo-sub { font-family: var(--sans); }
+.tvt .tvt-table th, .tvt .tvt-table td { font-family: var(--sans); }
+.tvt .tvx-key, .tvt .tvx-src { font-family: var(--sans); }
