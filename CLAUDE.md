@@ -48,6 +48,14 @@ playbook contains Pine filenames and research paths — never commit it). Each
 product carries: cool name + actual name, meta, BEST WINDOW + FULL 2024+ WINDOW
 stat sets, price, legs, what-separates lines, and warnings.
 
+**Promo code (the one field to change for a new marketer):** `catalog2.json` top-level
+`promo` = `{"code": "AFT", "line": "Use code {code} at checkout", "note": "..."}`. The
+generators substitute `{code}` into `line` and render it next to every buy button and in
+the buy box — edit `promo.code`/`promo.line` and regenerate to change it site-wide. Zero
+JS means one code per build: a marketer's own tracked code is their Whop referral link
+(applies automatically at checkout); `promo` is only the default code shown to buyers who
+arrive without one.
+
 **Pricing formula** (strategies): `eff = RoDD x min(1, sqrt(n/300))`;
 `price = round10($159 + 12 x eff^1.15 - $60) - 1`. The four Books are priced
 by hand ABOVE the formula ($589-$1,189 solo; all four $2,999) — books must

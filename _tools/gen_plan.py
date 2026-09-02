@@ -20,6 +20,8 @@ BASE = os.path.dirname(_HERE)
 CAT = json.load(open(os.path.join(_HERE, "catalog2.json"), encoding="utf-8"))
 S, B, BN = CAT["strategies"], CAT["books"], CAT["bundles"]
 WHOP_STORE = CAT.get("whop_store") or "/"
+PROMO = CAT.get("promo") or {}
+PROMO_LINE = PROMO.get("line", "").replace("{code}", PROMO.get("code", "")) if PROMO else ""
 def buy_href(p):
     # mirror the product pages: the Whop plan when it exists, else the storefront
     return p.get("whop") or WHOP_STORE
@@ -44,6 +46,16 @@ def num(v):
 def pct(v):
     """RoDD-style ratios sell as percentages: 11.06x -> 1,106%."""
     return "{:,.0f}%".format(num(v) * 100)
+def rodd_mo_pct(stats):
+    """Average monthly return on drawdown, as a percentage, computed fresh
+    from RoDD / Months (owner ruling 2026-09-02 -- the plan finder's
+    headline and its 'Best math' ranking both run on this now)."""
+    rodd, months = num(stats.get("RoDD", 0)), num(stats.get("Months", 0))
+    return "{:,.0f}%".format(rodd / months * 100) if months else "—"
+def rodd_mo(p):
+    b = p["best"]["stats"]
+    rodd, months = num(b.get("RoDD", 0)), num(b.get("Months", 0))
+    return rodd / months if months else 0.0
 def bs(p, k): return p["best"]["stats"].get(k, "—")
 def fs(p, k): return (p.get("full") or {}).get("stats", {}).get(k, "—")
 def worst_dd(p):
@@ -73,7 +85,7 @@ TEMPS = [
 
 def sort_key(tkey):
     if tkey == "t1": return lambda p: (-num(bs(p, "Win")), -num(bs(p, "RoDD")))
-    if tkey == "t2": return lambda p: (-num(bs(p, "RoDD")), -num(bs(p, "Win")))
+    if tkey == "t2": return lambda p: (-rodd_mo(p), -num(bs(p, "Win")))
     return lambda p: (-num(bs(p, "Net")), -num(bs(p, "RoDD")))
 
 def eligible(cap):
@@ -83,19 +95,36 @@ def why_line(p, tkey):
     if tkey == "t1":
         return f"Highest win rate that fits this budget: {bs(p,'Win')} across {bs(p,'Trades')} trades."
     if tkey == "t2":
-        return f"Best return-on-drawdown that fits: {pct(bs(p,'RoDD'))} across {bs(p,'Trades')} trades."
+        return (f"Best monthly return-on-drawdown that fits: {rodd_mo_pct(p['best']['stats'])} per month "
+                f"({pct(bs(p,'RoDD'))} over {bs(p,'Months')} months) across {bs(p,'Trades')} trades.")
     return f"Biggest published net that fits: {bs(p,'Net')} — budget for the full {bs(p,'Max DD')} drawdown en route."
 
 def stat_strip(p):
     cells = ""
-    for k, lab in [("RoDD", "RoDD"), ("Max DD", "Max DD"), ("Win", "Win"), ("Trades", "n")]:
-        shown = pct(bs(p, k)) if k == "RoDD" else esc(bs(p, k))
+    for k, lab in [("RoDD", "RoDD/mo"), ("Max DD", "Max DD"), ("Win", "Win"), ("Trades", "n")]:
+        shown = rodd_mo_pct(p["best"]["stats"]) if k == "RoDD" else esc(bs(p, k))
         cells += f'<div class="prs"><b>{shown}</b><span>{lab}</span></div>'
     return f'<div class="pr-stats">{cells}</div>'
 
+def empty_single_card(blab):
+    """Honesty fallback for a budget tier the scaled catalog empties --
+    same doctrine as trio_rows' 'Slot open' row: never pad with something
+    that does not fit the buyer's stated drawdown budget."""
+    return f"""<div class="pr-card">
+      <div class="pr-head"><div class="pr-id"><span class="pr-name">Nothing published fits yet</span>
+        <span class="pr-real">every current system's published drawdown runs deeper than {esc(blab)}</span></div>
+      </div>
+      <p class="pr-why">Every strategy on the shelf is shown at the largest whole Multiplier that keeps its
+      own best-window drawdown under $10,000, and even at that size none currently holds inside {esc(blab)}.
+      Step up a budget tier to see what qualifies.</p>
+      <div class="pr-ctas">
+        <a class="btn btn-buy" href="/">Open the catalog</a>
+      </div>
+    </div>"""
+
 def single_card(p, tkey, alt):
     alt_line = (f'<p class="pr-alt">Runner-up: <a href="/strategies/{alt["slug"]}.html">{esc(alt["name"])}</a>'
-                f' — {pct(bs(alt,"RoDD"))} RoDD, {bs(alt,"Win")} win, {bs(alt,"Max DD")} max drawdown.</p>') if alt else ""
+                f' — {rodd_mo_pct(alt["best"]["stats"])} RoDD/mo, {bs(alt,"Win")} win, {bs(alt,"Max DD")} max drawdown.</p>') if alt else ""
     return f"""<div class="pr-card fc-{p['slug']}">
       <div class="pr-head"><span class="pr-gchip">{glyph(p['slug'], 'glyph g-plan')}</span><div class="pr-id">
         <a class="pr-name" href="/strategies/{p['slug']}.html">{esc(p['name'])}</a>
@@ -109,6 +138,7 @@ def single_card(p, tkey, alt):
         <!-- WHOP: replace with checkout link ({esc(p['name'])}) -->
         <a class="btn btn-buy" href="{buy_href(p)}" rel="noopener">Get access</a>
       </div>
+      <p class="pr-promo">{esc(PROMO_LINE)}</p>
     </div>"""
 
 def trio_rows(trio, slots=3):
@@ -118,14 +148,14 @@ def trio_rows(trio, slots=3):
     for p in trio:
         rows += (f'<li>{glyph(p["slug"], "glyph g-row")}<a class="pr-name fc-{p["slug"]}" href="/strategies/{p["slug"]}.html">{esc(p["name"])}</a>'
                  f'<span class="pr-real">{esc(p["actual"])}</span>'
-                 f'<span class="pr-mini">{pct(bs(p,"RoDD"))} RoDD · {bs(p,"Win")} win · {bs(p,"Max DD")} DD</span>'
+                 f'<span class="pr-mini">{rodd_mo_pct(p["best"]["stats"])} RoDD/mo · {bs(p,"Win")} win · {bs(p,"Max DD")} DD</span>'
                  f'<span class="pr-solo">${p["price"]}</span></li>')
     for _ in range(max(0, slots - len(trio))):
         rows += ('<li class="pr-empty"><span class="pr-name">Slot open</span>'
                  '<span class="pr-real">nothing else clears this drawdown budget yet</span></li>')
     return rows
 
-RULE_LINE = {"t1": "highest win rates", "t2": "highest RoDD", "t3": "largest published nets"}
+RULE_LINE = {"t1": "highest win rates", "t2": "highest monthly RoDD", "t3": "largest published nets"}
 
 def trio_block(trio, tkey):
     """Three strategies for this kind of trader, bought solo. Pick-3 is
@@ -134,9 +164,15 @@ def trio_block(trio, tkey):
     worth = sum(p["price"] for p in trio)
     rule = RULE_LINE[tkey]
     n = len(trio)
+    if n == 3:
+        sub = 'the ' + rule + ' that fit your drawdown budget'
+    elif n == 0:
+        sub = 'nothing published clears your drawdown budget yet'
+    else:
+        sub = f'only {n} clear your drawdown budget'
     return f"""<div class="pr-card">
       <div class="pr-head"><div class="pr-id"><span class="pr-name">Your three</span>
-        <span class="pr-real">{'the ' + rule + ' that fit your drawdown budget' if n == 3 else f'only {n} clear your drawdown budget'}</span></div>
+        <span class="pr-real">{sub}</span></div>
         <div class="pr-price">${worth:,}<small>/mo total</small></div>
       </div>
       <ul class="pr-trio">{trio_rows(trio)}</ul>
@@ -154,8 +190,11 @@ for bkey, blab, bdesc, cap in ([] if PRELAUNCH else BUDGETS):
     pool = eligible(cap)
     for tkey, tlab, tdesc in TEMPS:
         ranked = sorted(pool, key=sort_key(tkey))
-        pick, alt = ranked[0], (ranked[1] if len(ranked) > 1 else None)
-        panels += f'<div class="pr" id="r-s1-{bkey}-{tkey}">{single_card(pick, tkey, alt)}</div>\n'
+        if ranked:
+            pick, alt = ranked[0], (ranked[1] if len(ranked) > 1 else None)
+            panels += f'<div class="pr" id="r-s1-{bkey}-{tkey}">{single_card(pick, tkey, alt)}</div>\n'
+        else:
+            panels += f'<div class="pr" id="r-s1-{bkey}-{tkey}">{empty_single_card(blab)}</div>\n'
         panels += f'<div class="pr" id="r-s2-{bkey}-{tkey}">{trio_block(ranked[:3], tkey)}</div>\n'
 
 # fleet (all-access) panels — budget-aware
@@ -174,6 +213,7 @@ fleet_small = f"""<div class="pr" id="r-s3-small">
       <!-- WHOP: replace with checkout link (The Starter) -->
       <a class="btn btn-buy" href="/strategies/the-starter.html" rel="noopener">Start for ${BN['starter']['price']}/mo</a>
     </div>
+    <p class="pr-promo">{esc(PROMO_LINE)}</p>
   </div>
 </div>"""
 if not STARTER_OK:
@@ -193,6 +233,7 @@ if not STARTER_OK:
       <!-- WHOP: replace with checkout link ({_cheap["name"] if _cheap else "TBD"}) -->
       <a class="btn btn-buy" href="{buy_href(_cheap) if _cheap else "#"}" rel="noopener">Get it for ${_cheap["price"] if _cheap else 0}/mo</a>
     </div>
+    <p class="pr-promo">{esc(PROMO_LINE)}</p>
   </div>
 </div>"""
 fleet_big = f"""<div class="pr" id="r-s3-big">
@@ -201,12 +242,13 @@ fleet_big = f"""<div class="pr" id="r-s3-big">
       <span class="pr-real">every strategy on the shelf — {len(S)} systems, books excluded</span></div>
       <div class="pr-price"><s class="was">${COMBINED_ALL:,}</s>${BN['all_access']['price']}<small>/mo</small></div>
     </div>
-    <p class="pr-why">The whole catalog under one subscription: all {len(S)} live-validated systems across {MARKETS_PROSE}, worth ${COMBINED_ALL:,}/mo solo. Diversify across sessions instead of picking one.</p>
+    <p class="pr-why">The whole catalog under one subscription: all {len(S)} Backtest-verified systems across {MARKETS_PROSE}, worth ${COMBINED_ALL:,}/mo solo. Diversify across sessions instead of picking one.</p>
     <div class="pr-ctas">
       <a class="btn" href="/strategies/all-access.html">See All-Access</a>
       <!-- WHOP: replace with checkout link (All-Access) -->
       <a class="btn btn-buy" href="/strategies/all-access.html" rel="noopener">Get All-Access — ${BN['all_access']['price']}/mo</a>
     </div>
+    <p class="pr-promo">{esc(PROMO_LINE)}</p>
   </div>
 </div>"""
 
@@ -216,7 +258,7 @@ if books_live:
     book_rows = "".join(
         f'<li>{glyph(p["slug"], "glyph g-row")}<a class="pr-name fc-{p["slug"]}" href="/strategies/{p["slug"]}.html">{esc(p["name"])}</a>'
         f'<span class="pr-real">{esc(p["actual"])}</span>'
-        f'<span class="pr-mini">{pct(bs(p,"RoDD"))} RoDD · {bs(p,"Win")} win · {len(p["legs"])} legs</span>'
+        f'<span class="pr-mini">{rodd_mo_pct(p["best"]["stats"])} RoDD/mo · {bs(p,"Win")} win · {len(p["legs"])} legs</span>'
         f'<span class="pr-solo">${p["price"]}</span></li>' for p in books_live)
     _blinks = " ".join(f'<a class="btn" href="/strategies/{p["slug"]}.html">See {esc(p["name"])}</a>'
                        for p in books_live)
@@ -227,7 +269,7 @@ if books_live:
     </div>
     <ul class="pr-trio">{book_rows}</ul>
     <p class="pr-why">A book trades the day as one system: each leg owns its session and a router allocates
-    between them. Live-validated with both windows published, same standard as every solo strategy on the
+    between them. Backtest-verified with both windows published, same standard as every solo strategy on the
     shelf. Priced at the top because one book replaces several subscriptions.</p>
     <div class="pr-ctas">
       {_blinks}
@@ -260,7 +302,8 @@ scope_opts = [
     ("s1", "One system", "Start focused — a single edge, run properly"),
     ("s2", "Three systems", "Three that clear your drawdown budget, each its own subscription"),
     ("s3", "The whole shelf", "All-Access — every strategy at once"),
-    ("s4", "The books", "Continuum and Midas — the multi-leg engines we run ourselves"),
+    ("s4", "The books", (" and ".join(p["name"] for p in books_live) if books_live else "The multi-leg engines")
+     + " — the multi-leg engines we run ourselves"),
 ]
 budget_opts = [(k, l, d) for k, l, d, _ in BUDGETS]
 temp_opts = [(k, l, d) for k, l, d in TEMPS]
@@ -373,7 +416,7 @@ page = f"""<!DOCTYPE html>
 
 <header>
   <div class="wrap nav">
-    <a class="brand" href="/"><svg class="bmark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="bmark-ant" d="M12 3.6V7.2"/><circle class="bmark-node" cx="12" cy="2.4" r="1.5"/><rect class="bmark-head" x="3.6" y="7.2" width="16.8" height="13" rx="3.4"/><rect class="bmark-eye" x="8" y="10.3" width="2.3" height="6.4" rx="1.15"/><rect class="bmark-eye" x="13.7" y="11.9" width="2.3" height="4.6" rx="1.15"/></svg><span class="bname">FUTURES<small>TRADING<span class="mk">BOTS</span></small></span></a>
+    <a class="brand" href="/"><img class="brand-logo" src="/assets/aft-logo.png" alt="All Fluence Trading" width="985" height="260"></a>
     <nav class="nav-links" aria-label="Main">
       <a href="/">All strategies</a>
       <a href="/strategies/all-access.html">All-Access</a>
@@ -404,6 +447,11 @@ page = f"""<!DOCTYPE html>
       three named systems &mdash; sized to the drawdown you can actually hold, chosen by the same math
       that ranks the shelf. Runs entirely in your browser: this page ships zero script, so your answers
       never leave it.</p>
+      <p class="plan-sub">Every recommendation runs on <b>average monthly return on drawdown (RoDD/mo)</b>:
+      net profit &divide; maximum drawdown over the window, shown per month of the record &mdash; a 54&times;
+      RoDD over 8 months and a 32&times; RoDD over 16 months are not the same edge, and RoDD/mo is how this
+      page tells them apart. Risk/trade = the typical losing trade at the shown multiplier (median loss);
+      RoR/mo (return on risk) = average monthly profit divided by that risk.</p>
     </div>
   </section>
 
@@ -433,6 +481,7 @@ page = f"""<!DOCTYPE html>
 
 <footer>
   <div class="wrap">
+<img class="foot-logo" src="/assets/aft-logo.png" alt="All Fluence Trading" width="985" height="260">
 <div class="foot-links">
       <a href="/">All strategies</a>
       <a href="/strategies/all-access.html">All-Access</a>

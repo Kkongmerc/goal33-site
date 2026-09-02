@@ -2,7 +2,7 @@
 
 The catalog page is an exchange-style contract specification document: white
 paper, hairline rules, one exchange blue, tabular-mono figures. Two ranked
-tables (MNQ/NQ, then MGC), books ranked inline and labeled as combinations.
+tables (MNQ, then MGC), books ranked inline and labeled as combinations.
 The whole file is generated from catalog2.json — no hand-edited regions.
 The previous quant-terminal index and its generator are archived at
 _tools/archive/*quantterminal-20260901* and git tag pre-rebrand-20260901.
@@ -19,6 +19,8 @@ BASE = os.path.dirname(_HERE)
 CAT = json.load(open(os.path.join(_HERE, "catalog2.json"), encoding="utf-8"))
 S = CAT["strategies"]
 WHOP_STORE = CAT.get("whop_store") or "/"
+PROMO = CAT.get("promo") or {}
+PROMO_LINE = PROMO.get("line", "").replace("{code}", PROMO.get("code", "")) if PROMO else ""
 
 def esc(s):
     return html.escape(str(s), quote=False)
@@ -32,6 +34,12 @@ def num(v):
 def pct(v):
     """RoDD-style ratios sell as percentages: 11.06x -> 1,106%."""
     return "{:,.0f}%".format(num(v) * 100)
+
+def rodd_mo_pct(stats):
+    """Average monthly return on drawdown, as a percentage, computed fresh
+    from RoDD / Months (owner ruling 2026-09-02)."""
+    rodd, months = num(stats.get("RoDD", 0)), num(stats.get("Months", 0))
+    return "{:,.0f}%".format(rodd / months * 100) if months else "—"
 
 def bs(p, k):
     return p["best"]["stats"].get(k, "—")
@@ -95,8 +103,8 @@ def cf_block():
             + f'<span class="cf-star"><i>{tag}</i></span>'
             + f'<span class="cf-foot"><span class="cf-titlerow"><b class="cf-name">{esc(p["name"])}</b>'
             + f'<span class="cf-price">${p["price"]}<small>/mo</small></span></span>'
-            + f'<span class="cf-gain">{pct(bs(p, "RoDD"))}</span>'
-            + f'<span class="cf-win">return on max drawdown &middot; best window</span></span></a>'
+            + f'<span class="cf-gain">{rodd_mo_pct(p["best"]["stats"])}</span>'
+            + f'<span class="cf-win">avg monthly return on drawdown &middot; best window</span></span></a>'
             f'<label class="cf-pick" for="cf-{i+1}"><span class="sr-only">Bring {esc(p["name"])} to the front</span></label>'
             f'</div>')
     dots = "".join(
@@ -143,10 +151,13 @@ def row(p, rank):
         f'<td class="sx-r">{rank}</td>'
         f'<td class="sx-n"><a class="fc-{p["slug"]}" href="/strategies/{p["slug"]}.html">{glyph(p["slug"], "glyph sx-g")}{name}</a>'
         f'<span class="sx-sub">{sub}</span>{note}</td>'
-        f'<td class="sx-f sx-rodd">{pct(b.get("RoDD", 0)) if b.get("RoDD") else "—"}</td>'
+        f'<td class="sx-f sx-rodd">{rodd_mo_pct(b) if b.get("RoDD") else "—"}</td>'
         f'<td class="sx-f">{esc(b.get("Win", "—"))}</td>'
         f'<td class="sx-f">{esc(b.get("PF", "—"))}</td>'
-        f'<td class="sx-f">{esc(b.get("Net", "—"))}</td>'
+        f'<td class="sx-f sx-net">{esc(b.get("Net", "—"))}</td>'
+        f'<td class="sx-f">{esc(b.get("Risk/trade", "—"))}</td>'
+        f'<td class="sx-f">{esc(b.get("Return on risk/mo", "—"))}</td>'
+        f'<td class="sx-f">{("&times;" + str(p["mult"])) if p.get("mult") else "—"}</td>'
         f'<td class="sx-s">{esc(session_of(p))}</td>'
         f'<td class="sx-f sx-p"><!-- WHOP: replace this product-page link with the Whop checkout link -->'
         f'<a href="{esc(buy_href(p))}" rel="noopener">${p["price"]}</a></td>'
@@ -158,14 +169,17 @@ def table(title, rows_html, n):
   <h2>{esc(title)}</h2>
   <div class="sx-scroll" tabindex="0" role="region" aria-label="{esc(title)} specification table, scrolls horizontally on small screens">
   <table class="sx-t">
-    <caption class="sr-only">{esc(title)}: {n} strategies ranked by best-window return on maximum drawdown</caption>
+    <caption class="sr-only">{esc(title)}: {n} strategies ranked by average monthly return on drawdown</caption>
     <thead><tr>
       <th scope="col" class="sx-r" aria-label="Rank">#</th>
       <th scope="col" class="sx-n">Strategy</th>
-      <th scope="col" class="sx-f sx-rodd">RoDD</th>
+      <th scope="col" class="sx-f sx-rodd"><abbr title="Average monthly return on drawdown">RoDD/mo</abbr></th>
       <th scope="col" class="sx-f">Win</th>
       <th scope="col" class="sx-f">PF</th>
-      <th scope="col" class="sx-f">Net</th>
+      <th scope="col" class="sx-f sx-net">Profit</th>
+      <th scope="col" class="sx-f"><abbr title="Median losing trade at the shown multiplier">Risk/trade</abbr></th>
+      <th scope="col" class="sx-f"><abbr title="Average monthly net profit divided by risk per trade">RoR/mo</abbr></th>
+      <th scope="col" class="sx-f"><abbr title="Multiplier the published figures are shown at">Mult</abbr></th>
       <th scope="col" class="sx-s">Session</th>
       <th scope="col" class="sx-f sx-p">$ / mo</th>
     </tr></thead>
@@ -206,7 +220,7 @@ page = f"""<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <title>FuturesTradingBots — MNQ &amp; MGC futures strategies</title>
-<meta name="description" content="Futures strategies for MNQ/NQ and MGC, delivered as TradingView invite-only scripts. Best validated window and full record published for every strategy.">
+<meta name="description" content="Futures strategies for MNQ and MGC, delivered as TradingView invite-only scripts. Best validated window and full record published for every strategy.">
 <link rel="canonical" href="https://futurestradingbots.com/">
 <meta name="theme-color" content="#131722">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -218,7 +232,7 @@ page = f"""<!doctype html>
 
 <header>
   <div class="wrap nav">
-    <a class="brand" href="/"><svg class="bmark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="bmark-ant" d="M12 3.6V7.2"/><circle class="bmark-node" cx="12" cy="2.4" r="1.5"/><rect class="bmark-head" x="3.6" y="7.2" width="16.8" height="13" rx="3.4"/><rect class="bmark-eye" x="8" y="10.3" width="2.3" height="6.4" rx="1.15"/><rect class="bmark-eye" x="13.7" y="11.9" width="2.3" height="4.6" rx="1.15"/></svg><span class="bname">FUTURES<small>TRADING<span class="mk">BOTS</span></small></span></a>
+    <a class="brand" href="/"><img class="brand-logo" src="/assets/aft-logo.png" alt="All Fluence Trading" width="985" height="260"></a>
     <nav class="nav-links" aria-label="Main">
       <a href="/">All strategies</a>
       <a href="/strategies/all-access.html">All-Access</a>
@@ -245,16 +259,23 @@ page = f"""<!doctype html>
   <div class="sx-hero">
     <div class="sx-hero-copy">
       <h1 class="sx-hero-h1">Strategies engineered to be <span class="hl">measured</span>, not believed.</h1>
-      <p class="sx-lede">{len(S)} futures strategies for MNQ/NQ and MGC, sold as TradingView invite-only scripts
+      <p class="sx-lede">{len(S)} futures strategies for MNQ and MGC, sold as TradingView invite-only scripts
       and activated to your TradingView username within 24 hours.</p>
+      <p class="sx-cta">Select any of the profitable strategies below to see the trade details and results.</p>
       <p class="sx-note">Figures below are each strategy&rsquo;s best validated window, commissions and slippage modeled.
-      The full record, good or ugly, is published on every specification page. Ranked by return on maximum
-      drawdown (RoDD). Net is the window&rsquo;s closed-trade total at the validated run&rsquo;s position size.</p>
+      The full record, good or ugly, is published on every specification page. Ranked by average monthly return
+      on drawdown (RoDD/mo) &mdash; return on drawdown = net profit &divide; maximum drawdown over the window,
+      shown per month of the record. Risk/trade = the typical losing trade at the shown multiplier (median loss).
+      RoR/mo (average monthly return on risk) = the record&rsquo;s average monthly profit divided by that risk.
+      Net is the window&rsquo;s closed-trade total at the validated run&rsquo;s position size.</p>
+      <p class="sx-promo">{esc(PROMO_LINE)}</p>
     </div>
     <div class="coverflow" aria-label="Flagship strategies">{cf_block()}</div>
   </div>
 
-{table("MNQ / NQ · Nasdaq futures", mnq_rows, len(mnq))}
+  <p class="sx-ddnote">All strategies simulated based on a $10,000 or less drawdown.</p>
+
+{table("MNQ · Nasdaq futures", mnq_rows, len(mnq))}
 
 {table("MGC · Gold futures", mgc_rows, len(mgc))}
 
@@ -262,10 +283,13 @@ page = f"""<!doctype html>
   All {len(S)} strategies under one subscription: <a href="/strategies/all-access.html">All-Access — ${CAT["bundles"]["all_access"]["price"]} / mo</a>.
   Not sure where to start: <a href="/plan.html">the plan finder</a> ranks them against your drawdown budget.</p>
 
+  <p class="sx-promo">{esc(PROMO_LINE)}</p>
+
 </main>
 
 <footer>
   <div class="wrap">
+<img class="foot-logo" src="/assets/aft-logo.png" alt="All Fluence Trading" width="985" height="260">
 <div class="foot-links">
       <a href="/">All strategies</a>
       <a href="/strategies/all-access.html">All-Access</a>

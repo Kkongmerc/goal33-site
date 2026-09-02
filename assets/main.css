@@ -12,6 +12,10 @@
        → covers .chip-verified text, .stable .pf cells, and PF
          hero/featured figures on panel (8.6) and on the raised
          row-hover background (8.0)
+       → also covers .sx-net (the index table's Profit column, bold +
+         accent so it is the first figure the eye lands on in each row)
+         and .sx-cta (the "select a strategy" line on the index) — same
+         pair, 8.6 / 8.0
      pill-green: accent #2962FF on accent-dim composited over
        bg / panel / raised = 8.3 / 7.5 / 6.9
      on-accent #06231A on accent/accent-hi   =  8.1 /  9.6
@@ -52,7 +56,9 @@
        meridian/pendulum orchid #E88FC6 7.8, closer dusk-lilac
        #CBA8E8 8.7, daybreak dawn-peach #FFC9A8 12.0, greenwich
        fog-slate #AEC6D9 10.1, assay apple #A8E36B 11.7, kilo
-       bronze #E3A857 8.5, print ivory #E8DCC0 13.1; DD medals:
+       bronze #E3A857 8.5, print ivory #E8DCC0 13.1, lantern amber
+       #FFA34D 9.0, first-light dawn-gold #FFD37A 12.6, undercurrent
+       sky-teal #4FB8E0 7.9, confluence violet #B98CFF 7.0; DD medals:
        gold #E8C15C 10.3,
        neon green #7CFFB2 14.2 on panel (AA); themed product pages reuse
        these as the --buy channel: CTA ink #1F1102 on the darkest
@@ -285,6 +291,11 @@ header {
 .bmark-ant  { fill: none; stroke: var(--text); stroke-width: 1.6; stroke-linecap: round; }
 .bmark-node { fill: var(--accent); }
 .bmark-eye  { fill: var(--accent); }
+/* wordmark lockup: the AFT logo replaces the bmark+text mark above (kept
+   in place, unused, rather than pruned -- matches the file's own pattern
+   for retired identity marks). CSP forbids inline style, sizing is classed. */
+.brand-logo { display: block; height: 40px; width: auto; }
+
 .brand small {
   display: block;
   font-size: var(--fs-2xs); font-weight: 400;
@@ -1552,6 +1563,8 @@ section { border-bottom: 1px solid var(--line); padding: var(--sp-6) 0; }
 
 /* ── footer ────────────────────────────────────────────────── */
 footer { padding: var(--sp-7) 0; }
+.foot-logo { display: block; height: 64px; width: auto; margin-bottom: var(--sp-4); }
+
 .foot-links {
   display: flex; flex-wrap: wrap;
   gap: 0 var(--sp-5);
@@ -3791,6 +3804,10 @@ section:hover .sec-head h2::after { width: 48px; }
 .fc-undertow             { --fc: #7FE0C8; --fc-hi: #AEEEDE; --fc-soft: rgba(127, 224, 200, .13); --fc-line: rgba(127, 224, 200, .38); --fc-glow: rgba(127, 224, 200, .32); }
 .fc-meridian             { --fc: #E88FC6; --fc-hi: #F3C2E0; --fc-soft: rgba(232, 143, 198, .13); --fc-line: rgba(232, 143, 198, .38); --fc-glow: rgba(232, 143, 198, .32); }
 .fc-closer               { --fc: #CBA8E8; --fc-hi: #E0CBF3; --fc-soft: rgba(203, 168, 232, .13); --fc-line: rgba(203, 168, 232, .38); --fc-glow: rgba(203, 168, 232, .32); }
+.fc-lantern              { --fc: #FFA34D; --fc-hi: #FFBE82; --fc-soft: rgba(255, 163, 77, .13); --fc-line: rgba(255, 163, 77, .38); --fc-glow: rgba(255, 163, 77, .32); }
+.fc-first-light          { --fc: #FFD37A; --fc-hi: #FFE0A1; --fc-soft: rgba(255, 211, 122, .13); --fc-line: rgba(255, 211, 122, .38); --fc-glow: rgba(255, 211, 122, .32); }
+.fc-undercurrent         { --fc: #4FB8E0; --fc-hi: #83CDE9; --fc-soft: rgba(79, 184, 224, .13); --fc-line: rgba(79, 184, 224, .38); --fc-glow: rgba(79, 184, 224, .32); }
+.fc-confluence           { --fc: #B98CFF; --fc-hi: #CEAEFF; --fc-soft: rgba(185, 140, 255, .13); --fc-line: rgba(185, 140, 255, .38); --fc-glow: rgba(185, 140, 255, .32); }
 .fc-daybreak             { --fc: #FFC9A8; --fc-hi: #FFE0CB; --fc-soft: rgba(255, 201, 168, .13); --fc-line: rgba(255, 201, 168, .38); --fc-glow: rgba(255, 201, 168, .32); }
 .fc-greenwich            { --fc: #AEC6D9; --fc-hi: #D3E2EE; --fc-soft: rgba(174, 198, 217, .12); --fc-line: rgba(174, 198, 217, .36); --fc-glow: rgba(174, 198, 217, .30); }
 .fc-assay                { --fc: #A8E36B; --fc-hi: #C9F09B; --fc-soft: rgba(168, 227, 107, .12); --fc-line: rgba(168, 227, 107, .36); --fc-glow: rgba(168, 227, 107, .30); }
@@ -4200,6 +4217,13 @@ html { scroll-padding-top: calc(var(--header-h) + 58px); }
 .guar-line b { color: var(--accent); }
 .guar-note { font-family: var(--mono); font-size: var(--fs-2xs); color: var(--faint); letter-spacing: .04em; }
 .guar-note a { color: var(--accent); }
+/* promo-code line (round 6): one small caption, same family as guar-note,
+   next to every buy button and in the buy box -- sourced from catalog2.json
+   promo.line, never hand-edited. */
+.buy-promo, .pr-promo, .sx-promo, .tvt-def {
+  font-family: var(--mono); font-size: var(--fs-2xs); color: var(--faint);
+  letter-spacing: .04em; margin: var(--sp-1) 0;
+}
 .refnote { margin-top: var(--sp-2); font-size: var(--fs-xs); color: var(--muted); }
 .refnote b { color: var(--accent); }
 
@@ -5114,6 +5138,10 @@ body * { text-transform: none !important; letter-spacing: normal !important; }
 .fc-undertow   { --fc: #7FE0C8 !important; --fc-hi: #AEEEDE !important; --fc-soft: rgba(127, 224, 200, .13) !important; --fc-line: rgba(127, 224, 200, .38) !important; --fc-glow: rgba(0, 0, 0, 0) !important; }
 .fc-meridian   { --fc: #E88FC6 !important; --fc-hi: #F3C2E0 !important; --fc-soft: rgba(232, 143, 198, .13) !important; --fc-line: rgba(232, 143, 198, .38) !important; --fc-glow: rgba(0, 0, 0, 0) !important; }
 .fc-closer     { --fc: #CBA8E8 !important; --fc-hi: #E0CBF3 !important; --fc-soft: rgba(203, 168, 232, .13) !important; --fc-line: rgba(203, 168, 232, .38) !important; --fc-glow: rgba(0, 0, 0, 0) !important; }
+.fc-lantern    { --fc: #FFA34D !important; --fc-hi: #FFBE82 !important; --fc-soft: rgba(255, 163, 77, .13) !important; --fc-line: rgba(255, 163, 77, .38) !important; --fc-glow: rgba(0, 0, 0, 0) !important; }
+.fc-first-light{ --fc: #FFD37A !important; --fc-hi: #FFE0A1 !important; --fc-soft: rgba(255, 211, 122, .13) !important; --fc-line: rgba(255, 211, 122, .38) !important; --fc-glow: rgba(0, 0, 0, 0) !important; }
+.fc-undercurrent{ --fc: #4FB8E0 !important; --fc-hi: #83CDE9 !important; --fc-soft: rgba(79, 184, 224, .13) !important; --fc-line: rgba(79, 184, 224, .38) !important; --fc-glow: rgba(0, 0, 0, 0) !important; }
+.fc-confluence { --fc: #B98CFF !important; --fc-hi: #CEAEFF !important; --fc-soft: rgba(185, 140, 255, .13) !important; --fc-line: rgba(185, 140, 255, .38) !important; --fc-glow: rgba(0, 0, 0, 0) !important; }
 .fc-daybreak   { --fc: #FFC9A8 !important; --fc-hi: #FFE0CB !important; --fc-soft: rgba(255, 201, 168, .13) !important; --fc-line: rgba(255, 201, 168, .38) !important; --fc-glow: rgba(0, 0, 0, 0) !important; }
 .fc-greenwich  { --fc: #AEC6D9 !important; --fc-hi: #D3E2EE !important; --fc-soft: rgba(174, 198, 217, .12) !important; --fc-line: rgba(174, 198, 217, .36) !important; --fc-glow: rgba(0, 0, 0, 0) !important; }
 .fc-assay      { --fc: #A8E36B !important; --fc-hi: #C9F09B !important; --fc-soft: rgba(168, 227, 107, .12) !important; --fc-line: rgba(168, 227, 107, .36) !important; --fc-glow: rgba(0, 0, 0, 0) !important; }
@@ -5412,3 +5440,18 @@ body, .sx-doc { font-family: var(--sans); }
 /* r6.0 fix: the hero figure is not a P&L cell - plain ink on bundle
    pages (identity color still wins on themed product pages). */
 .pdp-hero b { color: var(--text); }
+
+
+/* round 7: Profit (formerly the bare "Net" column) is the first figure
+   the eye should land on after the name -- bold, accent, and a size step
+   above its neighbours (the same shape RoDD used to carry, before r4.9
+   normalized RoDD back down). */
+.sx-t td.sx-net, .sx-t th.sx-net { font-weight: 700; }
+.sx-t td.sx-net { color: var(--accent); font-size: 1.05rem; }
+
+/* the index's above-the-table call to action: a real line, not a grey
+   caption -- bold, accent, sits between the lede and the explanatory note. */
+.sx-cta { margin: 0 0 0.5rem; font-weight: 700; color: var(--accent); font-size: 1rem; }
+
+/* the Multiplier column's one-line context, directly above the table */
+.sx-ddnote { margin: 0 0 0.75rem; font-size: 0.85rem; color: #9aa2a8; }

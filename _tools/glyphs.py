@@ -31,6 +31,14 @@ STRAT = {
     "meridian": '<circle cx="12" cy="4.4" r="1.1"/><path d="M12 5.4 16.6 15"/><circle cx="17.6" cy="17.2" r="2.5"/><path d="M6 14.6a10 10 0 0 0 4 4.2"/>',
     # Counterweight (slug closer) — kettlebell
     "closer": '<circle cx="12" cy="14.2" r="5.3"/><path d="M8.9 10.1a4.4 4.4 0 0 1 6.2 0"/>',
+    # Lantern — 20:00 Tokyo open fade: paper lantern, ribbed body
+    "lantern": '<path d="M12 2.4v2.4"/><path d="M8 6.4h8"/><path d="M7.6 6.9 8.7 17a3.3 3.3 0 0 0 6.6 0l1.1-10.1z"/><path d="M8.3 15h7.4M9 10.6h6"/><path d="M12 19.6v2"/>',
+    # First Light — 19:00 Sydney open drive: sunrise over the horizon
+    "first-light": '<path d="M3.6 15.5h16.8"/><path d="M6.8 15.5a5.2 5.2 0 0 1 10.4 0"/><path d="M12 6v2.4M6.6 9.2l1.7 1.5M17.4 9.2l-1.7 1.5"/>',
+    # Undercurrent — 08:30 fade, Tue/Thu: the surface wave and the one beneath it
+    "undercurrent": '<path d="M3.4 10.4c2-3.6 4.3-3.6 6.3 0s4.3 3.6 6.3 0 3-3.2 3.6-2.1" opacity=".55"/><path d="M3.4 15.4c2-3.6 4.3-3.6 6.3 0s4.3 3.6 6.3 0 3-3.2 3.6-2.1"/>',
+    # Confluence — two legs merging into one: converging arrows
+    "confluence": '<path d="M4 5.4 11 12l-7 6.6"/><path d="M20 5.4 13 12l7 6.6"/><circle cx="12" cy="12" r="1.3"/>',
     # The Night Shift (slug daybreak) — crescent moon with a star
     "daybreak": '<path d="M14.8 3.6a8.4 8.4 0 1 0 5.6 13.9A8.4 8.4 0 0 1 14.8 3.6z"/><path d="M5.6 5.8v2.6M4.3 7.1h2.6" opacity=".7"/>',
     # The Assay (slug assay) — the assayer's flask

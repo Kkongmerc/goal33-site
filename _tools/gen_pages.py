@@ -13,6 +13,8 @@ SITE = "https://futurestradingbots.com"
 # PRE-LAUNCH: no published products -> skip product + bundle pages entirely
 PRELAUNCH = not CAT["strategies"] and not CAT["books"]
 WHOP_STORE = CAT.get("whop_store") or "/"
+PROMO = CAT.get("promo") or {}
+PROMO_LINE = PROMO.get("line", "").replace("{code}", PROMO.get("code", "")) if PROMO else ""
 def buy_href(p):
     """The product's Whop page when it has one, else its own page."""
     return p.get("whop") or f"/strategies/{p['slug']}.html"
@@ -56,6 +58,13 @@ def pct(v):
     """RoDD-style ratios sell as percentages: 11.06x -> 1,106%."""
     return "{:,.0f}%".format(num(v) * 100)
 
+def rodd_mo_pct(stats):
+    """Average monthly return on drawdown, as a percentage, computed fresh
+    from RoDD / Months -- never the stored RoDD/mo field, which can drift
+    out of sync with RoDD after a data refresh (owner ruling 2026-09-02)."""
+    rodd, months = num(stats.get("RoDD", 0)), num(stats.get("Months", 0))
+    return "{:,.0f}%".format(rodd / months * 100) if months else "—"
+
 def is_hot(key, val):
     v = num(val)
     return {"RoDD": v >= 10, "PF": v >= 2.0, "Win": v >= 80, "Trades": v >= 1000,
@@ -90,7 +99,7 @@ def head(title, desc, path, bodycls=""):
 
 <header>
   <div class="wrap nav">
-    <a class="brand" href="/"><svg class="bmark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="bmark-ant" d="M12 3.6V7.2"/><circle class="bmark-node" cx="12" cy="2.4" r="1.5"/><rect class="bmark-head" x="3.6" y="7.2" width="16.8" height="13" rx="3.4"/><rect class="bmark-eye" x="8" y="10.3" width="2.3" height="6.4" rx="1.15"/><rect class="bmark-eye" x="13.7" y="11.9" width="2.3" height="4.6" rx="1.15"/></svg><span class="bname">FUTURES<small>TRADING<span class="mk">BOTS</span></small></span></a>
+    <a class="brand" href="/"><img class="brand-logo" src="/assets/aft-logo.png" alt="All Fluence Trading" width="985" height="260"></a>
     <nav class="nav-links" aria-label="Main">
       <a href="/">All strategies</a>
       <a href="/strategies/all-access.html">All-Access</a>
@@ -120,6 +129,7 @@ FOOTER = f"""</main>
 
 <footer>
   <div class="wrap">
+<img class="foot-logo" src="/assets/aft-logo.png" alt="All Fluence Trading" width="985" height="260">
 <div class="foot-links">
       <a href="/">All strategies</a>
       <a href="/strategies/all-access.html">All-Access</a>
@@ -162,10 +172,11 @@ def buybox(name, price, whop_note, xsell=None, struck=None, href="#"):
   <span class="annual">Annual = 2 months free</span>
   <!-- WHOP: checkout ({whop_note}) -->
   <a class="btn btn-buy" href="{href}" rel="noopener">Get access</a>
+  <p class="buy-promo">{esc(PROMO_LINE)}</p>
   <div class="guar">
     <span class="guar-line"><b>7-day</b> money-back &mdash; no questions</span>
-    <span class="guar-line"><b>First month not profitable?</b> Full refund</span>
-    <span class="guar-note">per the strategy&rsquo;s own published signals &middot; claim within 7 days of day 30 &middot; <a href="/terms.html">terms</a></span>
+    <span class="guar-line"><b>60-day</b> Performs-as-Published guarantee</span>
+    <span class="guar-note">strategy matches its published signals &middot; claim within 60 days &middot; <a href="/terms.html">terms</a></span>
   </div>
   <ul>
     <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>TradingView invite-only script, activated within 24h</span></li>
@@ -178,7 +189,7 @@ def buybox(name, price, whop_note, xsell=None, struck=None, href="#"):
 </aside>"""
 
 # ── components ──────────────────────────────────────────────────
-ORDER = ["RoDD", "RoDD/mo", "PF", "Win", "Net", "Max DD", "Trades", "$/trade", "Months"]
+ORDER = ["RoDD", "RoDD/mo", "PF", "Win", "Net", "Max DD", "Risk/trade", "Max loss", "Return on risk/mo", "Trades", "$/trade", "Months"]
 
 def tile_grid(stats):
     cells = ""
@@ -188,7 +199,12 @@ def tile_grid(stats):
             if k == "Max DD":
                 n = num(stats[k])
                 hot += ' dd-gold' if n <= 2000 else (' dd-neon' if n <= 5000 else '')
-            shown = pct(stats[k]) if k in ("RoDD", "RoDD/mo") else esc(stats[k])
+            if k == "RoDD":
+                shown = pct(stats[k])
+            elif k == "RoDD/mo":
+                shown = rodd_mo_pct(stats)
+            else:
+                shown = esc(stats[k])
             cells += f'<div class="wtile{hot}"><span class="wk">{esc(k)}</span><span class="wv">{shown}</span></div>'
     for k, v in stats.items():
         if k not in ORDER:
@@ -197,16 +213,23 @@ def tile_grid(stats):
 
 TVT_ROWS = [("Net profit", "Net"), ("Total closed trades", "Trades"), ("Percent profitable", "Win"),
             ("Profit factor", "PF"), ("Max drawdown", "Max DD"), ("Avg per trade", "$/trade"),
-            ("Return on max drawdown", "RoDD"), ("RoDD per month", "RoDD/mo"), ("Months in window", "Months")]
+            ("Return on max drawdown", "RoDD"), ("RoDD per month", "RoDD/mo"),
+            ("Risk per trade (median loss)", "Risk/trade"), ("Max loss (single trade)", "Max loss"),
+            ("Return on risk per month", "Return on risk/mo"), ("Months in window", "Months")]
 
 def tvt_val(stats, key, best=False):
     v = stats.get(key, "")
     if v in ("", None): return '<td class="tv-mut">&mdash;</td>'
-    cls = "tv-pos" if key in ("Net", "PF", "Win", "RoDD", "RoDD/mo", "$/trade") else ("tv-neg" if key == "Max DD" else "")
+    cls = "tv-pos" if key in ("Net", "PF", "Win", "RoDD", "RoDD/mo", "$/trade", "Return on risk/mo") else ("tv-neg" if key in ("Max DD", "Risk/trade", "Max loss") else "")
     if key == "Max DD" and best:
         n2 = num(v)
         cls += " dd-gold" if n2 <= 2000 else (" dd-neon" if n2 <= 5000 else "")
-    disp = pct(v) if key in ("RoDD", "RoDD/mo") else esc(v)
+    if key == "RoDD":
+        disp = pct(v)
+    elif key == "RoDD/mo":
+        disp = rodd_mo_pct(stats)
+    else:
+        disp = esc(v)
     return f'<td class="{cls}">{disp}</td>'
 
 HELD_FULL = {
@@ -432,6 +455,8 @@ def tester_block(p):
     <p class="tvt-note">{f'Curve: the full record. Figures: best window &middot; {esc(p.get("window", ""))}.' if tr else f'Best window &middot; {esc(p.get("window", ""))}. Equity curve is illustrative, fitted to the published stats, until the trade-level export replaces it.'}</p>
   </div>
   <div class="tvt-pane tvt-ps">
+    <p class="tvt-def">Risk per trade = the typical losing trade at the shown multiplier (median loss).
+    Average monthly return on risk = the record&rsquo;s average monthly profit divided by that risk.</p>
     <div class="screener" tabindex="0" role="region" aria-label="Performance table, scrolls horizontally">
     <table class="tvt-table">
       <caption class="sr-only">Performance: best window vs full record</caption>
@@ -706,7 +731,8 @@ def rodd_menu(p):
   </div>
   <p class="rodd-why"><b>RoDD is the metric this catalog is priced on.</b> Profit factor says the engine works;
   RoDD says what it costs to hold: net profit divided by the worst peak-to-valley drawdown.
-  This system&rsquo;s window: {esc(net)} net &divide; {usd(dd)} max drawdown = <b>{pct(b.get("RoDD",""))}</b>.
+  This system&rsquo;s window ({esc(b.get("Months",""))} months): {esc(net)} net &divide; {usd(dd)} max drawdown
+  = <b>{pct(b.get("RoDD",""))} return on drawdown</b>.
   Slide your drawdown budget &mdash; the projection scales with it, and so does the pain.</p>
   {radios}
   <div class="ro-track" aria-hidden="false">{labels}</div>
@@ -781,8 +807,9 @@ def product_page(p, is_book):
     path = f"/strategies/{p['slug']}.html"
     urls.append(path)
     b = p["best"]["stats"]
-    mdesc = (f"{p['name']} ({p['actual']}): {pct(b.get('RoDD',''))} return on max drawdown on the published window, "
-             f"PF {b.get('PF','')}, {b.get('Trades','')} trades. Live-validated. "
+    mdesc = (f"{p['name']} ({p['actual']}): {rodd_mo_pct(b)} avg monthly return on drawdown "
+             f"({pct(b.get('RoDD',''))} over {b.get('Months','')} months), "
+             f"PF {b.get('PF','')}, {b.get('Trades','')} trades. Backtest-verified on real TradingView data. "
              f"TradingView invite-only script, activated within 24h.")
     crumb_root = ('<a href="/strategies/the-books.html">The Books</a>' if is_book
                   else '<a href="/">Strategies</a>')
@@ -812,8 +839,11 @@ def product_page(p, is_book):
           <div class="card-real">{esc(p['actual'])}</div>
           <span class="pdp-note">{esc(p['meta'])}</span>
         </div>
-        <div class="pdp-hero"><b>{pct(b.get('RoDD',''))}</b><span>return on max drawdown &middot; best window</span>
-          <em class="pdp-hero-sub">{usd(baseline(p))} on a {usd(BASE_DD)} drawdown</em></div>
+        <div class="pdp-hero"><b>{rodd_mo_pct(b)}</b><span>per month &middot; avg monthly return on drawdown</span>
+          <em class="pdp-hero-sub">{pct(b.get('RoDD',''))} return on drawdown over {esc(b.get('Months',''))} months</em>
+          <em class="pdp-hero-sub">Return on drawdown = net profit &divide; maximum drawdown over the window, shown per month of the record.</em>
+          <em class="pdp-hero-sub">{usd(baseline(p))} on a {usd(BASE_DD)} drawdown</em>
+          {f'<em class="pdp-hero-sub">Shown at Multiplier {p["mult"]} &middot; drawdown held under $10,000 &middot; RoDD is size-independent</em>' if p.get('mult') else ''}</div>
       </div>
 
       <div class="pdp-cols">
@@ -1073,13 +1103,19 @@ paid period, then revokes automatically. All refunds are issued through Whop.</p
 <p><strong>1. Seven-day money-back.</strong> Within 7 days of your first charge for a product, request a
 refund and you get it in full &mdash; no questions, no conditions. One per customer per product; applies
 to the first purchase, not renewals.</p>
-<p><strong>2. First-month performance guarantee.</strong> If a strategy&rsquo;s own published signals net
-a loss over your first 30 days of access &mdash; measured on the strategy&rsquo;s official signal record
-at the position size that record was produced at, with commissions and slippage modeled &mdash; the same accounting used for every figure
-on this site &mdash; you get a full refund of your first month on request. Request within 7 days after
-your first 30 days end; one per customer per product. The measure is the strategy&rsquo;s signal record,
-not any individual account&rsquo;s fills, sizing, or discretionary deviations &mdash; that keeps the test
-objective and checkable by both of us.</p>
+<p><strong>2. Performs-as-Published guarantee (60 days).</strong> Every strategy is sold with a
+published trade record. If, within 60 days of your first charge, the strategy running on your
+TradingView chart at its default settings and our stated Properties (1-minute chart of the
+instrument named on its page, commission $0.75 per contract per side, slippage 2 ticks) does not
+produce the same signals as its published record for the same dates &mdash; same entry bars, same
+direction, same exits &mdash; you get a full refund of everything you have paid for that product. To
+claim it, send us the Strategy Tester&rsquo;s List of Trades export from your chart for any 10 or
+more trading days inside your first 60 days; we compare it to the published record for those dates
+and refund if they differ. What it does not cover: profit or loss (markets do not repeat; the
+record is hypothetical, backtested performance), fills in your own account (broker, bridge and
+slippage differ), and results produced with settings, chart, symbol or Properties other than the
+published ones. One claim per customer per product; it does not extend to renewals after the 60
+days.</p>
 <p><strong>Referrals.</strong> Referral links give the buyer 10% off at checkout and pay the referrer a
 recurring commission through Whop&rsquo;s affiliate system at the rate shown in their Whop affiliate
 dashboard (currently 15% for founding members; rates for later-joining affiliates may differ, and
