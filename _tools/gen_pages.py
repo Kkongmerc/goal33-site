@@ -1382,7 +1382,7 @@ if not PRELAUNCH:
 # ── bundle pages ────────────────────────────────────────────────
 BN = CAT["bundles"]
 
-def bundle_page(slug, name, price, struck, desc, extra, xsell):
+def bundle_page(slug, name, price, struck, desc, extra, xsell, href=None):
     path = f"/strategies/{slug}.html"
     urls.append(path)
     page = head(f"{name} — FuturesTradingBots", desc + " TradingView invite-only scripts, activated within 24h.", path)
@@ -1401,7 +1401,7 @@ def bundle_page(slug, name, price, struck, desc, extra, xsell):
         <div class="pdp-main">
         {extra}
         </div>
-        {buybox(name, f"{price:,}", name + " bundle", xsell=xsell, struck=f"{struck:,}" if struck else None, href=WHOP_STORE)}
+        {buybox(name, f"{price:,}", name + " bundle", xsell=xsell, struck=f"{struck:,}" if struck else None, href=href or WHOP_STORE)}
       </div>
       <div class="pdp-disclaim"><p class="disclaim-sm">{esc(DISCLAIMER)}</p></div>
       <a class="backlink" href="/">&larr; All strategies</a>
@@ -1429,7 +1429,8 @@ if not PRELAUNCH and HAS_BUNDLES:
           </div>""",
         ('Want the engines themselves? <a href="/strategies/the-books.html">The Books — ${BN["books_all"]["price"]}/mo</a>'
          if HAS_BOOKS_BUNDLE else
-         'Not ready for everything? Subscribe to the systems you want one at a time.'))
+         'Not ready for everything? Subscribe to the systems you want one at a time.'),
+        href=BN["all_access"].get("whop"))
 
     # Pick-3 retired: the plan finder recommends three solo subscriptions instead
 
