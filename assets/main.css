@@ -5455,3 +5455,35 @@ body, .sx-doc { font-family: var(--sans); }
 
 /* the Multiplier column's one-line context, directly above the table */
 .sx-ddnote { margin: 0 0 0.75rem; font-size: 0.85rem; color: #9aa2a8; }
+
+/* r5 (owner 2026-09-03): the spec table is CENTRED in every cell, the Profit column is the
+   AVERAGE MONTHLY profit in TradingView green (#089981 on #131722 = 5.6:1, on the row-hover
+   #232b34 = 4.9:1 -- both pass AA for the 1.05rem bold figure), Risk/trade + RoR/mo columns
+   retired, and every flagship pane carries its avg monthly profit + win rate in the centre. */
+.sx-t th, .sx-t td, th.sx-f, td.sx-f, .sx-t th.sx-n, .sx-t td.sx-n, .sx-t th.sx-s, .sx-t td.sx-s,
+.sx-t th.sx-r, .sx-t td.sx-r { text-align: center; vertical-align: middle; }
+.sx-t td.sx-n a { display: inline-flex; align-items: center; gap: .35rem; }
+.sx-t td.sx-net { color: #089981; }
+.sx-t td.sx-net .sx-pos { color: #089981; }
+.sx-t td.sx-net .sx-neg { color: #F23645; }
+.sx-t td.sx-net .sx-mo {
+  display: block; font-family: "Fragment Mono", "Courier New", monospace; font-size: 0.66rem;
+  font-weight: 400; letter-spacing: .06em; text-transform: uppercase; color: #787B86; margin-top: .1rem;
+}
+.cf-mid {
+  position: absolute; z-index: 1; left: var(--sp-4); right: var(--sp-4); top: 50%;
+  transform: translateY(-62%); display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: 2px; pointer-events: none;
+}
+.cf-mid-profit {
+  font-family: var(--mono); font-size: var(--fs-2xl); font-weight: 700; line-height: 1;
+  color: #089981; font-variant-numeric: tabular-nums;
+}
+.cf-mid-profit small { font-size: 12px; font-weight: 400; color: var(--muted); }
+.cf-mid-win { font-family: var(--mono); font-size: var(--fs-lg); font-weight: 700; color: var(--text); margin-top: 6px; }
+.cf-mid-lab { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+/* the optimisation-window statement + best-window CSV on every product page */
+.pdp-window { border: 1px solid #2A2E39; border-left: 3px solid #089981; padding: .75rem 1rem; margin: 0 0 1rem; font-size: .92rem; line-height: 1.5; }
+.pdp-window p { margin: 0; }
+.pdp-window p + p { margin-top: .4rem; }
+.pdp-csv { font-weight: 600; }

@@ -803,6 +803,54 @@ THEMED |= {b["slug"] for b in CAT["books"]}
 os.makedirs(os.path.join(BASE, "strategies"), exist_ok=True)
 urls = ["/", "/plan.html", "/terms.html", "/privacy.html"]
 
+def _fmt_iso(iso):
+    import datetime as _dt
+    try:
+        return _dt.date.fromisoformat(iso).strftime("%d %b %Y")
+    except Exception:
+        return iso
+
+def write_window_csv(p, tr):
+    """Best-window trade list as a downloadable CSV (owner 2026-09-03). Rows are the
+    published record only — exit day, entry/exit price, net P&L at the shown multiplier."""
+    if not tr or not tr.get("trades"):
+        return None, 0
+    import datetime as _dt
+    bs, be = tr["best"]["start"], tr["best"]["end"]
+    d0, d1 = _dt.date.fromisoformat(bs), _dt.date.fromisoformat(be)
+    cols = tr.get("trades_columns") or ["exit_day", "entry_px", "exit_px", "net_pnl_usd"]
+    rows = []
+    for r in tr["trades"]:
+        try:
+            d = _dt.datetime.strptime(r[0], "%d %b %y").date()
+        except Exception:
+            rows.append(r); continue
+        if d0 <= d <= d1:
+            rows.append(r)
+    os.makedirs(os.path.join(BASE, "strategies", "data"), exist_ok=True)
+    rel = f"/strategies/data/{p['slug']}-best-window-trades.csv"
+    with open(os.path.join(BASE, rel.lstrip("/")), "w", encoding="utf-8", newline="") as fh:
+        fh.write("# " + p["name"] + " (" + p["actual"] + ") - best return-on-drawdown window "
+                 + _fmt_iso(bs) + " to " + _fmt_iso(be) + " - closed trades at Multiplier "
+                 + str(p.get("mult", 1)) + " - hypothetical backtested results, commissions and slippage modeled\n")
+        fh.write(",".join(cols) + "\n")
+        for r in rows:
+            fh.write(",".join(str(x) for x in r) + "\n")
+    return rel, len(rows)
+
+def window_block(p, tr):
+    """'This strategy was optimized from … to …' + the best-RoDD window + the CSV link."""
+    ow = p.get("opt_window") or {}
+    if not tr or not ow:
+        return ""
+    bs, be = _fmt_iso(tr["best"]["start"]), _fmt_iso(tr["best"]["end"])
+    rel, n = write_window_csv(p, tr)
+    link = (f'<p class="pdp-csv-line"><a class="pdp-csv" href="{rel}" download>Download the trade list for this window '
+            f'(CSV, {n:,} trades)</a></p>') if rel else ""
+    return (f'<div class="pdp-window"><p><strong>This strategy was optimized from {esc(ow.get("start",""))} to '
+            f'{esc(ow.get("end",""))}.</strong> {bs} to {be} is the best return-on-drawdown timeframe we have, '
+            f'and it is the window displayed on the chart and in the figures on this page.</p>{link}</div>')
+
 def product_page(p, is_book):
     path = f"/strategies/{p['slug']}.html"
     urls.append(path)
@@ -814,7 +862,7 @@ def product_page(p, is_book):
     crumb_root = ('<a href="/strategies/the-books.html">The Books</a>' if is_book
                   else '<a href="/">Strategies</a>')
     _tr = load_trades_data(p["slug"])
-    main_col = rodd_menu(p) + "\n" + tester_block(p) + "\n" + (
+    main_col = window_block(p, _tr) + "\n" + rodd_menu(p) + "\n" + tester_block(p) + "\n" + (
         engines_block(p) if p.get("engines") else "")
     main_col += "\n" + warn_block(p) + "\n" + legs_block(p)
     # the calendar wants the whole page width, not the narrow main column

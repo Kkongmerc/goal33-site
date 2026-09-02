@@ -42,6 +42,14 @@ STRAT = {
     # The Night Shift (slug daybreak) — crescent moon with a star
     "daybreak": '<path d="M14.8 3.6a8.4 8.4 0 1 0 5.6 13.9A8.4 8.4 0 0 1 14.8 3.6z"/><path d="M5.6 5.8v2.6M4.3 7.1h2.6" opacity=".7"/>',
     # The Assay (slug assay) — the assayer's flask
+    # The Assay / The Kilo / The Print — the MGC leg slugs on the site carry the article
+    "the-assay": '<path d="M10 4h4"/><path d="M11 4v5.2L6.2 17a2.4 2.4 0 0 0 2.1 3.6h7.4a2.4 2.4 0 0 0 2.1-3.6L13 9.2V4"/><path d="M8.2 14.5h7.6"/>',
+    "the-kilo": '<path d="M7.2 9h9.6l2.7 7.8H4.5z"/><path d="M9.3 6.2h5.4l1 2.8H8.3z" opacity=".65"/>',
+    "the-print": '<rect x="4" y="8" width="16" height="5" rx="1"/><path d="M8 13v6h8v-6"/><path d="M10 15.5h4M10 17.5h2.6"/><path d="M7 8V5h10v3"/>',
+    # The Fix — the London fix: a bell over the fix line
+    "the-fix": '<path d="M12 3.6v1.6"/><path d="M7.4 14.2V10a4.6 4.6 0 0 1 9.2 0v4.2l1.6 2.2H5.8z"/><path d="M10.2 18.8a1.8 1.8 0 0 0 3.6 0"/><path d="M4 21h16" opacity=".6"/>',
+    # The Ingot — a cast gold bar (unlisted until its standalone matches the book leg)
+    "the-ingot": '<path d="M6.5 8.5h11l2.5 8h-16z"/><path d="M8.6 8.5 9.4 16.5M15.4 8.5l-.8 8" opacity=".55"/>',
     "assay": '<path d="M10 4h4"/><path d="M11 4v5.2L6.2 17a2.4 2.4 0 0 0 2.1 3.6h7.4a2.4 2.4 0 0 0 2.1-3.6L13 9.2V4"/><path d="M8.2 14.5h7.6"/>',
     # The Kilo (slug kilo) — stacked gold kilobars
     "kilo": '<path d="M7.2 9h9.6l2.7 7.8H4.5z"/><path d="M9.3 6.2h5.4l1 2.8H8.3z" opacity=".65"/>',

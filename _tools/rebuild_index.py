@@ -44,6 +44,24 @@ def rodd_mo_pct(stats):
 def bs(p, k):
     return p["best"]["stats"].get(k, "—")
 
+def avg_monthly_profit(p):
+    """Average monthly net profit over the best window, at the shown multiplier — from the real
+    trade record when it is on disk (exact net / months), else from the catalog display strings."""
+    tr = load_trades(p["slug"])
+    if tr and tr.get("best", {}).get("months"):
+        return tr["best"]["net"] / tr["best"]["months"]
+    months = num(bs(p, "Months"))
+    return num(bs(p, "Net")) / months if months else 0.0
+
+def money_signed(v):
+    sign = "+" if v >= 0 else "&minus;"
+    return "{}${:,.0f}".format(sign, abs(v))
+
+def profit_cell(p):
+    v = avg_monthly_profit(p)
+    cls = "sx-pos" if v >= 0 else "sx-neg"
+    return f'<span class="{cls}">{money_signed(v)}</span><small class="sx-mo">per month</small>'
+
 # ── flagship cover-flow (5 slots — the CSS ring is built for exactly five) ──
 def load_trades(slug):
     p = os.path.join(_HERE, "trades", slug + ".json")
@@ -101,6 +119,9 @@ def cf_block():
             + sparkline(p["slug"], cls="cf-spark", pfx="cf-sg", maxpts=64)
             + f'<span class="cf-glyphwrap" aria-hidden="true">{glyph(p["slug"], "glyph cf-glyph")}</span>'
             + f'<span class="cf-star"><i>{tag}</i></span>'
+            + f'<span class="cf-mid"><b class="cf-mid-profit">{money_signed(avg_monthly_profit(p))}<small>/mo</small></b>'
+            + f'<span class="cf-mid-lab">avg monthly profit</span>'
+            + f'<b class="cf-mid-win">{esc(bs(p, "Win"))}</b><span class="cf-mid-lab">win rate</span></span>'
             + f'<span class="cf-foot"><span class="cf-titlerow"><b class="cf-name">{esc(p["name"])}</b>'
             + f'<span class="cf-price">${p["price"]}<small>/mo</small></span></span>'
             + f'<span class="cf-gain">{rodd_mo_pct(p["best"]["stats"])}</span>'
@@ -154,9 +175,7 @@ def row(p, rank):
         f'<td class="sx-f sx-rodd">{rodd_mo_pct(b) if b.get("RoDD") else "—"}</td>'
         f'<td class="sx-f">{esc(b.get("Win", "—"))}</td>'
         f'<td class="sx-f">{esc(b.get("PF", "—"))}</td>'
-        f'<td class="sx-f sx-net">{esc(b.get("Net", "—"))}</td>'
-        f'<td class="sx-f">{esc(b.get("Risk/trade", "—"))}</td>'
-        f'<td class="sx-f">{esc(b.get("Return on risk/mo", "—"))}</td>'
+        f'<td class="sx-f sx-net">{profit_cell(p)}</td>'
         f'<td class="sx-f">{("&times;" + str(p["mult"])) if p.get("mult") else "—"}</td>'
         f'<td class="sx-s">{esc(session_of(p))}</td>'
         f'<td class="sx-f sx-p"><!-- WHOP: replace this product-page link with the Whop checkout link -->'
@@ -174,11 +193,9 @@ def table(title, rows_html, n):
       <th scope="col" class="sx-r" aria-label="Rank">#</th>
       <th scope="col" class="sx-n">Strategy</th>
       <th scope="col" class="sx-f sx-rodd"><abbr title="Average monthly return on drawdown">RoDD/mo</abbr></th>
-      <th scope="col" class="sx-f">Win</th>
-      <th scope="col" class="sx-f">PF</th>
-      <th scope="col" class="sx-f sx-net">Profit</th>
-      <th scope="col" class="sx-f"><abbr title="Median losing trade at the shown multiplier">Risk/trade</abbr></th>
-      <th scope="col" class="sx-f"><abbr title="Average monthly net profit divided by risk per trade">RoR/mo</abbr></th>
+      <th scope="col" class="sx-f">Win Rate</th>
+      <th scope="col" class="sx-f">Profit Factor</th>
+      <th scope="col" class="sx-f sx-net"><abbr title="Average monthly net profit over the best window, at the shown multiplier">Avg Monthly Profit</abbr></th>
       <th scope="col" class="sx-f"><abbr title="Multiplier the published figures are shown at">Mult</abbr></th>
       <th scope="col" class="sx-s">Session</th>
       <th scope="col" class="sx-f sx-p">$ / mo</th>
@@ -265,9 +282,8 @@ page = f"""<!doctype html>
       <p class="sx-note">Figures below are each strategy&rsquo;s best validated window, commissions and slippage modeled.
       The full record, good or ugly, is published on every specification page. Ranked by average monthly return
       on drawdown (RoDD/mo) &mdash; return on drawdown = net profit &divide; maximum drawdown over the window,
-      shown per month of the record. Risk/trade = the typical losing trade at the shown multiplier (median loss).
-      RoR/mo (average monthly return on risk) = the record&rsquo;s average monthly profit divided by that risk.
-      Net is the window&rsquo;s closed-trade total at the validated run&rsquo;s position size.</p>
+      shown per month of the record. Avg Monthly Profit = the window&rsquo;s closed-trade net profit divided by
+      its months, at the shown multiplier. Win Rate and Profit Factor are the window&rsquo;s closed-trade figures.</p>
       <p class="sx-promo">{esc(PROMO_LINE)}</p>
     </div>
     <div class="coverflow" aria-label="Flagship strategies">{cf_block()}</div>

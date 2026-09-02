@@ -27,7 +27,8 @@
     ],
     "warn": "optional honest warning published as a trust device, e.g. a known bad week. Empty string if none.",
     "_glyph": "add a matching SVG mark in _tools/glyphs.py keyed by slug, or the glyph slot renders empty",
-    "_identity": "for a flagship/book, add an fc-<slug> colour skin in main.css (see the six existing ones) to get the themed product page"
+    "_identity": "for a flagship/book, add an fc-<slug> colour skin in main.css (see the six existing ones) to get the themed product page",
+    "opt_window": "{start, end} — human-readable dates the shipped configuration was optimized over (rendered on the page as 'This strategy was optimized from … to …'; the best window is computed from the trade record and rendered beside it)."
   },
   "strategies": [
     {
@@ -111,7 +112,11 @@
       ],
       "warn": "",
       "whop": "https://whop.com/goal33systems/continuum-mnq",
-      "mult": 5
+      "mult": 5,
+      "opt_window": {
+        "start": "01 Jan 2026",
+        "end": "01 Sep 2026"
+      }
     },
     {
       "slug": "slipstream",
@@ -161,7 +166,83 @@
       ],
       "warn": "",
       "whop": "https://whop.com/goal33systems/slipstream-mnq",
-      "mult": 5
+      "mult": 5,
+      "opt_window": {
+        "start": "01 Jan 2026",
+        "end": "31 Aug 2026"
+      }
+    },
+    {
+      "slug": "midas",
+      "name": "Midas",
+      "actual": "MGC 24H Gold Book (5 legs)",
+      "meta": "MGC · 24h — five session legs routed through one gold book",
+      "window": "02 Jan 2026 - 01 Sep 2026",
+      "best": {
+        "label": "Best window — 02 Jan 2026 - 01 Sep 2026 (validation-board method)",
+        "stats": {
+          "RoDD": "28.13",
+          "PF": "1.78",
+          "Win": "71.6%",
+          "Net": "$229.1k",
+          "Max DD": "$8.1k",
+          "Trades": "1,269",
+          "$/trade": "$181",
+          "Months": "8",
+          "RoDD/mo": "3.52",
+          "Risk/trade": "$862",
+          "Max loss": "-$2,674",
+          "Return on risk/mo": "3344%"
+        }
+      },
+      "full": {
+        "label": "Full record (02 Jan 2026 - 01 Sep 2026)",
+        "stats": {
+          "RoDD": "28.13",
+          "PF": "1.78",
+          "Win": "71.6%",
+          "Net": "$229.1k",
+          "Max DD": "$8.1k",
+          "Trades": "1,269",
+          "$/trade": "$181",
+          "Months": "8",
+          "RoDD/mo": "3.52",
+          "Risk/trade": "$862",
+          "Max loss": "-$2,674",
+          "Return on risk/mo": "3344%"
+        }
+      },
+      "price": 989,
+      "legs": [
+        [
+          "Tokyo open drive",
+          "the-kilo"
+        ],
+        [
+          "London breakout",
+          "the-fix"
+        ],
+        [
+          "08:30 data fade",
+          "the-print"
+        ],
+        [
+          "New York FVG continuation",
+          "the-assay"
+        ],
+        "Overnight level reclaim (book-exclusive)"
+      ],
+      "sep": [
+        "Figures shown at Multiplier 4 — the largest whole multiple that keeps the best-window drawdown under $10,000 ($2,036 at the strategy's own sizing). Set the Multiplier dial to 4 to trade the record as shown.",
+        "71.6% wins at PF 1.78 across the best window (1,269 trades)."
+      ],
+      "warn": "",
+      "whop": "",
+      "mult": 4,
+      "opt_window": {
+        "start": "01 Jan 2026",
+        "end": "28 Aug 2026"
+      }
     },
     {
       "slug": "undertow",
@@ -211,7 +292,11 @@
       ],
       "warn": "",
       "whop": "",
-      "mult": 6
+      "mult": 6,
+      "opt_window": {
+        "start": "01 Jan 2026",
+        "end": "25 Aug 2026"
+      }
     },
     {
       "slug": "aftershock",
@@ -261,7 +346,11 @@
       ],
       "warn": "The full record is the same configuration applied to history it was not tuned on; the best window begins where the current vector starts.",
       "whop": "https://whop.com/goal33systems/aftershock-mnq",
-      "mult": 5
+      "mult": 5,
+      "opt_window": {
+        "start": "01 Jan 2026",
+        "end": "21 Aug 2026"
+      }
     },
     {
       "slug": "confluence",
@@ -320,7 +409,65 @@
       ],
       "warn": "",
       "whop": "",
-      "mult": 5
+      "mult": 5,
+      "opt_window": {
+        "start": "01 Jan 2026",
+        "end": "01 Sep 2026"
+      }
+    },
+    {
+      "slug": "the-assay",
+      "name": "The Assay",
+      "actual": "MGC New York FVG Continuation",
+      "meta": "MGC · New York — the fair-value-gap continuation through the NY session",
+      "window": "02 Jan 2026 - 01 Sep 2026",
+      "best": {
+        "label": "Best window — 02 Jan 2026 - 01 Sep 2026 (validation-board method)",
+        "stats": {
+          "RoDD": "14.10",
+          "PF": "2.07",
+          "Win": "70.2%",
+          "Net": "$131.5k",
+          "Max DD": "$9.3k",
+          "Trades": "245",
+          "$/trade": "$537",
+          "Months": "8",
+          "RoDD/mo": "1.76",
+          "Risk/trade": "$1,528",
+          "Max loss": "-$7,448",
+          "Return on risk/mo": "1083%"
+        }
+      },
+      "full": {
+        "label": "Full record (02 Jan 2026 - 01 Sep 2026)",
+        "stats": {
+          "RoDD": "14.10",
+          "PF": "2.07",
+          "Win": "70.2%",
+          "Net": "$131.5k",
+          "Max DD": "$9.3k",
+          "Trades": "245",
+          "$/trade": "$537",
+          "Months": "8",
+          "RoDD/mo": "1.76",
+          "Risk/trade": "$1,528",
+          "Max loss": "-$7,448",
+          "Return on risk/mo": "1083%"
+        }
+      },
+      "price": 319,
+      "legs": [],
+      "sep": [
+        "Figures shown at Multiplier 4 — the largest whole multiple that keeps the best-window drawdown under $10,000 ($2,332 at the strategy's own sizing). Set the Multiplier dial to 4 to trade the record as shown.",
+        "70.2% wins at PF 2.07 across the best window (245 trades)."
+      ],
+      "warn": "",
+      "whop": "",
+      "mult": 4,
+      "opt_window": {
+        "start": "01 Jan 2026",
+        "end": "12 Aug 2026"
+      }
     },
     {
       "slug": "relay",
@@ -370,7 +517,11 @@
       ],
       "warn": "The full record is the same configuration applied to history it was not tuned on; the best window begins where the current vector starts.",
       "whop": "",
-      "mult": 4
+      "mult": 4,
+      "opt_window": {
+        "start": "01 Jan 2026",
+        "end": "22 Aug 2026"
+      }
     },
     {
       "slug": "lantern",
@@ -420,7 +571,11 @@
       ],
       "warn": "The full record is the same configuration applied to history it was not tuned on; the best window begins where the current vector starts.",
       "whop": "",
-      "mult": 4
+      "mult": 4,
+      "opt_window": {
+        "start": "01 Jan 2026",
+        "end": "30 Aug 2026"
+      }
     },
     {
       "slug": "undercurrent",
@@ -470,7 +625,65 @@
       ],
       "warn": "",
       "whop": "",
-      "mult": 7
+      "mult": 7,
+      "opt_window": {
+        "start": "01 Jan 2026",
+        "end": "01 Sep 2026"
+      }
+    },
+    {
+      "slug": "the-kilo",
+      "name": "The Kilo",
+      "actual": "MGC Tokyo Open (TOCOM)",
+      "meta": "MGC · Tokyo open — the TOCOM open drive on gold",
+      "window": "08 Jan 2026 - 31 Aug 2026",
+      "best": {
+        "label": "Best window — 08 Jan 2026 - 31 Aug 2026 (validation-board method)",
+        "stats": {
+          "RoDD": "9.91",
+          "PF": "3.47",
+          "Win": "83.2%",
+          "Net": "$96.8k",
+          "Max DD": "$9.8k",
+          "Trades": "107",
+          "$/trade": "$905",
+          "Months": "8",
+          "RoDD/mo": "1.29",
+          "Risk/trade": "$1,836",
+          "Max loss": "-$4,419",
+          "Return on risk/mo": "683%"
+        }
+      },
+      "full": {
+        "label": "Full record (08 Jan 2026 - 31 Aug 2026)",
+        "stats": {
+          "RoDD": "9.91",
+          "PF": "3.47",
+          "Win": "83.2%",
+          "Net": "$96.8k",
+          "Max DD": "$9.8k",
+          "Trades": "107",
+          "$/trade": "$905",
+          "Months": "8",
+          "RoDD/mo": "1.29",
+          "Risk/trade": "$1,836",
+          "Max loss": "-$4,419",
+          "Return on risk/mo": "683%"
+        }
+      },
+      "price": 189,
+      "legs": [],
+      "sep": [
+        "Figures shown at Multiplier 18 — the largest whole multiple that keeps the best-window drawdown under $10,000 ($542 at the strategy's own sizing). Set the Multiplier dial to 18 to trade the record as shown.",
+        "83.2% wins at PF 3.47 across the best window (107 trades)."
+      ],
+      "warn": "",
+      "whop": "",
+      "mult": 18,
+      "opt_window": {
+        "start": "01 Jan 2026",
+        "end": "20 Aug 2026"
+      }
     },
     {
       "slug": "first-light",
@@ -520,7 +733,11 @@
       ],
       "warn": "",
       "whop": "",
-      "mult": 11
+      "mult": 11,
+      "opt_window": {
+        "start": "01 Jan 2026",
+        "end": "30 Aug 2026"
+      }
     },
     {
       "slug": "meridian",
@@ -570,7 +787,11 @@
       ],
       "warn": "The full record is the same configuration applied to history it was not tuned on; the best window begins where the current vector starts.",
       "whop": "",
-      "mult": 16
+      "mult": 16,
+      "opt_window": {
+        "start": "01 Jan 2026",
+        "end": "25 Aug 2026"
+      }
     },
     {
       "slug": "closer",
@@ -620,7 +841,119 @@
       ],
       "warn": "",
       "whop": "",
-      "mult": 18
+      "mult": 18,
+      "opt_window": {
+        "start": "01 Jan 2026",
+        "end": "29 Aug 2026"
+      }
+    },
+    {
+      "slug": "the-fix",
+      "name": "The Fix",
+      "actual": "MGC London Breakout",
+      "meta": "MGC · London open — the London breakout on gold",
+      "window": "02 Jan 2026 - 01 Sep 2026",
+      "best": {
+        "label": "Best window — 02 Jan 2026 - 01 Sep 2026 (validation-board method)",
+        "stats": {
+          "RoDD": "3.67",
+          "PF": "1.52",
+          "Win": "73.6%",
+          "Net": "$33.2k",
+          "Max DD": "$9.0k",
+          "Trades": "163",
+          "$/trade": "$204",
+          "Months": "8",
+          "RoDD/mo": "0.46",
+          "Risk/trade": "$1,312",
+          "Max loss": "-$3,552",
+          "Return on risk/mo": "318%"
+        }
+      },
+      "full": {
+        "label": "Full record (02 Jan 2026 - 01 Sep 2026)",
+        "stats": {
+          "RoDD": "3.67",
+          "PF": "1.52",
+          "Win": "73.6%",
+          "Net": "$33.2k",
+          "Max DD": "$9.0k",
+          "Trades": "163",
+          "$/trade": "$204",
+          "Months": "8",
+          "RoDD/mo": "0.46",
+          "Risk/trade": "$1,312",
+          "Max loss": "-$3,552",
+          "Return on risk/mo": "318%"
+        }
+      },
+      "price": 139,
+      "legs": [],
+      "sep": [
+        "Figures shown at Multiplier 7 — the largest whole multiple that keeps the best-window drawdown under $10,000 ($1,291 at the strategy's own sizing). Set the Multiplier dial to 7 to trade the record as shown.",
+        "73.6% wins at PF 1.52 across the best window (163 trades)."
+      ],
+      "warn": "",
+      "whop": "",
+      "mult": 7,
+      "opt_window": {
+        "start": "01 Jan 2026",
+        "end": "20 Aug 2026"
+      }
+    },
+    {
+      "slug": "the-print",
+      "name": "The Print",
+      "actual": "MGC 08:30 Data Fade",
+      "meta": "MGC · 08:30 ET — the data-release fade on gold",
+      "window": "08 Jan 2026 - 01 Sep 2026",
+      "best": {
+        "label": "Best window — 08 Jan 2026 - 01 Sep 2026 (validation-board method)",
+        "stats": {
+          "RoDD": "2.83",
+          "PF": "1.66",
+          "Win": "66.0%",
+          "Net": "$20.0k",
+          "Max DD": "$7.1k",
+          "Trades": "153",
+          "$/trade": "$131",
+          "Months": "8",
+          "RoDD/mo": "0.36",
+          "Risk/trade": "$601",
+          "Max loss": "-$1,701",
+          "Return on risk/mo": "429%"
+        }
+      },
+      "full": {
+        "label": "Full record (08 Jan 2026 - 01 Sep 2026)",
+        "stats": {
+          "RoDD": "2.83",
+          "PF": "1.66",
+          "Win": "66.0%",
+          "Net": "$20.0k",
+          "Max DD": "$7.1k",
+          "Trades": "153",
+          "$/trade": "$131",
+          "Months": "8",
+          "RoDD/mo": "0.36",
+          "Risk/trade": "$601",
+          "Max loss": "-$1,701",
+          "Return on risk/mo": "429%"
+        }
+      },
+      "price": 129,
+      "legs": [],
+      "sep": [
+        "Figures shown at Multiplier 2 — the largest whole multiple that keeps the best-window drawdown under $10,000 ($3,532 at the strategy's own sizing). Set the Multiplier dial to 2 to trade the record as shown.",
+        "66.0% wins at PF 1.66 across the best window (153 trades)."
+      ],
+      "warn": "",
+      "whop": "",
+      "mult": 2,
+      "opt_window": {
+        "start": "01 Jan 2026",
+        "end": "20 Aug 2026"
+      }
     }
   ],
   "books": [],
@@ -840,6 +1173,13 @@
         "legs": [],
         "sep": [],
         "warn": ""
+      },
+      {
+        "slug": "the-ingot",
+        "name": "The Ingot",
+        "actual": "MGC Overnight Level Sweep-Reclaim (5m)",
+        "meta": "MGC · overnight — level sweep and reclaim",
+        "warn": "UNLISTED 2026-09-03: the standalone script's own TradingView record (2026: RoDD 0.58, PF 1.09) does not reproduce the gold book's leg record (RoDD 14.71); publish only after the standalone is aligned to the book leg."
       }
     ],
     "books": [
