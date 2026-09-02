@@ -362,7 +362,9 @@ qs = f"""
       <input type="checkbox" id="ed-budget" class="pq-edit">
       <fieldset class="pq pq-budget">
         <legend><span class="pq-n">Step 02</span> <span class="pq-q">What drawdown budget are you sizing?</span></legend>
-        <p class="pq-hint pq-warn"><b>{DD_LEAD}</b> {DD_RULE} The account figure under each amount is that minimum.</p>
+        <p class="pq-hint pq-warn"><b>{DD_LEAD}</b> {DD_RULE} The account figure under each amount is that minimum.
+        Every recommendation is sized from one multiple of the system: the multiplier your budget covers, capped
+        at the published Multiplier.</p>
         {chips('q-budget', budget_opts)}
       <label class="pq-editlab" for="ed-budget"><span class="sr-only">Change this answer</span></label>
         <label class="pq-close" for="ed-budget">done</label>
@@ -461,7 +463,7 @@ page = f"""<!DOCTYPE html>
       <a class="nav-plan" href="/plan.html">Plan finder</a>
     </nav>
     <!-- WHOP: storefront -->
-    <a class="btn btn-sm btn-buy" href="{WHOP_STORE}" rel="noopener">Get access</a>
+    <a class="btn btn-sm btn-buy" href="/strategies/all-access.html">All-Access</a>
     <!-- DISCORD: community invite -->
     <a class="btn btn-sm btn-discord" href="https://discord.gg/aft-traders" target="_blank" rel="noopener"><svg class="ic-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.7 17.4c-3.2-.1-4.9-1.7-4.9-1.7.3-4 1.4-6.6 2.7-8.3C7.8 6.4 9.2 6 9.2 6l.5 1.1c1.5-.3 3.1-.3 4.6 0L14.8 6s1.4.4 2.7 1.4c1.3 1.7 2.4 4.3 2.7 8.3 0 0-1.7 1.6-4.9 1.7l-.8-1.1c-1.6.3-3.4.3-5 0z"/><circle cx="9.6" cy="12.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.6" r="1.15" fill="currentColor" stroke="none"/></svg><span>Discord</span></a>
     <details class="nav-mob">
@@ -485,8 +487,6 @@ page = f"""<!DOCTYPE html>
       three named systems &mdash; sized to the drawdown you can actually hold, chosen by the same math
       that ranks the shelf. Runs entirely in your browser: this page ships zero script, so your answers
       never leave it.</p>
-      <p class="plan-sub plan-warn"><b>{DD_LEAD}</b> {DD_RULE} Every recommendation is sized from one
-      multiple of the system: the multiplier your budget covers, capped at the published Multiplier.</p>
       <p class="plan-sub">Every recommendation runs on <b>average monthly return on drawdown (RoDD/mo)</b>:
       net profit &divide; maximum drawdown over the window, shown per month of the record &mdash; a 54&times;
       RoDD over 8 months and a 32&times; RoDD over 16 months are not the same edge, and RoDD/mo is how this
