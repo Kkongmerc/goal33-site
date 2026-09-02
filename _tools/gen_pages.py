@@ -678,63 +678,216 @@ THEMED |= {b["slug"] for b in CAT["books"]}
 os.makedirs(os.path.join(BASE, "strategies"), exist_ok=True)
 urls = ["/", "/plan.html", "/terms.html", "/privacy.html"]
 
+def px_val(stats, key):
+    v = stats.get(key, "")
+    return f'<td class="sx-f">{esc(v) if v not in ("", None) else "&mdash;"}</td>'
+
+def px_dates(label):
+    """Pull the date span out of a label like 'Full record (01 Jan 2025 - 21 Aug 2026)'."""
+    m = re.search(r"\(([^)]+)\)", label or "")
+    return m.group(1) if m else ""
+
+def px_record(p):
+    b, f = p["best"]["stats"], (p.get("full") or {}).get("stats", {})
+    rows = "".join(f'<tr><th scope="row">{lab}</th>{px_val(b, key)}{px_val(f, key)}</tr>'
+                   for lab, key in TVT_ROWS)
+    full_dates = px_dates((p.get("full") or {}).get("label", ""))
+    base = baseline(p)
+    dd_full = num(f.get("Max DD", b.get("Max DD", 0)))
+    return f"""<section class="sx-sec">
+  <h2>The record</h2>
+  <p class="sx-note">Commissions and slippage modeled. The best validated window next to the full record.</p>
+  <div class="sx-scroll" tabindex="0" role="region" aria-label="Record table, scrolls horizontally on small screens">
+  <table class="sx-t px-t">
+    <caption class="sr-only">Best window versus full record</caption>
+    <thead><tr><th scope="col">Metric</th><th scope="col" class="sx-f">Best window<span class="px-dates">{esc(p.get("window",""))}</span></th><th scope="col" class="sx-f">Full record<span class="px-dates">{esc(full_dates) or "context"}</span></th></tr></thead>
+    <tbody>{rows}</tbody>
+  </table>
+  </div>
+  <p class="sx-note">On a {usd(BASE_DD)} drawdown budget the best window works out to about {usd(base)}.
+  The deepest drawdown anywhere in the published record is {usd(dd_full)}. Past results, not a forecast.</p>
+</section>"""
+
+def px_chart_svg(tr):
+    from datetime import datetime as _dt
+    eq = tr["equity"]
+    ts = [_dt.strptime(d, "%Y-%m-%d") for d, _ in eq]
+    ys = [v for _, v in eq]
+    t0, t1 = ts[0], ts[-1]
+    tspan = max(1.0, (t1 - t0).total_seconds())
+    y_hi = max(max(ys), 0.0); y_lo = min(min(ys), 0.0)
+    pad = 0.05 * (y_hi - y_lo or 1.0); y_hi += pad; y_lo -= pad
+    W, H = 960.0, 260.0
+    L, R, T, B = 8.0, 66.0, 10.0, 26.0
+    PW, PH = W - L - R, H - T - B
+    X = lambda t: L + PW * ((t - t0).total_seconds() / tspan)
+    Y = lambda v: T + PH * (1 - (v - y_lo) / (y_hi - y_lo))
+    pts = " L".join(f"{X(t):.1f},{Y(v):.1f}" for t, v in zip(ts, ys))
+    step = _nice_step(y_hi - y_lo)
+    grid = ""
+    v = step * int(y_lo // step)
+    while v <= y_hi:
+        if y_lo <= v <= y_hi:
+            yy = Y(v)
+            grid += (f'<line class="pxc-g" x1="{L:.0f}" y1="{yy:.1f}" x2="{L+PW:.1f}" y2="{yy:.1f}"/>'
+                     f'<text class="pxc-lab" x="{L+PW+8:.1f}" y="{yy+3.5:.1f}">{_fmt_usd(v)}</text>')
+        v += step
+    months_span = (t1.year - t0.year) * 12 + (t1.month - t0.month)
+    xt = ""
+    for i, t in ((0, t0), (1, t0 + (t1 - t0) / 2), (2, t1)):
+        lab = t.strftime("%b %Y") if months_span >= 10 else t.strftime("%d %b")
+        anchor = "start" if i == 0 else ("end" if i == 2 else "middle")
+        xt += f'<text class="pxc-lab" x="{X(t):.1f}" y="{H-8:.1f}" text-anchor="{anchor}">{lab}</text>'
+    return (f'<svg class="px-chart" viewBox="0 0 {W:.0f} {H:.0f}" role="img" '
+            f'aria-label="Closed-trade equity curve over the full record">{grid}{xt}'
+            f'<path class="pxc-line" d="M{pts}"/></svg>')
+
+def px_equity(p, tr):
+    if not tr:
+        return ""
+    n = len(tr["trades"])
+    start, end = tr["trades"][0][0], tr["trades"][-1][0]
+    return f"""<section class="sx-sec">
+  <h2>Equity curve</h2>
+  {px_chart_svg(tr)}
+  <p class="sx-note">Closed-trade equity over the full record: {n:,} trades, {esc(start)} to {esc(end)}.</p>
+</section>"""
+
+def px_monthly(tr):
+    if not tr:
+        return ""
+    import datetime as _dt2
+    months = {}
+    for d, v in tr["daily"].items():
+        months[d[:7]] = months.get(d[:7], 0.0) + v
+    keys = sorted(months)
+    shown = keys[-12:]
+    rows = ""
+    for ym in shown:
+        lab = _dt2.date(int(ym[:4]), int(ym[5:7]), 1).strftime("%B %Y")
+        v = months[ym]
+        val = f"{'-' if v < 0 else ''}${abs(v):,.0f}"
+        rows += f'<tr><td>{lab}</td><td class="sx-f">{val}</td></tr>'
+    tot = sum(months.values())
+    tail = " (whole record)" if len(shown) == len(keys) else f" (all {len(keys)} months)"
+    rows += (f'<tr class="px-tot"><td>Total{tail}</td>'
+             f'<td class="sx-f">{"-" if tot < 0 else ""}${abs(tot):,.0f}</td></tr>')
+    note = ("Every month of the record." if len(shown) == len(keys)
+            else f"The last twelve months; the total covers all {len(keys)} months of the record.")
+    return f"""<section class="sx-sec">
+  <h2>Monthly results</h2>
+  <table class="sx-t px-half">
+    <caption class="sr-only">Net result per month</caption>
+    <thead><tr><th scope="col">Month</th><th scope="col" class="sx-f">Net</th></tr></thead>
+    <tbody>{rows}</tbody>
+  </table>
+  <p class="sx-note">{note} Closed-trade totals at the validated run&rsquo;s position size.</p>
+</section>"""
+
+def px_sizing(p):
+    b, f = p["best"]["stats"], (p.get("full") or {}).get("stats", {})
+    rodd = num(b.get("RoDD", 0))
+    dd_floor = num(f.get("Max DD", b.get("Max DD", 0)))
+    rec_done = False
+    rows = ""
+    for nch in NOTCHES:
+        ret = rodd * nch
+        if nch < dd_floor:
+            tag = "under the record&rsquo;s deepest drawdown"
+        elif not rec_done:
+            tag = "recommended minimum"
+            rec_done = True
+        else:
+            tag = ""
+        rows += (f'<tr><td class="sx-f">{usd(nch)}</td><td class="sx-f">~{usd(ret)}</td>'
+                 f'<td class="px-tag">{tag}</td></tr>')
+    return f"""<section class="sx-sec">
+  <h2>Sizing</h2>
+  <p class="px-p">This catalog prices on return on drawdown: net profit divided by the worst peak-to-valley
+  drawdown. Scale the best window to a drawdown budget and the return scales with it &mdash; and so does the pain.
+  The recommended minimum is the smallest budget that clears the deepest drawdown anywhere in the published
+  record ({usd(dd_floor)}), not just the best window&rsquo;s.</p>
+  <div class="sx-scroll" tabindex="0" role="region" aria-label="Sizing table, scrolls horizontally on small screens">
+  <table class="sx-t px-half">
+    <caption class="sr-only">Drawdown budgets and their scaled best-window returns</caption>
+    <thead><tr><th scope="col" class="sx-f">Drawdown budget</th><th scope="col" class="sx-f">Best window returned</th><th scope="col"></th></tr></thead>
+    <tbody>{rows}</tbody>
+  </table>
+  </div>
+  <p class="sx-note">Linear scaling of the published window; not a projection of future results. See the disclaimer below.</p>
+</section>"""
+
+def px_log(tr, slug):
+    if not tr:
+        return ""
+    n = len(tr["trades"])
+    shown = min(n, LOG_ROW_CAP)
+    return f"""<section class="sx-sec">
+  <h2>Trade log</h2>
+  <details class="px-log">
+    <summary>Show the log &middot; {"all" if shown == n else "most recent"} {shown:,} of {n:,} closed trades, newest first</summary>
+    {trades_table(tr, slug)}
+  </details>
+</section>"""
+
 def product_page(p, is_book):
     path = f"/strategies/{p['slug']}.html"
     urls.append(path)
     b = p["best"]["stats"]
     mdesc = (f"{p['name']} ({p['actual']}): RoDD {b.get('RoDD','')} on the published window, "
-             f"PF {b.get('PF','')}, {b.get('Trades','')} trades. Live-validated. "
+             f"PF {b.get('PF','')}, {b.get('Trades','')} trades. "
              f"TradingView invite-only script, activated within 24h.")
-    crumb_root = ('<a href="/strategies/the-books.html">The Books</a>' if is_book
-                  else '<a href="/">Strategies</a>')
     _tr = load_trades_data(p["slug"])
-    main_col = rodd_menu(p) + "\n" + tester_block(p) + "\n" + (
-        engines_block(p) if p.get("engines") else "")
-    main_col += "\n" + warn_block(p) + "\n" + legs_block(p)
-    # the calendar wants the whole page width, not the narrow main column
-    cal_col = calendar_real(_tr) if _tr else calendar_panel()
-    xsell = None
-    struck = None
-    if is_book:
-        others = [bk for bk in CAT["books"] if bk["slug"] != p["slug"]]
-        xsell = ('All four engines: <a href="/strategies/the-books.html">The Books — $2,999/mo</a> · '
-                 + " · ".join(f'<a href="/strategies/{o["slug"]}.html">{esc(o["name"])}</a>' for o in others[:2]))
-    page = head(f"{p['name']} — FuturesTradingBots", mdesc, path,
-                bodycls=(f"pdp-theme fc-{p['slug']}" if p["slug"] in THEMED else ""))
+    annual = p["price"] * 10
+    sep_items = "".join(f"<li>{s}</li>" for s in p.get("sep", []))
+    warn = (f'<p class="px-warn"><b>Disclosure.</b> {p["warn"]}</p>' if p.get("warn") else "")
+    session = p["meta"].split("·", 1)[1].strip() if "·" in p["meta"] else p["meta"]
+    whop = buy_href(p)
+    page = head(f"{p['name']} — FuturesTradingBots", mdesc, path)
     page += f"""
-  <div class="wrap">
-    <nav class="crumbs" aria-label="Breadcrumb">{crumb_root}<span class="sep">/</span>{esc(p['name'])}</nav>
+  <div class="wrap px-doc">
+    <p class="px-crumb"><a href="/">All strategies</a> / {esc(p['name'])}</p>
+    <h1 class="px-name">{esc(p['name'])}</h1>
+    <p class="px-sub">{esc(p['actual'])} &middot; {esc(session)}</p>
+    <p class="px-buy"><b>${p['price']:,} / mo</b> &middot; annual ${annual:,}, two months free &middot;
+    <!-- WHOP: replace this product-page link with the Whop checkout link -->
+    <a href="{esc(whop)}" rel="noopener">Get access</a></p>
+    {warn}
 
-    <article class="pdp">
-      <div class="pdp-head">
-        {('<span class="pdp-glyph" aria-hidden="true">' + (emblem(p['slug'], 'bk-emblem pdp-mark') if is_book else glyph(p['slug'], 'glyph pdp-mark')) + '</span>') if p['slug'] in THEMED else ''}
-        <div class="pdp-id">
-          <h1>{esc(p['name'])}</h1>
-          <div class="card-real">{esc(p['actual'])}</div>
-          <span class="pdp-note">{esc(p['meta'])}</span>
-        </div>
-        <div class="pdp-hero"><b>{usd(baseline(p))}</b><span>on a {usd(BASE_DD)} drawdown &middot; best window</span>
-          <em class="pdp-hero-sub">{esc(b.get('RoDD',''))}&times; return on drawdown</em></div>
-      </div>
+{px_record(p)}
 
-      <div class="pdp-cols">
-        <div class="pdp-main">
-        {main_col}
-        </div>
-        <div class="pdp-side">
-        {buybox(p['name'], f"{p['price']:,}", p['name'] + " / " + p['actual'], xsell=xsell, href=buy_href(p))}
-        {sep_block(p)}
-        </div>
-      </div>
+{px_equity(p, _tr)}
 
-      <div class="pdp-wide">{cal_col}</div>
+{px_monthly(_tr)}
 
-      <div class="pdp-disclaim">
-        <p class="disclaim-sm">{esc(DISCLAIMER)}</p>
-      </div>
+{px_sizing(p)}
 
-      <a class="backlink" href="{'/strategies/the-books.html' if is_book else '/'}">&larr; {'The Books' if is_book else 'All strategies'}</a>
-    </article>
+{legs_block(p)}
+
+<section class="sx-sec">
+  <h2>Why this one</h2>
+  <ul class="px-list">{sep_items}</ul>
+</section>
+
+{px_log(_tr, p['slug'])}
+
+<section class="sx-sec">
+  <h2>Get access</h2>
+  <p class="px-p">${p['price']:,} a month or ${annual:,} a year. TradingView invite-only script, activated to
+  your TradingView username within 24 hours, with alert templates and setup documentation. Trade the signals
+  manually or automate them through TradingView alerts and your own execution tooling. Cancel anytime through
+  Whop; access revokes automatically.</p>
+  <p class="px-p">Seven-day money-back, no questions. If the strategy&rsquo;s own published signals net a loss
+  over your first 30 days, your first month is refunded on request &mdash; claim within 7 days of day 30.
+  <a href="/terms.html">Terms</a>.</p>
+  <p class="px-p"><!-- WHOP: replace this product-page link with the Whop checkout link -->
+  <a class="px-cta" href="{esc(whop)}" rel="noopener">Get access &middot; ${p['price']:,}/mo</a>
+  &nbsp; Everything at once: <a href="/strategies/all-access.html">All-Access, $999/mo</a>.
+  A referral code takes 10% off at checkout.</p>
+</section>
+
+    <p class="disclaim-sm px-disclaim">{esc(DISCLAIMER)}</p>
+    <p class="px-crumb"><a href="/">&larr; All strategies</a></p>
   </div>
 """
     page += FOOTER

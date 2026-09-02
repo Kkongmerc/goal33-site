@@ -4989,3 +4989,41 @@ body * { text-transform: none !important; letter-spacing: normal !important; }
 .ro-flag, .ro-rec { font-family: var(--sans) !important; font-weight: 700 !important; }
 .tvt-tab, .tvt-k, .wk { font-family: var(--sans) !important; }
 .chip { display: none !important; }
+
+/* ================================================================
+   r4.3 — THE DOCUMENT PRODUCT PAGE. Strategy pages are rebuilt as
+   linear specification documents: ruled tables for the record,
+   monthly results and sizing, one blue equity line, a collapsed
+   trade log. Ink, muted, one blue; nothing else.
+   ================================================================ */
+.px-doc { padding-top: 1.6rem; padding-bottom: 2.5rem; }
+.px-crumb { font-size: 0.85rem; color: var(--muted); margin: 0 0 0.4rem; }
+.px-name { font-size: 1.7rem; font-weight: 700; margin: 0.4rem 0 0; }
+.px-sub { color: var(--muted); margin: 0.25rem 0 0; }
+.px-buy { margin: 0.9rem 0 0; }
+.px-warn { max-width: 78ch; margin: 1.1rem 0 0; }
+.px-p { max-width: 78ch; margin: 0.5rem 0 0.7rem; }
+.px-doc .sx-sec { margin-top: 1.8rem; }
+.px-t th .px-dates { display: block; font-weight: 400; color: var(--faint); font-size: 0.72rem; }
+.px-t th[scope="row"] { font-weight: 400; color: var(--muted); text-align: left; font-size: 0.88rem; padding: 0.62rem 0.6rem; border-bottom: 1px solid #262b30; }
+.px-half { max-width: 40rem; }
+.px-tot td { border-top: 1px solid #e8eaec; border-bottom: 0; font-weight: 700; }
+.px-tag { color: var(--faint); font-size: 0.8rem; }
+.px-chart { width: 100%; height: auto; display: block; margin-top: 0.4rem; }
+.pxc-g { stroke: #262b30; stroke-width: 1; }
+.pxc-line { fill: none; stroke: #7aa7dc; stroke-width: 1.6; }
+.pxc-lab { fill: #9aa2a8; font-family: "Fragment Mono", monospace; font-size: 10.5px; }
+.px-list { max-width: 78ch; padding-left: 1.1rem; margin: 0.4rem 0 0.6rem; }
+.px-list li { margin: 0.3rem 0; }
+.px-log summary { color: #7aa7dc; cursor: pointer; }
+.px-log summary:hover { text-decoration: underline; text-underline-offset: 3px; }
+.px-log[open] summary { margin-bottom: 0.7rem; }
+.px-cta { display: inline-block; border: 1px solid #7aa7dc; border-radius: 3px; padding: 0.5rem 1rem; font-weight: 600; }
+.px-disclaim { margin-top: 2.2rem; max-width: 85ch; }
+
+/* r4.3 fix: the mobile min-width that keeps the ranked index tables
+   legible inside their scroll region must not apply to the plain
+   half-width document tables, which have no scroll wrapper. */
+@media (max-width: 680px) {
+  .sx-t.px-half { min-width: 0; }
+}
