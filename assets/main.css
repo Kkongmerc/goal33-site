@@ -4809,3 +4809,89 @@ html { scroll-padding-top: calc(var(--header-h) + 58px); }
   display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3);
   padding: var(--sp-2) var(--sp-4); border-bottom: 1px solid var(--line);
 }
+
+/* ================================================================
+   SPEC SHEET INDEX — rebrand r4 (seed 77810f1d). Scoped to .sx-doc;
+   product pages keep the incumbent dark system above untouched.
+   World: exchange contract-specification document, printed dark:
+   charcoal paper #101214, light ink, hairline rules, one exchange
+   blue for every link and price, Fragment Mono tabular figures on
+   one baseline grid. Contrast on #101214: ink #E8EAEC 15.6:1 ·
+   sub #9AA2A8 7.2:1 · blue #7AA7DC 7.5:1; on the #191D21 row hover
+   14.1 / 6.5 / 6.8 (all AA+).
+   ================================================================ */
+.sx-doc {
+  background: #101214; color: #e8eaec; color-scheme: dark;
+  font-family: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px; line-height: 1.55;
+  display: block; min-height: 100vh;
+}
+.sx-doc ::selection { background: #7aa7dc; color: #101214; }
+.sx-doc a { color: #7aa7dc; text-decoration: none; }
+.sx-doc a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.sx-doc a:focus-visible { outline: 2px solid #7aa7dc; outline-offset: 2px; border-radius: 1px; }
+.sx-head, .sx-main, .sx-foot { max-width: 68rem; margin: 0 auto; padding: 0 1.25rem; }
+.sx-head {
+  padding-top: 2.2rem; padding-bottom: 1rem;
+  border-bottom: 2px solid #e8eaec;
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap;
+}
+.sx-mark { font-size: 1.35rem; font-weight: 400; letter-spacing: -0.01em; }
+.sx-mark strong { font-weight: 700; }
+.sx-eff { font-size: 0.8rem; color: #9aa2a8; }
+.sx-lede { margin: 2rem 0 0.5rem; max-width: 62ch; font-size: 1.05rem; }
+.sx-note { margin: 0 0 0.5rem; max-width: 68ch; font-size: 0.85rem; color: #9aa2a8; }
+.sx-sec h2 {
+  margin: 2.6rem 0 0.7rem; font-size: 1rem; font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.sx-scroll { overflow-x: auto; }
+.sx-scroll:focus-visible { outline: 2px solid #7aa7dc; outline-offset: 2px; }
+.sx-t { width: 100%; border-collapse: collapse; border-top: 1px solid #e8eaec; }
+.sx-t th {
+  font-size: 0.72rem; font-weight: 600; color: #9aa2a8;
+  text-align: left; padding: 0.5rem 0.6rem 0.4rem;
+  border-bottom: 1px solid #e8eaec; letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+.sx-t td { padding: 0.62rem 0.6rem; border-bottom: 1px solid #262b30; vertical-align: top; }
+.sx-t tbody tr:hover { background: #232b34; }
+.sx-r { width: 2rem; color: #9aa2a8; }
+td.sx-r, .sx-f, .sx-doc .sx-t td.sx-f a {
+  font-family: "Fragment Mono", "Courier New", monospace;
+  font-variant-numeric: tabular-nums; font-size: 0.84rem;
+}
+th.sx-f, td.sx-f { text-align: right; }
+td.sx-f { white-space: nowrap; }
+.sx-n a { font-weight: 600; }
+.sx-sub { display: block; font-size: 0.78rem; color: #9aa2a8; }
+.sx-book { display: block; font-size: 0.78rem; color: #9aa2a8; }
+.sx-s { font-size: 0.84rem; white-space: nowrap; }
+.sx-p a { font-weight: 400; }
+.sx-all { margin: 2.2rem 0 0; max-width: 68ch; font-size: 0.9rem; }
+.sx-legal { margin: 3rem 0 0; border-top: 1px solid #e8eaec; padding-top: 1rem; }
+.sx-legal p { font-size: 0.72rem; line-height: 1.6; color: #9aa2a8; max-width: 75ch; margin: 0 0 0.8rem; }
+.sx-foot { padding-top: 0.4rem; padding-bottom: 2.5rem; font-size: 0.8rem; }
+.sx-fine { color: #9aa2a8; margin-top: 0.3rem; }
+.sx-doc .sx-scroll { scrollbar-width: thin; scrollbar-color: #3c434a #101214; }
+@media (max-width: 680px) {
+  .sx-scroll { position: relative; }
+  .sx-t td.sx-f:last-child { padding-right: 1.1rem; }
+  .sx-scroll::after {
+    content: ""; position: absolute; top: 0; right: 0; bottom: 0; width: 1.4rem;
+    background: linear-gradient(to right, rgba(16, 18, 20, 0), #101214 92%);
+    pointer-events: none;
+  }
+  .sx-doc { font-size: 14px; }
+  .sx-head { padding-top: 1.4rem; }
+  .sx-t { min-width: 40rem; }
+  .sx-lede { font-size: 0.98rem; }
+}
+
+/* sx: neutralize the global dark header/footer element styles inside the document */
+.sx-doc .sx-head, .sx-doc .sx-foot {
+  background: none; color: inherit; position: static;
+  box-shadow: none; backdrop-filter: none; width: auto;
+}
+.sx-doc .sx-foot { border-top: 0; }
