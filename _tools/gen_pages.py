@@ -52,6 +52,10 @@ def num(v):
 def usd(v):
     return "${:,.0f}".format(v)
 
+def pct(v):
+    """RoDD-style ratios sell as percentages: 11.06x -> 1,106%."""
+    return "{:,.0f}%".format(num(v) * 100)
+
 def is_hot(key, val):
     v = num(val)
     return {"RoDD": v >= 10, "PF": v >= 2.0, "Win": v >= 80, "Trades": v >= 1000,
@@ -184,7 +188,8 @@ def tile_grid(stats):
             if k == "Max DD":
                 n = num(stats[k])
                 hot += ' dd-gold' if n <= 2000 else (' dd-neon' if n <= 5000 else '')
-            cells += f'<div class="wtile{hot}"><span class="wk">{esc(k)}</span><span class="wv">{esc(stats[k])}</span></div>'
+            shown = pct(stats[k]) if k in ("RoDD", "RoDD/mo") else esc(stats[k])
+            cells += f'<div class="wtile{hot}"><span class="wk">{esc(k)}</span><span class="wv">{shown}</span></div>'
     for k, v in stats.items():
         if k not in ORDER:
             cells += f'<div class="wtile"><span class="wk">{esc(k)}</span><span class="wv">{esc(v)}</span></div>'
@@ -201,7 +206,8 @@ def tvt_val(stats, key, best=False):
     if key == "Max DD" and best:
         n2 = num(v)
         cls += " dd-gold" if n2 <= 2000 else (" dd-neon" if n2 <= 5000 else "")
-    return f'<td class="{cls}">{esc(v)}</td>'
+    disp = pct(v) if key in ("RoDD", "RoDD/mo") else esc(v)
+    return f'<td class="{cls}">{disp}</td>'
 
 HELD_FULL = {
     "< 10m": "held less than 10 minutes", "< 30m": "held less than 30 minutes",
@@ -603,11 +609,11 @@ def rodd_menu(p):
     return f"""<div class="rodd" aria-label="Return-on-drawdown sizing menu">
   <div class="rodd-head">
     <span class="rodd-title">Sizing</span>
-    <span class="rodd-fig">{esc(b.get("RoDD",""))}&times;</span>
+    <span class="rodd-fig">{pct(b.get("RoDD",""))}</span>
   </div>
   <p class="rodd-why"><b>RoDD is the metric this catalog is priced on.</b> Profit factor says the engine works;
   RoDD says what it costs to hold: net profit divided by the worst peak-to-valley drawdown.
-  This system&rsquo;s window: {esc(net)} net &divide; {usd(dd)} max drawdown = <b>{esc(b.get("RoDD",""))}&times;</b>.
+  This system&rsquo;s window: {esc(net)} net &divide; {usd(dd)} max drawdown = <b>{pct(b.get("RoDD",""))}</b>.
   Slide your drawdown budget &mdash; the projection scales with it, and so does the pain.</p>
   {radios}
   <div class="ro-track" aria-hidden="false">{labels}</div>
@@ -682,7 +688,7 @@ def product_page(p, is_book):
     path = f"/strategies/{p['slug']}.html"
     urls.append(path)
     b = p["best"]["stats"]
-    mdesc = (f"{p['name']} ({p['actual']}): RoDD {b.get('RoDD','')} on the published window, "
+    mdesc = (f"{p['name']} ({p['actual']}): {pct(b.get('RoDD',''))} return on max drawdown on the published window, "
              f"PF {b.get('PF','')}, {b.get('Trades','')} trades. Live-validated. "
              f"TradingView invite-only script, activated within 24h.")
     crumb_root = ('<a href="/strategies/the-books.html">The Books</a>' if is_book
@@ -713,8 +719,8 @@ def product_page(p, is_book):
           <div class="card-real">{esc(p['actual'])}</div>
           <span class="pdp-note">{esc(p['meta'])}</span>
         </div>
-        <div class="pdp-hero"><b>{usd(baseline(p))}</b><span>on a {usd(BASE_DD)} drawdown &middot; best window</span>
-          <em class="pdp-hero-sub">{esc(b.get('RoDD',''))}&times; return on drawdown</em></div>
+        <div class="pdp-hero"><b>{pct(b.get('RoDD',''))}</b><span>return on max drawdown &middot; best window</span>
+          <em class="pdp-hero-sub">{usd(baseline(p))} on a {usd(BASE_DD)} drawdown</em></div>
       </div>
 
       <div class="pdp-cols">

@@ -22,6 +22,16 @@ WHOP_STORE = CAT.get("whop_store") or "/"
 def esc(s):
     return html.escape(str(s), quote=False)
 
+def num(v):
+    s = str(v).replace("$", "").replace(",", "").replace("%", "")
+    m = 1000 if s.endswith("k") else 1
+    try: return float(s.rstrip("k")) * m
+    except ValueError: return 0.0
+
+def pct(v):
+    """RoDD-style ratios sell as percentages: 11.06x -> 1,106%."""
+    return "{:,.0f}%".format(num(v) * 100)
+
 def buy_href(p):
     return p.get("whop") or f"/strategies/{p['slug']}.html"
 
@@ -61,7 +71,7 @@ def row(p, rank):
         f'<td class="sx-s">{esc(session_of(p))}</td>'
         f'<td class="sx-f">{esc(b.get("Win", "—"))}</td>'
         f'<td class="sx-f">{esc(b.get("PF", "—"))}</td>'
-        f'<td class="sx-f">{esc(b.get("RoDD", "—"))}</td>'
+        f'<td class="sx-f">{pct(b.get("RoDD", 0)) if b.get("RoDD") else "—"}</td>'
         f'<td class="sx-f">{esc(b.get("Net", "—"))}</td>'
         f'<td class="sx-f sx-p"><!-- WHOP: replace this product-page link with the Whop checkout link -->'
         f'<a href="{esc(buy_href(p))}" rel="noopener">${p["price"]}</a></td>'

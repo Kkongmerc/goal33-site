@@ -5071,3 +5071,23 @@ body * { text-transform: none !important; letter-spacing: normal !important; }
 .sx-doc .foot-links a:hover { color: var(--text); }
 .sx-doc .foot-links a.foot-discord { color: var(--text); }
 .sx-doc .nav-mob-panel a { color: var(--muted); }
+
+/* ================================================================
+   r4.5 — THE PLAN FINDER JOINS THE PANE WORLD. Same recipe as the
+   index tables and the product blocks: panel ground, hairline
+   border, small radius, flat. The hero wash, the partner-box
+   gradient, the result-card corner brackets and the last green
+   tint all go; selection reads in the one blue.
+   ================================================================ */
+.pq, .pr-card, .pmt {
+  background: var(--panel);
+  border: 1px solid rgba(232, 234, 236, .07);
+  border-radius: 4px;
+}
+.pr-card::before, .pr-card::after { content: none; }
+.plan-hero { background: none; }
+.pq-radio:checked + .pq-opt {
+  border-color: var(--accent);
+  background-color: rgba(122, 167, 220, .09);
+}
+.pq-opt { border-radius: 3px; }

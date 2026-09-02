@@ -13,7 +13,6 @@ Trios are the top three of the same sort, bought solo. Nav/footer mirror
 gen_pages.py — keep them in sync when either changes.
 """
 import json, os, sys, html, hashlib
-from glyphs import glyph, emblem
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 BASE = os.path.dirname(_HERE)
@@ -21,7 +20,8 @@ CAT = json.load(open(os.path.join(_HERE, "catalog2.json"), encoding="utf-8"))
 S, B, BN = CAT["strategies"], CAT["books"], CAT["bundles"]
 WHOP_STORE = CAT.get("whop_store") or "/"
 def buy_href(p):
-    return p.get("whop") or f"/strategies/{p['slug']}.html"
+    # mirror the product pages: the Whop plan when it exists, else the storefront
+    return p.get("whop") or WHOP_STORE
 _pr = sorted((s["price"] for s in S), reverse=True)
 COMBINED_ALL = sum(_pr)
 _mk = []
@@ -40,6 +40,9 @@ def num(v):
     m = 1000 if s.endswith("k") else 1
     try: return float(s.rstrip("k")) * m
     except ValueError: return 0.0
+def pct(v):
+    """RoDD-style ratios sell as percentages: 11.06x -> 1,106%."""
+    return "{:,.0f}%".format(num(v) * 100)
 def bs(p, k): return p["best"]["stats"].get(k, "—")
 def fs(p, k): return (p.get("full") or {}).get("stats", {}).get(k, "—")
 def worst_dd(p):
@@ -79,23 +82,24 @@ def why_line(p, tkey):
     if tkey == "t1":
         return f"Highest win rate that fits this budget: {bs(p,'Win')} across {bs(p,'Trades')} trades."
     if tkey == "t2":
-        return f"Best return-on-drawdown that fits: {bs(p,'RoDD')}&times; RoDD on {bs(p,'Trades')} trades."
+        return f"Best return-on-drawdown that fits: {pct(bs(p,'RoDD'))} across {bs(p,'Trades')} trades."
     return f"Biggest published net that fits: {bs(p,'Net')} — budget for the full {bs(p,'Max DD')} drawdown en route."
 
 def stat_strip(p):
     cells = ""
     for k, lab in [("RoDD", "RoDD"), ("Max DD", "Max DD"), ("Win", "Win"), ("Trades", "n")]:
-        cells += f'<div class="prs"><b>{esc(bs(p,k))}</b><span>{lab}</span></div>'
+        shown = pct(bs(p, k)) if k == "RoDD" else esc(bs(p, k))
+        cells += f'<div class="prs"><b>{shown}</b><span>{lab}</span></div>'
     return f'<div class="pr-stats">{cells}</div>'
 
 def single_card(p, tkey, alt):
     alt_line = (f'<p class="pr-alt">Runner-up: <a href="/strategies/{alt["slug"]}.html">{esc(alt["name"])}</a>'
-                f' — {bs(alt,"RoDD")}&times; RoDD, {bs(alt,"Win")} win, {bs(alt,"Max DD")} max drawdown.</p>') if alt else ""
-    return f"""<div class="pr-card fc-{p['slug']}">
-      <div class="pr-head"><span class="pr-gchip">{glyph(p['slug'], 'glyph g-plan')}</span><div class="pr-id">
+                f' — {pct(bs(alt,"RoDD"))} RoDD, {bs(alt,"Win")} win, {bs(alt,"Max DD")} max drawdown.</p>') if alt else ""
+    return f"""<div class="pr-card">
+      <div class="pr-head"><div class="pr-id">
         <a class="pr-name" href="/strategies/{p['slug']}.html">{esc(p['name'])}</a>
         <span class="pr-real">{esc(p['actual'])}</span></div>
-        <div class="pr-price">${p['price']}<small>/MO</small></div>
+        <div class="pr-price">${p['price']}<small>/mo</small></div>
       </div>
       <p class="pr-why">{why_line(p, tkey)}</p>
       {stat_strip(p)}
@@ -111,9 +115,9 @@ def trio_rows(trio, slots=3):
     left visibly blank rather than filled with something that does not fit."""
     rows = ""
     for p in trio:
-        rows += (f'<li>{glyph(p["slug"], "glyph g-row")}<a class="pr-name" href="/strategies/{p["slug"]}.html">{esc(p["name"])}</a>'
+        rows += (f'<li><a class="pr-name" href="/strategies/{p["slug"]}.html">{esc(p["name"])}</a>'
                  f'<span class="pr-real">{esc(p["actual"])}</span>'
-                 f'<span class="pr-mini">{bs(p,"RoDD")}&times; RoDD · {bs(p,"Win")} win · {bs(p,"Max DD")} DD</span>'
+                 f'<span class="pr-mini">{pct(bs(p,"RoDD"))} RoDD · {bs(p,"Win")} win · {bs(p,"Max DD")} DD</span>'
                  f'<span class="pr-solo">${p["price"]}</span></li>')
     for _ in range(max(0, slots - len(trio))):
         rows += ('<li class="pr-empty"><span class="pr-name">Slot open</span>'
@@ -132,7 +136,7 @@ def trio_block(trio, tkey):
     return f"""<div class="pr-card">
       <div class="pr-head"><div class="pr-id"><span class="pr-name">Your three</span>
         <span class="pr-real">{'the ' + rule + ' that fit your drawdown budget' if n == 3 else f'only {n} clear your drawdown budget'}</span></div>
-        <div class="pr-price">${worth:,}<small>/MO TOTAL</small></div>
+        <div class="pr-price">${worth:,}<small>/mo total</small></div>
       </div>
       <ul class="pr-trio">{trio_rows(trio)}</ul>
       <p class="pr-why">Chosen by the same rule the shelf is ranked by: the {rule} whose deeper published
@@ -161,7 +165,7 @@ fleet_small = f"""<div class="pr" id="r-s3-small">
   <div class="pr-card">
     <div class="pr-head"><div class="pr-id"><span class="pr-name">The Starter</span>
       <span class="pr-real">{esc(' + '.join(starter_names))}</span></div>
-      <div class="pr-price"><s class="was">${BN['starter']['combined']}</s>${BN['starter']['price']}<small>/MO</small></div>
+      <div class="pr-price"><s class="was">${BN['starter']['combined']}</s>${BN['starter']['price']}<small>/mo</small></div>
     </div>
     <p class="pr-why">At this budget, run the three lowest-drawdown systems first — every one holds under a $9k published max drawdown — then step up to the full shelf once you have lived with them.</p>
     <div class="pr-ctas">
@@ -179,7 +183,7 @@ if not STARTER_OK:
   <div class="pr-card">
     <div class="pr-head"><div class="pr-id"><span class="pr-name">Start with one</span>
       <span class="pr-real">{esc(_cheap["name"]) if _cheap else "TBD"} &mdash; the smallest step onto the shelf</span></div>
-      <div class="pr-price">${_cheap["price"] if _cheap else 0}<small>/MO</small></div>
+      <div class="pr-price">${_cheap["price"] if _cheap else 0}<small>/mo</small></div>
     </div>
     <p class="pr-why">At this budget, run one system properly before you run several. {esc(_cheap["name"]) if _cheap else ""} is the
     lowest-priced published strategy &mdash; live with its drawdown for a month, then add a second when you have lived with its drawdown.</p>
@@ -194,7 +198,7 @@ fleet_big = f"""<div class="pr" id="r-s3-big">
   <div class="pr-card">
     <div class="pr-head"><div class="pr-id"><span class="pr-name">All-Access</span>
       <span class="pr-real">every strategy on the shelf — {len(S)} systems, books excluded</span></div>
-      <div class="pr-price"><s class="was">${COMBINED_ALL:,}</s>${BN['all_access']['price']}<small>/MO</small></div>
+      <div class="pr-price"><s class="was">${COMBINED_ALL:,}</s>${BN['all_access']['price']}<small>/mo</small></div>
     </div>
     <p class="pr-why">The whole catalog under one subscription: all {len(S)} live-validated systems across {MARKETS_PROSE}, worth ${COMBINED_ALL:,}/mo solo. Diversify across sessions instead of picking one.</p>
     <div class="pr-ctas">
@@ -205,38 +209,40 @@ fleet_big = f"""<div class="pr" id="r-s3-big">
   </div>
 </div>"""
 
-# books panel — mini deck, same skins as the index band
-BOOK_SKIN = {"the-midas": "bk-midas", "the-continuum": "bk-continuum",
-             "the-daylight": "bk-daylight", "the-ledger": "bk-vault"}
-book_cards = "" if PRELAUNCH else "".join(
-    f'<li class="bookcard {BOOK_SKIN[b["slug"]]}">{emblem(b["slug"])}'
-    f'<a class="sys-link bk-name" href="/strategies/{b["slug"]}.html">{esc(b["name"])}</a>'
-    f'<span class="bk-int">{esc(b["actual"]).upper()}</span>'
-    f'<span class="bk-price">${b["price"]:,}<small>/MO SOLO</small></span></li>' for b in B)
-books_panel = f"""<div class="pr" id="r-s4">
+# books panel — the two multi-leg books live on the shelf (strategies with legs)
+books_live = sorted([p for p in S if p.get("legs")], key=lambda x: -x["price"])
+if books_live:
+    book_rows = "".join(
+        f'<li><a class="pr-name" href="/strategies/{p["slug"]}.html">{esc(p["name"])}</a>'
+        f'<span class="pr-real">{esc(p["actual"])}</span>'
+        f'<span class="pr-mini">{pct(bs(p,"RoDD"))} RoDD · {bs(p,"Win")} win · {len(p["legs"])} legs</span>'
+        f'<span class="pr-solo">${p["price"]}</span></li>' for p in books_live)
+    _blinks = " ".join(f'<a class="btn" href="/strategies/{p["slug"]}.html">See {esc(p["name"])}</a>'
+                       for p in books_live)
+    books_panel = f"""<div class="pr" id="r-s4">
   <div class="pr-card">
-    <div class="pr-head"><div class="pr-id"><span class="pr-name">The Books are next</span>
-      <span class="pr-real">our four in-house multi-leg engines</span></div>
+    <div class="pr-head"><div class="pr-id"><span class="pr-name">The books</span>
+      <span class="pr-real">the multi-leg engines we run ourselves &mdash; a whole day of session legs under one subscription</span></div>
     </div>
-    <p class="pr-why">The engines we run ourselves are still in validation. When they publish, both windows go up with
-    them &mdash; same standard as everything else on this page. Until then, All-Access at ${BN['all_access']['price']}/mo
-    is the widest coverage we sell.</p>
+    <ul class="pr-trio">{book_rows}</ul>
+    <p class="pr-why">A book trades the day as one system: each leg owns its session and a router allocates
+    between them. Live-validated with both windows published, same standard as every solo strategy on the
+    shelf. Priced at the top because one book replaces several subscriptions.</p>
     <div class="pr-ctas">
-      <a class="btn" href="/strategies/all-access.html">See All-Access</a>
+      {_blinks}
     </div>
   </div>
-</div>""" if not B else f"""<div class="pr" id="r-s4">
-  <div class="pr-card pr-card-books">
-    <div class="pr-head"><div class="pr-id"><span class="pr-name">The Books</span>
-      <span class="pr-real">the four in-house engines we run ourselves</span></div>
-      <div class="pr-price"><s class="was">${BN['books_all']['combined']:,}</s>${BN['books_all']['price']:,}<small>/MO</small></div>
+</div>"""
+else:
+    books_panel = f"""<div class="pr" id="r-s4">
+  <div class="pr-card">
+    <div class="pr-head"><div class="pr-id"><span class="pr-name">No books on the shelf yet</span>
+      <span class="pr-real">the multi-leg engines are in validation</span></div>
     </div>
-    <ul class="bookdeck bookdeck-mini">{book_cards}</ul>
-    <p class="pr-why">Multi-leg routers, live-validated, both windows published. Solo from ${min((b['price'] for b in B), default=0):,}/mo; all four together under the price of any two.</p>
+    <p class="pr-why">When they publish, both windows go up with them &mdash; same standard as everything else
+    on this page. Until then, All-Access at ${BN['all_access']['price']}/mo is the widest coverage we sell.</p>
     <div class="pr-ctas">
-      <a class="btn" href="/strategies/the-books.html">See The Books</a>
-      <!-- WHOP: replace with checkout link (The Books) -->
-      <a class="btn btn-buy" href="/strategies/the-books.html" rel="noopener">Get the Books — ${BN['books_all']['price']:,}/mo</a>
+      <a class="btn" href="/strategies/all-access.html">See All-Access</a>
     </div>
   </div>
 </div>"""
@@ -253,7 +259,7 @@ scope_opts = [
     ("s1", "One system", "Start focused — a single edge, run properly"),
     ("s2", "Three systems", "Three that clear your drawdown budget, each its own subscription"),
     ("s3", "The whole shelf", "All-Access — every strategy at once"),
-    ("s4", "The in-house Books", "The four engines we run ourselves"),
+    ("s4", "The books", "Continuum and Midas — the multi-leg engines we run ourselves"),
 ]
 budget_opts = [(k, l, d) for k, l, d, _ in BUDGETS]
 temp_opts = [(k, l, d) for k, l, d in TEMPS]
@@ -265,7 +271,7 @@ exec_opts = [
 qs = f"""
       <input type="checkbox" id="ed-scope" class="pq-edit">
       <fieldset class="pq pq-scope">
-        <legend><span class="pq-n">STEP 01</span> <span class="pq-q">What are you shopping for?</span></legend>
+        <legend><span class="pq-n">Step 01</span> <span class="pq-q">What are you shopping for?</span></legend>
         {chips('q-scope', scope_opts)}
       <label class="pq-editlab" for="ed-scope"><span class="sr-only">Change this answer</span></label>
         <label class="pq-close" for="ed-scope">done</label>
@@ -273,7 +279,7 @@ qs = f"""
 
       <input type="checkbox" id="ed-budget" class="pq-edit">
       <fieldset class="pq pq-budget">
-        <legend><span class="pq-n">STEP 02</span> <span class="pq-q">What drawdown budget are you sizing?</span></legend>
+        <legend><span class="pq-n">Step 02</span> <span class="pq-q">What drawdown budget are you sizing?</span></legend>
         <p class="pq-hint">Not your account size — the open drawdown you could genuinely sit through without pulling the plug. The same number the sizing menu on every product page runs on.</p>
         {chips('q-budget', budget_opts)}
       <label class="pq-editlab" for="ed-budget"><span class="sr-only">Change this answer</span></label>
@@ -282,7 +288,7 @@ qs = f"""
 
       <input type="checkbox" id="ed-temp" class="pq-edit">
       <fieldset class="pq pq-temp">
-        <legend><span class="pq-n">STEP 03</span> <span class="pq-q">What kind of ride can you stomach?</span></legend>
+        <legend><span class="pq-n">Step 03</span> <span class="pq-q">What kind of ride can you stomach?</span></legend>
         {chips('q-temp', temp_opts)}
       <label class="pq-editlab" for="ed-temp"><span class="sr-only">Change this answer</span></label>
         <label class="pq-close" for="ed-temp">done</label>
@@ -290,7 +296,7 @@ qs = f"""
 
       <input type="checkbox" id="ed-exec" class="pq-edit">
       <fieldset class="pq pq-exec">
-        <legend><span class="pq-n">STEP 04</span> <span class="pq-q">How will you run it?</span></legend>
+        <legend><span class="pq-n">Step 04</span> <span class="pq-q">How will you run it?</span></legend>
         {chips('q-exec', exec_opts)}
       <label class="pq-editlab" for="ed-exec"><span class="sr-only">Change this answer</span></label>
         <label class="pq-close" for="ed-exec">done</label>
@@ -299,7 +305,7 @@ qs = f"""
 
 pmt_panel = """<aside class="pr pr-exec" id="r-e2">
         <div class="pmt">
-          <div class="pmt-title">PARTNERED WITH PICKMYTRADE</div>
+          <div class="pmt-title">Partnered with PickMyTrade</div>
           <p class="pmt-copy">Every system here fires standard TradingView alerts. Through our partner
           PickMyTrade, those alerts route straight to your broker &mdash; Tradovate, NinjaTrader, and more &mdash;
           and execute hands-free. Setup takes minutes, no code.</p>
@@ -316,9 +322,9 @@ pmt_panel = """<aside class="pr pr-exec" id="r-e2">
       </aside>
       <aside class="pr pr-exec" id="r-e1">
         <div class="pmt pmt-manual">
-          <div class="pmt-title">RUNNING IT BY HAND</div>
+          <div class="pmt-title">Running it by hand</div>
           <p class="pmt-copy">Every product page lists its session window and bar time &mdash; most systems fire
-          inside one narrow slot per day. Treat the alert as your entry checklist, size with the RoDD menu on
+          inside one narrow slot per day. Treat the alert as your entry checklist, size with the sizing menu on
           the product page, and take every signal: the published stats assume no cherry-picking.</p>
         </div>
       </aside>"""
@@ -392,7 +398,7 @@ page = f"""<!DOCTYPE html>
 <main id="main">
   <section class="plan-hero">
     <div class="wrap">
-      <h1>Find your <span class="mint">plan</span></h1>
+      <h1>Find your plan</h1>
       <p class="plan-sub">Four answers. One specific recommendation &mdash; named systems, or a custom
       three named systems &mdash; sized to the drawdown you can actually hold, chosen by the same math
       that ranks the shelf. Runs entirely in your browser: this page ships zero script, so your answers
