@@ -5174,3 +5174,35 @@ body * { text-transform: none !important; letter-spacing: normal !important; }
 /* r4.6 fix: names in finder list rows consume their identity color */
 a.pr-name[class*="fc-"] { color: var(--fc); }
 a.pr-name[class*="fc-"]:hover { color: var(--fc-hi); }
+
+/* ================================================================
+   r4.7 — STILLNESS AND ALIGNMENT. An answered step collapses
+   instantly: no size tween, no bounce. And the finder's two
+   columns share one top edge and scroll together - the sticky
+   offset is gone.
+   ================================================================ */
+.pq { transition: none; }
+.plan-side { position: static; top: auto; }
+
+/* r4.7 fix: space only the panels that are actually visible - a
+   hidden sibling must not push the first result down. */
+.plan-side .plan-results { display: flex; flex-direction: column; gap: var(--sp-4); }
+.plan-side .pr { margin-top: 0; }
+
+/* r4.7 fix 2: the results column starts at the very top - the old
+   36px lead-in padding is gone; the first panel shares the exact
+   top edge of Step 01. */
+.plan-side .plan-results { padding-top: 0; }
+
+/* r4.7 — EVEN COLUMNS. The ranked tables switch to a fixed grid:
+   Win / PF / Net share one width, RoDD gets its standout slot,
+   Session gets its own room instead of crowding Net. Numbers stay
+   right-aligned on the mono grid. */
+.sx-t { table-layout: fixed; }
+.sx-t th.sx-r { width: 4%; }
+.sx-t th.sx-n { width: 31%; }
+.sx-t th.sx-rodd { width: 12%; }
+.sx-t th.sx-f:not(.sx-rodd):not(.sx-p) { width: 9%; }
+.sx-t th.sx-s { width: 14%; }
+.sx-t th.sx-p { width: 8%; }
+.sx-t td.sx-s, .sx-t th.sx-s { padding-left: 1.4rem; }
