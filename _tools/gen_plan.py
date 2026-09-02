@@ -345,7 +345,7 @@ page = f"""<!DOCTYPE html>
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Find your plan — FuturesTradingBots</title>
 <meta name="description" content="Answer four questions — drawdown budget, temperament, scope, execution — and get a specific recommendation: named systems sized to a drawdown you can actually hold.">
-<meta name="theme-color" content="#051014">
+<meta name="theme-color" content="#101214">
 <meta property="og:title" content="Find your plan — FuturesTradingBots">
 <meta property="og:site_name" content="FuturesTradingBots">
 <meta property="og:description" content="Four questions to a specific, named recommendation — sized to the drawdown you can actually hold.">

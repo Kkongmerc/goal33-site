@@ -68,7 +68,7 @@ def head(title, desc, path, bodycls=""):
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>{esc(title)}</title>
 <meta name="description" content="{html.escape(desc)}">
-<meta name="theme-color" content="#051014">
+<meta name="theme-color" content="#101214">
 <meta property="og:title" content="{html.escape(title)}">
 <meta property="og:site_name" content="FuturesTradingBots">
 <meta property="og:description" content="{html.escape(desc)}">
