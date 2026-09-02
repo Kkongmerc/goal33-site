@@ -5843,6 +5843,14 @@ body, .sx-doc { font-family: var(--sans); }
 .sx-hero-h1 { text-wrap: balance; }
 .sx-hero-copy .sx-tag { font-size: 1.45rem; line-height: 1.35; color: #fff; font-weight: 600; max-width: 30ch; }
 .sx-hero-copy .sx-lede { font-size: 1.02rem; line-height: 1.5; color: #B2B5BE; max-width: 60ch; }
+/* owner 2026-09-03: whole row clickable — full-cell links, row hover */
+.sx-t td { padding: 0; }
+.sx-t td > .sx-rl, .sx-t td.sx-n, .sx-t td.sx-p { display: block; padding: 0.62rem 0.6rem; color: inherit; text-decoration: none; min-height: 100%; }
+.sx-t td.sx-n, .sx-t td.sx-p { display: table-cell; }
+.sx-t td:not(:has(.sx-rl)) { padding: 0.62rem 0.6rem; }
+.sx-t-wide td > .sx-rl { padding: 0.5rem 0.4rem; }
+.sx-t tbody tr:hover td { background: rgba(86, 200, 162, .08); cursor: pointer; }
+.sx-t-soon tbody tr:hover td { background: none; cursor: default; }
 
 /* r6.1 (re-applied on the merged stream) — OUR GREEN, NOT THAT
    BLUE, and the brightest grey a notch darker. Accent literals

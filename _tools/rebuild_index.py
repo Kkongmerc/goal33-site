@@ -1,3 +1,4 @@
+import re
 """Generate index.html — the specification sheet (rebrand r4, seed 77810f1d).
 
 The catalog page is an exchange-style contract specification document: white
@@ -273,7 +274,20 @@ def _month_cell(t, cls):
     if not t: return '<td class="sx-f">&mdash;</td>'
     return f'<td class="sx-f {cls}">{t[0]}<small class="sx-mo">{t[1]}</small></td>'
 
+def _rowlink(html, url):
+    """Owner 2026-09-03: the whole row is clickable. Every cell's content is wrapped in a
+    full-cell link to the product page (the name and price cells keep their own links)."""
+    def wrap(m):
+        cls, inner = m.group(1), m.group(2)
+        if "sx-n" in cls or "sx-p" in cls or "<a " in inner:
+            return m.group(0)
+        return f'<td class="{cls}"><a class="sx-rl" href="{url}" tabindex="-1" aria-hidden="true">{inner}</a></td>'
+    return re.sub(r'<td class="([^"]*)">(.*?)</td>', wrap, html, flags=re.S)
+
 def row(p, rank, dd_cols=False):
+    return _rowlink(_row(p, rank, dd_cols), "/#books" if p.get("kind") == "combined" else f'/strategies/{p["slug"]}.html')
+
+def _row(p, rank, dd_cols=False):
     b = p["best"]["stats"]
     name = esc(p["name"])
     sub = esc(p["actual"])
