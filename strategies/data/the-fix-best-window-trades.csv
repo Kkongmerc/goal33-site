@@ -1,4 +1,4 @@
-# The Fix (MGC London Breakout) - best return-on-drawdown window 02 Feb 2026 to 04 Aug 2026 - closed trades at Multiplier 44 - hypothetical backtested results, commissions and slippage modeled
+# The Fix (MGC London Fade) - best return-on-drawdown window 02 Feb 2026 to 04 Aug 2026 - closed trades at Multiplier 44 - hypothetical backtested results, commissions and slippage modeled
 exit_day,entry_px,exit_px,net_pnl_usd,side,signal,qty,return_pct
 02 Feb 26,4845.7,4838.9,2886.3999999999996,S,London fade short,44.0,0.1354
 04 Feb 26,5207.4,5214.2,2886.3999999999996,L,London fade long,44.0,0.126

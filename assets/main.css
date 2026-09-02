@@ -5679,9 +5679,9 @@ body, .sx-doc { font-family: var(--sans); }
 .tvr-h1 { font-size: 15px; margin: 0 0 12px; }
 .tvr-h1 + .tvr-h1, .tvr-cells + .tvr-h1, .tvr-perf + .tvr-h1 { margin-top: 20px; }
 .tvr-h2 { font-size: 13px; margin: 0 0 10px; }
-.tvr-k { font-size: 11px; }
-.tvr-v b { font-size: 15px; }
-.tvr-v i { font-size: 11px; }
+.tvr-k { font-size: 13px; }   /* owner 2026-09-03: "make these texts bigger" */
+.tvr-v b { font-size: 21px; }
+.tvr-v i { font-size: 13px; }
 .tvr-cell { padding: 6px 14px 10px; }
 .tvr-pills { margin-bottom: 12px; }
 .tvr-ovbot { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 16px; align-items: start; margin-top: 14px; padding-top: 14px; border-top: 1px solid #2a2e39; }
@@ -5774,3 +5774,33 @@ body, .sx-doc { font-family: var(--sans); }
 .pdp-buy-top { margin-top: .6rem; align-self: flex-start; }
 .pdp-buy-mid { display: flex; align-items: center; flex-wrap: wrap; gap: .5rem 1rem; margin: .2rem 0 1.2rem; }
 .pdp-buy-sub { font-size: .82rem; color: #9aa2a8; }
+/* owner 2026-09-03 round 5: headline, discounts beside every CTA, scrolling special, compressed report strips, centered title */
+.pdp-headline { text-align: center; font-family: var(--display); font-size: 1.55rem; font-weight: 700; color: #D1D4DC; margin: 0 0 .9rem; text-wrap: balance; line-height: 1.25; }
+.pdp-headline b { color: #089981; font-size: 1.9rem; }
+.pdp-disc { display: inline-flex; align-items: center; gap: .3em; font-size: .8rem; font-weight: 600; color: #ED9B40; white-space: nowrap; }
+.pdp-disc b { color: #fff; background: #ED9B40; border-radius: 4px; padding: 1px 6px; font-family: var(--mono); font-size: .78rem; }
+.pdp-cta { display: inline-flex; align-items: center; gap: .7rem; margin-top: .6rem; align-self: flex-end; flex-wrap: wrap; justify-content: flex-end; }
+.pdp-cta .pdp-buy-top { margin-top: 0; }
+.bb-cta { display: flex; align-items: center; gap: .7rem; flex-wrap: wrap; }
+.special-marquee { overflow: hidden; border-top: 1px solid rgba(237,155,64,.55); border-bottom: 1px solid rgba(237,155,64,.55); background: rgba(237,155,64,.10); margin: 0 0 var(--sp-3); padding: 7px 0; white-space: nowrap; }
+.sm-track { display: inline-flex; gap: 3rem; padding-left: 1.5rem; animation: sm-scroll 28s linear infinite; will-change: transform; }
+.sm-i { font-size: .88rem; color: #D1D4DC; }
+.sm-i b { color: #ED9B40; font-weight: 700; margin-right: .4em; }
+@keyframes sm-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.special-marquee:hover .sm-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .sm-track { animation: none; } }
+/* compressed report top strip + bottom block */
+.tvr .tvr-top3 { display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; padding: 4px 10px; gap: 8px; }
+.tvr .tvr-chips { display: flex; flex-wrap: wrap; gap: 6px; justify-self: start; }
+.tvr .tvr-top3 .tvr-title { justify-self: center; max-width: none; margin: 0; }
+.tvr .tvr-tt b { font-size: 20px; }
+.tvr .tvr-chip { padding: 3px 8px; font-size: .72rem; }
+.tvr .tvr-tabs { padding: 0 6px; }
+.tvr .tvr-h1 { margin: 0 0 6px; font-size: 14px; }
+.tvr .tvr-h1 + .tvr-h1, .tvr .tvr-cells + .tvr-h1, .tvr .tvr-perf + .tvr-h1 { margin-top: 8px; }
+.tvr .tvr-cell { padding: 3px 14px 5px; }
+.tvr .tvr-cells { margin: 0 0 2px; }
+.tvr .tvr-ovbot { margin-top: 6px; padding-top: 6px; gap: 10px; }
+.tvr .tvr-ovbot .tvr-cells-2 .tvr-cell:nth-child(n+3) { padding-top: 5px; }
+.tvr .tvt-note { margin-top: 6px; line-height: 1.4; }
+@container (max-width: 560px) { .tvr .tvr-top3 { grid-template-columns: 1fr; } .tvr .tvr-top3 .tvr-title { justify-self: start; } .tvr .tvr-chips .tvr-chip:nth-child(3), .tvr .tvr-chips .tvr-chip:nth-child(4) { display: none; } .tvr .tvr-spacer { display: none; } }

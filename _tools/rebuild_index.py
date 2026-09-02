@@ -28,7 +28,8 @@ def special_strip():
         return ""
     line = SPECIAL.get("line", "").replace("{pct}", str(SPECIAL.get("pct", ""))).replace("{code}", SPECIAL.get("code", ""))
     ends = f'<em>ends {esc(SPECIAL["ends"])}</em>' if SPECIAL.get("ends") else ""
-    return f'<div class="special special-line"><b>{esc(SPECIAL.get("label", "Special"))}</b><span>{esc(line)}</span>{ends}</div>'
+    item = f'<span class="sm-i"><b>{esc(SPECIAL.get("label", "Special"))}</b> {esc(line)}{(" &middot; ends " + esc(SPECIAL["ends"])) if SPECIAL.get("ends") else ""}</span>'
+    return f'<div class="special-marquee"><div class="sm-track">{item * 8}</div></div>'
 
 def esc(s):
     return html.escape(str(s), quote=False)

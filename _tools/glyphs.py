@@ -49,6 +49,7 @@ STRAT = {
     "the-kilo": '<path d="M7.2 9h9.6l2.7 7.8H4.5z"/><path d="M9.3 6.2h5.4l1 2.8H8.3z" opacity=".65"/>',
     "the-print": '<rect x="4" y="8" width="16" height="5" rx="1"/><path d="M8 13v6h8v-6"/><path d="M10 15.5h4M10 17.5h2.6"/><path d="M7 8V5h10v3"/>',
     # The Fix — the London fix: a bell over the fix line
+    "the-bullion": '<path d="M6.5 9.5h11l2 5h-15z"/><path d="M8.5 5.5h7l1.5 4h-10z" opacity=".75"/><path d="M4 18.5h16" opacity=".6"/>',
     "the-fix": '<path d="M12 3.6v1.6"/><path d="M7.4 14.2V10a4.6 4.6 0 0 1 9.2 0v4.2l1.6 2.2H5.8z"/><path d="M10.2 18.8a1.8 1.8 0 0 0 3.6 0"/><path d="M4 21h16" opacity=".6"/>',
     # The Ingot — a cast gold bar (unlisted until its standalone matches the book leg)
     # The Books (combined row) — two volumes side by side

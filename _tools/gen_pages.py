@@ -27,6 +27,22 @@ def special_strip(cls=""):
     ends = f'<em>ends {esc(SPECIAL["ends"])}</em>' if SPECIAL.get("ends") else ""
     return (f'<div class="special {cls}"><b>{esc(SPECIAL.get("label", "Special"))}</b>'
             f'<span>{esc(special_line())}</span>{ends}</div>')
+def special_marquee():
+    """The monthly special as a scrolling banner (owner 2026-09-03: 'make it a scrolling banner so it
+    catches the eye', top and bottom of the page). Pure CSS animation, paused under reduced-motion.
+    Nothing renders when the special is off."""
+    if not special_line():
+        return ""
+    ends = f' &middot; ends {esc(SPECIAL["ends"])}' if SPECIAL.get("ends") else ""
+    item = f'<span class="sm-i"><b>{esc(SPECIAL.get("label", "Special"))}</b> {esc(special_line())}{ends}</span>'
+    return f'<div class="special-marquee" aria-label="{esc(SPECIAL.get("label", "Special"))}: {esc(special_line())}"><div class="sm-track">{item * 8}</div></div>'
+
+def disc_tag():
+    """The discount beside every call to action (owner 2026-09-03), or '' when the special is off."""
+    if not special_line():
+        return ""
+    return f'<span class="pdp-disc">{esc(SPECIAL.get("pct", ""))}% off &middot; code <b>{esc(SPECIAL.get("code", ""))}</b></span>'
+
 def buy_href(p):
     """The product's Whop page when it has one, else its own page."""
     return p.get("whop") or f"/strategies/{p['slug']}.html"
@@ -205,11 +221,10 @@ def buybox(name, price, whop_note, xsell=None, struck=None, href="#"):
   <div class="bb-price">{was}<span class="bb-now">${price}</span><span class="bb-per">/ month</span></div>
   <p class="bb-hook">Backtest Verified &middot; TradingView invite-only script &middot; alerts ready for automation</p>
   <ul class="bb-list">{lis}</ul>
-  {special_strip("special-box")}
   <!-- WHOP: checkout ({whop_note}) -->
-  <a class="btn btn-buy bb-btn" href="{href}" rel="noopener">Get access &mdash; ${price}/mo</a>
+  <span class="bb-cta"><a class="btn btn-buy bb-btn" href="{href}" rel="noopener">Get access &mdash; ${price}/mo</a>{disc_tag()}</span>
   <p class="bb-safe">Secure checkout via Whop &middot; no contract &middot; cancel anytime</p>
-  <p class="bb-promo">{esc(PROMO_LINE)}</p>
+  {"" if special_line() else f'<p class="bb-promo">{esc(PROMO_LINE)}</p>'}
 </aside>"""
 
 # ── components ──────────────────────────────────────────────────
@@ -904,12 +919,15 @@ def tester_block(p):
   <input type="radio" name="tvt-{slug}" id="tvt-{slug}-ps" class="tvt-r">
   <input type="radio" name="tvt-{slug}" id="tvt-{slug}-ta" class="tvt-r">
   <input type="radio" name="tvt-{slug}" id="tvt-{slug}-lt" class="tvt-r">
-  <div class="tvr-top">
-    <span class="tvr-title fc-{slug}">{glyph(slug, "glyph tvr-glyph")}<span class="tvr-tt"><b>{esc(p["name"])}</b><small>{esc(p["meta"].split("·")[0].strip())} &middot; {esc(p["actual"])}</small></span></span>
+  <div class="tvr-top tvr-top3">
+    <span class="tvr-chips">
     <span class="tvr-chip"><svg class="tvr-cal" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M2 7h12M5 1.5v3M11 1.5v3"/></svg>{win_lab}<b class="tvr-deep">DEEP</b></span>
     <span class="tvr-chip">{INITIAL_CAPITAL/1000:.0f} K USD</span>
     <span class="tvr-chip">4 ticks per bar</span>
     <span class="tvr-chip">On bar close</span>
+    </span>
+    <span class="tvr-title fc-{slug}">{glyph(slug, "glyph tvr-glyph")}<span class="tvr-tt"><b>{esc(p["name"])}</b><small>{esc(p["meta"].split("·")[0].strip())} &middot; {esc(p["actual"])}</small></span></span>
+    <span class="tvr-spacer" aria-hidden="true"></span>
   </div>
   <div class="tvt-tabs tvr-tabs">
     <label for="tvt-{slug}-ov" class="tvt-tab">Overview</label>
@@ -1236,6 +1254,19 @@ def write_window_csv(p, tr):
             fh.write(",".join(str(x) for x in r) + "\n")
     return rel, len(rows)
 
+def avg_mo_usd(p, tr):
+    """Average monthly net over the best window at the shown multiplier, as '$59,023'."""
+    if tr and tr.get("best", {}).get("months"):
+        v = tr["best"]["net"] / tr["best"]["months"]
+    else:
+        b = p["best"]["stats"]
+        try:
+            raw = b.get("Net", "").replace("$", "").replace(",", "")
+            v = (float(raw[:-1]) * 1000 if raw.endswith("k") else float(raw)) / float(b.get("Months", "1") or 1)
+        except Exception:
+            return "&mdash;"
+    return f"${v:,.0f}"
+
 def window_block(p, tr):
     """'This strategy was optimized from … to …' + the best-RoDD window."""
     ow = p.get("opt_window") or {}
@@ -1281,9 +1312,11 @@ def product_page(p, is_book):
                 bodycls=(f"pdp-theme fc-{p['slug']}" if p["slug"] in THEMED else ""))
     page += f"""
   <div class="wrap">
+    {special_marquee()}
     <nav class="crumbs" aria-label="Breadcrumb">{crumb_root}<span class="sep">/</span>{esc(p['name'])}</nav>
 
     <article class="pdp pdp-top">
+      <p class="pdp-headline"><b>{avg_mo_usd(p, _tr)}</b> average monthly profit with a <b>{rodd_mo_pct(b)}</b> return on drawdown!</p>
       <div class="pdp-head">
         {('<span class="pdp-glyph" aria-hidden="true">' + (emblem(p['slug'], 'bk-emblem pdp-mark') if is_book else glyph(p['slug'], 'glyph pdp-mark')) + '</span>') if p['slug'] in THEMED else ''}
         <div class="pdp-id">
@@ -1296,7 +1329,7 @@ def product_page(p, is_book):
           <em class="pdp-hero-sub">Return on drawdown = net profit &divide; maximum drawdown over the window, shown per month of the record.</em>
           <em class="pdp-hero-sub">{usd(baseline(p))} on a {usd(BASE_DD)} drawdown</em>
           {f'<em class="pdp-hero-sub">Shown at Multiplier {p["mult"]} &middot; drawdown held under $10,000 &middot; RoDD is size-independent</em>' if p.get('mult') else ''}
-          <a class="btn btn-buy pdp-buy pdp-buy-top" href="{esc(p.get("whop") or WHOP_STORE)}" rel="noopener">Buy now &mdash; ${p['price']:,}/mo</a></div>
+          <span class="pdp-cta"><a class="btn btn-buy pdp-buy pdp-buy-top" href="{esc(p.get("whop") or WHOP_STORE)}" rel="noopener">Buy now &mdash; ${p['price']:,}/mo</a>{disc_tag()}</span></div>
       </div>
 
     </article>
@@ -1304,7 +1337,7 @@ def product_page(p, is_book):
     <div class="pdp-band">
       {band}
     </div>
-    <div class="pdp-buy-mid"><a class="btn btn-buy pdp-buy" href="{esc(p.get("whop") or WHOP_STORE)}" rel="noopener">Buy now &mdash; ${p['price']:,}/mo</a><span class="pdp-buy-sub">TradingView invite-only script &middot; activated within 24 hours &middot; cancel any time</span></div>
+    <div class="pdp-buy-mid"><a class="btn btn-buy pdp-buy" href="{esc(p.get("whop") or WHOP_STORE)}" rel="noopener">Buy now &mdash; ${p['price']:,}/mo</a>{disc_tag()}<span class="pdp-buy-sub">TradingView invite-only script &middot; activated within 24 hours &middot; cancel any time</span></div>
 
     <article class="pdp pdp-body">
       <div class="pdp-cols">
@@ -1326,6 +1359,7 @@ def product_page(p, is_book):
 
       <a class="backlink" href="{'/strategies/the-books.html' if is_book else '/'}">&larr; {'The Books' if is_book else 'All strategies'}</a>
     </article>
+    {special_marquee()}
   </div>
 """
     page += FOOTER
