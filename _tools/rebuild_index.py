@@ -328,6 +328,35 @@ def _row(p, rank, dd_cols=False):
         f'</tr>'
     )
 
+def soon_market(title):
+    """Instrument code a coming_soon group belongs to, e.g. 'MGC · Gold futures (additional)' -> 'MGC'."""
+    return title.split("\u00b7")[0].strip().split()[0] if "\u00b7" in title else title.strip().split()[0]
+
+def soon_rows(market, dd_cols=True):
+    """Owner 2026-09-03: a coming-soon group for an instrument that already has a live
+    table is listed IN that table, as rows that say Coming soon instead of a price —
+    not as a separate section below it. The stat cells stay visibly empty rather than
+    padded: nothing is published for these until the TradingView run lands."""
+    cs = CAT.get("coming_soon") or {}
+    out = ""
+    for title, rows in cs.items():
+        if title.startswith("_") or not isinstance(rows, list): continue
+        if soon_market(title) != market: continue
+        for r in rows:
+            # RoDD/mo, Win, PF, Profit, Best, Worst (+ the two drawdown columns)
+            blanks = '<td class="sx-f">&mdash;</td>' * (8 if dd_cols else 6)
+            out += (
+                f'<tr class="sx-soon-row">'
+                f'<td class="sx-r">&mdash;</td>'
+                f'<td class="sx-n"><span class="sx-soon-name">{esc(r[0])}</span>'
+                f'<span class="sx-sub">{esc(r[2])}</span></td>'
+                + blanks +
+                f'<td class="sx-f">&mdash;</td>'
+                f'<td class="sx-s">{esc(r[1])}</td>'
+                f'<td class="sx-f sx-p"><span class="sx-soon">Coming soon</span></td>'
+                f'</tr>')
+    return out
+
 def coming_soon_html():
     """Instrument sections listed as coming soon (owner 2026-09-03): construction + session + status,
     no prices or links until each passes the TradingView campaign. Driven by catalog2 `coming_soon`."""
@@ -335,6 +364,7 @@ def coming_soon_html():
     out = ""
     for title, rows in cs.items():
         if title.startswith("_") or not isinstance(rows, list): continue
+        if soon_market(title) in LIVE_MARKETS: continue   # listed inside that market's own table
         trs = "".join(f'<tr><td class="sx-n">{esc(r[0])}</td><td class="sx-s">{esc(r[1])}</td><td class="sx-f"><span class="sx-soon">{esc(r[2])}</span></td></tr>' for r in rows)
         out += f"""
 <section class="sx-sec sx-soon-sec">
@@ -344,7 +374,7 @@ def coming_soon_html():
 </section>"""
     return out
 
-def table(title, rows_html, n, dd_cols=False, sec_id="", lede=""):
+def table(title, rows_html, n, dd_cols=False, sec_id="", lede="", n_soon=0):
     dd_th = ('<th scope="col" class="sx-f"><abbr title="Max drawdown of the best window at one multiple of the product\'s own sizing">Drawdown 1&times;</abbr></th>'
              '<th scope="col" class="sx-f"><abbr title="Max drawdown of the best window at the published multiplier">Drawdown at &times;K</abbr></th>') if dd_cols else ""
     idattr = f' id="{sec_id}"' if sec_id else ""
@@ -353,7 +383,7 @@ def table(title, rows_html, n, dd_cols=False, sec_id="", lede=""):
   <h2>{esc(title)}</h2>{lede_html}
   <div class="sx-scroll" tabindex="0" role="region" aria-label="{esc(title)} specification table, scrolls horizontally on small screens">
   <table class="sx-t{' sx-t-wide' if dd_cols else ''}">
-    <caption class="sr-only">{esc(title)}: {n} rows ranked by average monthly return on drawdown</caption>
+    <caption class="sr-only">{esc(title)}: {n} rows ranked by average monthly return on drawdown{f", plus {n_soon} coming soon with no figures published yet" if n_soon else ""}</caption>
     <thead><tr>
       <th scope="col" class="sx-r" aria-label="Rank">#</th>
       <th scope="col" class="sx-n">Strategy</th>
@@ -380,8 +410,11 @@ mnq = [p for p in S if kind_of(p) == "single" and market_of(p) == "MNQ"]
 mgc = [p for p in S if kind_of(p) == "single" and market_of(p) == "MGC"]
 books_rows = "".join(row(p, i, dd_cols=True) for i, p in enumerate(book_list, 1))
 combo_rows = "".join(row(p, i, dd_cols=True) for i, p in enumerate(combos, 1))
-mnq_rows = "".join(row(p, i, dd_cols=True) for i, p in enumerate(mnq, 1))
-mgc_rows = "".join(row(p, i, dd_cols=True) for i, p in enumerate(mgc, 1))
+LIVE_MARKETS = {m for m, lst in (("MNQ", mnq), ("MGC", mgc)) if lst}
+mnq_rows = "".join(row(p, i, dd_cols=True) for i, p in enumerate(mnq, 1)) + soon_rows("MNQ")
+mgc_rows = "".join(row(p, i, dd_cols=True) for i, p in enumerate(mgc, 1)) + soon_rows("MGC")
+n_soon_mnq = mnq_rows.count('class="sx-soon-row"')
+n_soon_mgc = mgc_rows.count('class="sx-soon-row"')
 if COMBINED:
     print("combined books: K x{} dd1x ${:,.0f} net1x ${:,.0f}".format(COMBINED["mult"], COMBINED["dd1"], COMBINED["net1"]))
     print("combined books: net ${:,.0f} maxDD ${:,.0f} months {} RoDD {:.2f} RoDD/mo {} trades {:,} win {} PF {} avg/mo ${:,.0f} span {}..{}".format(
@@ -475,9 +508,9 @@ page = f"""<!doctype html>
 {table("Combo sets", combo_rows, len(combos), dd_cols=True, sec_id="combos",
        lede="Multi-strategy sets: two or three legs routed through one script.")}
 
-{table("MNQ · Nasdaq futures", mnq_rows, len(mnq), dd_cols=True)}
+{table("MNQ · Nasdaq futures", mnq_rows, len(mnq), dd_cols=True, n_soon=n_soon_mnq)}
 
-{table("MGC · Gold futures", mgc_rows, len(mgc), dd_cols=True)}
+{table("MGC · Gold futures", mgc_rows, len(mgc), dd_cols=True, n_soon=n_soon_mgc)}
 
 {coming_soon_html()}
 

@@ -5816,6 +5816,19 @@ body, .sx-doc { font-family: var(--sans); }
 .sx-soon { font-size: .74rem; color: #9aa2a8; white-space: nowrap; }
 .sx-t-soon td.sx-n { font-weight: 600; color: #C6CAD2; }
 .sx-t-soon td.sx-s { text-align: left; }
+/* a coming-soon strategy on an instrument that already has a live table is
+   listed IN that table (owner ruling), so it must read as pending, not as a
+   product: muted ink, an amber Coming soon in the price column, and no row
+   link or hover lift because there is no page to open yet. */
+.sx-t tr.sx-soon-row td { color: var(--muted); background: rgba(255,255,255,.012); }
+.sx-t tr.sx-soon-row:hover td { background: rgba(255,255,255,.012); cursor: default; }
+.sx-soon-name { font-weight: 600; color: #C6CAD2; }
+/* the $ / mo column is narrow, so this badge must wrap rather than clip
+   (it rendered as "Coming soo" while .sx-soon's nowrap applied). */
+.sx-t tr.sx-soon-row td.sx-p .sx-soon {
+  display: inline-block; white-space: normal; text-wrap: balance; line-height: 1.25;
+  color: #ED9B40; font-size: .7rem; letter-spacing: .04em; text-transform: uppercase;
+}
 /* owner 2026-09-03: section titles centred; one column layout for every table so rows align across sections */
 .sx-sec > h2 { text-align: center; }
 .sx-sec > h2 .sx-soon-badge { vertical-align: middle; }
