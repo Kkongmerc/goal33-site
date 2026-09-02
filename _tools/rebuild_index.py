@@ -92,11 +92,11 @@ def cf_block():
             f'<a class="cf-link" href="/strategies/{p["slug"]}.html">'
             + sparkline(p["slug"], cls="cf-spark", pfx="cf-sg", maxpts=64)
             + f'<span class="cf-glyphwrap" aria-hidden="true">{glyph(p["slug"], "glyph cf-glyph")}</span>'
-            + f'<span class="cf-star"><b>{pct(bs(p, "RoDD"))}</b><i>{tag}</i></span>'
+            + f'<span class="cf-star"><i>{tag}</i></span>'
             + f'<span class="cf-foot"><span class="cf-titlerow"><b class="cf-name">{esc(p["name"])}</b>'
             + f'<span class="cf-price">${p["price"]}<small>/mo</small></span></span>'
-            + f'<span class="cf-gain">${baseline(p):,.0f}</span>'
-            + f'<span class="cf-win">on a ${BASE_DD:,} drawdown &middot; best window</span></span></a>'
+            + f'<span class="cf-gain">{pct(bs(p, "RoDD"))}</span>'
+            + f'<span class="cf-win">return on max drawdown &middot; best window</span></span></a>'
             f'<label class="cf-pick" for="cf-{i+1}"><span class="sr-only">Bring {esc(p["name"])} to the front</span></label>'
             f'</div>')
     dots = "".join(
