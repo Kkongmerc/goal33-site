@@ -12,7 +12,7 @@ CAT = json.load(open(os.path.join(_HERE, "catalog2.json"), encoding="utf-8"))
 SITE = "https://futurestradingbots.com"
 # PRE-LAUNCH: no published products -> skip product + bundle pages entirely
 PRELAUNCH = not CAT["strategies"] and not CAT["books"]
-WHOP_STORE = CAT.get("whop_store") or "/#packages"
+WHOP_STORE = CAT.get("whop_store") or "/"
 def buy_href(p):
     """The product's Whop page when it has one, else its own page."""
     return p.get("whop") or f"/strategies/{p['slug']}.html"
@@ -77,7 +77,7 @@ def head(title, desc, path, bodycls=""):
 <link rel="canonical" href="{SITE}{path}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Fragment+Mono&display=swap">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/main.css?v={CSSV}">
 </head>
@@ -88,18 +88,9 @@ def head(title, desc, path, bodycls=""):
   <div class="wrap nav">
     <a class="brand" href="/"><svg class="bmark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="bmark-ant" d="M12 3.6V7.2"/><circle class="bmark-node" cx="12" cy="2.4" r="1.5"/><rect class="bmark-head" x="3.6" y="7.2" width="16.8" height="13" rx="3.4"/><rect class="bmark-eye" x="8" y="10.3" width="2.3" height="6.4" rx="1.15"/><rect class="bmark-eye" x="13.7" y="11.9" width="2.3" height="4.6" rx="1.15"/></svg><span class="bname">FUTURES<small>TRADING<span class="mk">BOTS</span></small></span></a>
     <nav class="nav-links" aria-label="Main">
-      <div class="nav-drop">
-        <a href="/#strategies">Strategies<svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
-        <div class="nav-menu">
-          <a href="/#flagships"><b>Tier 1</b> Flagships</a>
-          <a href="/#edge">Browse by edge</a>
-          <a href="/#packages">Bundles &amp; deals</a>
-        </div>
-      </div>
-      <a class="nav-books" href="/#packages">Books and Bundles<span class="nav-ember" aria-hidden="true"></span></a>
-      <a class="nav-plan" href="/plan.html">Find your plan</a>
-      <a href="/#how">How access works</a>
-      <a href="/#faq">FAQ</a>
+      <a href="/">All strategies</a>
+      <a href="/strategies/all-access.html">All-Access</a>
+      <a class="nav-plan" href="/plan.html">Plan finder</a>
     </nav>
     <!-- WHOP: storefront -->
     <a class="btn btn-sm btn-buy" href="{WHOP_STORE}" rel="noopener">Get access</a>
@@ -108,14 +99,11 @@ def head(title, desc, path, bodycls=""):
     <details class="nav-mob">
       <summary aria-label="Menu"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span></summary>
       <nav class="nav-mob-panel" aria-label="Mobile">
-        <a href="/#strategies">Strategies</a>
-        <a href="/#flagships">Tier 1 &middot; Flagships</a>
-        <a class="mob-books" href="/#packages">Books and Bundles</a>
-        <a href="/plan.html">Find your plan</a>
-        <a href="/#how">How access works</a>
-        <a href="/#faq">FAQ</a>
+        <a href="/">All strategies</a>
+        <a href="/strategies/all-access.html">All-Access</a>
+        <a href="/plan.html">Plan finder</a>
         <!-- DISCORD: community invite -->
-        <a href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener">Join the community Discord</a>
+        <a href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener">Discord</a>
       </nav>
     </details>
   </div>
@@ -129,15 +117,14 @@ FOOTER = f"""</main>
 <footer>
   <div class="wrap">
 <div class="foot-links">
-      <a href="/#strategies">Strategies</a>
-      <a href="/#packages">Bundles</a>
-      <a href="/plan.html">Find your plan</a>
-      <a href="/#how">How access works</a>
+      <a href="/">All strategies</a>
+      <a href="/strategies/all-access.html">All-Access</a>
+      <a href="/plan.html">Plan finder</a>
       <a href="/terms.html">Terms</a>
       <a href="/privacy.html">Privacy</a>
 
       <!-- DISCORD: community invite -->
-      <a class="foot-discord" href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener"><svg class="ic-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.7 17.4c-3.2-.1-4.9-1.7-4.9-1.7.3-4 1.4-6.6 2.7-8.3C7.8 6.4 9.2 6 9.2 6l.5 1.1c1.5-.3 3.1-.3 4.6 0L14.8 6s1.4.4 2.7 1.4c1.3 1.7 2.4 4.3 2.7 8.3 0 0-1.7 1.6-4.9 1.7l-.8-1.1c-1.6.3-3.4.3-5 0z"/><circle cx="9.6" cy="12.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.6" r="1.15" fill="currentColor" stroke="none"/></svg><span>Join the Community!</span></a>
+      <a class="foot-discord" href="https://discord.gg/BBXDDn9pCD" target="_blank" rel="noopener"><svg class="ic-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.7 17.4c-3.2-.1-4.9-1.7-4.9-1.7.3-4 1.4-6.6 2.7-8.3C7.8 6.4 9.2 6 9.2 6l.5 1.1c1.5-.3 3.1-.3 4.6 0L14.8 6s1.4.4 2.7 1.4c1.3 1.7 2.4 4.3 2.7 8.3 0 0-1.7 1.6-4.9 1.7l-.8-1.1c-1.6.3-3.4.3-5 0z"/><circle cx="9.6" cy="12.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.6" r="1.15" fill="currentColor" stroke="none"/></svg><span>Discord</span></a>
     </div>
     <p class="disclaimer">{esc(DISCLAIMER)}</p>
     <p class="disclaimer">
@@ -699,7 +686,7 @@ def product_page(p, is_book):
              f"PF {b.get('PF','')}, {b.get('Trades','')} trades. Live-validated. "
              f"TradingView invite-only script, activated within 24h.")
     crumb_root = ('<a href="/strategies/the-books.html">The Books</a>' if is_book
-                  else '<a href="/#strategies">Strategies</a>')
+                  else '<a href="/">Strategies</a>')
     _tr = load_trades_data(p["slug"])
     main_col = rodd_menu(p) + "\n" + tester_block(p) + "\n" + (
         engines_block(p) if p.get("engines") else "")
@@ -747,7 +734,7 @@ def product_page(p, is_book):
         <p class="disclaim-sm">{esc(DISCLAIMER)}</p>
       </div>
 
-      <a class="backlink" href="{'/strategies/the-books.html' if is_book else '/#strategies'}">&larr; {'The Books' if is_book else 'All strategies'}</a>
+      <a class="backlink" href="{'/strategies/the-books.html' if is_book else '/'}">&larr; {'The Books' if is_book else 'All strategies'}</a>
     </article>
   </div>
 """
@@ -769,7 +756,7 @@ def bundle_page(slug, name, price, struck, desc, extra, xsell):
     page = head(f"{name} — FuturesTradingBots", desc + " TradingView invite-only scripts, activated within 24h.", path)
     page += f"""
   <div class="wrap">
-    <nav class="crumbs" aria-label="Breadcrumb"><a href="/#packages">Bundles</a><span class="sep">/</span>{esc(name)}</nav>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Strategies</a><span class="sep">/</span>{esc(name)}</nav>
     <article class="pdp">
       <div class="pdp-head">
         <div>
@@ -786,7 +773,7 @@ def bundle_page(slug, name, price, struck, desc, extra, xsell):
         {buybox(name, f"{price:,}", name + " bundle", xsell=xsell, struck=f"{struck:,}" if struck else None, href=WHOP_STORE)}
       </div>
       <div class="pdp-disclaim"><p class="disclaim-sm">{esc(DISCLAIMER)}</p></div>
-      <a class="backlink" href="/#packages">&larr; Bundles</a>
+      <a class="backlink" href="/">&larr; All strategies</a>
     </article>
   </div>
 """
@@ -888,7 +875,7 @@ if True:
                 <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Manual activation fallback within the 24h window</span></li>
                 <li><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" vector-effect="non-scaling-stroke"/></svg><span>Cancel anytime from your Whop dashboard</span></li>
               </ul>
-              <p class="xsell">Questions first? <a href="/#faq">Read the FAQ</a></p>
+              <p class="xsell">Questions? Ask in <a href="https://discord.gg/BBXDDn9pCD" rel="noopener">Discord</a></p>
             </aside>
           </div>
 
@@ -896,7 +883,7 @@ if True:
             <p class="disclaim-sm">{esc(DISCLAIMER)}</p>
           </div>
 
-          <a class="backlink" href="/#strategies">&larr; Browse the catalog</a>
+          <a class="backlink" href="/">&larr; Browse the catalog</a>
         </article>
       </div>
     """
@@ -923,7 +910,7 @@ if True:
           </div>
           <div class="err-links">
             <a class="btn btn-solid" href="/">Back to home</a>
-            <a class="btn" href="/#strategies">Browse strategies</a>
+            <a class="btn" href="/">Browse strategies</a>
           </div>
         </div>
       </div>
