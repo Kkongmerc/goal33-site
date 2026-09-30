@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'none'; img-src 'self'; font-src 'self' https://fonts.gstatic.com; style-src 'self' https://fonts.googleapis.com 'sha256-1SnI1oWxH4wG1BjRfyNT9FZtNYPvcAX6HJfkZSAWiqw='; script-src 'sha256-b4UwnhMxS0xAmYyby0DZj5jdi3XxfF6ZodbYQ8s1XUo='; connect-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'none'; img-src 'self'; font-src 'self' https://fonts.gstatic.com; style-src 'self' https://fonts.googleapis.com 'sha256-1SnI1oWxH4wG1BjRfyNT9FZtNYPvcAX6HJfkZSAWiqw='; script-src 'sha256-wfxQCmfUFN17np3OZJttsuqB6hl1TB8YrrntriSdQbo='; connect-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#051014">
 <title>Live proof of concept — FuturesTradingBots</title>
@@ -172,6 +172,10 @@ body.auth-open .auth { display:block }
   const shortTime = t => Number.isFinite(Number(t)) ? new Date(Number(t)).toLocaleString([], {month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}) : "—";
   const signClass = n => Number(n) > 0 ? "pos" : Number(n) < 0 ? "neg" : "";
   const ageText = s => s < 60 ? Math.max(0, Math.floor(s)) + " s ago" : Math.floor(s / 60) + " min ago";
+  const ageLabel = (feedAge, dataAge) => Number.isFinite(feedAge) ?
+    Number.isFinite(dataAge) && dataAge - feedAge >= 30 ?
+      "Feed updated " + ageText(feedAge) + " · Account data " + ageText(dataAge) + " (delayed)" :
+      "Updated " + ageText(feedAge) : "No verified update";
   let publicData = null, privateData = null, token = null, authEpoch = 0, month = null, lastReceipt = 0, timer = null;
   const todayMonth = () => { const d = publicData && publicData.asOf ? new Date(publicData.asOf) : new Date(); return d.getUTCFullYear() * 12 + d.getUTCMonth(); };
   const validOrigin = API_BASE && /^https:\/\/[a-z0-9.-]+$/i.test(API_BASE) && !API_BASE.includes("@");
@@ -189,13 +193,16 @@ body.auth-open .auth { display:block }
   function shownAccounts(d) { const rows = Array.isArray(d.accounts) ? d.accounts : []; return privateData ? rows : rows.filter(a => a.visibility !== "private"); }
   function setText(id, value) { byId(id).textContent = value; }
   function renderStatus() {
-    const d = data(), u = d && d.uptime || {}, age = lastReceipt ? Math.max(0, (Date.now() - lastReceipt) / 1000) + Number(u.lastUpdateAgeS || 0) : Infinity;
+    const d = data(), u = d && d.uptime || {};
+    const elapsed = lastReceipt ? Math.max(0, (Date.now() - lastReceipt) / 1000) : Infinity;
+    const age = elapsed + Number(u.lastUpdateAgeS || 0);
+    const dataAge = Number.isFinite(elapsed) && knownNumber(u.dataAgeS) && Number(u.dataAgeS) >= 0 ? elapsed + Number(u.dataAgeS) : Infinity;
     let state = d && u.state || "down";
     if (!mock && age >= 300) state = "down"; else if (!mock && age >= 120 && state === "live") state = "stale";
     const pill = byId("state");
     pill.className = "pill " + (mock ? "stale" : ["live","stale","down"].includes(state) ? state : "down");
     pill.textContent = mock ? "PREVIEW" : state.toUpperCase();
-    setText("age", Number.isFinite(age) ? "Updated " + ageText(age) : "No verified update");
+    setText("age", ageLabel(age, mock ? Infinity : dataAge));
     setText("up24", d ? pct(u.h24) : "—"); setText("up7", d ? pct(u.d7) : "—"); setText("up30", d ? pct(u.d30) : "—");
     setText("net", d && d.daily ? money(d.daily.net) : "—");
   }

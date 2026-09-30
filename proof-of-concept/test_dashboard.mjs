@@ -9,6 +9,13 @@ const css = html.match(/<style>([\s\S]*?)<\/style>/)?.[1];
 const js = html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 assert(css && js, "inline assets exist");
 new vm.Script(js);
+const ageHelpers = js.match(/  const ageText = [^\r\n]+\r?\n  const ageLabel = [\s\S]*?;\r?\n/)?.[0];
+assert(ageHelpers, "source age formatter is testable");
+const ageContext = {};
+vm.runInNewContext(ageHelpers + "this.testAgeLabel = ageLabel;", ageContext);
+assert.equal(ageContext.testAgeLabel(3, 3), "Updated 3 s ago");
+assert.equal(ageContext.testAgeLabel(3, 903), "Feed updated 3 s ago · Account data 15 min ago (delayed)");
+assert.equal(ageContext.testAgeLabel(Infinity, 903), "No verified update");
 for (const content of [css, js]) {
   const hash = createHash("sha256").update(content).digest("base64");
   assert(html.includes("'sha256-" + hash + "'"), "CSP pins exact inline content");
@@ -16,6 +23,7 @@ for (const content of [css, js]) {
 assert(!html.includes("unsafe-inline") && !html.includes("unsafe-eval"));
 assert(!/\sstyle\s*=/.test(html), "no style attributes");
 assert(js.includes('const API_BASE = "";'), "live endpoint fails closed until reviewed HTTPS origin is pinned");
+assert(html.includes("connect-src 'self'"), "CSP remains same-origin until reviewed API pin");
 assert(!/localStorage|sessionStorage|document\.cookie/.test(js), "no credential persistence");
 assert(!/apiOrigin|apiUrl|apiBase/.test(js), "no query-controlled credential destination");
 assert(js.includes("authEpoch") && js.includes("resetPrivate()"), "authorization race and reset guards present");
