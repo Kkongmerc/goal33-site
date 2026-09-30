@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'none'; img-src 'self'; font-src 'self' https://fonts.gstatic.com; style-src 'self' https://fonts.googleapis.com 'sha256-1SnI1oWxH4wG1BjRfyNT9FZtNYPvcAX6HJfkZSAWiqw='; script-src 'sha256-wfxQCmfUFN17np3OZJttsuqB6hl1TB8YrrntriSdQbo='; connect-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'none'; img-src 'self'; font-src 'self' https://fonts.gstatic.com; style-src 'self' https://fonts.googleapis.com 'sha256-8GaLC2MVL644CJSVS2mxus0ESJqpx7COqDuXJ+kZXUI='; script-src 'sha256-5MvabMwY7feSyLjOYJLT1R0j1jPr6uu7hDsvLw/S6Do='; connect-src 'self' https://ftb-live.cmrealestate808.workers.dev; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#051014">
 <title>Live proof of concept — FuturesTradingBots</title>
@@ -61,7 +61,7 @@ h1 { font-size:clamp(32px,4vw,58px); line-height:1.04; letter-spacing:-.04em; ma
 h2 { margin:0; font-size:20px; letter-spacing:-.02em }
 .sub { color:var(--p-muted); font-size:13px; margin:3px 0 0 }
 .table-wrap { width:100%; overflow-x:auto }
-table { border-collapse:collapse; width:100%; min-width:540px; font-size:13px }
+table { border-collapse:collapse; width:100%; min-width:690px; font-size:13px }
 th { text-align:left; color:var(--p-muted); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.08em }
 td,th { padding:12px 9px; border-top:1px solid var(--p-line); vertical-align:top }
 td:first-child,th:first-child { padding-left:0 }
@@ -141,7 +141,7 @@ body.auth-open .auth { display:block }
   </section>
   <div class="grid">
     <div class="stack">
-      <section class="card"><div class="card-head"><div><h2>Accounts</h2><p class="sub">Copier-linked identities only · masked in the public view</p></div><span id="account-count" class="tag">0 identities</span></div><div class="table-wrap"><table><thead><tr><th>Account</th><th>Firm / product</th><th>Open</th><th>Today</th></tr></thead><tbody id="accounts"></tbody></table></div></section>
+      <section class="card"><div class="card-head"><div><h2>Accounts</h2><p class="sub">Copier-linked identities only · masked in both views</p></div><span id="account-count" class="tag">0 identities</span></div><div class="table-wrap"><table><thead><tr><th>Account</th><th>Trading</th><th>Firm</th><th>Multiplier</th><th>Open</th><th>Today</th></tr></thead><tbody id="accounts"></tbody></table></div></section>
       <section class="card"><div class="card-head"><div><h2>Open trades</h2><p class="sub">Entry, last price and current unrealized P&amp;L</p></div></div><div id="positions"></div></section>
       <section class="card"><div class="card-head"><div><h2>Monthly P&amp;L calendar</h2><p class="sub">Realized daily totals, where available</p></div><div class="calendar-controls"><button id="prev-month" type="button" aria-label="Previous month">‹</button><span id="month-title" class="cal-title"></span><button id="next-month" type="button" aria-label="Next month">›</button><label class="small" for="calendar-account">Account</label><select id="calendar-account" aria-label="Calendar account"><option value="">All accounts</option></select></div></div><div id="calendar" class="cal" aria-label="Monthly P and L calendar"></div><div id="calendar-total" class="cal-total"></div></section>
     </div>
@@ -160,8 +160,8 @@ body.auth-open .auth { display:block }
 <script>
 (() => {
   "use strict";
-  // Set only after director review of the exact HTTPS Worker origin. Query parameters never control this value.
-  const API_BASE = "";
+  // Reviewed fixed Worker origin; URL parameters never control credential destinations.
+  const API_BASE = "https://ftb-live.cmrealestate808.workers.dev";
   const mock = new URLSearchParams(location.search).get("mock") === "1";
   const byId = id => document.getElementById(id);
   const knownNumber = n => n !== null && n !== undefined && n !== "" && Number.isFinite(Number(n));
@@ -178,7 +178,9 @@ body.auth-open .auth { display:block }
       "Updated " + ageText(feedAge) : "No verified update";
   let publicData = null, privateData = null, token = null, authEpoch = 0, month = null, lastReceipt = 0, timer = null;
   const todayMonth = () => { const d = publicData && publicData.asOf ? new Date(publicData.asOf) : new Date(); return d.getUTCFullYear() * 12 + d.getUTCMonth(); };
-  const validOrigin = API_BASE && /^https:\/\/[a-z0-9.-]+$/i.test(API_BASE) && !API_BASE.includes("@");
+  const validOrigin = API_BASE === "https://ftb-live.cmrealestate808.workers.dev";
+  const safeAlias = value => typeof value === "string" && (mock ? /^PREVIEW-[0-9]{4}$/.test(value) : /^···[0-9]{3}$/.test(value)) ? value : "—";
+  const safeKey = value => typeof value === "string" && (mock ? /^PREVIEW-KEY-[A-Z]$/.test(value) : /^[A-Za-z0-9_-]{22}$/.test(value));
   if (mock) document.body.classList.add("mock");
   function notice(text) { byId("status-note").textContent = text; }
   function resetPrivate() {
@@ -190,7 +192,7 @@ body.auth-open .auth { display:block }
     render();
   }
   function data() { return privateData || publicData; }
-  function shownAccounts(d) { const rows = Array.isArray(d.accounts) ? d.accounts : []; return privateData ? rows : rows.filter(a => a.visibility !== "private"); }
+  function shownAccounts(d) { const rows = Array.isArray(d.accounts) ? d.accounts : []; return rows.filter(a => safeKey(a.accountKey) && safeAlias(a.id) !== "—" && (privateData || a.visibility !== "private")); }
   function setText(id, value) { byId(id).textContent = value; }
   function renderStatus() {
     const d = data(), u = d && d.uptime || {};
@@ -211,13 +213,21 @@ body.auth-open .auth { display:block }
     setText("account-count", rows.length + (rows.length === 1 ? " identity" : " identities"));
     const body = byId("accounts"); body.replaceChildren();
     for (const a of rows) {
-      const tr = node("tr"), id = node("td"), firm = node("td"), open = node("td"), net = node("td", "num " + signClass(a.netToday), money(a.netToday));
-      id.append(node("strong", "", a.id || "—"), node("div", "small", a.role || ""));
-      firm.append(node("span", "", a.firm || "—"), node("div", "small", a.product || "—"));
+      const tr = node("tr"), id = node("td"), trading = node("td"), firm = node("td"),
+        multiplier = node("td"), open = node("td"), net = node("td", "num " + signClass(a.netToday), money(a.netToday));
+      id.append(node("strong", "", safeAlias(a.id)), node("div", "small", a.role || ""));
+      const tradingName = a.product === "Continuum" ? "Continuum (MNQ Book)" :
+        a.product === "Midas" ? "Midas (MGC Book)" :
+        a.product === "Slipstream" ? "Slipstream" : "—";
+      trading.textContent = tradingName;
+      firm.textContent = a.firm || "—";
+      const verified = a.multiplierStatus === "verified" && Number.isSafeInteger(a.configuredMultiplier) && a.configuredMultiplier > 0;
+      multiplier.append(node("strong", "num", verified ? "×" + a.configuredMultiplier : "—"),
+        node("div", "small", verified ? (mock ? "Preview value" : "Verified") : "Not verified"));
       open.textContent = Array.isArray(a.positions) ? String(a.positions.length) : "—";
-      tr.append(id, firm, open, net); body.append(tr);
+      tr.append(id, trading, firm, multiplier, open, net); body.append(tr);
     }
-    if (!rows.length) { const tr = node("tr"), td = node("td", "small", "No copier-linked accounts in this feed."); td.colSpan = 4; tr.append(td); body.append(tr); }
+    if (!rows.length) { const tr = node("tr"), td = node("td", "small", "No copier-linked accounts in this feed."); td.colSpan = 6; tr.append(td); body.append(tr); }
   }
   function renderPositions(d) {
     const box = byId("positions"); box.replaceChildren();
@@ -225,7 +235,7 @@ body.auth-open .auth { display:block }
     for (const a of shownAccounts(d)) for (const p of Array.isArray(a.positions) ? a.positions : []) {
       count++;
       const row = node("div", "line"), left = node("span"), right = node("strong", "num " + signClass(p.unrealized), money(p.unrealized));
-      left.append(node("strong", "", (p.side || "—").toUpperCase() + " " + (p.qty ?? "—") + " · " + (p.instrument || "—")), node("div", "small", (a.id || "—") + " · entry " + (p.avg ?? "—") + " → last " + (p.last ?? "—")));
+      left.append(node("strong", "", (p.side || "—").toUpperCase() + " " + (p.qty ?? "—") + " · " + (p.instrument || "—")), node("div", "small", safeAlias(a.id) + " · entry " + (p.avg ?? "—") + " → last " + (p.last ?? "—")));
       row.append(left, right); box.append(row);
     }
     if (!count) box.append(node("div", "empty", "No open trades reported."));
@@ -248,15 +258,15 @@ body.auth-open .auth { display:block }
     const h = d.health || {}, box = byId("health"); box.replaceChildren();
     const line = (name, ok) => { const row = node("div", "health-row"); row.append(node("span", "", name), node("strong", ok === true ? "good" : ok === false ? "bad" : "", ok === true ? "OK" : ok === false ? "DOWN" : "UNKNOWN")); box.append(row); };
     line("Watcher", h.watcherUp);
-    const visibleIds = new Set(shownAccounts(d).map(a => a.id));
-    for (const x of Array.isArray(h.identities) ? h.identities : []) if (visibleIds.has(x.id)) line(x.id || "Identity", x.ok);
+    const visibleKeys = new Set(shownAccounts(d).map(a => a.accountKey));
+    for (const x of Array.isArray(h.identities) ? h.identities : []) if (visibleKeys.has(x.accountKey)) line(safeAlias(x.id), x.ok);
     box.append(node("div", "small", "Last fill · " + shortTime(h.lastFillTs)));
   }
   function renderCalendar(d) {
-    const options = byId("calendar-account"), chosen = options.value, ids = shownAccounts(d).map(x => x.id).filter(Boolean);
+    const options = byId("calendar-account"), chosen = options.value, rows = shownAccounts(d).filter(x => x.accountKey);
     options.replaceChildren(node("option", "", "All accounts")); options.firstChild.value = "";
-    for (const id of ids) { const o = node("option", "", id); o.value = id; options.append(o); }
-    options.value = ids.includes(chosen) ? chosen : "";
+    for (const [index, a] of rows.entries()) { const o = node("option", "", safeAlias(a.id) + " · " + (a.product || "") + " #" + (index + 1)); o.value = a.accountKey; options.append(o); }
+    options.value = rows.some(a => a.accountKey === chosen) ? chosen : "";
     drawCalendar(d);
   }
   function drawCalendar(d) {
@@ -272,23 +282,23 @@ body.auth-open .auth { display:block }
       const key = String(y) + "-" + String(m+1).padStart(2,"0") + "-" + String(n).padStart(2,"0"), record = (d.calendar || {})[key], raw = record && (chosen ? record.byAccount && record.byAccount[chosen] : record.total), val = Number(raw), has = raw !== undefined && raw !== null && Number.isFinite(val);
       const day = node("div","day" + (has && val > 0 ? " win" : has && val < 0 ? " loss" : ""));
       day.append(node("span","date",n),node("span","amount",has ? money(val) : "—"));
-      day.title = key + " · " + (chosen || "All accounts") + " · " + (has ? money(val) : "No report");
+      day.title = key + " · " + (chosen ? safeAlias(shownAccounts(d).find(a => a.accountKey === chosen)?.id) : "All accounts") + " · " + (has ? money(val) : "No report");
       box.append(day); if (has) { total += val; shown++; }
     }
     const footer = byId("calendar-total"); footer.replaceChildren(node("span","",shown + " reported days"),node("strong","num " + signClass(total),shown ? money(total) : "—"));
   }
   function renderPrivate(d) {
     const accounts = byId("private-accounts"), fills = byId("fills"); accounts.replaceChildren(); fills.replaceChildren();
-    for (const a of Array.isArray(d.accounts) ? d.accounts : []) {
+    for (const a of shownAccounts(d)) {
       if (!a.private) continue;
       const p = a.private, block = node("div","line"), left = node("span");
-      left.append(node("strong","",p.label || a.id || "Account"),node("div","small","Balance " + money(p.balance) + " · margin " + money(p.marginUsed)));
+      left.append(node("strong","",safeAlias(a.id)),node("div","small","Balance " + money(p.balance) + " · margin " + money(p.marginUsed)));
       block.append(left); accounts.append(block);
       for (const o of Array.isArray(p.workingOrders) ? p.workingOrders : []) accounts.append(node("div","small", "Working · " + (o.side || "—") + " " + (o.qty ?? "—") + " " + (o.instrument || "—") + " " + (o.type || "—") + " @ " + (o.price ?? "—")));
     }
     if (!accounts.childNodes.length) accounts.append(node("div","empty","No private account detail."));
     for (const f of Array.isArray(d.fillsToday) ? d.fillsToday : []) {
-      const row = node("div","line"); row.append(node("span","",shortTime(f.ts) + " · " + (f.account || "—") + " · " + (f.side || "—") + " " + (f.qty ?? "—") + " " + (f.instrument || "—")),node("span","num",f.price ?? "—")); fills.append(row);
+      const row = node("div","line"); row.append(node("span","",shortTime(f.ts) + " · " + safeAlias(f.account) + " · " + (f.side || "—") + " " + (f.qty ?? "—") + " " + (f.instrument || "—")),node("span","num",f.price ?? "—")); fills.append(row);
     }
     if (!fills.childNodes.length) fills.append(node("div","empty","No fills reported today."));
   }

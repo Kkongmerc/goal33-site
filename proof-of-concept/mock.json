@@ -3,16 +3,17 @@
   "asOf": 1790798700000,
   "uptime": {"h24": 99.1, "d7": 98.7, "d30": 97.9, "sinceTs": 1790712300000, "state": "live", "lastUpdateAgeS": 12},
   "accounts": [
-    {"id": "PREVIEW-0001", "firm": "DEMO", "group": "Preview group A", "product": "Demo Strategy A", "role": "lead", "realizedToday": 124.5, "unrealized": 38, "netToday": 162.5, "linkOk": true, "positions": [{"instrument": "MNQ DEMO", "side": "long", "qty": 1, "avg": 21000, "last": 21008, "unrealized": 38, "openedTs": 1790795100000}], "private": {"balance": 50000, "marginUsed": 1200, "workingOrders": [{"instrument": "MNQ DEMO", "side": "sell", "type": "stop", "qty": 1, "price": 20980}], "label": "SYNTHETIC PREVIEW ACCOUNT A"}},
-    {"id": "PREVIEW-0002", "firm": "DEMO", "group": "Preview group B", "product": "Demo Strategy B", "role": "follower", "realizedToday": -42, "unrealized": 0, "netToday": -42, "linkOk": true, "positions": [], "private": {"balance": 25000, "marginUsed": 0, "workingOrders": [], "label": "SYNTHETIC PREVIEW ACCOUNT B"}}
+    {"accountKey":"PREVIEW-KEY-A","id": "PREVIEW-0001", "firm": "DEMO", "group": "Continuum", "product": "Continuum", "role": "lead", "configuredMultiplier": 2, "multiplierStatus": "verified", "realizedToday": 124.5, "unrealized": 38, "netToday": 162.5, "linkOk": true, "positions": [{"instrument": "MNQ DEMO", "side": "long", "qty": 1, "avg": 21000, "last": 21008, "unrealized": 38, "openedTs": 1790795100000}], "private": {"balance": 50000, "marginUsed": 1200, "workingOrders": [{"instrument": "MNQ DEMO", "side": "sell", "type": "stop", "qty": 1, "price": 20980}], "label": "SYNTHETIC PREVIEW ACCOUNT A"}},
+    {"accountKey":"PREVIEW-KEY-B","id": "PREVIEW-0002", "firm": "DEMO", "group": "Midas", "product": "Midas", "role": "follower", "configuredMultiplier": null, "multiplierStatus": "unverified", "realizedToday": -42, "unrealized": 0, "netToday": -42, "linkOk": true, "positions": [], "private": {"balance": 25000, "marginUsed": 0, "workingOrders": [], "label": "SYNTHETIC PREVIEW ACCOUNT B"}},
+    {"accountKey":"PREVIEW-KEY-C","id": "PREVIEW-0003", "firm": "DEMO", "group": "Slipstream", "product": "Slipstream", "role": "follower", "configuredMultiplier": null, "multiplierStatus": "unverified", "realizedToday": 0, "unrealized": 0, "netToday": 0, "linkOk": true, "positions": [], "private": {"balance": 25000, "marginUsed": 0, "workingOrders": [], "label": "SYNTHETIC PREVIEW ACCOUNT C"}}
   ],
-  "fillsToday": [{"ts": 1790795100000, "account": "PREVIEW-0001", "instrument": "MNQ DEMO", "side": "buy", "qty": 1, "price": 21000}],
+  "fillsToday": [{"ts": 1790795100000, "accountKey":"PREVIEW-KEY-A", "account": "PREVIEW-0001", "instrument": "MNQ DEMO", "side": "buy", "qty": 1, "price": 21000}],
   "calendar": {
-    "2026-09-27": {"total": 72, "byAccount": {"PREVIEW-0001": 72, "PREVIEW-0002": 0}},
-    "2026-09-28": {"total": -58, "byAccount": {"PREVIEW-0001": -21, "PREVIEW-0002": -37}},
-    "2026-09-29": {"total": 144, "byAccount": {"PREVIEW-0001": 166, "PREVIEW-0002": -22}},
-    "2026-09-30": {"total": 120.5, "byAccount": {"PREVIEW-0001": 162.5, "PREVIEW-0002": -42}}
+    "2026-09-27": {"total": 72, "byAccount": {"PREVIEW-KEY-A": 72, "PREVIEW-KEY-B": 0, "PREVIEW-KEY-C": 0}},
+    "2026-09-28": {"total": -58, "byAccount": {"PREVIEW-KEY-A": -21, "PREVIEW-KEY-B": -37, "PREVIEW-KEY-C": 0}},
+    "2026-09-29": {"total": 144, "byAccount": {"PREVIEW-KEY-A": 166, "PREVIEW-KEY-B": -22, "PREVIEW-KEY-C": 0}},
+    "2026-09-30": {"total": 120.5, "byAccount": {"PREVIEW-KEY-A": 162.5, "PREVIEW-KEY-B": -42, "PREVIEW-KEY-C": 0}}
   },
-  "daily": {"date": "2026-09-30", "trades": 5, "wins": 3, "losses": 2, "net": 120.5, "byProduct": [{"product": "Demo Strategy A", "trades": 3, "net": 162.5}, {"product": "Demo Strategy B", "trades": 2, "net": -42}], "flatBy1609": false},
-  "health": {"watcherUp": true, "identities": [{"id": "PREVIEW-0001", "ok": true}, {"id": "PREVIEW-0002", "ok": true}], "lastFillTs": 1790795100000}
+  "daily": {"date": "2026-09-30", "trades": 5, "wins": 3, "losses": 2, "net": 120.5, "byProduct": [{"product": "Continuum", "trades": 3, "net": 162.5}, {"product": "Midas", "trades": 2, "net": -42}, {"product": "Slipstream", "trades": 0, "net": 0}], "flatBy1609": false},
+  "health": {"watcherUp": true, "identities": [{"accountKey":"PREVIEW-KEY-A","id": "PREVIEW-0001", "ok": true}, {"accountKey":"PREVIEW-KEY-B","id": "PREVIEW-0002", "ok": true}, {"accountKey":"PREVIEW-KEY-C","id": "PREVIEW-0003", "ok": true}], "lastFillTs": 1790795100000}
 }

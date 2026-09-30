@@ -22,15 +22,26 @@ for (const content of [css, js]) {
 }
 assert(!html.includes("unsafe-inline") && !html.includes("unsafe-eval"));
 assert(!/\sstyle\s*=/.test(html), "no style attributes");
-assert(js.includes('const API_BASE = "";'), "live endpoint fails closed until reviewed HTTPS origin is pinned");
-assert(html.includes("connect-src 'self'"), "CSP remains same-origin until reviewed API pin");
+const origin = "https://ftb-live.cmrealestate808.workers.dev";
+assert(js.includes('const API_BASE = "' + origin + '";'), "reviewed API origin is pinned");
+assert(html.includes("connect-src 'self' " + origin + ";"), "CSP permits only the reviewed API origin");
+assert(js.includes('const validOrigin = API_BASE === "' + origin + '";'));
 assert(!/localStorage|sessionStorage|document\.cookie/.test(js), "no credential persistence");
 assert(!/apiOrigin|apiUrl|apiBase/.test(js), "no query-controlled credential destination");
 assert(js.includes("authEpoch") && js.includes("resetPrivate()"), "authorization race and reset guards present");
 assert(js.includes('clear("private-accounts"); clear("fills")'), "private DOM cleared");
+assert(!js.includes("p.label || a.id"), "full private account labels are not rendered");
+assert(js.includes("visibleKeys.has(x.accountKey)"), "health joins by opaque key, not colliding label");
+assert(js.includes("o.value = a.accountKey"), "calendar joins by opaque key");
+assert(html.includes("<th>Trading</th>") && html.includes("<th>Multiplier</th>"));
+for (const label of ["Continuum (MNQ Book)", "Midas (MGC Book)", "Slipstream"])
+  assert(js.includes(label));
 assert(js.includes('credentials:"omit"') && js.includes('cache:"no-store"'), "no cookie transport or browser caching");
 assert(fixture.accounts.every(a => a.id.startsWith("PREVIEW-") && a.firm === "DEMO"));
+assert(fixture.accounts.every(a => a.accountKey.startsWith("PREVIEW-KEY-")));
+assert(Object.keys(fixture.calendar["2026-09-30"].byAccount).every(key => key.startsWith("PREVIEW-KEY-")));
+assert(fixture.accounts.some(a => a.multiplierStatus === "unverified" && a.configuredMultiplier === null));
 assert(fixture.accounts.every(a => String(a.private?.label).startsWith("SYNTHETIC PREVIEW")));
 assert(html.includes("SYNTHETIC DEMO / PREVIEW — NO LIVE ACCOUNTS OR RESULTS"));
 assert(html.includes("Futures trading involves substantial risk of loss and is not suitable for all investors."));
-console.log("PASS dashboard CSP, fail-closed API, memory-only auth, private reset, synthetic fixture");
+console.log("PASS dashboard CSP, fixed API, opaque-key joins, multiplier gate, private reset, synthetic fixture");
