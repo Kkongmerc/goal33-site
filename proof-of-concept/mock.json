@@ -1,19 +1,15 @@
 {
   "v": 1,
   "asOf": 1790798700000,
-  "uptime": {"h24": 99.1, "d7": 98.7, "d30": 97.9, "sinceTs": 1790712300000, "state": "live", "lastUpdateAgeS": 12},
+  "uptime": {"h24": null, "d7": null, "d30": null, "sinceTs": null, "state": "unknown", "lastUpdateAgeS": null},
   "accounts": [
-    {"accountKey":"PREVIEW-KEY-A","id": "PREVIEW-0001", "firm": "DEMO", "group": "Continuum", "product": "Continuum", "role": "lead", "configuredMultiplier": 2, "multiplierStatus": "verified", "realizedToday": 124.5, "unrealized": 38, "netToday": 162.5, "linkOk": true, "positions": [{"instrument": "MNQ DEMO", "side": "long", "qty": 1, "avg": 21000, "last": 21008, "unrealized": 38, "openedTs": 1790795100000}], "private": {"balance": 50000, "marginUsed": 1200, "workingOrders": [{"instrument": "MNQ DEMO", "side": "sell", "type": "stop", "qty": 1, "price": 20980}], "label": "SYNTHETIC PREVIEW ACCOUNT A"}},
-    {"accountKey":"PREVIEW-KEY-B","id": "PREVIEW-0002", "firm": "DEMO", "group": "Midas", "product": "Midas", "role": "follower", "configuredMultiplier": null, "multiplierStatus": "unverified", "realizedToday": -42, "unrealized": 0, "netToday": -42, "linkOk": true, "positions": [], "private": {"balance": 25000, "marginUsed": 0, "workingOrders": [], "label": "SYNTHETIC PREVIEW ACCOUNT B"}},
-    {"accountKey":"PREVIEW-KEY-C","id": "PREVIEW-0003", "firm": "DEMO", "group": "Slipstream", "product": "Slipstream", "role": "follower", "configuredMultiplier": null, "multiplierStatus": "unverified", "realizedToday": 0, "unrealized": 0, "netToday": 0, "linkOk": true, "positions": [], "private": {"balance": 25000, "marginUsed": 0, "workingOrders": [], "label": "SYNTHETIC PREVIEW ACCOUNT C"}}
+    {"accountKey":"PREVIEW-OPAQUE-KEY-A","id":"···135","firm":"DEMO","group":"Continuum","product":"Continuum","role":"lead","configuredMultiplier":null,"multiplierStatus":"unverified","openTrades":null,"netToday":null,"visibility":"public"},
+    {"accountKey":"PREVIEW-OPAQUE-KEY-A","id":"···135","firm":"DEMO","group":"Midas","product":"Midas","role":"lead","configuredMultiplier":null,"multiplierStatus":"unverified","openTrades":null,"netToday":null,"visibility":"public"},
+    {"accountKey":"PREVIEW-OPAQUE-KEY-B","id":"···247","firm":"DEMO","group":"Slipstream","product":"Slipstream","role":"follower","configuredMultiplier":null,"multiplierStatus":"unverified","openTrades":null,"netToday":null,"visibility":"public"},
+    {"accountKey":"PREVIEW-OPAQUE-KEY-C","id":"···247","firm":"DEMO","group":"Keystone","product":"Keystone","role":"follower","configuredMultiplier":null,"multiplierStatus":"unverified","openTrades":null,"netToday":null,"visibility":"public"}
   ],
-  "fillsToday": [{"ts": 1790795100000, "accountKey":"PREVIEW-KEY-A", "account": "PREVIEW-0001", "instrument": "MNQ DEMO", "side": "buy", "qty": 1, "price": 21000}],
-  "calendar": {
-    "2026-09-27": {"total": 72, "byAccount": {"PREVIEW-KEY-A": 72, "PREVIEW-KEY-B": 0, "PREVIEW-KEY-C": 0}},
-    "2026-09-28": {"total": -58, "byAccount": {"PREVIEW-KEY-A": -21, "PREVIEW-KEY-B": -37, "PREVIEW-KEY-C": 0}},
-    "2026-09-29": {"total": 144, "byAccount": {"PREVIEW-KEY-A": 166, "PREVIEW-KEY-B": -22, "PREVIEW-KEY-C": 0}},
-    "2026-09-30": {"total": 120.5, "byAccount": {"PREVIEW-KEY-A": 162.5, "PREVIEW-KEY-B": -42, "PREVIEW-KEY-C": 0}}
-  },
-  "daily": {"date": "2026-09-30", "trades": 5, "wins": 3, "losses": 2, "net": 120.5, "byProduct": [{"product": "Continuum", "trades": 3, "net": 162.5}, {"product": "Midas", "trades": 2, "net": -42}, {"product": "Slipstream", "trades": 0, "net": 0}], "flatBy1609": false},
-  "health": {"watcherUp": true, "identities": [{"accountKey":"PREVIEW-KEY-A","id": "PREVIEW-0001", "ok": true}, {"accountKey":"PREVIEW-KEY-B","id": "PREVIEW-0002", "ok": true}, {"accountKey":"PREVIEW-KEY-C","id": "PREVIEW-0003", "ok": true}], "lastFillTs": 1790795100000}
+  "calendar": {},
+  "daily": {"date":"2026-09-30","trades":null,"wins":null,"losses":null,"net":null,"byProduct":[{"product":"Continuum","trades":null,"net":null},{"product":"Midas","trades":null,"net":null},{"product":"Slipstream","trades":null,"net":null},{"product":"Keystone","trades":null,"net":null}]},
+  "health": {"watcherUp":null,"identities":[{"accountKey":"PREVIEW-OPAQUE-KEY-A","id":"···135","ok":null},{"accountKey":"PREVIEW-OPAQUE-KEY-B","id":"···247","ok":null},{"accountKey":"PREVIEW-OPAQUE-KEY-C","id":"···247","ok":null}]},
+  "automation": {"v":1,"asOf":null,"window":{"from":null,"to":null},"components":[{"name":"Strategy alerts","state":"unknown","since":null,"note":""},{"name":"Lead accounts","state":"unknown","since":null,"note":""},{"name":"Copier groups","state":"unknown","since":null,"note":""},{"name":"Data feed","state":"unknown","since":null,"note":""},{"name":"Execution monitoring","state":"unknown","since":null,"note":""},{"name":"Live-page publisher","state":"unknown","since":null,"note":""}],"accuracy":{"method":"not yet measured","leads":[{"product":"Continuum","testerTrades":null,"accountTrades":null,"fillsCompared":null,"withinTolerancePct":null,"medianTicks":null,"worstTicks":null,"worseThanTester":null,"missedEntries":null,"stopsPresentPct":null,"orderedCloses":null}]},"testing":{"strategiesTested":null,"strategiesAtTarget":null,"openItems":null,"byStrategy":[{"name":"Continuum","trades":null,"state":"unknown"}]},"implemented":[{"approved":false,"id":"preview-unapproved","title":"Placeholder","date":null,"status":"planned","text":""}],"risks":[{"approved":false,"id":"preview-unapproved","title":"Placeholder","status":"open","text":""}],"incidents":[{"approved":false,"date":null,"title":"Placeholder","text":"","resolved":null}]}
 }
