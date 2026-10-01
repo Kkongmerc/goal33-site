@@ -46,6 +46,9 @@ test("account rows retain same-mask identities and show unknown money honestly",
   const fallbackCells = helpers.accountCells(fallback, columns, true);
   assert.equal(fallbackCells.find(([label]) => label === "Current balance (equity)")[1], "$1,234.50");
   assert.match(helpers.accountAsOf({ ts: Date.parse("2026-09-30T12:00:00Z") }), /Feed data as of Sep 30, 2026/);
+  const unknownAsOf = helpers.accountAsOf({ ts: null }, [{ balanceAsOfTs: null }]);
+  assert.match(unknownAsOf, /Feed data as of unknown/);
+  assert.doesNotMatch(unknownAsOf, /1970/);
 });
 
 test("Slipstream contract label uses verified configuredContracts, never position or multiplier", () => {

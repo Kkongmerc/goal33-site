@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'none'; img-src 'self'; font-src 'self' https://fonts.gstatic.com; style-src 'self' https://fonts.googleapis.com 'sha256-sLXPnxkGvRC5LnCqFo8RUTLEPvrynj0ump0aNlwyWgc='; script-src 'sha256-Oh/v0giQLdTOxij1FgAM2nzHnmN6R1Rm6DI0oP9smMg='; connect-src 'self' https://ftb-live.cmrealestate808.workers.dev; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'none'; img-src 'self'; font-src 'self' https://fonts.gstatic.com; style-src 'self' https://fonts.googleapis.com 'sha256-sLXPnxkGvRC5LnCqFo8RUTLEPvrynj0ump0aNlwyWgc='; script-src 'sha256-ZyN2cJo8cR3/foc8jGbUrZIH4QwoNOgu/ZCraAAih00='; connect-src 'self' https://ftb-live.cmrealestate808.workers.dev; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#051014">
 <title>Simulated account activity — FuturesTradingBots</title>
@@ -236,10 +236,12 @@ body.auth-open .auth { display:block }
     ];
   }
   function accountAsOf(d, rows = []) {
-    const dates = new Set(rows.map(account => Number(account.balanceAsOfTs))
-      .filter(Number.isFinite).map(stamp => new Date(stamp).toLocaleDateString("en-US", {month:"short",day:"numeric",year:"numeric",timeZone:"UTC"})));
+    const dates = new Set(rows.map(account => account.balanceAsOfTs)
+      .filter(stamp => Number.isSafeInteger(stamp) && stamp > 0)
+      .map(stamp => new Date(stamp).toLocaleDateString("en-US", {month:"short",day:"numeric",year:"numeric",timeZone:"UTC"})));
     const balanceDate = dates.size === 1 ? "Balance data as of " + [...dates][0] : dates.size ? "Balance data dates vary by account" : null;
-    const stamp = d?.asOf ?? d?.ts, date = Number.isFinite(Number(stamp)) ? new Date(Number(stamp)) : null;
+    const stamp = d?.asOf ?? d?.ts;
+    const date = Number.isSafeInteger(stamp) && stamp > 0 ? new Date(stamp) : null;
     const feedDate = date && !Number.isNaN(date.valueOf())
       ? "Feed data as of " + date.toLocaleDateString("en-US", {month:"short",day:"numeric",year:"numeric",timeZone:"UTC"}) : "Feed data as of unknown";
     return (balanceDate || feedDate) + " · unavailable values are not yet measured · equity fallback, when shown, includes open P&L";
