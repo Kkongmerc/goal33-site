@@ -70,4 +70,38 @@ assert.equal(modelContext.groupToday([{product:"Midas",netToday:null}], "Midas")
 assert.equal(modelContext.calendarValue({total:100,byStrategy:{Midas:{total:20,byAccount:{opaque:5}}}}, ""), 20, "strategy filter narrows calendar total");
 assert.equal(modelContext.calendarValue({total:100,byStrategy:{Midas:{total:20,byAccount:{opaque:5}}}}, "opaque"), 5, "strategy filter narrows calendar account");
 assert.equal(JSON.stringify(modelContext.filteredReport({daily:{date:"x",trades:9,wins:8,losses:1,net:90,byProduct:[{product:"Midas",trades:2,net:20}]} })), JSON.stringify({date:"x",trades:2,wins:null,losses:null,net:20,byProduct:[{product:"Midas",trades:2,net:20}]}), "strategy filter narrows day report without inventing wins/losses");
+
+const interactionContext = {
+  URLSearchParams,
+  location: {hash:"#accounts&sort=strategy&strategy=Midas"},
+  selectedStrategy: "all", sortKey: "strategy", sortDirection: 1, privateData: null,
+  safeAlias: value => typeof value === "string" && /^···[0-9]{3}$/.test(value) ? value : "—",
+  safeKey: value => typeof value === "string" && /^PREVIEW-OPAQUE-KEY-[A-Z]$/.test(value),
+  accountCount: account => Number.isSafeInteger(account.openTrades) && account.openTrades >= 0 ? account.openTrades : null,
+};
+interactionContext.activateTab = tab => { interactionContext.activeTab = tab; };
+vm.runInNewContext(sourceFunction("shownAccounts") + sourceFunction("parseHash") + sourceFunction("writeHash") + sourceFunction("sortRows") + "this.shownAccounts = shownAccounts; this.parseHash = parseHash; this.writeHash = writeHash; this.sortRows = sortRows;", interactionContext);
+interactionContext.parseHash();
+assert.equal(interactionContext.activeTab, "accounts", "accounts hash selects accounts tab");
+assert.equal(interactionContext.sortKey, "strategy", "hash restores sort key");
+assert.equal(interactionContext.selectedStrategy, "Midas", "hash restores strategy filter");
+interactionContext.sortKey = "firm"; interactionContext.selectedStrategy = "Midas"; interactionContext.writeHash();
+assert.equal(interactionContext.location.hash, "accounts&sort=firm&strategy=Midas", "hash serializes linkable accounts state");
+interactionContext.location.hash = "#automation&sort=account"; interactionContext.parseHash();
+assert.equal(interactionContext.activeTab, "automation", "automation hash selects automation tab");
+assert.equal(interactionContext.sortKey, "account", "automation hash restores accepted sort key");
+assert.equal(interactionContext.selectedStrategy, "all", "absent strategy hash resets filter");
+const fixtureRows = [fixture.accounts[3], fixture.accounts[1], fixture.accounts[2], fixture.accounts[0]];
+interactionContext.sortKey = "strategy"; interactionContext.sortDirection = 1;
+assert.deepEqual([...interactionContext.sortRows(fixtureRows)].map(row => row.product), ["Continuum","Keystone","Midas","Slipstream"], "strategy sort ascends");
+interactionContext.sortDirection = -1;
+assert.deepEqual([...interactionContext.sortRows(fixtureRows)].map(row => row.product), ["Slipstream","Midas","Keystone","Continuum"], "second strategy sort reverses order");
+interactionContext.sortKey = "account"; interactionContext.sortDirection = 1;
+const accountSorted = [...interactionContext.sortRows(fixtureRows)];
+assert.deepEqual(accountSorted.map(row => row.id), ["···135","···135","···247","···247"], "account sort orders masked aliases");
+assert.deepEqual(new Set(accountSorted.slice(2).map(row => row.accountKey)), new Set(["PREVIEW-OPAQUE-KEY-B","PREVIEW-OPAQUE-KEY-C"]), "colliding masked aliases remain distinct opaque accounts when sorted");
+interactionContext.selectedStrategy = "Midas";
+assert.deepEqual([...interactionContext.shownAccounts({accounts:fixture.accounts})].map(row => [row.accountKey,row.product]), [["PREVIEW-OPAQUE-KEY-A","Midas"]], "strategy filter retains one product for a shared account key");
+interactionContext.selectedStrategy = "all";
+assert.equal(interactionContext.shownAccounts({accounts:fixture.accounts}).length, 4, "all filter retains both colliding aliases and both products for one account");
 console.log("PASS Q857 tabs, hash state, strict fixture privacy, approved-only automation, disclaimer, CSP");
