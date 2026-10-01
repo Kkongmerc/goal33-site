@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'none'; img-src 'self'; font-src 'self' https://fonts.gstatic.com; style-src 'self' https://fonts.googleapis.com 'sha256-8GaLC2MVL644CJSVS2mxus0ESJqpx7COqDuXJ+kZXUI='; script-src 'sha256-5MvabMwY7feSyLjOYJLT1R0j1jPr6uu7hDsvLw/S6Do='; connect-src 'self' https://ftb-live.cmrealestate808.workers.dev; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'none'; img-src 'self'; font-src 'self' https://fonts.gstatic.com; style-src 'self' https://fonts.googleapis.com 'sha256-8GaLC2MVL644CJSVS2mxus0ESJqpx7COqDuXJ+kZXUI='; script-src 'sha256-KTMFZ2pvWUTV5y9rTUU0xx2ebWstuXnWM1dNqliegu4='; connect-src 'self' https://ftb-live.cmrealestate808.workers.dev; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#051014">
-<title>Live proof of concept — FuturesTradingBots</title>
+<title>Simulated account activity — FuturesTradingBots</title>
 <meta name="description" content="Read-only account activity, daily results, calendar, and feed health.">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -123,12 +123,12 @@ body.auth-open .auth { display:block }
 <a class="skip" href="#main">Skip to dashboard</a>
 <div class="preview">SYNTHETIC DEMO / PREVIEW — NO LIVE ACCOUNTS OR RESULTS</div>
 <header class="top"><div class="shell top-inner">
-  <a class="brand" href="/"><img src="/assets/aft-logo.png" width="985" height="260" alt="All Fluence Trading"><small>Live proof</small></a>
+  <a class="brand" href="/"><img src="/assets/aft-logo.png" width="985" height="260" alt="All Fluence Trading"><small>Simulated account proof</small></a>
   <div class="top-actions"><a class="text-link" href="/">Storefront</a><button class="button" id="auth-toggle" type="button">Log in</button></div>
 </div></header>
 <main id="main" class="shell">
   <div class="hero">
-    <div><div class="eyebrow">Read-only account feed</div><h1>Live proof of concept</h1><p class="intro">Account positions, daily results and feed health in one place. Live account data from CrossTrade, refreshed about every minute; not investment advice.</p></div>
+    <div><div class="eyebrow">Read-only account feed</div><h1>Simulated account activity</h1><p class="intro">Recorded activity from simulated evaluation and simulated funded accounts. The public view is limited to verified summaries; private position details require login.</p></div>
     <div class="hero-status"><span id="state" class="pill down">DOWN</span><span id="age" class="age">No verified update</span></div>
   </div>
   <p id="status-note" class="status-note" role="status">Live API is not configured. No account data is being shown.</p>
@@ -141,8 +141,8 @@ body.auth-open .auth { display:block }
   </section>
   <div class="grid">
     <div class="stack">
-      <section class="card"><div class="card-head"><div><h2>Accounts</h2><p class="sub">Copier-linked identities only · masked in both views</p></div><span id="account-count" class="tag">0 identities</span></div><div class="table-wrap"><table><thead><tr><th>Account</th><th>Trading</th><th>Firm</th><th>Multiplier</th><th>Open</th><th>Today</th></tr></thead><tbody id="accounts"></tbody></table></div></section>
-      <section class="card"><div class="card-head"><div><h2>Open trades</h2><p class="sub">Entry, last price and current unrealized P&amp;L</p></div></div><div id="positions"></div></section>
+      <section class="card"><div class="card-head"><div><h2>Accounts</h2><p class="sub">Copier-linked identities only · masked in both views</p></div><span id="account-count" class="tag">0 identities</span></div><div class="table-wrap"><table><thead><tr><th>Account</th><th>Trading</th><th>Firm</th><th>Multiplier</th><th>Open positions</th><th>Today</th></tr></thead><tbody id="accounts"></tbody></table></div></section>
+      <section class="card private"><div class="card-head"><div><h2>Open positions</h2><p class="sub">Private position detail</p></div></div><div id="positions"></div></section>
       <section class="card"><div class="card-head"><div><h2>Monthly P&amp;L calendar</h2><p class="sub">Realized daily totals, where available</p></div><div class="calendar-controls"><button id="prev-month" type="button" aria-label="Previous month">‹</button><span id="month-title" class="cal-title"></span><button id="next-month" type="button" aria-label="Next month">›</button><label class="small" for="calendar-account">Account</label><select id="calendar-account" aria-label="Calendar account"><option value="">All accounts</option></select></div></div><div id="calendar" class="cal" aria-label="Monthly P and L calendar"></div><div id="calendar-total" class="cal-total"></div></section>
     </div>
     <div class="stack">
@@ -215,7 +215,8 @@ body.auth-open .auth { display:block }
     for (const a of rows) {
       const tr = node("tr"), id = node("td"), trading = node("td"), firm = node("td"),
         multiplier = node("td"), open = node("td"), net = node("td", "num " + signClass(a.netToday), money(a.netToday));
-      id.append(node("strong", "", safeAlias(a.id)), node("div", "small", a.role || ""));
+      id.append(node("strong", "", safeAlias(a.id)));
+      if (privateData && a.role) id.append(node("div", "small", a.role));
       const tradingName = a.product === "Continuum" ? "Continuum (MNQ Book)" :
         a.product === "Midas" ? "Midas (MGC Book)" :
         a.product === "Slipstream" ? "Slipstream" : "—";
@@ -224,7 +225,10 @@ body.auth-open .auth { display:block }
       const verified = a.multiplierStatus === "verified" && Number.isSafeInteger(a.configuredMultiplier) && a.configuredMultiplier > 0;
       multiplier.append(node("strong", "num", verified ? "×" + a.configuredMultiplier : "—"),
         node("div", "small", verified ? (mock ? "Preview value" : "Verified") : "Not verified"));
-      open.textContent = Array.isArray(a.positions) ? String(a.positions.length) : "—";
+      const openCount = privateData
+        ? (Array.isArray(a.positions) ? String(a.positions.length) : "—")
+        : (Number.isSafeInteger(a.openTrades) && a.openTrades >= 0 ? String(a.openTrades) : "—");
+      open.textContent = openCount;
       tr.append(id, trading, firm, multiplier, open, net); body.append(tr);
     }
     if (!rows.length) { const tr = node("tr"), td = node("td", "small", "No copier-linked accounts in this feed."); td.colSpan = 6; tr.append(td); body.append(tr); }
@@ -248,8 +252,6 @@ body.auth-open .auth { display:block }
       const item = node("div"); item.append(node("span", label === "Net" ? "num " + signClass(r.net) : "num", value ?? "—"), node("small", "", label)); kpis.append(item);
     }
     box.append(kpis);
-    const flat = r.flatBy1609 === true ? "Yes" : r.flatBy1609 === false ? "No" : "Unknown";
-    box.append(node("div", "line", "Flat by 16:09 · " + flat));
     for (const x of Array.isArray(r.byProduct) ? r.byProduct : []) {
       const row = node("div", "line"); row.append(node("span", "", (x.product || "—") + " · " + (x.trades ?? "—") + " trades"), node("strong", "num " + signClass(x.net), money(x.net))); box.append(row);
     }
@@ -260,7 +262,6 @@ body.auth-open .auth { display:block }
     line("Watcher", h.watcherUp);
     const visibleKeys = new Set(shownAccounts(d).map(a => a.accountKey));
     for (const x of Array.isArray(h.identities) ? h.identities : []) if (visibleKeys.has(x.accountKey)) line(safeAlias(x.id), x.ok);
-    box.append(node("div", "small", "Last fill · " + shortTime(h.lastFillTs)));
   }
   function renderCalendar(d) {
     const options = byId("calendar-account"), chosen = options.value, rows = shownAccounts(d).filter(x => x.accountKey);
@@ -305,7 +306,9 @@ body.auth-open .auth { display:block }
   function render() {
     renderStatus(); const d = data();
     if (!d) { for (const id of ["accounts","positions","report","health","calendar","calendar-total","private-accounts","fills"]) clear(id); setText("account-count","0 identities"); setText("report-date","Awaiting data"); return; }
-    renderAccounts(d); renderPositions(d); renderReport(d); renderHealth(d); renderCalendar(d);
+    renderAccounts(d);
+    if (privateData) renderPositions(privateData); else clear("positions");
+    renderReport(d); renderHealth(d); renderCalendar(d);
     if (privateData) renderPrivate(privateData); else { clear("private-accounts"); clear("fills"); }
   }
   async function getJson(path, options) {
