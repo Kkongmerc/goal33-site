@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'none'; img-src 'self'; font-src 'self' https://fonts.gstatic.com; style-src 'self' https://fonts.googleapis.com 'sha256-PlXfP49ZWcY1sa8VIGuhBX9g72IIYujIAYZldX5NLfU='; script-src 'sha256-nQrULxRkj/OY+n/yUnWaMmXgq6Nv6KWLWxnuHN73fDA='; connect-src 'self' https://ftb-live.cmrealestate808.workers.dev; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'none'; img-src 'self'; font-src 'self' https://fonts.gstatic.com; style-src 'self' https://fonts.googleapis.com 'sha256-w8/IytwDwjDk2YQhXnHK+L0Q+HAI0DKMu1IT1OkNttQ='; script-src 'sha256-G0p7nf3cvKRfvHYzh1Idy5CDBotBbuvM/r1DudJEs50='; connect-src 'self' https://ftb-live.cmrealestate808.workers.dev; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#051014">
 <title>Live simulated accounts — FuturesTradingBots</title>
@@ -53,9 +53,10 @@ h1 { font-size:clamp(32px,4vw,58px); line-height:1.04; letter-spacing:-.04em; ma
 .tab { border:1px solid var(--p-line); border-radius:8px; padding:9px 13px; background:var(--p-raised); color:var(--p-ink); text-decoration:none; font-weight:700 }
 .tab[aria-current="page"] { background:#2754bd; border-color:#537dec; color:white }
 .tab-panel[hidden] { display:none }
-.disclaimer { margin:0 0 20px; padding:16px 18px; border:1px solid #91713e; border-radius:12px; background:#352713; color:#ffe8bf }
+.tab-panel { padding:0; border:0 }
+.disclaimer { max-width:none; margin:0 0 20px; padding:16px 18px; border:1px solid #91713e; border-radius:12px; background:#352713; color:#ffe8bf }
 .disclaimer p { margin:0 0 11px }.disclaimer p:last-child { margin-bottom:0 }
-.disclaimer .legal { color:inherit; font-size:12px }
+.disclaimer .legal { color:inherit; font-size:12px; padding:0; max-width:none }
 .controls { display:flex; flex-wrap:wrap; align-items:center; gap:9px; margin:0 0 14px }
 .controls label { color:var(--p-muted); font-size:13px }
 .controls select,.proof-chip { border:1px solid var(--p-line); border-radius:30px; background:var(--p-raised); color:var(--p-ink); padding:7px 10px; min-height:34px }
@@ -81,7 +82,15 @@ h2 { margin:0; font-size:20px; letter-spacing:-.02em }
 .sub { color:var(--p-muted); font-size:13px; margin:3px 0 0 }
 .table-wrap { width:100%; overflow-x:auto }
 table { border-collapse:collapse; width:100%; min-width:690px; font-size:13px }
-.accounts-table { min-width:1710px }
+.accounts-table { min-width:960px; table-layout:fixed }
+.accounts-table th:first-child { width:14% }
+.accounts-table th:last-child { width:6% }
+.accounts-table td:last-child { position:relative }
+.accounts-table td,.accounts-table th { padding:10px 7px; overflow-wrap:anywhere }
+.accounts-table td.num { white-space:normal; font-size:12px }
+.session-note { margin:0 0 5px }.results-note { margin:0 0 14px; font-size:12px }
+.feed-dot { display:inline-block; width:10px; height:10px; border-radius:50%; background:var(--p-red) }.feed-dot.online { background:var(--p-green) }
+.sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap }
 .accounts-table .group-row td { padding:0; border:0; text-align:left }
 .group-heading { display:flex; padding:14px 0 8px; overflow-wrap:anywhere }
 .num.unavailable { white-space:normal; font:12px Archivo,system-ui,sans-serif }
@@ -136,20 +145,10 @@ body.auth-open .auth { display:block }
  main { padding-top:25px }.hero { grid-template-columns:1fr; gap:12px }.hero-status { align-items:flex-start }
  .metrics { gap:7px }.metric { min-height:84px; padding:11px }.metric .v { font-size:22px }
  .card { padding:14px }.card-head { flex-wrap:wrap }.report-kpis { grid-template-columns:repeat(2,1fr) }
- .controls { align-items:flex-start; flex-direction:column }.automation-grid .card { min-height:0 }
+ .controls { align-items:center; flex-direction:row }.automation-grid .card { min-height:0 }
  .cal { gap:3px }.day { min-height:56px; padding:4px }.day .amount { font-size:10px; margin-top:8px }.day .date { font-size:10px }
 }
-@media(max-width:780px) {
- .account-table-wrap { overflow:visible }
- .accounts-table,.accounts-table tbody,.accounts-table tr,.accounts-table td { display:block; width:100%; min-width:0 }
- .accounts-table .group-row { padding:0; border:0; background:transparent }.accounts-table .group-row td { display:block }.accounts-table .group-row td::before { display:none }.group-heading { flex-wrap:wrap }
- .accounts-table td { overflow-wrap:anywhere }.accounts-table td.num { white-space:normal }
- .accounts-table thead { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap }
- .accounts-table tr { margin:0 0 12px; padding:4px 12px; border:1px solid var(--p-line); border-radius:8px; background:var(--p-raised) }
- .accounts-table td { display:grid; grid-template-columns:minmax(124px,.8fr) minmax(0,1.2fr); gap:10px; padding:9px 0; text-align:right; border-top:1px solid var(--p-line) }
- .accounts-table td:first-child { border-top:0 }.accounts-table td::before { content:attr(data-label); text-align:left; color:var(--p-muted); font-size:11px; text-transform:uppercase; letter-spacing:.06em }
- .accounts-table td:last-child { padding-right:0 }
-}
+@media(max-width:780px) { .accounts-table { min-width:960px }.account-table-wrap { overflow-x:auto }.accounts-table .group-heading { flex-wrap:wrap } }
 @media(prefers-color-scheme:light) {
  :root { color-scheme:light; --p-bg:#f3f8f6; --p-panel:#fff; --p-raised:#eaf2ef; --p-ink:#10272a; --p-muted:#425e61; --p-line:#b5c8c7; --p-blue:#214aa2; --p-green:#136244; --p-red:#9a3034; --p-amber:#82520d }
  .top { background:#fff }.button.primary { color:white }.day.win { background:#d6f1e4 }.day.loss { background:#f9dfe0 }
@@ -174,26 +173,7 @@ body.auth-open .auth { display:block }
   <form id="auth" class="auth" autocomplete="off"><h2>Private view</h2><p class="sub">Your password is sent only to the configured endpoint; the session stays in this tab's memory.</p><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="current-password" required><button class="button primary" type="submit">Log in</button><div id="auth-msg" class="auth-msg" role="alert"></div></form>
   <section id="tab-accounts" class="tab-panel" aria-labelledby="tab-link-accounts">
     <div class="disclaimer"><p><strong>Simulated trading environment.</strong> The accounts on this page are trading live in a simulated environment. They range from prop-firm simulated evaluation accounts to funded accounts, and they take live market data and the executions of trades produced by TradingView strategy-tester strategies, sent through CrossTrade. Because the environment is simulated, fills may differ in a live trading environment. Results shown are simulated, are not a guarantee or projection of future results, and are not investment advice.</p><p class="legal"><strong>Risk disclosure.</strong> Futures and derivatives trading involves substantial risk of loss and is not suitable for every investor. You may lose more than your initial investment. Only risk capital should be used for trading, and only those with sufficient risk capital should consider trading.</p><p class="legal"><strong>Hypothetical performance disclaimer.</strong> Performance figures displayed on this site are hypothetical or simulated. Hypothetical performance results have many inherent limitations. No representation is being made that any account will or is likely to achieve profits or losses similar to those shown.</p></div>
-  <section class="metrics" aria-label="Uptime">
-    <div class="metric"><span class="k">24-hour uptime</span><span class="v" id="up24">—</span></div>
-    <div class="metric"><span class="k">7-day uptime</span><span class="v" id="up7">—</span></div>
-    <div class="metric"><span class="k">30-day uptime</span><span class="v" id="up30">—</span></div>
-    <div class="metric"><span class="k">Today's net</span><span class="v" id="net">—</span></div>
-  </section>
-  <div class="grid">
-    <div class="stack">
-      <section class="card"><div class="card-head"><div><h2>Account information</h2><p id="account-as-of" class="sub">Data as of unknown · unavailable values are not yet measured · equity fallback, when shown, includes open P&amp;L</p></div><span id="account-count" class="tag">0 identities</span></div><div class="controls"><label for="sort-by">Sort by</label><select id="sort-by"><option value="strategy">Strategy</option><option value="account">Account</option><option value="firm">Firm</option><option value="openTrades">Open positions</option><option value="today">Today</option></select><button id="sort-direction" class="proof-chip" type="button" aria-label="Reverse sort order">Ascending ↑</button><div id="strategy-chips" class="chips" aria-label="Filter by strategy"></div></div><div class="table-wrap account-table-wrap"><table class="accounts-table"><thead><tr id="account-headings"></tr></thead><tbody id="accounts"></tbody></table></div></section>
-      <section class="card"><div class="card-head"><div><h2>Open positions</h2><p class="sub">Public-safe counts only; no positions, orders, prices, fills, or execution times are shown.</p></div></div><div id="open-trades"></div></section>
-      <section class="card private"><div class="card-head"><div><h2>Open positions</h2><p class="sub">Private position detail</p></div></div><div id="positions"></div></section>
-      <section class="card"><div class="card-head"><div><h2>Monthly P&amp;L calendar</h2><p class="sub">Realized daily totals, where available</p></div><div class="calendar-controls"><button id="prev-month" type="button" aria-label="Previous month">‹</button><span id="month-title" class="cal-title"></span><button id="next-month" type="button" aria-label="Next month">›</button><label class="small" for="calendar-account">Account</label><select id="calendar-account" aria-label="Calendar account"><option value="">All accounts</option></select></div></div><div id="calendar" class="cal" aria-label="Monthly P and L calendar"></div><div id="calendar-total" class="cal-total"></div></section>
-    </div>
-    <div class="stack">
-      <section class="card"><div class="card-head"><div><h2>Today's report</h2><p id="report-date" class="sub">Awaiting data</p></div></div><div id="report"></div></section>
-      <section class="card"><div class="card-head"><div><h2>Feed health</h2><p class="sub">Watcher and account link status</p></div></div><div id="health"></div></section>
-      <section class="card private"><div class="card-head"><div><h2>Private account detail</h2><p class="sub">Balances, margin and working orders</p></div></div><div id="private-accounts"></div></section>
-      <section class="card private"><div class="card-head"><div><h2>Today's fills</h2><p class="sub">Private; cleared on log out or lost authorization</p></div></div><div id="fills"></div></section>
-    </div>
-  </div>
+  <section class="card"><div class="card-head"><div><h2>Account results</h2><p id="account-as-of" class="sub">Balance source time unavailable.</p></div><span id="account-count" class="tag">0 identities</span></div><div class="controls"><label for="sort-by">Sort by</label><select id="sort-by"><option value="strategy">Strategy</option><option value="account">Account</option><option value="firm">Firm</option><option value="openTrades">Open positions</option><option value="today">Today</option></select><button id="sort-direction" class="proof-chip" type="button" aria-label="Reverse sort order">Ascending ↑</button><div id="strategy-chips" class="chips" aria-label="Filter by strategy"></div></div><p id="session-note" class="sub session-note"></p><p class="sub results-note">Unavailable means the source has not verified this measure. Daily profit awaits New York session totals; divergence and missed trades await matched tester/account records. Feed online does not mean financial data is measured.</p><div class="table-wrap account-table-wrap" tabindex="0" role="region" aria-label="Account results; scroll horizontally on smaller screens"><table class="accounts-table"><thead><tr id="account-headings"></tr></thead><tbody id="accounts"></tbody></table></div></section>
   </section>
   <section id="tab-automation" class="tab-panel" aria-labelledby="tab-link-automation" hidden>
     <div class="disclaimer"><p><strong>Simulated trading environment.</strong> The accounts on this page are trading live in a simulated environment. They range from prop-firm simulated evaluation accounts to funded accounts, and they take live market data and the executions of trades produced by TradingView strategy-tester strategies, sent through CrossTrade. Because the environment is simulated, fills may differ in a live trading environment. Results shown are simulated, are not a guarantee or projection of future results, and are not investment advice.</p><p class="legal"><strong>Risk disclosure.</strong> Futures and derivatives trading involves substantial risk of loss and is not suitable for every investor. You may lose more than your initial investment. Only risk capital should be used for trading, and only those with sufficient risk capital should consider trading.</p><p class="legal"><strong>Hypothetical performance disclaimer.</strong> Performance figures displayed on this site are hypothetical or simulated. Hypothetical performance results have many inherent limitations. No representation is being made that any account will or is likely to achieve profits or losses similar to those shown.</p></div>
@@ -223,7 +203,7 @@ body.auth-open .auth { display:block }
   const accountMoney = n => knownNumber(n) ? money(n) : "not yet measured";
   const pct = n => knownNumber(n) ? Number(n).toFixed(1) + "%" : "—";
   const node = (tag, cls, value) => { const x = document.createElement(tag); if (cls) x.className = cls; if (value !== undefined) x.textContent = String(value); return x; };
-  const clear = id => byId(id).replaceChildren();
+  const clear = id => byId(id)?.replaceChildren();
   const shortTime = t => knownNumber(t) && t > 0 ? new Date(Number(t)).toLocaleString([], {month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}) : "—";
   const signClass = n => Number(n) > 0 ? "pos" : Number(n) < 0 ? "neg" : "";
   const ageText = s => s < 60 ? Math.max(0, Math.floor(s)) + " s ago" : Math.floor(s / 60) + " min ago";
@@ -274,7 +254,26 @@ body.auth-open .auth { display:block }
     const product = (Array.isArray(report.byProduct) ? report.byProduct : []).find(x => x.product === selectedStrategy);
     return product ? {date:report.date,trades:product.trades,wins:null,losses:null,net:product.net,byProduct:[product]} : {date:report.date,trades:null,wins:null,losses:null,net:null,byProduct:[]};
   }
-  function todayProfit(a) { return Object.hasOwn(a, "todayProfit") ? knownNumber(a.todayProfit) ? a.todayProfit : null : knownNumber(a.netToday) ? a.netToday : null; }
+  // The current API has UTC-day totals, not verified NY-session totals. Never relabel them.
+  function todayProfit() { return null; }
+  function nyTradingSession(stamp = Date.now()) {
+    if (!knownNumber(stamp) || !Number.isFinite(new Date(stamp).valueOf())) return null;
+    const parts = Object.fromEntries(new Intl.DateTimeFormat("en-US", {timeZone:"America/New_York",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",hourCycle:"h23"}).formatToParts(new Date(stamp)).map(p => [p.type,p.value]));
+    const hour = Number(parts.hour);
+    if (hour === 17) return null;
+    const day = new Date(Date.UTC(Number(parts.year), Number(parts.month)-1, Number(parts.day) + (hour >= 18 ? 1 : 0)));
+    const previous = new Date(day.valueOf() - 86400000);
+    return {date:day.toISOString().slice(0,10),previousDate:previous.toISOString().slice(0,10)};
+  }
+  function currentOpenPnl(a) {
+    const age = Date.now() - a.balanceAsOfTs;
+    return Number.isSafeInteger(a.balanceAsOfTs) && age >= 0 && age <= 120000 && knownNumber(a.currentBalance) && knownNumber(a.currentEquity)
+      ? a.currentEquity - a.currentBalance : null;
+  }
+  function feedOnline(account, d) {
+    const elapsed = lastReceipt ? Math.max(0, (Date.now()-lastReceipt)/1000) : Infinity;
+    return !mock && d?.uptime?.state === "live" && knownNumber(d.uptime.lastUpdateAgeS) && d.uptime.lastUpdateAgeS >= 0 && d.uptime.lastUpdateAgeS + elapsed < 120 && d?.health?.watcherUp === true && d.health.identities?.some(x => x.accountKey === account.accountKey && x.ok === true) === true;
+  }
   function hashFor(tab) {
     const values = new URLSearchParams(); values.set("sort", sortKey);
     if (sortDirection < 0) values.set("dir", "desc");
@@ -323,7 +322,7 @@ body.auth-open .auth { display:block }
       button.addEventListener("click", () => { selectedStrategy = product; writeHash(); render(); }); chips.append(button);
     }
   }
-  function setText(id, value) { byId(id).textContent = value; }
+  function setText(id, value) { const target = byId(id); if (target) target.textContent = value; }
   function strategyLabel(account) {
     if (account.product !== "Slipstream") return typeof account.product === "string" && account.product ? account.product : "—";
     return account.configuredContracts === 3 || account.configuredContracts === 4
@@ -339,21 +338,13 @@ body.auth-open .auth { display:block }
   function equityFallbackNeeded(rows) {
     return rows.some(account => !knownNumber(account.currentBalance) && knownNumber(account.currentEquity));
   }
-  function accountCells(account, columns, showEquityFallback = false) {
-    const history = Array.isArray(account.previousTradingDays) ? account.previousTradingDays : [];
-    return [
-      ["Account", safeAlias(account.id)], ["Strategy", strategyLabel(account)],
-      ["Firm", account.firm || "—"],
-      ["Multiplier", account.multiplierStatus === "verified" && Number.isSafeInteger(account.configuredMultiplier) && account.configuredMultiplier > 0 ? "×" + account.configuredMultiplier : "not yet measured"],
-      ["Open positions", unknownMeasure(accountCount(account))],
-      ["Size", accountMoney(account.nominalSize)], ["Starting balance", accountMoney(account.startingBalance)],
-      ["Current balance", accountMoney(account.currentBalance)],
-      ...(showEquityFallback ? [["Current balance (equity)", knownNumber(account.currentBalance) ? "not used" : accountMoney(account.currentEquity)]] : []),
-      ["Total profit", accountMoney(account.totalNetProfit)],
-      ["Today P&L", accountMoney(todayProfit(account))],
-      ...columns.map(column => [column.label,
-        column.date ? accountMoney(history.find(day => day?.date === column.date)?.profit) : "not yet measured"])
-    ];
+  function accountCells(account) {
+    const value = n => knownNumber(n) ? money(n) : "Unavailable";
+    return [["Account",safeAlias(account.id)], ["Account Balance",value(account.currentBalance)],
+      ["Current Open P&L",value(currentOpenPnl(account))],
+      ["Contract Size",account.product === "Slipstream" && [3,4].includes(account.configuredContracts) ? String(account.configuredContracts) : "Unavailable"],
+      ["Today's Profit","Unavailable"], ["Yesterday's Profit","Unavailable"],
+      ["Tester vs. Account P&L divergence","Unavailable"], ["Missed tester trades","Unavailable"]];
   }
   function accountAsOf(d, rows = []) {
     const dates = new Set(rows.map(account => account.balanceAsOfTs)
@@ -364,7 +355,7 @@ body.auth-open .auth { display:block }
     const date = Number.isSafeInteger(stamp) && stamp > 0 ? new Date(stamp) : null;
     const feedDate = date && !Number.isNaN(date.valueOf())
       ? "Feed data as of " + date.toLocaleDateString("en-US", {month:"short",day:"numeric",year:"numeric",timeZone:"UTC"}) : "Feed data as of unknown";
-    return (balanceDate || "Balance source time unavailable · " + feedDate) + " · last known values; unavailable values are not yet measured · equity fallback, when shown, includes open P&L";
+    return (balanceDate || "Balance source time unavailable · " + feedDate) + " · last known balances; open P&L requires a source no older than two minutes";
   }
   function renderStatus() {
     const d = data(), u = d && d.uptime || {};
@@ -381,36 +372,31 @@ body.auth-open .auth { display:block }
     setText("net", d && d.daily ? unknownMoney(filteredReport(d).net) : "—");
   }
   function renderAccounts(d) {
-    renderControls(d); const rows = sortRows(shownAccounts(d));
-    setText("account-count", rows.length + (rows.length === 1 ? " identity" : " identities"));
-    setText("account-as-of", accountAsOf(d, rows));
-    const columns = historyColumns(rows), showEquityFallback = equityFallbackNeeded(rows), heading = byId("account-headings"); heading.replaceChildren();
-        const labels = ["Account","Strategy","Firm","Multiplier","Open positions","Size","Starting balance","Current balance",...(showEquityFallback ? ["Current balance (equity)"] : []),"Total profit","Today P&L",...columns.map(x => x.label)];
-    const sortable = {"Account":"account","Strategy":"strategy","Firm":"firm","Open positions":"openTrades","Today P&L":"today"};
-    for (const label of labels) {
-      const th = node("th"); th.scope = "col";
-      if (sortable[label]) { const button = node("button", "", label); button.type = "button"; button.dataset.sort = sortable[label]; th.append(button); th.setAttribute("aria-sort", sortKey === sortable[label] ? sortDirection > 0 ? "ascending" : "descending" : "none"); }
-      else th.textContent = label;
-      heading.append(th);
-    }
-    const body = byId("accounts"); body.replaceChildren();
-    let group = null;
-    for (const a of rows) {
-      if (sortKey === "strategy" && a.product !== group) {
-        group = a.product; const row = node("tr", "group-row"), cell = node("td"), label = node("div", "group-heading"); cell.colSpan = labels.length;
-        const count = rows.filter(x => x.product === group).length;
-        label.append(node("strong", "", group || "Unknown strategy"), node("span", "", count + (count === 1 ? " account entry" : " account entries") + " · today " + unknownMoney(groupToday(rows, group)))); cell.append(label); row.append(cell); body.append(row);
-      }
-      const tr = node("tr");
-      for (const [label, value] of accountCells(a, columns, showEquityFallback)) {
-        const td = node("td", value === "not yet measured" ? "num unavailable" : label.includes("profit") || label.includes("P&L") || /^\d{4}-/.test(label) ? "num" : "", value);
-        td.dataset.label = label;
-        if (label === "Current balance" || label === "Current balance (equity)") td.title = knownNumber(a.balanceAsOfTs) && a.balanceAsOfTs > 0 ? "Balance source: " + new Date(a.balanceAsOfTs).toISOString() : "Balance source time unavailable";
+    renderControls(d); const sorted = sortRows(shownAccounts(d));
+    const groups = [...new Set(sorted.map(a => a.product))];
+    const rows = groups.flatMap(product => sorted.filter(a => a.product === product));
+    setText("account-count",rows.length + (rows.length === 1 ? " identity" : " identities"));
+    setText("account-as-of",accountAsOf(d,rows));
+    const session = nyTradingSession();
+    setText("session-note", "Trading day: 18:00–17:00 America/New_York (daylight saving observed); 17:00–18:00 excluded. " + (session ? "Current session ends " + session.date + "." : "Between trading sessions."));
+    const labels = ["Account","Account Balance","Current Open P&L","Contract Size","Today's Profit","Yesterday's Profit","Tester vs. Account P&L divergence","Missed tester trades","Feed"];
+    const heading=byId("account-headings"); heading.replaceChildren();
+    for(const label of labels){const th=node("th","",label);th.scope="col";heading.append(th);}
+    const body=byId("accounts");body.replaceChildren();let group;
+    for(const a of rows){
+      if(a.product !== group){group=a.product;const tr=node("tr","group-row"),td=node("td"),label=node("div","group-heading");td.colSpan=labels.length;label.append(node("strong","",group || "Unknown strategy"));td.append(label);tr.append(td);body.append(tr);}
+      const tr=node("tr");tr.dataset.accountKey=a.accountKey;
+      for(const [label,value] of accountCells(a)){
+        const td=node("td",value === "Unavailable" ? "num unavailable" : label === "Account" ? "" : "num",value);td.dataset.label=label;
+        if(label === "Account Balance")td.title=knownNumber(a.balanceAsOfTs) && a.balanceAsOfTs > 0 ? "Balance source: " + new Date(a.balanceAsOfTs).toISOString() : "Balance source time unavailable";
+        if(label === "Current Open P&L")td.title="Whole-account equity minus cash balance from the same verified source; includes manual activity.";
+        if(label === "Contract Size")td.title="Source-verified configured contracts; not an open-position count.";
         tr.append(td);
       }
-      body.append(tr);
+      const online=feedOnline(a,d),td=node("td"),dot=node("span","feed-dot"+(online?" online":"")),text=online?"Online":"Offline";
+      td.dataset.label="Feed";dot.setAttribute("role","img");dot.setAttribute("aria-label",text);dot.title=text + "; financial availability is separate";td.append(dot,node("span","sr-only",text));tr.append(td);body.append(tr);
     }
-    if (!rows.length) { const tr = node("tr"), td = node("td", "small", "No copier-linked accounts in this feed."); td.colSpan = labels.length; td.dataset.label = "Account information"; tr.append(td); body.append(tr); }
+    if(!rows.length){const tr=node("tr"),td=node("td","small","No copier-linked accounts in this feed.");td.colSpan=labels.length;tr.append(td);body.append(tr);}
   }
   function renderOpenTrades(d) {
     const box = byId("open-trades"); box.replaceChildren(); const rows = sortRows(shownAccounts(d));
@@ -442,12 +428,12 @@ body.auth-open .auth { display:block }
     }
   }
   function renderHealth(d) {
-    const h = d.health || {}, box = byId("health"); box.replaceChildren();
-    const stale = !byId("state").classList.contains("live");
-    const line = (name, ok) => { const row = node("div", "health-row"); row.append(node("span", "", name), node("strong", !stale && ok === true ? "good" : ok === false ? "bad" : "", (ok === true ? "OK" : ok === false ? "DOWN" : "UNKNOWN") + (stale ? " · last reported" : ""))); box.append(row); };
-    line("Watcher", h.watcherUp);
-    const visibleKeys = new Set(shownAccounts(d).map(a => a.accountKey));
-    for (const x of Array.isArray(h.identities) ? h.identities : []) if (visibleKeys.has(x.accountKey)) line(safeAlias(x.id), x.ok);
+    for(const tr of byId("accounts").querySelectorAll("tr:not(.group-row)")) {
+      const dot=tr.querySelector(".feed-dot");if(!dot)continue;
+      const account=shownAccounts(d).find(a=>a.accountKey===tr.dataset.accountKey);
+      const online=account && feedOnline(account,d),text=online?"Online":"Offline";
+      dot.className="feed-dot"+(online?" online":"");dot.setAttribute("aria-label",text);dot.title=text+"; financial availability is separate";dot.nextElementSibling.textContent=text;
+    }
   }
   function automationAsOf(a) { return knownNumber(a && a.asOf) && a.asOf > 0 ? "As of " + shortTime(a.asOf) : "As of unavailable"; }
   function approvedItems(items) { return Array.isArray(items) ? items.filter(item => item && item.approved === true) : []; }
@@ -512,18 +498,9 @@ body.auth-open .auth { display:block }
     if (!fills.childNodes.length) fills.append(node("div","empty","No fills reported today."));
   }
   function render() {
-    renderStatus(); const d = data();
-    if (!d) {
-      const message = loading ? "Loading verified feed…" : "Feed unavailable. No verified data to show.";
-      for (const id of ["open-trades","report","health"]) byId(id).replaceChildren(node("div", "empty", message));
-      for (const id of ["accounts","positions","calendar","calendar-total","private-accounts","fills"]) clear(id);
-      const row = node("tr"), cell = node("td", "small", message); cell.colSpan = 16; row.append(cell); byId("accounts").append(row);
-      setText("account-count", "Awaiting feed"); setText("report-date", "Awaiting source verification"); renderAutomation(null); return;
-    }
-    renderAccounts(d); renderOpenTrades(d);
-    if (privateData) renderPositions(privateData); else clear("positions");
-    renderReport(d); renderHealth(d); renderCalendar(d); renderAutomation(d);
-    if (privateData) renderPrivate(privateData); else { clear("private-accounts"); clear("fills"); }
+    renderStatus(); const d=data();
+    if(!d){const tr=node("tr"),td=node("td","small",loading?"Loading verified feed.":"Feed unavailable. No verified data to show.");td.colSpan=9;tr.append(td);byId("accounts").replaceChildren(tr);setText("account-count","Awaiting feed");renderAutomation(null);return;}
+    renderAccounts(d);renderAutomation(d);
   }
   async function getJson(path, options) {
     const response = await fetch(path, Object.assign({cache:"no-store",mode:"cors",credentials:"omit",signal:AbortSignal.timeout(10000)},options || {}));
@@ -582,9 +559,6 @@ body.auth-open .auth { display:block }
       privateData = next; byId("auth-msg").textContent = ""; notice(""); render();
     } catch (_) { if (epoch === authEpoch) { resetPrivate(); byId("auth-msg").textContent = "Login failed or private feed unavailable."; document.body.classList.add("auth-open"); byId("auth-toggle").textContent = "Cancel login"; } }
   });
-  byId("prev-month").addEventListener("click", () => { month--; if (data()) drawCalendar(data()); });
-  byId("next-month").addEventListener("click", () => { month++; if (data()) drawCalendar(data()); });
-  byId("calendar-account").addEventListener("change", () => { if (data()) drawCalendar(data()); });
   byId("sort-by").addEventListener("change", event => { sortKey = event.target.value; sortDirection = 1; writeHash(); render(); });
   byId("sort-direction").addEventListener("click", () => { sortDirection *= -1; writeHash(); render(); });
   byId("account-headings").addEventListener("click", event => {
