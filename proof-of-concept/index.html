@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'none'; img-src 'self'; font-src 'self' https://fonts.gstatic.com; style-src 'self' https://fonts.googleapis.com 'sha256-sLXPnxkGvRC5LnCqFo8RUTLEPvrynj0ump0aNlwyWgc='; script-src 'sha256-kBnhJujrymxY3S9Puv+6KDd3D306B/9L8Xt448WXUsM='; connect-src 'self' https://ftb-live.cmrealestate808.workers.dev; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'none'; img-src 'self'; font-src 'self' https://fonts.gstatic.com; style-src 'self' https://fonts.googleapis.com 'sha256-sLXPnxkGvRC5LnCqFo8RUTLEPvrynj0ump0aNlwyWgc='; script-src 'sha256-Oh/v0giQLdTOxij1FgAM2nzHnmN6R1Rm6DI0oP9smMg='; connect-src 'self' https://ftb-live.cmrealestate808.workers.dev; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#051014">
 <title>Simulated account activity — FuturesTradingBots</title>
@@ -151,7 +151,7 @@ body.auth-open .auth { display:block }
   </section>
   <div class="grid">
     <div class="stack">
-      <section class="card"><div class="card-head"><div><h2>Account information</h2><p id="account-as-of" class="sub">Data as of unknown · unavailable values are not yet measured · current balance is broker-reported equity and includes open P&amp;L</p></div><span id="account-count" class="tag">0 identities</span></div><div class="table-wrap account-table-wrap"><table class="accounts-table"><thead><tr id="account-headings"></tr></thead><tbody id="accounts"></tbody></table></div></section>
+      <section class="card"><div class="card-head"><div><h2>Account information</h2><p id="account-as-of" class="sub">Data as of unknown · unavailable values are not yet measured · equity fallback, when shown, includes open P&amp;L</p></div><span id="account-count" class="tag">0 identities</span></div><div class="table-wrap account-table-wrap"><table class="accounts-table"><thead><tr id="account-headings"></tr></thead><tbody id="accounts"></tbody></table></div></section>
       <section class="card private"><div class="card-head"><div><h2>Open positions</h2><p class="sub">Private position detail</p></div></div><div id="positions"></div></section>
       <section class="card"><div class="card-head"><div><h2>Monthly P&amp;L calendar</h2><p class="sub">Realized daily totals, where available</p></div><div class="calendar-controls"><button id="prev-month" type="button" aria-label="Previous month">‹</button><span id="month-title" class="cal-title"></span><button id="next-month" type="button" aria-label="Next month">›</button><label class="small" for="calendar-account">Account</label><select id="calendar-account" aria-label="Calendar account"><option value="">All accounts</option></select></div></div><div id="calendar" class="cal" aria-label="Monthly P and L calendar"></div><div id="calendar-total" class="cal-total"></div></section>
     </div>
@@ -213,26 +213,36 @@ body.auth-open .auth { display:block }
       ? "Slipstream (" + account.configuredContracts + ")" : "Slipstream";
   }
   function historyColumns(rows) {
-    return [...new Set(rows.flatMap(row => Array.isArray(row.previousTradingDays) ? row.previousTradingDays : [])
+    const dates = [...new Set(rows.flatMap(row => Array.isArray(row.previousTradingDays) ? row.previousTradingDays : [])
       .map(day => day?.date).filter(date => /^\d{4}-\d{2}-\d{2}$/.test(date || "")))]
-      .sort().reverse().slice(0, 5).map(date => ({ date, label: date }));
+      .sort().reverse().slice(0, 5);
+    return Array.from({length:5}, (_, index) => ({ date: dates[index] || null,
+      label: dates[index] || "Previous day " + (index + 1) }));
   }
-  function accountCells(account, columns) {
+  function equityFallbackNeeded(rows) {
+    return rows.some(account => !knownNumber(account.currentBalance) && knownNumber(account.currentEquity));
+  }
+  function accountCells(account, columns, showEquityFallback = false) {
     const history = Array.isArray(account.previousTradingDays) ? account.previousTradingDays : [];
     return [
       ["Account", safeAlias(account.id)], ["Strategy", strategyLabel(account)],
       ["Size", accountMoney(account.nominalSize)], ["Starting balance", accountMoney(account.startingBalance)],
-      ["Current balance (equity)", accountMoney(account.currentEquity)], ["Total profit", accountMoney(account.totalNetProfit)],
+      ["Current balance", accountMoney(account.currentBalance)],
+      ...(showEquityFallback ? [["Current balance (equity)", knownNumber(account.currentBalance) ? "not used" : accountMoney(account.currentEquity)]] : []),
+      ["Total profit", accountMoney(account.totalNetProfit)],
       ["Today P&L", accountMoney(account.todayProfit)],
       ...columns.map(column => [column.label,
-        accountMoney(history.find(day => day?.date === column.date)?.profit)])
+        column.date ? accountMoney(history.find(day => day?.date === column.date)?.profit) : "not yet measured"])
     ];
   }
-  function accountAsOf(d) {
+  function accountAsOf(d, rows = []) {
+    const dates = new Set(rows.map(account => Number(account.balanceAsOfTs))
+      .filter(Number.isFinite).map(stamp => new Date(stamp).toLocaleDateString("en-US", {month:"short",day:"numeric",year:"numeric",timeZone:"UTC"})));
+    const balanceDate = dates.size === 1 ? "Balance data as of " + [...dates][0] : dates.size ? "Balance data dates vary by account" : null;
     const stamp = d?.asOf ?? d?.ts, date = Number.isFinite(Number(stamp)) ? new Date(Number(stamp)) : null;
-    return date && !Number.isNaN(date.valueOf())
-      ? "Data as of " + date.toLocaleDateString("en-US", {month:"short",day:"numeric",year:"numeric",timeZone:"UTC"}) + " · unavailable values are not yet measured · current balance is broker-reported equity and includes open P&L"
-      : "Data as of unknown · unavailable values are not yet measured · current balance is broker-reported equity and includes open P&L";
+    const feedDate = date && !Number.isNaN(date.valueOf())
+      ? "Feed data as of " + date.toLocaleDateString("en-US", {month:"short",day:"numeric",year:"numeric",timeZone:"UTC"}) : "Feed data as of unknown";
+    return (balanceDate || feedDate) + " · unavailable values are not yet measured · equity fallback, when shown, includes open P&L";
   }
   function renderStatus() {
     const d = data(), u = d && d.uptime || {};
@@ -251,14 +261,16 @@ body.auth-open .auth { display:block }
   function renderAccounts(d) {
     const rows = shownAccounts(d);
     setText("account-count", rows.length + (rows.length === 1 ? " identity" : " identities"));
-    setText("account-as-of", accountAsOf(d));
-    const columns = historyColumns(rows), heading = byId("account-headings"); heading.replaceChildren();
-    for (const label of ["Account","Strategy","Size","Starting balance","Current balance (equity)","Total profit","Today P&L",...columns.map(x => x.label)]) heading.append(node("th","",label));
+    setText("account-as-of", accountAsOf(d, rows));
+    const columns = historyColumns(rows), showEquityFallback = equityFallbackNeeded(rows), heading = byId("account-headings"); heading.replaceChildren();
+    for (const label of ["Account","Strategy","Size","Starting balance","Current balance",...(showEquityFallback ? ["Current balance (equity)"] : []),"Total profit","Today P&L",...columns.map(x => x.label)]) heading.append(node("th","",label));
     const body = byId("accounts"); body.replaceChildren();
     for (const a of rows) {
       const tr = node("tr");
-      for (const [label, value] of accountCells(a, columns)) {
+      for (const [label, value] of accountCells(a, columns, showEquityFallback)) {
         const td = node("td", label.includes("profit") || label.includes("P&L") || /^\d{4}-/.test(label) ? "num " + signClass(value) : "", value);
+        if (label === "Account" && typeof a.firm === "string" && /^[A-Za-z0-9 .-]{1,32}$/.test(a.firm))
+          td.append(node("div", "small", a.firm));
         td.dataset.label = label; tr.append(td);
       }
       body.append(tr);

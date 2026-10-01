@@ -18,7 +18,7 @@ function productionHelpers() {
     location: { search: "" },
     document: { body: { classList: { add() {} } }, getElementById() { return {}; } }
   };
-  vm.runInNewContext(`(()=>{${inline.slice(start, end)}\nglobalThis.helpers={shownAccounts,strategyLabel,historyColumns,accountCells,accountAsOf};})()`, context);
+  vm.runInNewContext(`(()=>{${inline.slice(start, end)}\nglobalThis.helpers={shownAccounts,strategyLabel,historyColumns,equityFallbackNeeded,accountCells,accountAsOf};})()`, context);
   return context.helpers;
 }
 
@@ -33,12 +33,19 @@ test("account rows retain same-mask identities and show unknown money honestly",
   const columns = helpers.historyColumns(rows);
   const cells = helpers.accountCells(rows[0], columns);
   assert.equal(cells.find(([label]) => label === "Starting balance")[1], "not yet measured");
-  assert.equal(cells.find(([label]) => label === "Current balance (equity)")[1], "not yet measured");
+  assert.equal(cells.find(([label]) => label === "Current balance")[1], "not yet measured");
   assert.equal(cells.find(([label]) => label === "Today P&L")[1], "not yet measured");
   assert.equal(cells.some(([label]) => /multiplier/i.test(label)), false);
-  const equity = helpers.accountCells({ ...rows[0], currentEquity: 1234.5 }, columns);
-  assert.equal(equity.find(([label]) => label === "Current balance (equity)")[1], "$1,234.50");
-  assert.match(helpers.accountAsOf({ ts: Date.parse("2026-09-30T12:00:00Z") }), /Sep 30, 2026/);
+  assert.equal(helpers.equityFallbackNeeded(rows), false);
+  const cash = { ...rows[0], currentBalance: 1100, currentEquity: 1234.5 };
+  const fallback = { ...rows[1], currentEquity: 1234.5 };
+  assert.equal(helpers.equityFallbackNeeded([cash, fallback]), true);
+  const cashCells = helpers.accountCells(cash, columns, true);
+  assert.equal(cashCells.find(([label]) => label === "Current balance")[1], "$1,100.00");
+  assert.equal(cashCells.find(([label]) => label === "Current balance (equity)")[1], "not used");
+  const fallbackCells = helpers.accountCells(fallback, columns, true);
+  assert.equal(fallbackCells.find(([label]) => label === "Current balance (equity)")[1], "$1,234.50");
+  assert.match(helpers.accountAsOf({ ts: Date.parse("2026-09-30T12:00:00Z") }), /Feed data as of Sep 30, 2026/);
 });
 
 test("Slipstream contract label uses verified configuredContracts, never position or multiplier", () => {
@@ -53,7 +60,8 @@ test("Slipstream contract label uses verified configuredContracts, never positio
 
 test("history renders only up to five supplied trading dates and never fabricates weekdays", () => {
   const helpers = productionHelpers();
-  assert.equal(helpers.historyColumns([row("A".repeat(22), "···135")]).length, 0);
+  assert.equal(helpers.historyColumns([row("A".repeat(22), "···135")]).map(x => x.label).join(","),
+    "Previous day 1,Previous day 2,Previous day 3,Previous day 4,Previous day 5");
   const dates = ["2026-09-29", "2026-09-28", "2026-09-25", "2026-09-24", "2026-09-23", "2026-09-22"];
   const days = dates.map((date, index) => ({ date, profit: index + 1 }));
   const columns = helpers.historyColumns([row("A".repeat(22), "···135", { previousTradingDays: days })]);
