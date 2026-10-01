@@ -5871,3 +5871,8 @@ body, .sx-doc { font-family: var(--sans); }
    on mint (identity pages keep their own ink). Profit green
    #089981 and loss red stay strictly semantic. */
 :root { --buy-ink: #06231a; }
+
+/* Keep the homepage mobile menu inside the viewport when its burger wraps. */
+@media (max-width: 960px) {
+  .sx-doc:has(.nav-links a[href="/proof-of-concept/"]) .nav-mob { margin-left: auto; }
+}

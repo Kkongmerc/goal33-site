@@ -465,6 +465,7 @@ page = f"""<!doctype html>
       <a href="/">All strategies</a>
       <a href="/strategies/all-access.html">All-Access</a>
       <a class="nav-plan" href="/plan.html">Plan finder</a>
+      <a href="/proof-of-concept/">Proof of Concept</a>
     </nav>
     <!-- WHOP: storefront -->
     <a class="btn btn-sm btn-buy" href="/strategies/all-access.html">All-Access</a>
@@ -476,6 +477,7 @@ page = f"""<!doctype html>
         <a href="/">All strategies</a>
         <a href="/strategies/all-access.html">All-Access</a>
         <a href="/plan.html">Plan finder</a>
+        <a href="/proof-of-concept/">Proof of Concept</a>
         <!-- DISCORD: community invite -->
         <a href="https://discord.gg/aft-traders" target="_blank" rel="noopener">Discord</a>
       </nav>

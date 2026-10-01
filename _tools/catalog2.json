@@ -1686,7 +1686,7 @@
     "note": "10% off for the referred buyer; affiliates use their own Whop referral link, which applies their code automatically. Zero JS means one code per build -- per-marketer codes are their Whop referral links; this is the site's default code."
   },
   "special": {
-    "active": true,
+    "active": false,
     "label": "September special",
     "line": "First month {pct}% off with code {code}",
     "pct": 30,
