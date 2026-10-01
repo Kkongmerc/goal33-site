@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'none'; img-src 'self'; font-src 'self' https://fonts.gstatic.com; style-src 'self' https://fonts.googleapis.com 'sha256-8GaLC2MVL644CJSVS2mxus0ESJqpx7COqDuXJ+kZXUI='; script-src 'sha256-KTMFZ2pvWUTV5y9rTUU0xx2ebWstuXnWM1dNqliegu4='; connect-src 'self' https://ftb-live.cmrealestate808.workers.dev; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'none'; img-src 'self'; font-src 'self' https://fonts.gstatic.com; style-src 'self' https://fonts.googleapis.com 'sha256-sLXPnxkGvRC5LnCqFo8RUTLEPvrynj0ump0aNlwyWgc='; script-src 'sha256-kBnhJujrymxY3S9Puv+6KDd3D306B/9L8Xt448WXUsM='; connect-src 'self' https://ftb-live.cmrealestate808.workers.dev; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#051014">
 <title>Simulated account activity — FuturesTradingBots</title>
@@ -62,6 +62,7 @@ h2 { margin:0; font-size:20px; letter-spacing:-.02em }
 .sub { color:var(--p-muted); font-size:13px; margin:3px 0 0 }
 .table-wrap { width:100%; overflow-x:auto }
 table { border-collapse:collapse; width:100%; min-width:690px; font-size:13px }
+.accounts-table { min-width:1470px }
 th { text-align:left; color:var(--p-muted); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.08em }
 td,th { padding:12px 9px; border-top:1px solid var(--p-line); vertical-align:top }
 td:first-child,th:first-child { padding-left:0 }
@@ -113,6 +114,15 @@ body.auth-open .auth { display:block }
  .card { padding:14px }.card-head { flex-wrap:wrap }.report-kpis { grid-template-columns:repeat(2,1fr) }
  .cal { gap:3px }.day { min-height:56px; padding:4px }.day .amount { font-size:10px; margin-top:8px }.day .date { font-size:10px }
 }
+@media(max-width:780px) {
+ .account-table-wrap { overflow:visible }
+ .accounts-table,.accounts-table tbody,.accounts-table tr,.accounts-table td { display:block; width:100% }
+ .accounts-table thead { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap }
+ .accounts-table tr { margin:0 0 12px; padding:4px 12px; border:1px solid var(--p-line); border-radius:8px; background:var(--p-raised) }
+ .accounts-table td { display:grid; grid-template-columns:minmax(124px,.8fr) minmax(0,1.2fr); gap:10px; padding:9px 0; text-align:right; border-top:1px solid var(--p-line) }
+ .accounts-table td:first-child { border-top:0 }.accounts-table td::before { content:attr(data-label); text-align:left; color:var(--p-muted); font-size:11px; text-transform:uppercase; letter-spacing:.06em }
+ .accounts-table td:last-child { padding-right:0 }
+}
 @media(prefers-color-scheme:light) {
  :root { color-scheme:light; --p-bg:#f3f8f6; --p-panel:#fff; --p-raised:#eaf2ef; --p-ink:#10272a; --p-muted:#425e61; --p-line:#b5c8c7; --p-blue:#214aa2; --p-green:#136244; --p-red:#9a3034; --p-amber:#82520d }
  .top { background:#fff }.button.primary { color:white }.day.win { background:#d6f1e4 }.day.loss { background:#f9dfe0 }
@@ -141,7 +151,7 @@ body.auth-open .auth { display:block }
   </section>
   <div class="grid">
     <div class="stack">
-      <section class="card"><div class="card-head"><div><h2>Accounts</h2><p class="sub">Copier-linked identities only · masked in both views</p></div><span id="account-count" class="tag">0 identities</span></div><div class="table-wrap"><table><thead><tr><th>Account</th><th>Trading</th><th>Firm</th><th>Multiplier</th><th>Open positions</th><th>Today</th></tr></thead><tbody id="accounts"></tbody></table></div></section>
+      <section class="card"><div class="card-head"><div><h2>Account information</h2><p id="account-as-of" class="sub">Data as of unknown · unavailable values are not yet measured · current balance is broker-reported equity and includes open P&amp;L</p></div><span id="account-count" class="tag">0 identities</span></div><div class="table-wrap account-table-wrap"><table class="accounts-table"><thead><tr id="account-headings"></tr></thead><tbody id="accounts"></tbody></table></div></section>
       <section class="card private"><div class="card-head"><div><h2>Open positions</h2><p class="sub">Private position detail</p></div></div><div id="positions"></div></section>
       <section class="card"><div class="card-head"><div><h2>Monthly P&amp;L calendar</h2><p class="sub">Realized daily totals, where available</p></div><div class="calendar-controls"><button id="prev-month" type="button" aria-label="Previous month">‹</button><span id="month-title" class="cal-title"></span><button id="next-month" type="button" aria-label="Next month">›</button><label class="small" for="calendar-account">Account</label><select id="calendar-account" aria-label="Calendar account"><option value="">All accounts</option></select></div></div><div id="calendar" class="cal" aria-label="Monthly P and L calendar"></div><div id="calendar-total" class="cal-total"></div></section>
     </div>
@@ -166,6 +176,7 @@ body.auth-open .auth { display:block }
   const byId = id => document.getElementById(id);
   const knownNumber = n => n !== null && n !== undefined && n !== "" && Number.isFinite(Number(n));
   const money = n => knownNumber(n) ? new Intl.NumberFormat("en-US", {style:"currency",currency:"USD",maximumFractionDigits:2}).format(Number(n)) : "—";
+  const accountMoney = n => knownNumber(n) ? money(n) : "not yet measured";
   const pct = n => knownNumber(n) ? Number(n).toFixed(1) + "%" : "—";
   const node = (tag, cls, value) => { const x = document.createElement(tag); if (cls) x.className = cls; if (value !== undefined) x.textContent = String(value); return x; };
   const clear = id => byId(id).replaceChildren();
@@ -194,6 +205,35 @@ body.auth-open .auth { display:block }
   function data() { return privateData || publicData; }
   function shownAccounts(d) { const rows = Array.isArray(d.accounts) ? d.accounts : []; return rows.filter(a => safeKey(a.accountKey) && safeAlias(a.id) !== "—" && (privateData || a.visibility !== "private")); }
   function setText(id, value) { byId(id).textContent = value; }
+  function strategyLabel(account) {
+    if (account.product === "Continuum") return "Continuum";
+    if (account.product === "Midas") return "Midas";
+    if (account.product !== "Slipstream") return "—";
+    return account.configuredContracts === 3 || account.configuredContracts === 4
+      ? "Slipstream (" + account.configuredContracts + ")" : "Slipstream";
+  }
+  function historyColumns(rows) {
+    return [...new Set(rows.flatMap(row => Array.isArray(row.previousTradingDays) ? row.previousTradingDays : [])
+      .map(day => day?.date).filter(date => /^\d{4}-\d{2}-\d{2}$/.test(date || "")))]
+      .sort().reverse().slice(0, 5).map(date => ({ date, label: date }));
+  }
+  function accountCells(account, columns) {
+    const history = Array.isArray(account.previousTradingDays) ? account.previousTradingDays : [];
+    return [
+      ["Account", safeAlias(account.id)], ["Strategy", strategyLabel(account)],
+      ["Size", accountMoney(account.nominalSize)], ["Starting balance", accountMoney(account.startingBalance)],
+      ["Current balance (equity)", accountMoney(account.currentEquity)], ["Total profit", accountMoney(account.totalNetProfit)],
+      ["Today P&L", accountMoney(account.todayProfit)],
+      ...columns.map(column => [column.label,
+        accountMoney(history.find(day => day?.date === column.date)?.profit)])
+    ];
+  }
+  function accountAsOf(d) {
+    const stamp = d?.asOf ?? d?.ts, date = Number.isFinite(Number(stamp)) ? new Date(Number(stamp)) : null;
+    return date && !Number.isNaN(date.valueOf())
+      ? "Data as of " + date.toLocaleDateString("en-US", {month:"short",day:"numeric",year:"numeric",timeZone:"UTC"}) + " · unavailable values are not yet measured · current balance is broker-reported equity and includes open P&L"
+      : "Data as of unknown · unavailable values are not yet measured · current balance is broker-reported equity and includes open P&L";
+  }
   function renderStatus() {
     const d = data(), u = d && d.uptime || {};
     const elapsed = lastReceipt ? Math.max(0, (Date.now() - lastReceipt) / 1000) : Infinity;
@@ -211,27 +251,19 @@ body.auth-open .auth { display:block }
   function renderAccounts(d) {
     const rows = shownAccounts(d);
     setText("account-count", rows.length + (rows.length === 1 ? " identity" : " identities"));
+    setText("account-as-of", accountAsOf(d));
+    const columns = historyColumns(rows), heading = byId("account-headings"); heading.replaceChildren();
+    for (const label of ["Account","Strategy","Size","Starting balance","Current balance (equity)","Total profit","Today P&L",...columns.map(x => x.label)]) heading.append(node("th","",label));
     const body = byId("accounts"); body.replaceChildren();
     for (const a of rows) {
-      const tr = node("tr"), id = node("td"), trading = node("td"), firm = node("td"),
-        multiplier = node("td"), open = node("td"), net = node("td", "num " + signClass(a.netToday), money(a.netToday));
-      id.append(node("strong", "", safeAlias(a.id)));
-      if (privateData && a.role) id.append(node("div", "small", a.role));
-      const tradingName = a.product === "Continuum" ? "Continuum (MNQ Book)" :
-        a.product === "Midas" ? "Midas (MGC Book)" :
-        a.product === "Slipstream" ? "Slipstream" : "—";
-      trading.textContent = tradingName;
-      firm.textContent = a.firm || "—";
-      const verified = a.multiplierStatus === "verified" && Number.isSafeInteger(a.configuredMultiplier) && a.configuredMultiplier > 0;
-      multiplier.append(node("strong", "num", verified ? "×" + a.configuredMultiplier : "—"),
-        node("div", "small", verified ? (mock ? "Preview value" : "Verified") : "Not verified"));
-      const openCount = privateData
-        ? (Array.isArray(a.positions) ? String(a.positions.length) : "—")
-        : (Number.isSafeInteger(a.openTrades) && a.openTrades >= 0 ? String(a.openTrades) : "—");
-      open.textContent = openCount;
-      tr.append(id, trading, firm, multiplier, open, net); body.append(tr);
+      const tr = node("tr");
+      for (const [label, value] of accountCells(a, columns)) {
+        const td = node("td", label.includes("profit") || label.includes("P&L") || /^\d{4}-/.test(label) ? "num " + signClass(value) : "", value);
+        td.dataset.label = label; tr.append(td);
+      }
+      body.append(tr);
     }
-    if (!rows.length) { const tr = node("tr"), td = node("td", "small", "No copier-linked accounts in this feed."); td.colSpan = 6; tr.append(td); body.append(tr); }
+    if (!rows.length) { const tr = node("tr"), td = node("td", "small", "No copier-linked accounts in this feed."); td.colSpan = 12; td.dataset.label = "Account information"; tr.append(td); body.append(tr); }
   }
   function renderPositions(d) {
     const box = byId("positions"); box.replaceChildren();
