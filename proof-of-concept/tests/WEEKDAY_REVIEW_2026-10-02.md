@@ -1,0 +1,16 @@
+# Independent compact weekday frontend review
+
+PASS final working `task/compact-session-production/proof-of-concept/index.html` SHA256 `6d88822e2aadf52f5d73900109033988bf4a8006834f7fc371a72f3557299f31`. Production checkout base is exact `181da4119dd8b392c747e8100bbc91fb6ccabbb5`. Review covers the selected compact session binding plus corrected weekday selectors. No frontend source writes, live calls, browser network, runtime or deployment actions by this reviewer.
+
+Independently reran 18 supplied proof-of-concept/tests/session-binding.cjs tests with FTB_SESSION_MODULE_ROOT pointing to the reviewed PR26 session modules, so producer interoperability and the 120-timestamp parity test both ran, with no skips. All passed. Four additional tests in reviews/compact-weekday-adverse.test.mjs passed: real shownAccounts/safeAlias public/private/raw-identity filtering; executable UTF-8 alias corruption negative control; 5,220 weekday start-minus-one/start/end-minus-one/end parity cases across 2024–2028; inline CSP hash checks using browser-parsed LF bytes and production stylesheet query preservation. Total 22/22 passed.
+
+nySessionContext matches reviewed backend weekend/daily-break/DST rules. Friday 17:00 closes, weekend retains Friday/Thursday, Sunday 18:00 selects Monday/Friday. Strict sessionMeasure schema, version/timezone, local boundaries, original 120s age, nonfuture capture, exact completed close and private exclusion remain enforced. Legacy UTC totals/raw proofs do not populate the new cells. Missing/partial/malformed values remain null/Unavailable; verified zero remains measured zero. Closed Friday can render as Monday Yesterday while missing Monday stays unavailable. Renders on the existing visible 15s cadence and visibility return age cached values independently of successful new polling without changing timestamps.
+
+Two findings during review were corrected before the final pin:
+
+- The older binding carried stylesheet query 75adb610 onto production181. It now preserves 5196bcfa; exact production Git CSS MD5 is 5196bcfa084aa11d1940bbd1771fc482, and local CSS equals that blob after CRLF-only normalization.
+- A rewrite corrupted UTF-8 literals, including the safeAlias regex, dropping all genuine masked IDs. The final file was restored from raw UTF-8 bytes with only the intended selector/binding edits; genuine masked rows pass. The independent negative control intentionally corrupts the original regex and reproduces the missing-row failure.
+
+Only proof-of-concept/index.html has a tracked source diff versus181, plus standalone untracked tests. Homepage index.html, assets/main.css, catalog2.json and rebuild_index.py have no diff. Homepage Proof of Concept links and removed September special remain in the production181 source. Inline CSP hashes were independently recomputed and match; no origins, login/privacy permissions or styles were broadened. Compact Today/Yesterday UI is retained.
+
+No remaining P1/P2 reproduced. Parent reports its separate browser validation; this receipt relies on independently executed source/VM fixtures and CSP checks. Offline interoperability does not establish real evidence authority or authorize numeric production claims before exact Main source/provenance gates. Commit/production publication identity remains the owner's subsequent step.
